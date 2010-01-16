@@ -1,5 +1,0 @@
-org.infogrid.testharness
-org.infogrid.util.test
-org.infogrid.comm.pingpong.test
-org.infogrid.comm.smtp.test
-org.infogrid.httpd.test

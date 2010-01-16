@@ -1,4 +1,0 @@
-org.infogrid.store.test
-org.infogrid.store.filesystem.test
-org.infogrid.store.hadoop.test [no-run]
-org.infogrid.store.sql.test
