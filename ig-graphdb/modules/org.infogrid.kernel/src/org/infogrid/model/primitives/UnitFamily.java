@@ -195,7 +195,7 @@ public class UnitFamily
     public String getJavaConstructorString(
             String classLoaderVar )
     {
-        StringBuffer ret = new StringBuffer( "new " );
+        StringBuilder ret = new StringBuilder( "new " );
         ret.append( getClass().getName() );
         ret.append( "( " );
 

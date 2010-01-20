@@ -363,7 +363,7 @@ public class FloatDataType
         } else if( this == thePositiveDefault ) {
             return className + ".thePositiveDefault";
         } else {
-            StringBuffer ret = new StringBuffer( className );
+            StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
 
             if( theMin != null ) {

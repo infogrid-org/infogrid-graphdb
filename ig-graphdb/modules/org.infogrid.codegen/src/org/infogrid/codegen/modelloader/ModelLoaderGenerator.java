@@ -639,7 +639,7 @@ public class ModelLoaderGenerator
     protected String getTypeString(
             AttributableMeshType [] amos )
     {
-        StringBuffer ret = new StringBuffer( "new AttributableMeshType[] { " );
+        StringBuilder ret = new StringBuilder( "new AttributableMeshType[] { " );
         for( int i=0 ; i<amos.length ; ++i ) {
             ret.append( "theModelBase.findAttributableMeshTypeByIdentifier( " + getIdentifierString( amos[i].getIdentifier() ) + " )" );
             if( i < amos.length-1 ) {
@@ -661,7 +661,7 @@ public class ModelLoaderGenerator
     protected String getTypeString(
             AttributableMeshType amo )
     {
-        StringBuffer ret = new StringBuffer( "(AttributableMeshType) theModelBase.findMeshTypeByIdentifier( " );
+        StringBuilder ret = new StringBuilder( "(AttributableMeshType) theModelBase.findMeshTypeByIdentifier( " );
         ret.append( getIdentifierString( amo.getIdentifier() ));
         ret.append( " )" );
         return ret.toString();
@@ -677,7 +677,7 @@ public class ModelLoaderGenerator
     protected String getTypeString(
             RoleType [] roles )
     {
-        StringBuffer ret = new StringBuffer( "new RoleType[] { " );
+        StringBuilder ret = new StringBuilder( "new RoleType[] { " );
         for( int i=0 ; i<roles.length ; ++i ) {
             ret.append( getTypeString( roles[i] ));
 
@@ -702,7 +702,7 @@ public class ModelLoaderGenerator
     {
         RelationshipType rel = role.getRelationshipType();
 
-        StringBuffer ret = new StringBuffer( "((RelationshipType) theModelBase.findMeshTypeByIdentifier( " );
+        StringBuilder ret = new StringBuilder( "((RelationshipType) theModelBase.findMeshTypeByIdentifier( " );
         ret.append( getIdentifierString( rel.getIdentifier() ));
         ret.append( " )).get" );
         if( role.isTopSingleton() || role.isSource() ) { // isSource() may throw Exception, but isTopSingleton() will prevent that
@@ -723,7 +723,7 @@ public class ModelLoaderGenerator
     protected String getTypeString(
             PropertyType [] mas )
     {
-        StringBuffer ret = new StringBuffer( "new PropertyType[] { " );
+        StringBuilder ret = new StringBuilder( "new PropertyType[] { " );
         for( int i=0 ; i<mas.length ; ++i ) {
             ret.append( "theModelBase.findPropertyTypeByIdentifier( " + getIdentifierString( mas[i].getIdentifier() ) + " )" );
             if( i < mas.length-1 ) {
@@ -745,7 +745,7 @@ public class ModelLoaderGenerator
     protected String getTypeString(
             SubjectArea [] sas )
     {
-        StringBuffer ret = new StringBuffer( "new SubjectArea[] { " );
+        StringBuilder ret = new StringBuilder( "new SubjectArea[] { " );
         for( int i=0 ; i<sas.length ; ++i ) {
             ret.append( "theModelBase.findSubjectAreaByIdentifier( " + getIdentifierString( sas[i].getIdentifier() ) + " )" );
             if( i < sas.length-1 ) {
@@ -894,7 +894,7 @@ public class ModelLoaderGenerator
 
             AlternativeCompoundTraversalSpecification realValue = (AlternativeCompoundTraversalSpecification) value;
 
-            StringBuffer ret = new StringBuffer( "org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification.create( new TraversalSpecification[] { " );
+            StringBuilder ret = new StringBuilder( "org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification.create( new TraversalSpecification[] { " );
 
             TraversalSpecification [] children = realValue.getAlternatives();
             for( int i=0 ; i<children.length ; ++i ) {
@@ -911,7 +911,7 @@ public class ModelLoaderGenerator
 
             SelectiveTraversalSpecification realValue = (SelectiveTraversalSpecification) value;
 
-            StringBuffer ret = new StringBuffer( "org.infogrid.model.traversal.SelectiveTraversalSpecification.create( " );
+            StringBuilder ret = new StringBuilder( "org.infogrid.model.traversal.SelectiveTraversalSpecification.create( " );
 
             if( realValue.getStartSelector() != null ) {
                 ret.append( getTypeString( realValue.getStartSelector() ));
@@ -930,7 +930,7 @@ public class ModelLoaderGenerator
 
             SequentialCompoundTraversalSpecification realValue = (SequentialCompoundTraversalSpecification) value;
 
-            StringBuffer ret = new StringBuffer( "org.infogrid.model.traversal.SequentialCompoundTraversalSpecification.create( new TraversalSpecification[] { " );
+            StringBuilder ret = new StringBuilder( "org.infogrid.model.traversal.SequentialCompoundTraversalSpecification.create( new TraversalSpecification[] { " );
 
             TraversalSpecification [] children = realValue.getSteps();
             for( int i=0 ; i<children.length ; ++i ) {
@@ -966,7 +966,7 @@ public class ModelLoaderGenerator
 
             ByTypeMeshObjectSelector realValue = (ByTypeMeshObjectSelector) value;
 
-            StringBuffer buf = new StringBuffer( "new org.infogrid.mesh.set.ByTypeMeshObjectSelector( (AttributableMeshType) theModelBase.findMeshTypeByIdentifier( " );
+            StringBuilder buf = new StringBuilder( "new org.infogrid.mesh.set.ByTypeMeshObjectSelector( (AttributableMeshType) theModelBase.findMeshTypeByIdentifier( " );
             buf.append( getIdentifierString( realValue.getFilterType().getIdentifier() ));
             buf.append( " ), " );
             buf.append( String.valueOf( realValue.isSubtypesAllowed() ));
@@ -987,7 +987,7 @@ public class ModelLoaderGenerator
     protected String getModuleRequirementsString(
             ModuleRequirement [] reqs )
     {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         String       sep = "";
 
         ret.append( "new ModuleRequirement[] { " );
@@ -1021,7 +1021,7 @@ public class ModelLoaderGenerator
         if( classNames == null || classNames.length == 0 ) {
             return "new String[] {}";
         }
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         String sep = "new String[] { ";
         
         for( String current : classNames ) {

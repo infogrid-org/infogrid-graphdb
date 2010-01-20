@@ -345,7 +345,7 @@ public class Unit
      */
     public String getJavaConstructorString()
     {
-        StringBuffer buf = new StringBuffer( theProgrammingTextName.length() + 32 );
+        StringBuilder buf = new StringBuilder( theProgrammingTextName.length() + 32 );
         buf.append( getClass().getName() );
         buf.append( "." );
         buf.append( theProgrammingTextName );

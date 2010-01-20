@@ -158,7 +158,7 @@ public abstract class AbstractActiveTraversalPathSetTest
             Exception
     {
         if( mylog.isDebugEnabled() ) {
-            StringBuffer buf = new StringBuffer( prefix );
+            StringBuilder buf = new StringBuilder( prefix );
             for( TraversalPath current : set ) {
                 buf.append( "\n  " );
                 TraversalPath p = current;

@@ -179,7 +179,7 @@ public final class MSubjectArea
       */
     public final StringValue getCanonicalName()
     {
-        StringBuffer buf = new StringBuffer( 48 );
+        StringBuilder buf = new StringBuilder( 48 );
         buf.append( getName().value() );
         buf.append( ".V" );
         if( theVersionNumber != null ) {

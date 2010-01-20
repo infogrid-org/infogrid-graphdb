@@ -345,7 +345,7 @@ public final class IntegerValue
             String classLoaderVar,
             String typeVar )
     {
-        StringBuffer buf = new StringBuffer( 64 );
+        StringBuilder buf = new StringBuilder( 64 );
         buf.append( getClass().getName() );
         buf.append( ".create( " );
         buf.append( theValue );

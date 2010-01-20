@@ -184,7 +184,7 @@ public abstract class BlobValue
     public static String encodeHex(
             byte[] data )
     {
-        StringBuffer almostRet = new StringBuffer( data.length*2 );
+        StringBuilder almostRet = new StringBuilder( data.length*2 );
 
         for( int i=0; i<data.length; ++i ) {
             int current = ( data[i] >> 4 ) & 0xf;
@@ -575,7 +575,7 @@ public abstract class BlobValue
         @Override
         public String toString()
         {
-            StringBuffer sb = new StringBuffer( 50 ); // fudge
+            StringBuilder sb = new StringBuilder( 50 ); // fudge
 
             sb.append( "\"" );
             sb.append( getAsString() );
@@ -785,7 +785,7 @@ public abstract class BlobValue
                 String classLoaderVar,
                 String typeVar )
         {
-            StringBuffer sb = new StringBuffer( 60 ); // fudge
+            StringBuilder sb = new StringBuilder( 60 ); // fudge
             sb.append( typeVar );
             sb.append( ".createBlobValue( " );
             sb.append( "new byte[] { " );
@@ -816,7 +816,7 @@ public abstract class BlobValue
         @Override
         public String toString()
         {
-            StringBuffer sb = new StringBuffer( 50 ); // fudge
+            StringBuilder sb = new StringBuilder( 50 ); // fudge
 
             sb.append( "<" );
             sb.append( getClass().getName() );
@@ -1027,7 +1027,7 @@ public abstract class BlobValue
                 String classLoaderVar,
                 String typeVar )
         {
-            StringBuffer sb = new StringBuffer( 60 ); // fudge
+            StringBuilder sb = new StringBuilder( 60 ); // fudge
             sb.append( typeVar );
             sb.append( ".createBlobValueByLoadingFrom( " );
             sb.append( classLoaderVar );
@@ -1053,7 +1053,7 @@ public abstract class BlobValue
         @Override
         public String toString()
         {
-            StringBuffer sb = new StringBuffer( 50 ); // fudge
+            StringBuilder sb = new StringBuilder( 50 ); // fudge
 
             sb.append( "<" );
             sb.append( getClass().getName() );

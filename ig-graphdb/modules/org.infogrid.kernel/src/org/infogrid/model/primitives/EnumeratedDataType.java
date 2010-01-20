@@ -252,7 +252,7 @@ public class EnumeratedDataType
     public String getJavaDomainCheckExpression(
             String varName )
     {
-        StringBuffer ret = new StringBuffer( theDomain.length * 10 );
+        StringBuilder ret = new StringBuilder( theDomain.length * 10 );
         ret.append( "( " );
         for( int i=0 ; i<theDomain.length ; ++i ) {
             if( i>0 ) {
@@ -394,7 +394,7 @@ public class EnumeratedDataType
         } else {
             // we make the assumption that there is a domain
 
-            StringBuffer ret = new StringBuffer( className );
+            StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
             ret.append( "new String[] { " );
             for( int i=0 ; i<theDomain.length ; ++i ) {

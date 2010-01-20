@@ -335,7 +335,7 @@ public class AMeshBaseLifecycleManager
     {
         SubjectArea theSa = theObjectType.getSubjectArea();
 
-        StringBuffer className = new StringBuffer( 64 );
+        StringBuilder className = new StringBuilder( 64 );
         className.append( theSa.getName().value() );
         className.append( ".V" );
         if( theSa.getVersionNumber() != null ) {

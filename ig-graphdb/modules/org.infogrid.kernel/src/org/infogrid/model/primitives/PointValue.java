@@ -171,7 +171,7 @@ public final class PointValue
             String classLoaderVar,
             String typeVar )
     {
-        StringBuffer buf = new StringBuffer( 64 );
+        StringBuilder buf = new StringBuilder( 64 );
         buf.append( getClass().getName());
         buf.append( DataType.CREATE_STRING );
         buf.append( x );

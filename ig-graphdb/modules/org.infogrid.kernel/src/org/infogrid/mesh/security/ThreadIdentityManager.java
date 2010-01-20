@@ -162,7 +162,7 @@ public abstract class ThreadIdentityManager
      */
     protected static String local()
     {
-        StringBuffer buf = new StringBuffer();
+        StringBuilder buf = new StringBuilder();
         buf.append( ThreadIdentityManager.class.getName() );
         buf.append( "{ theCallersOnThreads: " );
         buf.append( ArrayHelper.mapToString( theCallersOnThreads ) );

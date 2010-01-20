@@ -636,7 +636,7 @@ public class PropertyValueXmlEncoder
      * Encoding an Identifier without enclosing it in <tag></tag> tags.
      * 
      * @param id the Identifier
-     * @param buf the StringBuffer to append to
+     * @param buf the StringBuilder to append to
      */
     protected void appendIdentifier(
             Identifier     id,

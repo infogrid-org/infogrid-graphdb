@@ -175,7 +175,7 @@ public class MeshBaseTest5
         @Override
         public String toString()
         {
-            StringBuffer buf = new StringBuffer();
+            StringBuilder buf = new StringBuilder();
             buf.append( "MyListener:" );
             for( PropertyChangeEvent e : theEvents ) {
                 buf.append( "\n" );

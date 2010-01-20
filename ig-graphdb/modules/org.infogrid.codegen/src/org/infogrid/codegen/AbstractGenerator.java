@@ -266,7 +266,7 @@ public abstract class AbstractGenerator
         throws
             IOException
     {
-        StringBuffer buf = new StringBuffer( 256 );
+        StringBuilder buf = new StringBuilder( 256 );
         buf.append( theOutputDir );
         buf.append( File.separator );
         buf.append( getRelativeCodeFileNameFor( theType ));
@@ -285,7 +285,7 @@ public abstract class AbstractGenerator
         throws
             IOException
     {
-        StringBuffer buf = new StringBuffer( 256 );
+        StringBuilder buf = new StringBuilder( 256 );
         buf.append( theOutputDir );
         buf.append( File.separator );
         buf.append( getRelativeJavaDocFileNameFor( theType ));
@@ -301,7 +301,7 @@ public abstract class AbstractGenerator
     protected static String encodeSubjectAreaWithVersion(
             SubjectArea theSubjectArea )
     {
-        StringBuffer ret = new StringBuffer( 64 );
+        StringBuilder ret = new StringBuilder( 64 );
         ret.append( theSubjectArea.getName().value() );
         ret.append( ".V" );
         if( theSubjectArea.getVersionNumber() != null ) {

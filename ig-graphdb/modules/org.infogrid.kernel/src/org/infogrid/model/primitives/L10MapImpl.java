@@ -415,7 +415,7 @@ public class L10MapImpl
             String classLoaderVar,
             String typeVar )
     {
-        StringBuffer ret = new StringBuffer( getClass().getName() );
+        StringBuilder ret = new StringBuilder( getClass().getName() );
         ret.append( DataType.CREATE_STRING );
 
         if( defaultValue == null ) {

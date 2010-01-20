@@ -50,7 +50,7 @@ public class InheritanceConflictException
     @Override
     public String toString()
     {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         ret.append( getClass().getName() );
         ret.append( ": AttributableMeshType: " );
         ret.append( theAmt );

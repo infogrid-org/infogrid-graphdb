@@ -1455,7 +1455,7 @@ public class XmlModelExporter
     protected static String escape(
             String org )
     {
-        StringBuffer ret = new StringBuffer( org.length() + org.length()/5 ); // make a little larger
+        StringBuilder ret = new StringBuilder( org.length() + org.length()/5 ); // make a little larger
 
         for( int i=0 ; i<org.length() ; ++i ) {
             char c = org.charAt( i );

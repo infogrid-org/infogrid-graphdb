@@ -69,7 +69,7 @@ public final class StringValue
      * @throws IllegalArgumentException if null is given as argument
      */
     public static StringValue create(
-            StringBuffer value )
+            StringBuilder value )
     {
         if( value == null ) {
             throw new IllegalArgumentException( "null value" );
@@ -85,7 +85,7 @@ public final class StringValue
      * @throws IllegalArgumentException if null is given as argument
      */
     public static StringValue createOrNull(
-            StringBuffer value )
+            StringBuilder value )
     {
     	if( value == null ) {
             return null;
@@ -171,7 +171,7 @@ public final class StringValue
     @Override
     public String toString()
     {
-        StringBuffer buf = new StringBuffer( theValue.length() + 2 );
+        StringBuilder buf = new StringBuilder( theValue.length() + 2 );
         buf.append( "\'" );
         buf.append( theValue );
         buf.append( "\'" );

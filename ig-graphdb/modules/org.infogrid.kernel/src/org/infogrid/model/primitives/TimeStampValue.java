@@ -312,7 +312,7 @@ public final class TimeStampValue
             String classLoaderVar,
             String typeVar )
     {
-        StringBuffer buf = new StringBuffer( 256 );
+        StringBuilder buf = new StringBuilder( 256 );
         buf.append( getClass().getName() );
         buf.append( ".create( " );
         buf.append( theValue );

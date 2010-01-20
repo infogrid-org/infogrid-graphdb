@@ -32,7 +32,7 @@ public class PackageNameTranslatorWithVersion
     public String translateSubjectArea(
             SubjectArea theSa )
     {
-        StringBuffer ret = new StringBuffer();
+        StringBuilder ret = new StringBuilder();
         ret.append( theSa.getName().value() );
         ret.append( ".V" );
         if( theSa.getVersionNumber() != null ) {

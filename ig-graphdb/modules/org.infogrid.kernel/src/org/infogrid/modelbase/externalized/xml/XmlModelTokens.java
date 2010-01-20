@@ -47,7 +47,7 @@ abstract class XmlModelTokens
             String namespaceUri,
             String keyword )
     {
-        StringBuffer key = new StringBuffer();
+        StringBuilder key = new StringBuilder();
         if( namespaceUri != null && namespaceUri.length() > 0 ) {
             key.append( namespaceUri ).append( ":" );
         }

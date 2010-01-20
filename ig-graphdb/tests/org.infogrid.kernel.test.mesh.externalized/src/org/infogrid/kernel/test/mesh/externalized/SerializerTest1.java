@@ -143,7 +143,7 @@ public class SerializerTest1
      * Constructor.
      *
      * @param args command-line arguments
-     * @throws all sorts of things may go wrong in a test
+     * @throws Exception all sorts of things may go wrong in a test
      */
     public SerializerTest1(
             String [] args )
@@ -376,15 +376,15 @@ public class SerializerTest1
     /**
      * The test cases for StringValue
      */
-    protected static StringBuffer testStringBuffer = new StringBuffer( 255 );
+    protected static StringBuilder testStringBuilder = new StringBuilder( 255 );
     static {
         for( char c = '\u0001' ; c < '\uffff' ; ++c ) {
             if( XMLChar.isValid( c )) {
-                testStringBuffer.append( c ); // tests the whole nine yards ...
+                testStringBuilder.append( c ); // tests the whole nine yards ...
             }
         }
     }
-    protected static String testString = new String( testStringBuffer );
+    protected static String testString = new String( testStringBuilder );
     protected static TestCase [] stringValueTestData = new TestCase [] {
             new TestCase(
                     StringDataType.theDefault,

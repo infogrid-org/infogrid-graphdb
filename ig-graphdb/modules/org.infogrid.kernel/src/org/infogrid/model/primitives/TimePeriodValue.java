@@ -251,7 +251,7 @@ public final class TimePeriodValue
     @Override
     public String toString()
     {
-        StringBuffer buf = new StringBuffer( 256 );
+        StringBuilder buf = new StringBuilder( 256 );
         buf.append( theYear );
         buf.append( "/" );
         buf.append( theMonth );
@@ -277,7 +277,7 @@ public final class TimePeriodValue
             String classLoaderVar,
             String typeVar )
     {
-        StringBuffer buf = new StringBuffer( 256 );
+        StringBuilder buf = new StringBuilder( 256 );
         buf.append( getClass().getName() );
         buf.append( DataType.CREATE_STRING );
         buf.append( "(short) " );

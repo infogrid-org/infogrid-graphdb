@@ -2143,7 +2143,7 @@ public class MyHandler
      */
     public String parseStackToString()
     {
-        StringBuffer buf = new StringBuffer( 100 ); // fudge
+        StringBuilder buf = new StringBuilder( 100 ); // fudge
         buf.append( "Parse Stack:" );
         Iterator theIter = theStack.iterator();
         while( theIter.hasNext() ) {

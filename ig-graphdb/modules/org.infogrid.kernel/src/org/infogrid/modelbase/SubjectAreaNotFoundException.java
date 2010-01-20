@@ -73,7 +73,7 @@ public class SubjectAreaNotFoundException
     @Override
     public String toString()
     {
-        StringBuffer almostRet = new StringBuffer();
+        StringBuilder almostRet = new StringBuilder();
         almostRet.append( super.toString() );
         almostRet.append( "SubjectArea: " );
         almostRet.append( theSubjectAreaName );

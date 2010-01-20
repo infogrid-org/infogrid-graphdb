@@ -67,7 +67,7 @@ public class ExternalizedAttributes
     @Override
     public String toString()
     {
-        StringBuffer buf = new StringBuffer( 100 ); // fudge
+        StringBuilder buf = new StringBuilder( 100 ); // fudge
         buf.append( super.toString() );
         buf.append( "{" );
         if( theMap != null ) {

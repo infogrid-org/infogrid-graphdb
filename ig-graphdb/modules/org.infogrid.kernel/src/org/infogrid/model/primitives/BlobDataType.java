@@ -719,7 +719,7 @@ public final class BlobDataType
         } else if( this == theTextPlainType ) {
             return className + ".theTextPlainType";
         } else {
-            StringBuffer ret = new StringBuffer( className );
+            StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
             if( theDefaultValue != null ) {
                 ret.append( theDefaultValue.getJavaConstructorString( classLoaderVar, null )); // null is okay here

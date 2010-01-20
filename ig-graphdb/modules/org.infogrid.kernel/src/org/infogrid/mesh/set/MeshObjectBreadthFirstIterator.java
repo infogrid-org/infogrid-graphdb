@@ -128,9 +128,9 @@ public class MeshObjectBreadthFirstIterator
      */
     public MeshObject next()
     {
-        StringBuffer deb = null;
+        StringBuilder deb = null;
         if( log.isDebugEnabled() ) {
-            deb = new StringBuffer( this + ".next()" );
+            deb = new StringBuilder( this + ".next()" );
         }
 
         MeshObject ret = nextToReturn;

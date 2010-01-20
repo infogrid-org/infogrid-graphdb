@@ -201,7 +201,7 @@ public abstract class AbstractActiveMeshObjectSetTest
             Exception
     {
         if( mylog.isDebugEnabled() ) {
-            StringBuffer buf = new StringBuffer( prefix );
+            StringBuilder buf = new StringBuilder( prefix );
             for( MeshObject current : set ) {
                 buf.append( "\n  " );
                 buf.append( current.getIdentifier() );

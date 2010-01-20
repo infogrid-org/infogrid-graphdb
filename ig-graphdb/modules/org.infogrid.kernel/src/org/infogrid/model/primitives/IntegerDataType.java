@@ -368,7 +368,7 @@ public class IntegerDataType
             return className + ".thePositiveOrZeroDefault";
 
         } else {
-            StringBuffer ret = new StringBuffer( className );
+            StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
 
             if( theMin != null ) {

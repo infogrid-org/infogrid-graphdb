@@ -181,7 +181,7 @@ public final class MultiplicityValue
             String typeVar )
     {
         String className = getClass().getName();
-        StringBuffer buf = new StringBuffer( 32 );
+        StringBuilder buf = new StringBuilder( 32 );
         buf.append( className );
         buf.append( DataType.CREATE_STRING );
         
