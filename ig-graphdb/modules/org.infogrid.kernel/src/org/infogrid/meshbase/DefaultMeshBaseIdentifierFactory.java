@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -55,7 +55,7 @@ public class DefaultMeshBaseIdentifierFactory
         throws
             StringRepresentationParseException
     {
-        MeshBaseIdentifier ret = new MeshBaseIdentifier( this, raw );
+        MeshBaseIdentifier ret = new MeshBaseIdentifier( this, raw, raw );
         return ret;
     }
 
@@ -111,6 +111,5 @@ public class DefaultMeshBaseIdentifierFactory
         } catch( ClassCastException ex ) {
             throw new StringRepresentationParseException( s, null, ex );
         }
-        
     }
 }

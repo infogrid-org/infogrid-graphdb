@@ -8,13 +8,12 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase;
 
-import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.util.AbstractIdentifier;
 import org.infogrid.util.Identifier;
 import org.infogrid.util.logging.CanBeDumped;
@@ -40,11 +39,15 @@ public class MeshBaseIdentifier
      * 
      * @param fact the MeshBaseIdentifierFactory with which this MeshBaseIdentifier was created
      * @param canonicalForm the canonical representation of this identifier
+     * @param asEnteredByUser String form as entered by the user, if any. This helps with error messages.
      */
     protected MeshBaseIdentifier(
             MeshBaseIdentifierFactory fact,
-            String                    canonicalForm )
+            String                    canonicalForm,
+            String                    asEnteredByUser )
     {
+        super( asEnteredByUser );
+
         theFactory       = fact;
         theCanonicalForm = canonicalForm;
     }
@@ -173,6 +176,7 @@ public class MeshBaseIdentifier
      * Determine equality.
      *
      * @param other the Object to compare against
+     * @return true if the objects are equal
      */
     @Override
     public boolean equals(

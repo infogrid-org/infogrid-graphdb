@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -57,7 +57,7 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             StringRepresentationParseException
     {
-        return DefaultAMeshObjectIdentifier.create( this, raw );
+        return DefaultAMeshObjectIdentifier.create( this, raw, raw );
     }
 
     /**
@@ -138,7 +138,7 @@ public class DefaultAMeshObjectIdentifierFactory
             StringRepresentationParseException
     {
         // on this level, everything is opaque
-        return DefaultAMeshObjectIdentifier.create( this, raw );
+        return DefaultAMeshObjectIdentifier.create( this, raw, raw );
     }
 
     /**
@@ -154,5 +154,5 @@ public class DefaultAMeshObjectIdentifierFactory
     /**
      * The Home Object's identifier. Subclass to avoid having to make the constructor public.
      */
-    public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null ) {};
+    public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null, null ) {};
 }

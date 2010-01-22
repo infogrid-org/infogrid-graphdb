@@ -33,24 +33,26 @@ public class DefaultAMeshObjectIdentifier
         extends
              AbstractIdentifier
         implements
-            MeshObjectIdentifier
+             MeshObjectIdentifier
 {
     /**
      * Factory method.
      *
      * @param factory the DefaultAMeshObjectIdentifierFactory that created this identifier
      * @param localId the localId of the to-be-DefaultAMeshObjectIdentifier
+     * @param asEnteredByUser String form as entered by the user, if any. This helps with error messages.
      * @return the created DefaultAMeshObjectIdentifier
      */
     public static DefaultAMeshObjectIdentifier create(
             DefaultAMeshObjectIdentifierFactory factory,
-            String                              localId )
+            String                              localId,
+            String                              asEnteredByUser )
     {
         if( localId == null || localId.length() == 0 ) {
             return factory.HOME_OBJECT;
         }
 
-        return new DefaultAMeshObjectIdentifier( factory, localId );
+        return new DefaultAMeshObjectIdentifier( factory, localId, asEnteredByUser );
     }
 
     /**
@@ -58,11 +60,15 @@ public class DefaultAMeshObjectIdentifier
      * 
      * @param factory the DefaultAMeshObjectIdentifierFactory that created this identifier
      * @param localId the localId of the to-be-created DefaultAMeshObjectIdentifier
+     * @param asEnteredByUser String form of this Identifier as entered by the user, if any. This helps with error messages.
      */
     protected DefaultAMeshObjectIdentifier(
             DefaultAMeshObjectIdentifierFactory factory,
-            String                              localId )
+            String                              localId,
+            String                              asEnteredByUser )
     {
+        super( asEnteredByUser );
+
         theFactory = factory;
         theLocalId = localId;
     }
@@ -210,7 +216,8 @@ public class DefaultAMeshObjectIdentifier
                 pars,
                 meshObjectExternalForm,
                 contextPath,
-                meshBaseExternalForm );
+                meshBaseExternalForm,
+                theAsEntered );
 
         return ret;
     }
@@ -281,7 +288,8 @@ public class DefaultAMeshObjectIdentifier
         /* 2 */ meshBaseExternalForm,
         /* 3 */ additionalArguments,
         /* 4 */ target,
-        /* 5 */ title );
+        /* 5 */ title,
+        /* 6 */ theAsEntered );
 
         return ret;
     }
@@ -340,7 +348,8 @@ public class DefaultAMeshObjectIdentifier
                 null,
                 meshObjectExternalForm,
                 contextPath,
-                meshBaseExternalForm );
+                meshBaseExternalForm,
+                theAsEntered );
 
         return ret;
     }
@@ -354,16 +363,6 @@ public class DefaultAMeshObjectIdentifier
      * The real value for the localId.
      */
     protected String theLocalId;
-
-//    /**
-//     * The default entry in the resouce files, prefixed by the StringRepresentation's prefix.
-//     */
-//    public static final String DEFAULT_ENTRY = "String";
-//
-//    /**
-//     * The home entry in the resouce files, prefixed by the StringRepresentation's prefix.
-//     */
-//    public static final String HOME_DEFAULT_ENTRY = "HomeString";
 
     /**
      * Entry in the resource files, prefixed by the StringRepresentation's prefix.
