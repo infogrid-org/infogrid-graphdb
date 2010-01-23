@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -24,6 +24,7 @@ import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.primitives.UnknownEnumeratedValueException;
 import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
+import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -46,9 +47,6 @@ public abstract class ModelBaseSingleton
         throws
             IllegalStateException
     {
-        if( theSingleton != null ) {
-            throw new IllegalStateException( ModelBaseSingleton.class.getName() + ": have singleton already" );
-        }
         theSingleton = candidate;
     }
     
@@ -221,5 +219,5 @@ public abstract class ModelBaseSingleton
     /**
      * The singleton instance of this class.
      */
-    private static ModelBase theSingleton;
+    private static ModelBase theSingleton = MModelBase.create();
 }

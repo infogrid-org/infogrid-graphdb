@@ -9,7 +9,7 @@
  
     For more information about InfoGrid go to http://infogrid.org/
 
-    Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
     All rights reserved.
 -->
  
@@ -25,7 +25,6 @@
   <requires name="org.infogrid.util.logging.log4j">
    <parameter name="org.infogrid.util.logging.log4j.ConfigPropertiesFile" value="org/infogrid/kernel/active/test/Log.properties"/>
   </requires>
-  <requires name="org.infogrid.modelbase.m"/>
   <requires name="org.infogrid.kernel"/>
   <requires name="org.infogrid.kernel.active"/>
   <requires name="org.infogrid.model.Test"/>

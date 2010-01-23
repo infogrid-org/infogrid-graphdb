@@ -38,6 +38,7 @@ import org.infogrid.modelbase.MeshTypeLifecycleManager;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
 import org.infogrid.modelbase.ModelBase;
+import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.modelbase.PropertyTypeNotFoundException;
 import org.infogrid.modelbase.RelationshipTypeNotFoundException;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
@@ -276,6 +277,10 @@ public class MModelBase
                 throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
             } catch( ModuleResolutionCandidateNotUniqueException ex ) {
                 throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
+            } catch( MeshTypeNotFoundException ex ) {
+                throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
+            } catch( IOException ex ) {
+                throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
             }
         }
         return ret;
@@ -501,6 +506,10 @@ public class MModelBase
             ret = theCluster.findMeshTypeByIdentifier( identifier, doResolve );
         } catch( ModuleException ex ) {
             // do nothing
+        } catch( MeshTypeNotFoundException ex ) {
+            // do nothing
+        } catch( IOException ex ) {
+            // do nothing
         }
         if( ret != null ) {
             return ret;
@@ -523,6 +532,10 @@ public class MModelBase
                 }
             } catch( ModuleException ex ) {
                 // do nothing
+            } catch( MeshTypeNotFoundException ex ) {
+                // do nothing
+            } catch( IOException ex ) {
+                // do nothing
             }
         }
         if( ret != null ) {
@@ -543,6 +556,10 @@ public class MModelBase
                     ret = null;
                 }
             } catch( ModuleException ex ) {
+                // do nothing
+            } catch( MeshTypeNotFoundException ex ) {
+                // do nothing
+            } catch( IOException ex ) {
                 // do nothing
             }
         }
@@ -565,6 +582,10 @@ public class MModelBase
                 }
             } catch( ModuleException ex ) {
                 // do nothing
+            } catch( MeshTypeNotFoundException ex ) {
+                // do nothing
+            } catch( IOException ex ) {
+                // do nothing
             }
         }
         if( ret != null ) {
@@ -579,7 +600,81 @@ public class MModelBase
      * This internal method is called when there is an attempt to access a SubjectArea
      * which is not present in the working model. This method will attempt to load it, and returns
      * true if it was successful. This must only be called if this SubjectArea has not been loaded before.
-     * This will do nothing if we don't run under the Module Framework.
+     *
+     * @param saName fully-qualified name of the SubjectArea to be loaded
+     * @param saVersion version number of the SubjectArea to be loaded
+     * @return the found SubjectArea
+     * @throws ModuleNotFoundException thrown if the ModelModule was not found
+     * @throws ModuleResolutionException thrown if the found ModelModule's dependencies could not be resolved
+     * @throws ModuleActivationException thrown if the found ModelModule could not be activated
+     * @throws ModuleResolutionCandidateNotUniqueException thrown if a dependency could not be uniquely resolved
+     * @throws MeshTypeNotFoundException thrown if the MeshType was not found
+     * @throws IOException thrown if the file could not be read
+     */
+    public SubjectArea attemptToLoadSubjectArea(
+            String saName,
+            String saVersion )
+        throws
+            ModuleNotFoundException,
+            ModuleResolutionException,
+            ModuleActivationException,
+            ModuleResolutionCandidateNotUniqueException,
+            MeshTypeNotFoundException,
+            IOException
+    {
+        if( theModuleRegistry == null ) {
+            return attemptToLoadSubjectAreaWithoutModuleRegistry( saName, saVersion );
+        } else {
+            return attemptToLoadSubjectAreaWithModuleRegistry( saName, saVersion );
+        }
+    }
+
+    /**
+     * This internal method is called when there is an attempt to access a SubjectArea
+     * which is not present in the working model. This method will attempt to load it without the
+     * Module Framework. It returns true if it was successful. This must only be called
+     * if this SubjectArea has not been loaded before.
+     *
+     * @param saName fully-qualified name of the SubjectArea to be loaded
+     * @param saVersion version number of the SubjectArea to be loaded
+     * @return the found SubjectArea
+     * @throws MeshTypeNotFoundException thrown if the MeshType was not found
+     * @throws IOException thrown if the file could not be read
+     */
+    protected SubjectArea attemptToLoadSubjectAreaWithoutModuleRegistry(
+            String saName,
+            String saVersion )
+        throws
+            MeshTypeNotFoundException,
+            IOException
+    {
+        StringBuilder path = new StringBuilder();
+        path.append( "infogrid-models/" );
+        path.append( saName );
+        path.append( ".V" );
+        if( saVersion != null ) {
+            path.append( saVersion );
+        }
+        path.append( ".xml" );
+
+        String realPath = path.toString();
+
+        ClassLoader cl     = getClass().getClassLoader();
+        InputStream stream = cl.getResourceAsStream( realPath );
+
+        if( stream == null ) {
+            return null;
+        }
+
+        SubjectArea [] ret = ModelBaseSingleton.loadModel( realPath, stream, cl );
+        return ret[0];
+    }
+
+    /**
+     * This internal method is called when there is an attempt to access a SubjectArea
+     * which is not present in the working model. This method will attempt to load it using the
+     * Module Framework. It returns true if it was successful. This must only be called
+     * if this SubjectArea has not been loaded before.
      *
      * @param saName fully-qualified name of the SubjectArea to be loaded
      * @param saVersion version number of the SubjectArea to be loaded
@@ -589,7 +684,7 @@ public class MModelBase
      * @throws ModuleActivationException thrown if the found ModelModule could not be activated
      * @throws ModuleResolutionCandidateNotUniqueException thrown if a dependency could not be uniquely resolved
      */
-    public SubjectArea attemptToLoadSubjectArea(
+    protected SubjectArea attemptToLoadSubjectAreaWithModuleRegistry(
             String saName,
             String saVersion )
         throws
@@ -598,9 +693,6 @@ public class MModelBase
             ModuleActivationException,
             ModuleResolutionCandidateNotUniqueException
     {
-        if( theModuleRegistry == null ) {
-            return null; // not running under the Module Framework, will do nothing
-        }
         ModuleRequirement   saRequirement = ModuleRequirement.create1( saName, saVersion );
         ModuleAdvertisement saCandidate   = theModuleRegistry.determineSingleResolutionCandidate( saRequirement );
 

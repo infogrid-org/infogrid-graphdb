@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -19,6 +19,7 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
+import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AIterableMeshBase;
@@ -26,12 +27,15 @@ import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
 import org.infogrid.meshbase.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.modelbase.ModelBase;
+import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.util.CachingMap;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.MCachingHashMap;
 import org.infogrid.util.MapCursorIterator;
 import org.infogrid.util.context.Context;
+import org.infogrid.util.context.SimpleContext;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
   * This MeshBase is only held in memory. It has no persistence whatsoever.
@@ -41,6 +45,25 @@ public class MMeshBase
             AIterableMeshBase
 {
     private static final Log log = Log.getLogInstance( MMeshBase.class ); // our own, private logger
+
+    /**
+     * Most convenient factory method.
+     *
+     * @return the created MMeshBase
+     */
+    public static MMeshBase create()
+    {
+        try {
+            return create(
+                    DefaultMeshBaseIdentifierFactory.create().fromExternalForm( "DefaultMeshBase" ),
+                    MModelBase.create(),
+                    null,
+                    SimpleContext.createRoot( "root context" ));
+        } catch( StringRepresentationParseException ex ) {
+            log.error( ex );
+            return null;
+        }
+    }
 
     /**
      * Factory method.

@@ -14,6 +14,7 @@
 
 package org.infogrid.modelbase.m;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,6 +29,7 @@ import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.modelbase.MeshTypeCreatedEvent;
 import org.infogrid.modelbase.MeshTypeLifecycleEvent;
 import org.infogrid.modelbase.MeshTypeLifecycleEventListener;
+import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.module.ModuleException;
 import org.infogrid.util.logging.Log;
 
@@ -254,12 +256,16 @@ public class MMeshTypeStore
      * @param doResolve if false, only look up the working model, do not attempt to extend the working model
      * @return the found MeshType, or null
      * @throws ModuleException thrown if the underlying ModelModule could not be loaded
+     * @throws MeshTypeNotFoundException the MeshType could not be found
+     * @throws IOException the model file could not be read
      */
     public MeshType findMeshTypeByIdentifier(
             MeshTypeIdentifier identifier,
             boolean            doResolve )
         throws
-            ModuleException
+            ModuleException,
+            MeshTypeNotFoundException,
+            IOException
     {
         if( log.isTraceEnabled() ) {
             log.traceMethodCallEntry( this, "findMeshTypeByIdentifier", identifier );

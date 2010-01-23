@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,6 +23,8 @@ import org.infogrid.codegen.intfc.InterfaceGenerator;
 import org.infogrid.codegen.modelloader.ModelLoaderGenerator;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationDirectorySingleton;
+import org.infogrid.modelbase.ModelBaseSingleton;
+import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.module.DefaultModelModuleActivator;
 import org.infogrid.module.ModelModule;
 import org.infogrid.module.Module;
@@ -83,17 +85,6 @@ public class CodeGenerator
         }
 
         ResourceHelper.initializeLogging();
-
-        final String intfcName = "org.infogrid.modelbase.ModelBase";
-        ModuleAdvertisement [] advs = theModuleRegistry.findAdvertisementsForInterface( intfcName, 1 );
-        if( advs == null || advs.length == 0 ) {
-            log.error( "Cannot find a Module that supports interface " + intfcName );
-            System.exit( 0 );
-        }
-        Module modelBaseModule = theModuleRegistry.resolve( advs[0], true );
-
-        Object base = modelBaseModule.activateRecursively(); // return value is ignored but may be helpful in debugging
-
         ModelPrimitivesStringRepresentationDirectorySingleton.initialize();
 
         StringRepresentation commentsRepresentation
