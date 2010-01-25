@@ -1,2 +1,3 @@
 modules [no-run]
 tests [no-dist]
+examples [no-run][no-dist]
