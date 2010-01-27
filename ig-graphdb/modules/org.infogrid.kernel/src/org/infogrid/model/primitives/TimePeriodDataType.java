@@ -15,6 +15,7 @@
 package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
+import java.text.ParseException;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -251,6 +252,9 @@ public final class TimePeriodDataType
 
         } catch( StringRepresentationParseException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex.getFormatString(), ex );
+
+        } catch( ParseException ex ) {
+            throw new PropertyValueParsingException( this, representation, s, null, ex );
 
         } catch( ClassCastException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex );

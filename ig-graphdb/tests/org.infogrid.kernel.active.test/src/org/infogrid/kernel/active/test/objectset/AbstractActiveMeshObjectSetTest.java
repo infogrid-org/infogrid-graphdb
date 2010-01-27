@@ -8,12 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.kernel.active.test.objectset;
 
+import java.text.ParseException;
 import org.infogrid.kernel.active.test.AllTests;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
@@ -36,7 +37,6 @@ import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.context.Context;
 import org.infogrid.util.context.SimpleContext;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factors out functionality common to ActiveMeshObjectSetTests.
@@ -50,13 +50,13 @@ public abstract class AbstractActiveMeshObjectSetTest
      * 
      * @param testClass the Class containing the test
      * @throws MeshTypeNotFoundException a MeshType could not be found
-     * @throws StringRepresentationParseException a MeshBaseIdentifier could not be created
+     * @throws ParseException a MeshBaseIdentifier could not be created
      */
     protected AbstractActiveMeshObjectSetTest(
             Class<?> testClass )
         throws
             MeshTypeNotFoundException,
-            StringRepresentationParseException
+            ParseException
     {
         super( localFileName( AllTests.class, "/ResourceHelper" ));
 

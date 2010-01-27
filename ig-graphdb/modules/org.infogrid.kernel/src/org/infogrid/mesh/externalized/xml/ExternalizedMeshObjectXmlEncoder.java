@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.text.ParseException;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
 import org.infogrid.mesh.externalized.ExternalizedMeshObjectEncoder;
@@ -30,7 +31,6 @@ import org.infogrid.model.primitives.externalized.EncodingException;
 import org.infogrid.model.primitives.externalized.xml.PropertyValueXmlEncoder;
 import org.infogrid.util.XmlUtils;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.StringRepresentationParseException;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -373,7 +373,7 @@ public class ExternalizedMeshObjectXmlEncoder
                 try {
                     theMeshObjectBeingParsed.setIdentifier(
                             theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( XmlUtils.descape( identifier )));
-                } catch( StringRepresentationParseException ex ) {
+                } catch( ParseException ex ) {
                     error( ex );
                 }
             }
@@ -409,7 +409,7 @@ public class ExternalizedMeshObjectXmlEncoder
                             theMeshObjectBeingParsed.getIdentifier(),
                             theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( XmlUtils.descape( identifier )),
                             updated );
-                } catch( StringRepresentationParseException ex ) {
+                } catch( ParseException ex ) {
                     error( ex );
                 }
             } else {
@@ -501,7 +501,7 @@ public class ExternalizedMeshObjectXmlEncoder
                 try {
                     theMeshObjectBeingParsed.addEquivalent(
                             theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( theCharacters.toString() ));
-                } catch( StringRepresentationParseException ex ) {
+                } catch( ParseException ex ) {
                     error( ex );
                 }
             }

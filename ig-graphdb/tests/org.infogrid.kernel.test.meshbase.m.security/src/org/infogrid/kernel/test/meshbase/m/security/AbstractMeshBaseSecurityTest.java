@@ -8,12 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.kernel.test.meshbase.m.security;
 
+import java.text.ParseException;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshBaseIdentifierFactory;
@@ -30,7 +31,6 @@ import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.context.Context;
 import org.infogrid.util.context.SimpleContext;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factors out common functionality of the various MeshBaseSecurityTests.
@@ -44,13 +44,13 @@ public abstract class AbstractMeshBaseSecurityTest
      * 
      * @param testClass the class to be tested
      * @throws MeshTypeNotFoundException thrown if a MeshType could not be found
-     * @throws StringRepresentationParseException thrown if a URI String was misformed
+     * @throws ParseException thrown if a URI String was misformed
      */
     public AbstractMeshBaseSecurityTest(
             Class testClass )
         throws
             MeshTypeNotFoundException,
-            StringRepresentationParseException
+            ParseException
     {
         super( localFileName( testClass, "/ResourceHelper" ));
 

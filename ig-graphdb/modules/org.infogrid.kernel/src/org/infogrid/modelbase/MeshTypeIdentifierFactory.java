@@ -8,16 +8,16 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase;
 
+import java.text.ParseException;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.util.IdentifierFactory;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factory for MeshTypeIdentifiers.
@@ -41,11 +41,11 @@ public interface MeshTypeIdentifierFactory
      * @param representation the StringRepresentation in which this String is represented
      * @param s the String to parse
      * @return the created MeshObjectIdentifier
-     * @throws StringRepresentationParseException thrown if the String could not be successfully parsed
+     * @throws ParseException thrown if the String could not be successfully parsed
      */
     public MeshTypeIdentifier fromStringRepresentation(
             StringRepresentation representation,
             String               s )
         throws
-            StringRepresentationParseException;
+            ParseException;
 }

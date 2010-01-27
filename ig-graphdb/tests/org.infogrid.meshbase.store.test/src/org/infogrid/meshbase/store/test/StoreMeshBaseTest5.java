@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -58,7 +58,7 @@ public class StoreMeshBaseTest5
         
         Transaction tx = mb.createTransactionNow();
         
-        MeshObjectIdentifier extName = mb.getMeshObjectIdentifierFactory().fromExternalForm( "privatepersonalidentifier:https://demo.example.com:452/firstsso/tso/#wsItEtOFGML7KyXCQ0slH6w+Jc9Tw5tY9+kc0TTlz8U=" );
+        MeshObjectIdentifier extName = mb.getMeshObjectIdentifierFactory().fromExternalForm( "wsItEtOFGML7KyXCQ0slH6w+Jc9Tw5tY9+kc0TTlz8U=" );
         MeshObject obj = life.createMeshObject( extName, TestSubjectArea.AA );
         
         mb.getHomeObject().relateAndBless( TestSubjectArea.ARANY.getDestination(), obj );

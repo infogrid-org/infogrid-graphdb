@@ -15,6 +15,7 @@
 package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.TimeZone;
 import org.infogrid.util.Rfc3339Util;
@@ -268,6 +269,9 @@ public final class TimeStampDataType
 
         } catch( StringRepresentationParseException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex.getFormatString(), ex );
+
+        } catch( ParseException ex ) {
+            throw new PropertyValueParsingException( this, representation, s, null, ex );
 
         } catch( ClassCastException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex );

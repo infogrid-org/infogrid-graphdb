@@ -15,6 +15,7 @@
 package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
+import java.text.ParseException;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.text.StringRepresentation;
@@ -539,9 +540,9 @@ public class EnumeratedDataType
         } catch( StringRepresentationParseException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex.getFormatString(), ex );
 
-//        } catch( UnknownEnumeratedValueException ex ) {
-//            throw new PropertyValueParsingException( this, representation, s, ex );
-//
+        } catch( ParseException ex ) {
+            throw new PropertyValueParsingException( this, representation, s, null, ex );
+
         } catch( ClassCastException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex );
         }

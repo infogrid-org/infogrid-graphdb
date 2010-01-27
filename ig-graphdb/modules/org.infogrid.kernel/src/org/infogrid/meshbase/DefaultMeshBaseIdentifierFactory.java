@@ -14,6 +14,9 @@
 
 package org.infogrid.meshbase;
 
+import java.text.ParseException;
+import org.infogrid.util.InvalidObjectNumberFoundParseException;
+import org.infogrid.util.InvalidObjectTypeFoundParseException;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParseException;
 
@@ -83,13 +86,13 @@ public class DefaultMeshBaseIdentifierFactory
      * @param representation the StringRepresentation in which this String is represented
      * @param s the String to parse
      * @return the created MeshBaseIdentifier
-     * @throws StringRepresentationParseException thrown if a parsing error occurred
+     * @throws ParseException thrown if a parsing error occurred
      */
     public MeshBaseIdentifier fromStringRepresentation(
             StringRepresentation representation,
             String               s )
         throws
-            StringRepresentationParseException
+            ParseException
     {
         try {
             Object [] found = representation.parseEntry( MeshBaseIdentifier.class, MeshBaseIdentifier.DEFAULT_ENTRY, s, this );
@@ -101,15 +104,15 @@ public class DefaultMeshBaseIdentifierFactory
                     break;
 
                 default:
-                    throw new StringRepresentationParseException( s, null, null );
+                    throw new InvalidObjectNumberFoundParseException( s, 1, found );
             }
 
             return ret;
 
-        // pass-through StringRepresentationParseException
+        // pass-through ParseException
 
         } catch( ClassCastException ex ) {
-            throw new StringRepresentationParseException( s, null, ex );
+            throw new InvalidObjectTypeFoundParseException( s, MeshBaseIdentifier.class, null, ex );
         }
     }
 }

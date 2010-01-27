@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,6 +17,7 @@ package org.infogrid.meshbase.store;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.ParseException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
@@ -29,7 +30,6 @@ import org.infogrid.store.StoreValue;
 import org.infogrid.store.StoreValueDecodingException;
 import org.infogrid.store.StoreValueEncodingException;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factors out functionality common to StoreMeshBaseEntryMappers.
@@ -77,12 +77,12 @@ public abstract class AbstractStoreMeshBaseEntryMapper
      *
      * @param key the key in String form
      * @return the corresponding key
-     * @throws StringRepresentationParseException thrown if a stringKey could not be converted into a valid Identifier
+     * @throws ParseException thrown if a parsing error occurred
      */
     public MeshObjectIdentifier stringToKey(
             String key )
         throws
-            StringRepresentationParseException
+            ParseException
     {
         MeshObjectIdentifier ret = theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( key );
         return ret;

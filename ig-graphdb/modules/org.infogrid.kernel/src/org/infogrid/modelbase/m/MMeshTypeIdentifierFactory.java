@@ -14,9 +14,11 @@
 
 package org.infogrid.modelbase.m;
 
+import java.text.ParseException;
 import org.infogrid.modelbase.MeshTypeIdentifierFactory;
+import org.infogrid.util.InvalidObjectNumberFoundParseException;
+import org.infogrid.util.InvalidObjectTypeFoundParseException;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factory for creating MeshTypeIdentifiers appropriate for the MModelBase
@@ -62,13 +64,13 @@ public class MMeshTypeIdentifierFactory
      * @param representation the StringRepresentation in which this String is represented
      * @param s the String to parse
      * @return the created MMeshTypeIdentifier
-     * @throws StringRepresentationParseException thrown if the String could not be successfully parsed
+     * @throws ParseException thrown if the String could not be successfully parsed
      */
     public MMeshTypeIdentifier fromStringRepresentation(
             StringRepresentation representation,
             String               s )
         throws
-            StringRepresentationParseException
+            ParseException
     {
         try {
             Object [] found = representation.parseEntry( MMeshTypeIdentifier.class, MMeshTypeIdentifier.DEFAULT_ENTRY, s, this );
@@ -80,7 +82,7 @@ public class MMeshTypeIdentifierFactory
                     break;
 
                 default:
-                    throw new StringRepresentationParseException( s, null, null );
+                    throw new InvalidObjectNumberFoundParseException( s, 2, found );
             }
 
             return ret;
@@ -88,7 +90,7 @@ public class MMeshTypeIdentifierFactory
         // pass-through StringRepresentationParseException
 
         } catch( ClassCastException ex ) {
-            throw new StringRepresentationParseException( s, null, ex );
+            throw new InvalidObjectTypeFoundParseException( s, MMeshTypeIdentifier.class, null, ex );
         }
     }
 }

@@ -15,6 +15,7 @@
 package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
+import java.text.ParseException;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.text.SimpleStringRepresentationDirectory;
@@ -814,6 +815,9 @@ public final class BlobDataType
 
         } catch( StringRepresentationParseException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex.getFormatString(), ex );
+
+        } catch( ParseException ex ) {
+            throw new PropertyValueParsingException( this, representation, s, null, ex );
 
         } catch( ClassCastException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex );

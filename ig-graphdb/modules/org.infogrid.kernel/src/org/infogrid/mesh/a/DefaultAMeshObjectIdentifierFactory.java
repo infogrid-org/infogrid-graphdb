@@ -12,11 +12,14 @@
 // All rights reserved.
 //
 
-package org.infogrid.meshbase.a;
+package org.infogrid.mesh.a;
 
+import java.text.ParseException;
 import org.infogrid.mesh.MeshObjectIdentifier;
-import org.infogrid.mesh.a.DefaultAMeshObjectIdentifier;
-import org.infogrid.meshbase.AbstractMeshObjectIdentifierFactory;
+import org.infogrid.mesh.AbstractMeshObjectIdentifierFactory;
+import org.infogrid.util.StringTooShortParseException;
+import org.infogrid.util.InvalidCharacterParseException;
+import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParseException;
 
@@ -50,13 +53,15 @@ public class DefaultAMeshObjectIdentifierFactory
      * Create an identifier for a MeshObject at held locally at this MeshBase.
      *
      * @param raw the raw String
-     * @throws StringRepresentationParseException thrown if a parsing error occurred
+     * @throws ParseException thrown if a parsing error occurred
      */
     public DefaultAMeshObjectIdentifier fromExternalForm(
             String raw )
         throws
-            StringRepresentationParseException
+            ParseException
     {
+        checkLocalId( raw );
+
         return DefaultAMeshObjectIdentifier.create( this, raw, raw );
     }
 
@@ -66,13 +71,13 @@ public class DefaultAMeshObjectIdentifierFactory
      * @param representation the StringRepresentation in which this String is represented
      * @param s the String to parse
      * @return the created MeshObjectIdentifier
-     * @throws StringRepresentationParseException thrown if a parsing error occurred
+     * @throws ParseException thrown if a parsing error occurred
      */
     public DefaultAMeshObjectIdentifier fromStringRepresentation(
             StringRepresentation representation,
             String               s )
         throws
-            StringRepresentationParseException
+            ParseException
     {
         String [] entriesToTry1 = {
                 DefaultAMeshObjectIdentifier.DEFAULT_MESH_BASE_HOME_ENTRY,
@@ -86,7 +91,7 @@ public class DefaultAMeshObjectIdentifierFactory
                 representation.parseEntry( DefaultAMeshObjectIdentifier.class, entry, s, this );
                 return fromExternalForm( "" );
 
-            } catch( StringRepresentationParseException ex ) {
+            } catch( ParseException ex ) {
                 // that wasn't it ...
                 if( firstException == null ) {
                     firstException = ex;
@@ -99,15 +104,11 @@ public class DefaultAMeshObjectIdentifierFactory
                 DefaultAMeshObjectIdentifier.NON_DEFAULT_MESH_BASE_ENTRY };
 
         for( String entry : entriesToTry2 ) {
+            Object [] found = null;
             try {
-                Object [] found = representation.parseEntry( DefaultAMeshObjectIdentifier.class, entry, s, this );
+                found = representation.parseEntry( DefaultAMeshObjectIdentifier.class, entry, s, this );
 
-                if( found.length == 1 ) {
-                    DefaultAMeshObjectIdentifier ret = fromExternalForm( (String) found[0] );
-                    return ret;
-                }
-
-            } catch( StringRepresentationParseException ex ) {
+            } catch( ParseException ex ) {
                 // that wasn't it ...
                 if( firstException == null ) {
                     firstException = ex;
@@ -119,6 +120,12 @@ public class DefaultAMeshObjectIdentifierFactory
                     firstException = ex;
                 }
             }
+
+            if( found != null && found.length == 1 ) {
+                DefaultAMeshObjectIdentifier ret = fromExternalForm( (String) found[0] ); // may throw
+                return ret;
+            }
+
         }
         throw new StringRepresentationParseException( s, null, firstException );
     }
@@ -130,12 +137,12 @@ public class DefaultAMeshObjectIdentifierFactory
      *
      * @param raw the external form
      * @return the created MeshObjectIdentifier
-     * @throws StringRepresentationParseException thrown if a parsing error occurred
+     * @throws ParseException thrown if a parsing error occurred
      */
     public MeshObjectIdentifier guessFromExternalForm(
             String raw )
         throws
-            StringRepresentationParseException
+            ParseException
     {
         // on this level, everything is opaque
         return DefaultAMeshObjectIdentifier.create( this, raw, raw );
@@ -152,7 +159,49 @@ public class DefaultAMeshObjectIdentifierFactory
     }
 
     /**
+     * Check whether the proposed localId for a MeshObjectIdentifier is valid.
+     * Subclasses can override this.
+     *
+     * @param localId the local ID
+     * @throws ParseException thrown if the localId is not valid
+     */
+    protected void checkLocalId(
+            String localId )
+        throws
+            ParseException
+    {
+        if( localId == null || localId.length() == 0 ) {
+            return;
+        }
+        for( int i=0 ; i<DISALLOWED_LOCAL_ID_STRINGS.length ; ++i ) {
+            if( localId.indexOf( DISALLOWED_LOCAL_ID_STRINGS[i] ) >= 0 ) {
+                throw new InvalidCharacterParseException( localId, null, localId.indexOf( DISALLOWED_LOCAL_ID_STRINGS[i] ), DISALLOWED_LOCAL_ID_STRINGS[i] );
+            }
+        }
+        if( MINIMUM_LOCAL_ID_LENGTH > 0 && localId.length() < MINIMUM_LOCAL_ID_LENGTH ) {
+            throw new StringTooShortParseException( localId, null, MINIMUM_LOCAL_ID_LENGTH );
+        }
+    }
+
+    /**
      * The Home Object's identifier. Subclass to avoid having to make the constructor public.
      */
     public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null, null ) {};
+
+    /**
+     * Our ResourceHelper.
+     */
+    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( DefaultAMeshObjectIdentifierFactory.class );
+
+    /**
+     * The minimum length for a local id.
+     */
+    public final static int MINIMUM_LOCAL_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "MinimumLocalIdLength", 4 );
+
+    /**
+     * The disallowed character strings in a local id.
+     */
+    public final static String [] DISALLOWED_LOCAL_ID_STRINGS = theResourceHelper.getResourceStringArrayOrDefault(
+            "DisallowedLocalIdString",
+            new String [] { "." } );
 }

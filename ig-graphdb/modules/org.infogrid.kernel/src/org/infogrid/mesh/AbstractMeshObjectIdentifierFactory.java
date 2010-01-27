@@ -8,16 +8,16 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
-package org.infogrid.meshbase;
+package org.infogrid.mesh;
 
-import org.infogrid.mesh.MeshObjectIdentifier;
+import java.text.ParseException;
+import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.util.UniqueStringGenerator;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Factors out common features of MeshObjectIdentifierFactories.
@@ -49,7 +49,7 @@ public abstract class AbstractMeshObjectIdentifierFactory
 
             return ret;
 
-        } catch( StringRepresentationParseException ex ) {
+        } catch( ParseException ex ) {
             log.error( ex );
             return null;
         }

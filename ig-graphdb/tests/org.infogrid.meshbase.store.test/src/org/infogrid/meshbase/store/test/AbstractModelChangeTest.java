@@ -27,7 +27,7 @@ import org.infogrid.meshbase.MeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
-import org.infogrid.meshbase.a.DefaultAMeshObjectIdentifierFactory;
+import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.meshbase.store.IterableStoreMeshBase;
 import org.infogrid.meshbase.store.StoreMeshBaseEntryMapper;
