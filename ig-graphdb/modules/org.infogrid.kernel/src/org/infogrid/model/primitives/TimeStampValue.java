@@ -298,7 +298,11 @@ public final class TimeStampValue
     @Override
     public String toString()
     {
-        return getAsUtcCalendar().toString();
+        Calendar cal = getAsUtcCalendar();
+
+        String ret = String.format( "%1$tY-%1$tm-%1$tdZ%1$tH:%1$tm:%1$tS.%1$tL", cal );
+
+        return ret;
     }
 
     /**
