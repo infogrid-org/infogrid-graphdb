@@ -14,7 +14,10 @@
 
 package org.infogrid.meshbase.transaction;
 
+import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
+import org.infogrid.meshbase.security.AccessManager;
+import org.infogrid.meshbase.security.IdentityChangeException;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.FlexibleListenerSet;
 import org.infogrid.util.logging.CanBeDumped;
@@ -65,6 +68,26 @@ public abstract class Transaction
     }
 
     /**
+     * If invoked, this will attempt to elevate all operations while the Transaction
+     * is open to super-user privileges. The super-user status is reset when the
+     * Transaction ends. If the current Thread already has super-user status, nothing
+     * happens.
+     *
+     * @throws IdentityChangeException thrown if the super-user cannot be set
+     */
+    public void sudo()
+            throws
+                IdentityChangeException
+    {
+        AccessManager access = theTransactable.getAccessManager();
+
+        if( access != null && !access.isSu() ) {
+            theResetToCaller = access.getCaller();
+            access.sudo();
+        }
+    }
+
+    /**
       * Commit a started Transaction. At this time, committing is the only way of
       * ending an opened Transaction; rollback is not supported (see documentation).
       */
@@ -89,6 +112,19 @@ public abstract class Transaction
         status = Status.TRANSACTION_COMMITTED;
 
         theChangeSet.freeze();
+
+        if( theResetToCaller != null ) {
+            try {
+                AccessManager access = theTransactable.getAccessManager();
+                access.setCaller( theResetToCaller );
+
+            } catch( IdentityChangeException ex ) {
+                log.error( ex );
+
+            } catch( NullPointerException ex ) {
+                log.error( "Cannot find AccessManager", this );
+            }
+        }
     }
 
     /**
@@ -127,6 +163,19 @@ public abstract class Transaction
             } catch( TransactionException ex ) {
                 log.error( ex );
                 // that's the best we can do
+            }
+        }
+
+        if( theResetToCaller != null ) {
+            try {
+                AccessManager access = theTransactable.getAccessManager();
+                access.setCaller( theResetToCaller );
+
+            } catch( IdentityChangeException ex ) {
+                log.error( ex );
+
+            } catch( NullPointerException ex ) {
+                log.error( "Cannot find AccessManager", this );
             }
         }
     }
@@ -353,6 +402,11 @@ public abstract class Transaction
       * The transactable that we belong to.
       */
     protected MeshBase theTransactable;
+
+    /**
+     * If set, reset this Thread back to this caller when the Transaction is done.
+     */
+    protected MeshObject theResetToCaller;
 
     /**
       * The set of TransactionListeners. Allocated as needed.
