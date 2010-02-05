@@ -23,13 +23,17 @@ import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AMeshBase;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
 import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
+import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.modelbase.ModelBase;
+import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.store.Store;
 import org.infogrid.store.util.StoreBackedSwappingHashMap;
 import org.infogrid.util.CachingMap;
 import org.infogrid.util.context.Context;
+import org.infogrid.util.context.SimpleContext;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
   * A MeshBase that delegates persistence to an external Store. All of its intelligence
@@ -40,6 +44,28 @@ public class StoreMeshBase
             AMeshBase
 {
     private static final Log log = Log.getLogInstance( StoreMeshBase.class ); // our own, private logger
+
+    /**
+     * Most convenient factory method.
+     *
+     * @param meshObjectStore the Store in which to store the MeshObjects
+     * @return the created StoreMeshBase
+     */
+    public static StoreMeshBase create(
+            Store meshObjectStore )
+    {
+        try {
+            return create(
+                    DefaultMeshBaseIdentifierFactory.create().fromExternalForm( "DefaultMeshBase" ),
+                    MModelBase.create(),
+                    null,
+                    meshObjectStore,
+                    SimpleContext.createRoot( "root context" ));
+        } catch( StringRepresentationParseException ex ) {
+            log.error( ex );
+            return null;
+        }
+    }
 
     /**
      * Factory method.
