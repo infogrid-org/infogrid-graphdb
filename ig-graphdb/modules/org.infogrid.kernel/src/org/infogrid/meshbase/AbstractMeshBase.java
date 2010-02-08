@@ -889,6 +889,8 @@ public abstract class AbstractMeshBase
         T         ret         = null;
         Throwable firstThrown = null;
 
+        act.setMeshBase( this );
+
         for( int counter = 0 ; counter < MAX_COMMIT_RETRIES ; ++counter ) {
 
             Transaction tx     = null;

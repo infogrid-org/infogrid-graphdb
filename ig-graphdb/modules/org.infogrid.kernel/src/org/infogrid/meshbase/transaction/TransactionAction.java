@@ -8,11 +8,15 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.transaction;
+
+import org.infogrid.meshbase.MeshBase;
+import org.infogrid.meshbase.MeshBaseLifecycleManager;
+import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 
 /**
  * An action that is performed within Transaction boundaries.
@@ -32,7 +36,8 @@ public abstract class TransactionAction<T>
     /**
      * Constructor.
      *
-     * @param allOrNothing if true, rollback the entire transaction upon an Exception; if false, abort at the location of the Exception
+     * @param allOrNothing if true, rollback the entire transaction upon an Exception; if false, abort at
+     *        the location of the Exception
      */
     public TransactionAction(
             boolean allOrNothing )
@@ -48,6 +53,20 @@ public abstract class TransactionAction<T>
     public final boolean getAllOrNothing()
     {
         return theAllOrNothing;
+    }
+
+    /**
+     * Set the MeshBase on which this TransactionAction executes. This should not be invoked
+     * by the application developer.
+     *
+     * @param meshBase the MeshBase
+     */
+    public void setMeshBase(
+            MeshBase meshBase )
+    {
+        mb     = meshBase;
+        life   = meshBase.getMeshBaseLifecycleManager();
+        idFact = meshBase.getMeshObjectIdentifierFactory();
     }
 
     /**
@@ -67,4 +86,22 @@ public abstract class TransactionAction<T>
      * If true, rollback the entire transaction upon an Exception; if false, abort at the location of the Exception.
      */
     protected boolean theAllOrNothing;
+
+    /**
+     * The MeshBase on which this TransactionAction is to be performed.
+     * This is held here to make writing code in anonymous subclasses less verbose.
+     */
+    protected MeshBase mb;
+
+    /**
+     * The MeshBaseLifecycleManager corresponding to this MeshBase.
+     * This is held here to make writing code in anonymous subclasses less verbose.
+     */
+    protected MeshBaseLifecycleManager life;
+
+    /**
+     * The MeshObjectIdentifierFactory corresponding to this MeshBase.
+     * This is held here to make writing code in anonymous subclasses less verbose.
+     */
+    protected MeshObjectIdentifierFactory idFact;
 }
