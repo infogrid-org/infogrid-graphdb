@@ -27,6 +27,7 @@ import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.modelbase.InheritanceConflictException;
 import org.infogrid.util.ArrayHelper;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
@@ -55,6 +56,29 @@ public class MEntityType
             MeshTypeIdentifier identifier )
     {
         super( identifier );
+    }
+
+    /**
+     * Determine whether this object is being identified with the provided Identifier.
+     * This is a useful method for those objects of type HasIdentifier that may listen
+     * to multiple names.
+     *
+     * @param toTest the Identifier to test against
+     * @return true if this HasIdentifier is being identified by the provided Identifier
+     */
+    @Override
+    public boolean isIdentifiedBy(
+            Identifier toTest )
+    {
+        if( super.isIdentifiedBy( toTest )) {
+            return true;
+        }
+        for( int i=0 ; i<theSynonyms.length ; ++i ) {
+            if( theSynonyms[i].equals( toTest )) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

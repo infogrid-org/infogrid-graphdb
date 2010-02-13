@@ -24,6 +24,7 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.Role;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.traversal.TraversalSpecification;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.IsDeadException;
 import org.infogrid.util.logging.Dumper;
 
@@ -79,6 +80,20 @@ public abstract class TypedMeshObjectFacadeImpl
     public final MeshObjectIdentifier getIdentifier()
     {
         return the_Delegate.getIdentifier();
+    }
+
+    /**
+     * Determine whether this object is being identified with the provided Identifier.
+     * This is a useful method for those objects of type HasIdentifier that may listen
+     * to multiple names.
+     *
+     * @param toTest the Identifier to test against
+     * @return true if this HasIdentifier is being identified by the provided Identifier
+     */
+    public boolean isIdentifiedBy(
+            Identifier toTest )
+    {
+        return the_Delegate.isIdentifiedBy( toTest );
     }
 
     /**

@@ -22,6 +22,7 @@ import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.StringValue;
 
 import java.util.Locale;
+import org.infogrid.util.Identifier;
 
 /**
   * The root of the type inheritance hierarchy.
@@ -52,6 +53,20 @@ public abstract class MMeshType
     public final MeshTypeIdentifier getIdentifier()
     {
         return theIdentifier;
+    }
+
+    /**
+     * Determine whether this object is being identified with the provided Identifier.
+     * This is a useful method for those objects of type HasIdentifier that may listen
+     * to multiple names.
+     *
+     * @param toTest the Identifier to test against
+     * @return true if this HasIdentifier is being identified by the provided Identifier
+     */
+    public boolean isIdentifiedBy(
+            Identifier toTest )
+    {
+        return theIdentifier.equals( toTest );
     }
 
     /**

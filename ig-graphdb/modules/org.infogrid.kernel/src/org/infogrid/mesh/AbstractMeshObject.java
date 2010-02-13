@@ -51,6 +51,7 @@ import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.PropertyTypeNotFoundException;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.FlexiblePropertyChangeListenerSet;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.IsDeadException;
 import org.infogrid.util.ZeroElementCursorIterator;
 import org.infogrid.util.logging.CanBeDumped;
@@ -103,6 +104,20 @@ public abstract class AbstractMeshObject
     public MeshObjectIdentifier getIdentifier()
     {
         return theIdentifier;
+    }
+
+    /**
+     * Determine whether this object is being identified with the provided Identifier.
+     * This is a useful method for those objects of type HasIdentifier that may listen
+     * to multiple names.
+     *
+     * @param toTest the Identifier to test against
+     * @return true if this HasIdentifier is being identified by the provided Identifier
+     */
+    public boolean isIdentifiedBy(
+            Identifier toTest )
+    {
+        return theIdentifier.equals( toTest );
     }
 
     /**
