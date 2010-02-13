@@ -27,6 +27,7 @@ import org.infogrid.model.primitives.PropertyTypeOrGroup;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.module.ModuleRegistry;
 
 /**
   * <p>This interface is implemented by classes that act as a repository of model-level concepts.
@@ -317,6 +318,14 @@ public interface ModelBase
       * @return the MeshTypeLifecycleManager for this ModelBase
       */
     public abstract MeshTypeLifecycleManager getMeshTypeLifecycleManager();
+
+    /**
+     * Obtain the ModuleRegistry specified in the factory method. This returns null
+     * if not running under the Module framework.
+     *
+     * @return the ModuleRegistry
+     */
+    public ModuleRegistry getModuleRegistry();
 
     /**
       * Obtain an Iterator to iterate over all MeshTypes contained in this ModelBase.

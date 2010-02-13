@@ -42,8 +42,7 @@ public abstract class Init
             Exception
     {
         ModelBase base = MModelBase.create( thisModule.getModuleRegistry() );
-        
-        ModelBaseSingleton.setSingleton( base );
+        // sets itself in the ModelBaseSingleton
         
         return base;
     }

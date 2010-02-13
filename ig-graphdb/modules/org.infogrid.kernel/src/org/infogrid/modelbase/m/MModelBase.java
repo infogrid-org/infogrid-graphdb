@@ -39,10 +39,12 @@ import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
+import org.infogrid.modelbase.ModelLoader;
 import org.infogrid.modelbase.PropertyTypeNotFoundException;
 import org.infogrid.modelbase.RelationshipTypeNotFoundException;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
 import org.infogrid.modelbase.WrongMeshTypeException;
+import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
 import org.infogrid.module.Module;
 import org.infogrid.module.ModuleActivationException;
 import org.infogrid.module.ModuleAdvertisement;
@@ -70,7 +72,7 @@ public class MModelBase
      *
      * @return the created MModelBase
      */
-    public static MModelBase create()
+    public static ModelBase create()
     {
         ModuleRegistry registry;
         ClassLoader    ourLoader = MModelBase.class.getClassLoader();
@@ -91,15 +93,25 @@ public class MModelBase
      * @param registry the ModuleRegistry in which we look for ModelModules
      * @return the created MModelBase
      */
-    public static MModelBase create(
+    public static ModelBase create(
             ModuleRegistry registry )
     {
-        MMeshTypeLifecycleManager  lifecycleManager          = MMeshTypeLifecycleManager.create();
-        MMeshTypeIdentifierFactory meshTypeIdentifierFactory = MMeshTypeIdentifierFactory.create();
-        MMeshTypeSynonymDictionary synonymDictionary         = MMeshTypeSynonymDictionary.create();
-        
-        MModelBase ret = new MModelBase( lifecycleManager, meshTypeIdentifierFactory, synonymDictionary, registry );
+        ModelBase ret = ModelBaseSingleton.getSingleton();
+        if( ret == null ) {
+            MMeshTypeLifecycleManager  lifecycleManager          = MMeshTypeLifecycleManager.create();
+            MMeshTypeIdentifierFactory meshTypeIdentifierFactory = MMeshTypeIdentifierFactory.create();
+            MMeshTypeSynonymDictionary synonymDictionary         = MMeshTypeSynonymDictionary.create();
 
+            ret = new MModelBase( lifecycleManager, meshTypeIdentifierFactory, synonymDictionary, registry );
+
+            ModelBaseSingleton.setSingleton( ret );
+
+        } else if( ret.getModuleRegistry() != registry ) {
+            throw new IllegalStateException( "Must not specifiy different ModuleRegistries: " + registry + " vs. " + ret.getModuleRegistry() );
+
+        } else if( !( ret instanceof MModelBase )) {
+            throw new IllegalStateException( "Must not create more than ModelBase of a different type: " + ret.getClass().getName() );
+        }
         return ret;
     }
 
@@ -195,6 +207,17 @@ public class MModelBase
     public MeshTypeLifecycleManager getMeshTypeLifecycleManager()
     {
         return theLifecycleManager;
+    }
+
+    /**
+     * Obtain the ModuleRegistry specified in the factory method. This returns null
+     * if not running under the Module framework.
+     *
+     * @return the ModuleRegistry
+     */
+    public ModuleRegistry getModuleRegistry()
+    {
+        return theModuleRegistry;
     }
 
     /**
@@ -666,7 +689,13 @@ public class MModelBase
             return null;
         }
 
-        SubjectArea [] ret = ModelBaseSingleton.loadModel( realPath, stream, cl );
+        ModelLoader theLoader = new XmlModelLoader(
+                            this,
+                            stream,
+                            cl, // FIXME?
+                            cl,
+                            realPath + ": " );
+        SubjectArea [] ret = theLoader.loadAndCheckModel( getMeshTypeLifecycleManager() );
         return ret[0];
     }
 

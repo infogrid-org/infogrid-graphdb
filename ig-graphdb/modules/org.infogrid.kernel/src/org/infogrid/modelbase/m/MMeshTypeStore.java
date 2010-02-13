@@ -280,11 +280,11 @@ public class MMeshTypeStore
         if( identifierString == null ) {
             return null;
         }
-        int hashStarts = identifierString.indexOf( '#' );
+        int slashStarts = identifierString.indexOf( '/' );
         
         String remainingIdentifierString;
-        if( hashStarts >= 0 ) {
-            remainingIdentifierString = identifierString.substring( 0, hashStarts );
+        if( slashStarts >= 0 ) {
+            remainingIdentifierString = identifierString.substring( 0, slashStarts );
         } else {
             remainingIdentifierString = identifierString;
         }
