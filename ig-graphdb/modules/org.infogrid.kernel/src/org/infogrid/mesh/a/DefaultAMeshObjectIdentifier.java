@@ -19,6 +19,7 @@ import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.text.MeshStringRepresentationContext;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.AbstractIdentifier;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationContext;
@@ -125,8 +126,8 @@ public class DefaultAMeshObjectIdentifier
     public final boolean equals(
             Object otherValue )
     {
-        if( otherValue instanceof MeshObjectIdentifier ) {
-            MeshObjectIdentifier realValue = (MeshObjectIdentifier) otherValue;
+        if( otherValue instanceof Identifier ) {
+            Identifier realValue = (Identifier) otherValue;
             
             if( !toExternalForm().equals( realValue.toExternalForm() )) {
                 return false;

@@ -17,9 +17,6 @@ package org.infogrid.mesh.a;
 import java.text.ParseException;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.AbstractMeshObjectIdentifierFactory;
-import org.infogrid.util.StringTooShortParseException;
-import org.infogrid.util.InvalidCharacterParseException;
-import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParseException;
 
@@ -60,7 +57,7 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             ParseException
     {
-        checkLocalId( raw );
+        checkRawId( raw );
 
         return DefaultAMeshObjectIdentifier.create( this, raw, raw );
     }
@@ -159,49 +156,22 @@ public class DefaultAMeshObjectIdentifierFactory
     }
 
     /**
-     * Check whether the proposed localId for a MeshObjectIdentifier is valid.
+     * Check whether the proposed String for a MeshObjectIdentifier is valid.
      * Subclasses can override this.
      *
-     * @param localId the local ID
-     * @throws ParseException thrown if the localId is not valid
+     * @param raw the String
+     * @throws ParseException thrown if the String is not valid
      */
-    protected void checkLocalId(
-            String localId )
+    protected void checkRawId(
+            String raw )
         throws
             ParseException
     {
-        if( localId == null || localId.length() == 0 ) {
-            return;
-        }
-        for( int i=0 ; i<DISALLOWED_LOCAL_ID_STRINGS.length ; ++i ) {
-            if( localId.indexOf( DISALLOWED_LOCAL_ID_STRINGS[i] ) >= 0 ) {
-                throw new InvalidCharacterParseException( localId, null, localId.indexOf( DISALLOWED_LOCAL_ID_STRINGS[i] ), DISALLOWED_LOCAL_ID_STRINGS[i] );
-            }
-        }
-        if( MINIMUM_LOCAL_ID_LENGTH > 0 && localId.length() < MINIMUM_LOCAL_ID_LENGTH ) {
-            throw new StringTooShortParseException( localId, null, MINIMUM_LOCAL_ID_LENGTH );
-        }
+        // does nothing.
     }
 
     /**
      * The Home Object's identifier. Subclass to avoid having to make the constructor public.
      */
     public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null, null ) {};
-
-    /**
-     * Our ResourceHelper.
-     */
-    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( DefaultAMeshObjectIdentifierFactory.class );
-
-    /**
-     * The minimum length for a local id.
-     */
-    public final static int MINIMUM_LOCAL_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "MinimumLocalIdLength", 4 );
-
-    /**
-     * The disallowed character strings in a local id.
-     */
-    public final static String [] DISALLOWED_LOCAL_ID_STRINGS = theResourceHelper.getResourceStringArrayOrDefault(
-            "DisallowedLocalIdString",
-            new String [] { "." } );
 }
