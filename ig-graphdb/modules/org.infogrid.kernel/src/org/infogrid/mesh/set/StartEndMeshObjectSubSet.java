@@ -8,15 +8,15 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set;
 
 import org.infogrid.mesh.MeshObject;
-import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.WrongMeshBaseException;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.SubsettingCursorIterator;
 
 /**
@@ -199,7 +199,7 @@ public class StartEndMeshObjectSubSet
      */
     @Override
     public boolean contains(
-            MeshObjectIdentifier identifier )
+            Identifier identifier )
     {
         int max   = theDelegate.size();
         int start = ( theStartIndex < max ) ? theStartIndex : max;

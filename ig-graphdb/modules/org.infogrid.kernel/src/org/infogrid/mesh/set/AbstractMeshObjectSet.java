@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -27,6 +27,7 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.FlexiblePropertyChangeListenerSet;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.NotSingleMemberException;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
@@ -206,7 +207,7 @@ public abstract class AbstractMeshObjectSet
      * @return true if this set contains the given MeshObject
      */
     public boolean contains(
-            MeshObjectIdentifier identifier )
+            Identifier identifier )
     {
         // using an Iterator is most effecient for potentially large sets that aren't all loaded at the same time
         for( MeshObject current : this ) {

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,6 +23,7 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.CursorIterable;
 import org.infogrid.util.CursorIterator;
+import org.infogrid.util.Identifier;
 import org.infogrid.util.NotSingleMemberException;
 
 /**
@@ -136,7 +137,7 @@ public interface MeshObjectSet
      * @return true if this set contains the given MeshObject
      */
     public abstract boolean contains(
-            MeshObjectIdentifier identifier );
+            Identifier identifier );
 
    /**
      * Convenience method to to easily find a member of this set by providing a
