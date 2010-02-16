@@ -17,6 +17,8 @@ package org.infogrid.mesh.a;
 import java.text.ParseException;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.AbstractMeshObjectIdentifierFactory;
+import org.infogrid.util.ResourceHelper;
+import org.infogrid.util.StringTooShortParseException;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParseException;
 
@@ -167,11 +169,28 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             ParseException
     {
-        // does nothing.
+        if( raw == null || raw.length() == 0 ) {
+            return;
+        }
+
+        if( MINIMUM_ID_LENGTH > 0 && raw.length() < MINIMUM_ID_LENGTH ) {
+            throw new StringTooShortParseException( raw, null, MINIMUM_ID_LENGTH );
+        }
     }
 
     /**
      * The Home Object's identifier. Subclass to avoid having to make the constructor public.
      */
     public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null, null ) {};
+
+    /**
+     * Our ResourceHelper.
+     */
+    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( DefaultAMeshObjectIdentifierFactory.class );
+
+    /**
+     * The minimum length for a local id.
+     */
+    public final static int MINIMUM_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "MinimumIdLength", 4 );
+
 }
