@@ -8,14 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set;
 
 import org.infogrid.mesh.MeshObject;
-
 import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.EntityType;
 
@@ -36,7 +35,7 @@ public class ByTypeMeshObjectSelector
     public static ByTypeMeshObjectSelector create(
             EntityType filterType )
     {
-        return new ByTypeMeshObjectSelector( filterType, true );
+        return new ByTypeMeshObjectSelector( filterType, DEFAULT_SUBTYPE_ALLOWED );
     }
 
     /**
@@ -119,6 +118,44 @@ public class ByTypeMeshObjectSelector
     }
 
     /**
+     * Determine equality.
+     *
+     * @param other the Object to compare against
+     */
+    @Override
+    public boolean equals(
+            Object other )
+    {
+        if( other instanceof ByTypeMeshObjectSelector ) {
+            ByTypeMeshObjectSelector realOther = (ByTypeMeshObjectSelector) other;
+
+            if( theSubtypeAllowed != realOther.theSubtypeAllowed ) {
+                return false;
+            }
+            if( !theFilterType.equals( realOther.theFilterType )) {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return hash code.
+     */
+    @Override
+    public int hashCode()
+    {
+        int hash = 3;
+        hash = 41 * hash + (this.theFilterType != null ? this.theFilterType.hashCode() : 0);
+        hash = 41 * hash + (this.theSubtypeAllowed ? 1 : 0);
+        return hash;
+    }
+
+    /**
      * The EntityType for whose instances we accept.
      */
     protected EntityType theFilterType;
@@ -127,4 +164,14 @@ public class ByTypeMeshObjectSelector
      * Do we allow a subtype instance.
      */
     protected boolean theSubtypeAllowed;
+
+    /**
+     * Defines that by default, subtypes are allowed for this selector.
+     */
+    private static final boolean DEFAULT_SUBTYPE_ALLOWED = true;
+
+    /**
+     * Separates the components of the external form.
+     */
+    public static final String EXTERNAL_FORM_WITHIN_STEP_SEPARATOR = ",";
 }

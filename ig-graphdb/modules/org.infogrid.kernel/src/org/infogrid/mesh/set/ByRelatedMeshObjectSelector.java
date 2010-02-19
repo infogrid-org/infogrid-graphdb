@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -156,6 +156,60 @@ public class ByRelatedMeshObjectSelector
     public int getLessThan()
     {
         return theLessThan;
+    }
+
+    /**
+     * Determine equality.
+     *
+     * @param other the Object to compare against
+     */
+    @Override
+    public boolean equals(
+            Object other )
+    {
+        if( other instanceof ByRelatedMeshObjectSelector ) {
+            ByRelatedMeshObjectSelector realOther = (ByRelatedMeshObjectSelector) other;
+
+            if( theAtLeast != realOther.theAtLeast ) {
+                return false;
+            }
+            if( theLessThan != realOther.theLessThan ) {
+                return false;
+            }
+            if( theDelegate == null ) {
+                if( realOther.theDelegate != null ) {
+                    return false;
+                }
+            } else if( !theDelegate.equals( realOther.theDelegate )) {
+                return false;
+            }
+            if( theTraversalSpecification == null ) {
+                if( realOther.theTraversalSpecification != null ) {
+                    return false;
+                }
+            } else if( !theTraversalSpecification.equals( realOther.theTraversalSpecification )) {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return hash code.
+     */
+    @Override
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 61 * hash + (this.theTraversalSpecification != null ? this.theTraversalSpecification.hashCode() : 0);
+        hash = 61 * hash + (this.theDelegate != null ? this.theDelegate.hashCode() : 0);
+        hash = 61 * hash + this.theAtLeast;
+        hash = 61 * hash + this.theLessThan;
+        return hash;
     }
 
     /**

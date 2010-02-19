@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -69,7 +69,39 @@ public class InvertingMeshObjectSelector
     {
         return theDelegate;
     }
-    
+
+    /**
+     * Determine equality.
+     *
+     * @param other the Object to compare against
+     */
+    @Override
+    public boolean equals(
+            Object other )
+    {
+        if( other instanceof InvertingMeshObjectSelector ) {
+            InvertingMeshObjectSelector realOther = (InvertingMeshObjectSelector) other;
+
+            if( !theDelegate.equals( realOther.theDelegate )) {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Hash code.
+     *
+     * @return hash code.
+     */
+    @Override
+    public int hashCode()
+    {
+        return theDelegate.hashCode();
+    }
+
     /**
      * The delegate MeshObjectSelector.
      */
