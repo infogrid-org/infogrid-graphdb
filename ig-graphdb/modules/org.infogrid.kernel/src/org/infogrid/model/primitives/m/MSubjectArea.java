@@ -213,6 +213,25 @@ public final class MSubjectArea
         return theClassLoader;
     }
 
+
+    /**
+     * Find a CollectableMeshType in this SubjectArea by name.
+     *
+     * @param name the name of the CollectableMeshType
+     * @return the found CollectableMeshType, or null if not found
+     */
+    public CollectableMeshType findCollectableMeshTypeByName(
+            StringValue name )
+    {
+        // FIXME efficiency
+        for( int i=0 ; i<theCollectableMeshTypes.length ; ++i ) {
+            if( name.equals( theCollectableMeshTypes[i].getName() )) {
+                return theCollectableMeshTypes[i];
+            }
+        }
+        return null;
+    }
+
     /**
      * Convert to String form, for debugging.
      *

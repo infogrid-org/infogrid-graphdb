@@ -14,11 +14,14 @@
 
 package org.infogrid.model.primitives.m;
 
+import java.util.ArrayList;
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.MeshObjectRoleChangeEvent;
+import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MultiplicityValue;
@@ -26,13 +29,12 @@ import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.RoleTypeGuard;
 import org.infogrid.model.primitives.StringValue;
+import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.modelbase.InheritanceConflictException;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
-import java.util.ArrayList;
-import org.infogrid.mesh.MeshObjectIdentifier;
 
 /**
   * The RoleType played by an EntityType in a RelationshipType (between another EntityType and itself).
@@ -74,6 +76,19 @@ public abstract class MRoleType
         if( theEntityType != null ) {
             theEntityType.addLocalRoleType( this );
         }
+
+        setDoGenerateInterfaceCode(      BooleanValue.FALSE );
+        setDoGenerateImplementationCode( BooleanValue.FALSE );
+    }
+
+    /**
+      * Obtain the SubjectArea in which this CollectableMeshType is defined.
+      *
+      * @return the SubjectArea in which this CollectableMeshType is defined
+      */
+    public final SubjectArea getSubjectArea()
+    {
+        return theRelationshipType.getSubjectArea();
     }
 
     /**
@@ -787,6 +802,8 @@ public abstract class MRoleType
                     entity,
                     multiplicity,
                     constraintClassNames );
+
+            setName( StringValue.create( relationship.getName().value() + SOURCE_POSTFIX ));
         }
 
         /**
@@ -860,6 +877,8 @@ public abstract class MRoleType
                     entity,
                     multiplicity,
                     constraintClassNames );
+
+            setName( StringValue.create( relationship.getName().value() + DESTINATION_POSTFIX ));
         }
 
         /**

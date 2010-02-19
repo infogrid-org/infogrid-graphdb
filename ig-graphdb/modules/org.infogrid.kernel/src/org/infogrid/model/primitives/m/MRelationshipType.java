@@ -18,6 +18,7 @@ import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MultiplicityValue;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
+import org.infogrid.model.primitives.StringValue;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 
@@ -39,6 +40,7 @@ public final class MRelationshipType
      * Constructor to create a binary RelationshipType.
      * 
      * @param identifier the Identifier of the to-be-created object
+     * @param name the name of the to-be-created object
      * @param sourceEntity the source EntityType of the RelationshipType
      * @param destinationEntity the destination EntityType of the RelationshipType
      * @param sourceMultiplicity the multiplicity of the source
@@ -48,6 +50,7 @@ public final class MRelationshipType
      */
     public MRelationshipType(
             MeshTypeIdentifier identifier,
+            StringValue        name,
             MEntityType        sourceEntity,
             MEntityType        destinationEntity,
             MultiplicityValue  sourceMultiplicity,
@@ -56,6 +59,8 @@ public final class MRelationshipType
             String []          destinationRoleConstraintClassNames )
     {
         super( identifier );
+
+        setName( name );
 
         sourceRole      = new MRoleType.Source(      this, sourceEntity,      sourceMultiplicity,      sourceRoleConstraintClassNames );
         destinationRole = new MRoleType.Destination( this, destinationEntity, destinationMultiplicity, destinationRoleConstraintClassNames );

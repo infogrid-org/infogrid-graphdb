@@ -83,4 +83,13 @@ public interface SubjectArea
      * @return the ClassLoader for this SubjectArea
      */
     public ClassLoader getClassLoader();
+
+    /**
+     * Find a CollectableMeshType in this SubjectArea by name.
+     *
+     * @param name the name of the CollectableMeshType
+     * @return the found CollectableMeshType, or null if not found
+     */
+    public CollectableMeshType findCollectableMeshTypeByName(
+            StringValue name );
 }

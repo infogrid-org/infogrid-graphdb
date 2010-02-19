@@ -43,7 +43,7 @@ import org.infogrid.model.traversal.TraversalSpecification;
   */
 public interface RoleType
         extends
-            MeshType,
+            CollectableMeshType,
             TraversalSpecification
 {
     /**

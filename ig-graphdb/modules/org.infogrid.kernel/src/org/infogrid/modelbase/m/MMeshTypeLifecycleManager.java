@@ -305,6 +305,7 @@ public class MMeshTypeLifecycleManager
 
         MRelationshipType ret = new MRelationshipType(
                 identifier,
+                theName,
                 realSource,
                 realDestination,
                 sourceMultiplicity,
@@ -312,7 +313,6 @@ public class MMeshTypeLifecycleManager
                 sourceRoleConstraintClassNames,
                 destinationRoleConstraintClassNames );
 
-        ret.setName( theName );
         ret.setUserVisibleNameMap( theUserNames );
         ret.setUserVisibleDescriptionMap( theUserDescriptions );
 
@@ -321,6 +321,9 @@ public class MMeshTypeLifecycleManager
 
         MRoleType sourceRole      = (MRoleType) ret.getSource();
         MRoleType destinationRole = (MRoleType) ret.getDestination();
+
+        realSubjectArea.addCollectableMeshType( sourceRole );
+        realSubjectArea.addCollectableMeshType( destinationRole );
 
         // we have to add it both in the roles and in the relationship
         sourceRole.setDirectSuperRoleTypes( realSourceSuperRoleTypes );
