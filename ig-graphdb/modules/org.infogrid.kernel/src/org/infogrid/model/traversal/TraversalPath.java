@@ -94,7 +94,7 @@ public class TraversalPath
             if( reachedMeshObject.getMeshBase() != remainder.getMeshBase() ) {
                 throw new WrongMeshBaseException( reachedMeshObject.getMeshBase(), remainder.getMeshBase() );
             }
-            size = remainder.getSize();
+            size = remainder.getSize() + 1;
         } else {
             size = 1;
         }
@@ -138,6 +138,27 @@ public class TraversalPath
                 one.theSize + two.theSize,
                 one.getMeshBase() );
 
+        return ret;
+    }
+
+    /**
+     * Factory method to construct one from equal-length arrays of TraversalSpecification and reached MeshObjects.
+     *
+     * @param steps the steps taken, in sequence
+     * @param reached the MeshObject reached after each step
+     * @return the created TraversalPath
+     */
+    public static TraversalPath create(
+            TraversalSpecification [] steps,
+            MeshObject []             reached )
+    {
+        if( steps.length != reached.length ) {
+            throw new IllegalArgumentException( "Steps: " + steps.length + " vs. reached: " + reached.length );
+        }
+        TraversalPath ret = null;
+        for( int i=steps.length-1 ; i>=0 ; --i ) {
+            ret = create( steps[i], reached[i], ret );
+        }
         return ret;
     }
 
@@ -267,6 +288,41 @@ public class TraversalPath
     }
 
     /**
+     * Obtain the TraversalSpecifications traversed along the entire TraversalPath in sequence.
+     *
+     * @return the TraversalSpecifications in sequence
+     */
+    public TraversalSpecification [] getTraversalSpecificationsInSequence()
+    {
+        TraversalSpecification [] ret     = new TraversalSpecification[ theSize ];
+        TraversalPath             current = this;
+        for( int i=0 ; i<ret.length ; ++i ) {
+            ret[i] = current.theTraversedSpec;
+            current = current.theRemainder;
+        }
+        return ret;
+    }
+
+    /**
+     * Obtain the TraversalSpecification traversed along the entire
+     * TraversalPath. If this TraversalPath is longer than one step,
+     * the returned TraversalSpecification will be a SequentialCompoundTraversalSpecification.
+     *
+     * @return the TraversalSpecification
+     */
+    public TraversalSpecification getTraversalSpecification()
+    {
+        if( theSize == 1 ) {
+            return theTraversedSpec;
+        } else {
+            SequentialCompoundTraversalSpecification ret
+                    = SequentialCompoundTraversalSpecification.create(
+                            getTraversalSpecificationsInSequence() );
+            return ret;
+        }
+    }
+
+    /**
      * Obtain the MeshObject at a certain position in this TraversalPath.
      *
      * @param index the index from which we want to obtain the MeshObject
@@ -301,7 +357,7 @@ public class TraversalPath
         TraversalPath current = this;
         for( int i=0 ; i<ret.length ; ++i ) {
             try {
-                ret[i] = current.getFirstMeshObject();
+                ret[i]  = current.getFirstMeshObject();
                 current = current.getNextSegment();
 
             } catch( MeshObjectsNotFoundException ex ) {
@@ -316,6 +372,24 @@ public class TraversalPath
                     theMeshBase,
                     ret, // partialResult
                     ArrayHelper.copyIntoNewArray( notFound, MeshObjectIdentifier.class ));
+        }
+        return ret;
+    }
+
+    /**
+     * This convenience method returns the identifiers of all MeshObjects in this TraversalPath
+     * in sequence.
+     *
+     * @return an array of size getSize(), which contains the MeshObjectIdentifiers of the MeshObjects on the TraversalPath
+     */
+    public MeshObjectIdentifier [] getMeshObjectIdentifiersInSequence()
+    {
+        MeshObjectIdentifier [] ret = new MeshObjectIdentifier[ getSize() ];
+        TraversalPath           current = this;
+
+        for( int i=0 ; i<ret.length ; ++i ) {
+            ret[i]  = current.getFirstMeshObjectIdentifier();
+            current = current.getNextSegment();
         }
         return ret;
     }
@@ -390,6 +464,63 @@ public class TraversalPath
         return ret;
     }
 
+//    /**
+//     * Convert to an externalized String representation.
+//     *
+//     * @return externalized String representation
+//     */
+//    public String toExternalForm()
+//    {
+//        StringBuilder buf = new StringBuilder();
+//        if( theTraversedSpec != null ) {
+//            buf.append( EXTERNAL_FORM_TRAVERSAL_SPECIFICATION_TAG );
+//            buf.append( externalFormEscape( theTraversedSpec.toExternalForm() ));
+//            buf.append( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR );
+//        }
+//        buf.append( EXTERNAL_FORM_MESHOBJECT_TAG );
+//        buf.append( externalFormEscape( theReached.getIdentifier().toExternalForm() ));
+//        if( theRemainder != null ) {
+//            buf.append( EXTERNAL_FORM_STEP_SEPARATOR );
+//            buf.append( theRemainder.toExternalForm() );
+//        }
+//        return buf.toString();
+//    }
+//
+//    /**
+//     * Helper method to escape values inside our external form.
+//     *
+//     * @param toEscape the String to escape
+//     * @return the escaped String
+//     */
+//    protected String externalFormEscape(
+//            String toEscape )
+//    {
+//        String ret = toEscape.replaceAll( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR, HTTP.encodeToValidUrlArgument( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR ));
+//        ret        = ret.replaceAll(      EXTERNAL_FORM_STEP_SEPARATOR,        HTTP.encodeToValidUrlArgument( EXTERNAL_FORM_STEP_SEPARATOR ));
+//
+//        return ret;
+//    }
+//
+//    /**
+//     * Indicates the beginning of the TraversalSpecification component of this step.
+//     */
+//    public static final String EXTERNAL_FORM_TRAVERSAL_SPECIFICATION_TAG = "t=";
+//
+//    /**
+//     * Separates the serialized fields from each other within one step.
+//     */
+//    public static final String EXTERNAL_FORM_WITHIN_STEP_SEPARATOR = ",";
+//
+//    /**
+//     * Indicates the beginning of the reached MeshObject component of this step.
+//     */
+//    public static final String EXTERNAL_FORM_MESHOBJECT_TAG = "o=";
+//
+//    /**
+//     * Separates the steps from each other.
+//     */
+//    public static final String EXTERNAL_FORM_STEP_SEPARATOR = ";";
+
     /**
      * Determine equality.
      *
@@ -411,7 +542,11 @@ public class TraversalPath
                 return false;
             }
 
-            if( !theTraversedSpec.equals( realOther.theTraversedSpec )) {
+            if( theTraversedSpec == null ) {
+                if( realOther.theTraversedSpec != null ) {
+                    return false;
+                }
+            } else if( !theTraversedSpec.equals( realOther.theTraversedSpec )) {
                 return false;
             }
 
@@ -435,7 +570,11 @@ public class TraversalPath
     @Override
     public int hashCode()
     {
-        return theReached.hashCode() ^ theTraversedSpec.hashCode(); // good enough
+        if( theTraversedSpec != null ) {
+            return theReached.hashCode() ^ theTraversedSpec.hashCode(); // good enough
+        } else {
+            return theReached.hashCode(); // good enough
+        }
     }
 
     /**
@@ -452,7 +591,11 @@ public class TraversalPath
             return true;
         }
 
-        if( !theTraversedSpec.equals( testPath.theTraversedSpec )) {
+        if( theTraversedSpec == null ) {
+            if( testPath.theTraversedSpec != null ) {
+                return false;
+            }
+        } else if( !theTraversedSpec.equals( testPath.theTraversedSpec )) {
             return false;
         }
 

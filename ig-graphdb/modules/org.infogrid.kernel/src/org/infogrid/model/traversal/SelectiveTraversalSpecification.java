@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,12 +18,10 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.set.MeshObjectSelector;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
-
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.MeshObjectRoleAddedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleChangeEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleRemovedEvent;
-
 
 /**
  * This TraversalSpecification qualifies another TraversalSpecification by first taking
@@ -118,7 +116,7 @@ public class SelectiveTraversalSpecification
         MeshObjectSetFactory setFactory = start.getMeshBase().getMeshObjectSetFactory();
 
         if( theStartSelector != null && ! theStartSelector.accepts( start )) {
-            setFactory.obtainEmptyImmutableMeshObjectSet();
+            return setFactory.obtainEmptyImmutableMeshObjectSet();
         }
 
         MeshObjectSet s = theQualified.traverse( start, considerEquivalents );

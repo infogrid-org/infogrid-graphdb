@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -54,6 +54,36 @@ public class AlternativeCompoundTraversalSpecification
             }
         }
         return new AlternativeCompoundTraversalSpecification( alt );
+    }
+
+    /**
+     * Convenience factory method.
+     *
+     * @param alt1 the first traversal alternative
+     * @param alt2 the second traversal alternative
+     * @return the created AlternativeCompoundTraversalSpecification
+     */
+    public static AlternativeCompoundTraversalSpecification create(
+            TraversalSpecification alt1,
+            TraversalSpecification alt2 )
+    {
+        return create( new TraversalSpecification[] { alt1, alt2 } );
+    }
+
+    /**
+     * Convenience factory method.
+     *
+     * @param alt1 the first traversal alternative
+     * @param alt2 the second traversal alternative
+     * @param alt3 the third traversal alternative
+     * @return the created AlternativeCompoundTraversalSpecification
+     */
+    public static AlternativeCompoundTraversalSpecification create(
+            TraversalSpecification alt1,
+            TraversalSpecification alt2,
+            TraversalSpecification alt3 )
+    {
+        return create( new TraversalSpecification[] { alt1, alt2, alt3 } );
     }
 
     /**
@@ -189,9 +219,4 @@ public class AlternativeCompoundTraversalSpecification
      * The alternatives to traverse.
      */
     protected TraversalSpecification [] theAlternatives;
-
-    /**
-     * Our user-visible string. Allocated as needed.
-     */
-    protected String theUserVisibleString = null;
 }

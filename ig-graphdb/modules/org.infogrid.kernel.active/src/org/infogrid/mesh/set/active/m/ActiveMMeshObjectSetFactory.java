@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -27,9 +27,11 @@ import org.infogrid.mesh.set.active.OrderedActiveMeshObjectSet;
 import org.infogrid.mesh.set.active.TraversalActiveMeshObjectSet;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
 import org.infogrid.model.primitives.RoleType;
+import org.infogrid.model.traversal.AllNeighborsTraversalSpecification;
 import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
 import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
+import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
@@ -272,10 +274,7 @@ public class ActiveMMeshObjectSetFactory
             MeshObject             startObject,
             TraversalSpecification specification )
     {
-        if( specification == null ) {
-            return createToSelfActiveMeshObjectSet( startObject );
-
-        } else if( specification instanceof RoleType ) {
+        if( specification instanceof RoleType ) {
             return createSpecificActiveMeshObjectSet( startObject, (RoleType) specification );
 
         } else if( specification instanceof SelectiveTraversalSpecification ) {
@@ -286,6 +285,12 @@ public class ActiveMMeshObjectSetFactory
 
         } else if( specification instanceof AlternativeCompoundTraversalSpecification ) {
             return createSpecificActiveMeshObjectSet( startObject, (AlternativeCompoundTraversalSpecification) specification );
+
+        } else if( specification instanceof StayRightHereTraversalSpecification ) {
+            return createToSelfActiveMeshObjectSet( startObject );
+
+        } else if( specification instanceof AllNeighborsTraversalSpecification ) {
+            return createSpecificActiveMeshObjectSet( startObject, (AllNeighborsTraversalSpecification) specification );
 
         } else {
             throw new IllegalArgumentException( "unknown or unsuitable TraversalSpecification " + specification );
@@ -304,10 +309,7 @@ public class ActiveMMeshObjectSetFactory
             MeshObjectSet          startSet,
             TraversalSpecification specification )
     {
-        if( specification == null ) {
-            return createToSelfActiveMeshObjectSet( startSet );
-
-        } else if( specification instanceof RoleType ) {
+        if( specification instanceof RoleType ) {
             return createSpecificActiveMeshObjectSet( startSet, (RoleType) specification );
             
         } else if( specification instanceof SelectiveTraversalSpecification ) {
@@ -318,6 +320,12 @@ public class ActiveMMeshObjectSetFactory
 
         } else if( specification instanceof AlternativeCompoundTraversalSpecification ) {
             return createSpecificActiveMeshObjectSet( startSet, (AlternativeCompoundTraversalSpecification) specification );
+
+        } else if( specification instanceof StayRightHereTraversalSpecification ) {
+            return createToSelfActiveMeshObjectSet( startSet );
+
+        } else if( specification instanceof AllNeighborsTraversalSpecification ) {
+            return createSpecificActiveMeshObjectSet( startSet, (AllNeighborsTraversalSpecification) specification );
 
         } else {
             throw new IllegalArgumentException( "unknown or unsuitable TraversalSpecification " + specification );
@@ -351,10 +359,7 @@ public class ActiveMMeshObjectSetFactory
             MeshObject             start,
             TraversalSpecification spec )
     {
-        if( spec == null ) {
-            throw new IllegalArgumentException();
-
-        } else if( spec instanceof RoleType ) {
+        if( spec instanceof RoleType ) {
             return new TraversalActiveMTraversalPathSet.OneStepFromMeshObject( this, start, (RoleType) spec );
 
         } else if( spec instanceof SelectiveTraversalSpecification ) {
@@ -372,6 +377,14 @@ public class ActiveMMeshObjectSetFactory
         } else if( spec instanceof AlternativeCompoundTraversalSpecification ) {
             AlternativeCompoundTraversalSpecification realSpec = (AlternativeCompoundTraversalSpecification) spec;
             return new TraversalActiveMTraversalPathSet.ParallelStepFromMeshObject( this, start, realSpec );
+
+        } else if( spec instanceof StayRightHereTraversalSpecification ) {
+            StayRightHereTraversalSpecification realSpec = (StayRightHereTraversalSpecification) spec;
+            return new TraversalActiveMTraversalPathSet.ToSelfFromMeshObject( this, start );
+
+        } else if( spec instanceof AllNeighborsTraversalSpecification ) {
+            AllNeighborsTraversalSpecification realSpec = (AllNeighborsTraversalSpecification) spec;
+            return new TraversalActiveMTraversalPathSet.OneStepFromMeshObject( this, start, realSpec );
 
         } else {
             log.error( "unknown or unsuitable TraversalSpecification " + spec );
@@ -586,6 +599,40 @@ public class ActiveMMeshObjectSetFactory
             MeshObjectSet startSet )
     {
         return new TraversalActiveMMeshObjectSet.ToSelfFromMeshObjectSet( this, startSet );
+    }
+
+    /**
+     * Factory method to construct a TraversalActiveMMeshObjectSet as the result of
+     * traversing from a MeshObject to all its neighbors. Only forward
+     * events to a TraversalActiveMMeshObjectSet's content PropertyChangeListener that
+     * affect the specified PropertyTypes.
+     *
+     * @param startObject the MeshObject from where we start the traversal
+     * @param specification the RoleTypes to apply to the startObject
+     * @return the created TraversalActiveMMeshObjectSet
+     */
+    public TraversalActiveMMeshObjectSet createSpecificActiveMeshObjectSet(
+            MeshObject                         startObject,
+            AllNeighborsTraversalSpecification specification )
+    {
+        return new TraversalActiveMMeshObjectSet.OneStepFromMeshObject( this, startObject, specification );
+    }
+
+    /**
+     * Factory method to construct a TraversalActiveMMeshObjectSet as the result of
+     * traversing from a MeshObjectSet to all its neighbors. Only forward
+     * events to a TraversalActiveMMeshObjectSet's content PropertyChangeListener that
+     * affect the specified PropertyTypes.
+     *
+     * @param startSet the MeshObjectSet from where we start the traversal
+     * @param specification the RoleTypes to apply to the startObject
+     * @return the created TraversalActiveMMeshObjectSet
+     */
+    public TraversalActiveMMeshObjectSet createSpecificActiveMeshObjectSet(
+            MeshObjectSet                      startSet,
+            AllNeighborsTraversalSpecification specification )
+    {
+        return new TraversalActiveMMeshObjectSet.Unifier( this, startSet, specification, null );
     }
 
     /**

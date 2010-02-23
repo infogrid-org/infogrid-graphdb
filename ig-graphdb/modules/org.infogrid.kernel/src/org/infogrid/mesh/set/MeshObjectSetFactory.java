@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -233,9 +233,18 @@ public interface MeshObjectSetFactory
 
     /**
      * Factory method.
+     * 
+     * @param singleMember the single member of the ImmutableTraversalPathSet
+     * @return return the created ImmutableTraversalPathSet
+     */
+    public ImmutableTraversalPathSet createSingleMemberImmutableTraversalPathSet(
+            TraversalPath singleMember );
+
+    /**
+     * Factory method.
      *
-     * @param content the content for the ImmutableMTraversalPathSet
-     * @return the created ImmutableMTraversalPathSet
+     * @param content the content for the ImmutableTraversalPathSet
+     * @return the created ImmutableTraversalPathSet
      */
     public ImmutableTraversalPathSet createImmutableTraversalPathSet(
             TraversalPath [] content );
@@ -245,8 +254,8 @@ public interface MeshObjectSetFactory
      * The destination of each TraversalPath corresponds to the elements of the
      * given MeshObjectSet.
      *
-     * @param set used to construct the content for the ImmutableMTraversalPathSet
-     * @return the created ImmutableMTraversalPathSet
+     * @param set used to construct the content for the ImmutableTraversalPathSet
+     * @return the created ImmutableTraversalPathSet
      */
     public ImmutableTraversalPathSet createImmutableTraversalPathSet(
             MeshObjectSet set );

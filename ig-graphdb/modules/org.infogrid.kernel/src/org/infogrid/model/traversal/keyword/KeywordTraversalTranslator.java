@@ -8,46 +8,68 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
-package org.infogrid.model.traversal;
+package org.infogrid.model.traversal.keyword;
 
-import java.util.HashMap;
+import java.util.Map;
 import org.infogrid.mesh.MeshObject;
-import org.infogrid.modelbase.ModelBase;
+import org.infogrid.meshbase.MeshBase;
+import org.infogrid.model.traversal.AbstractTraversalTranslator;
+import org.infogrid.model.traversal.TermNotFoundTraversalTranslatorException;
+import org.infogrid.model.traversal.TraversalSpecification;
+import org.infogrid.model.traversal.TraversalTranslatorException;
+import org.infogrid.model.traversal.UnknownTermTraversalTranslatorException;
+import org.infogrid.model.traversal.WrongNumberTermsTraversalTranslatorException;
 
 /**
- * Factors out functionality that is common to many types of TraversalDictionary.
+ * A TraversalTranslator that uses static tables of keywords to describe TraversalSpecifications.
  */
-public abstract class AbstractTraversalDictionary
-    implements
-        TraversalDictionary
+public class KeywordTraversalTranslator
+        extends
+            AbstractTraversalTranslator
 {
     /**
      * Constructor.
      * 
-     * @param modelBase the ModelBase to use
+     * @param mb the MeshBase to use
+     * @param forwardTable forward direction of the translation
+     * @param backwardTable backward direction of the translation
      */
-    protected AbstractTraversalDictionary(
-            ModelBase modelBase )
+    public KeywordTraversalTranslator(
+            MeshBase                           mb,
+            Map<String,TraversalSpecification> forwardTable,
+            Map<TraversalSpecification,String> backwardTable )
     {
-        theModelBase = modelBase;
+        super( mb );
+
+        theForwardTable  = forwardTable;
+        theBackwardTable = backwardTable;
     }
     
     /**
      * Translate the String form of a TraversalSpecification into an actual TraversalSpecification.
      *
      * @param startObject the start MeshObject for the traversal
-     * @param traversalTerm the term to be translated
+     * @param traversalTerms the terms to be translated
      * @return the TraversalSpecification, or null if not found.
+     * @throws TraversalTranslatorException thrown if the translation failed
      */
-    public TraversalSpecification translate(
+    public TraversalSpecification translateTraversalSpecification(
             MeshObject startObject,
-            String     traversalTerm )
+            String []  traversalTerms )
+        throws
+            TraversalTranslatorException
     {
-        TraversalSpecification ret = theForwardTable.get( traversalTerm );
+        if( traversalTerms.length != 1 ) {
+            throw new WrongNumberTermsTraversalTranslatorException( traversalTerms );
+        }
+        TraversalSpecification ret = theForwardTable.get( traversalTerms[0] );
+        if( ret == null ) {
+            throw new UnknownTermTraversalTranslatorException( traversalTerms[0] );
+        }
         return ret;
     }
 
@@ -57,27 +79,19 @@ public abstract class AbstractTraversalDictionary
      * @param startObject the start MeshObject for the traversal
      * @param traversal the TraversalSpecification
      * @return the external form
+     * @throws TraversalTranslatorException thrown if the translation failed
      */
-    public String translate(
+    public String [] translateTraversalSpecification(
             MeshObject             startObject,
             TraversalSpecification traversal )
+        throws
+            TraversalTranslatorException
     {
         String ret = theBackwardTable.get( traversal );
-        return ret;
-    }
-
-    /**
-     * Enable subclasses to insert a translation entry into our tables.
-     * 
-     * @param term the term to be added
-     * @param specification the TraversalSpecification to be added
-     */
-    protected void addTranslationEntry(
-            String                 term,
-            TraversalSpecification specification )
-    {
-        theForwardTable.put( term, specification );
-        theBackwardTable.put( specification, term );
+        if( ret == null ) {
+            throw new TermNotFoundTraversalTranslatorException( traversal );
+        }
+        return new String[] { ret };
     }
 
     /**
@@ -109,17 +123,12 @@ public abstract class AbstractTraversalDictionary
     }
     
     /**
-     * The ModelBase to use.
-     */
-    protected ModelBase theModelBase;
-    
-    /**
      * The translation table in one direction.
      */
-    protected HashMap<String,TraversalSpecification> theForwardTable = new HashMap<String,TraversalSpecification>();
+    protected Map<String,TraversalSpecification> theForwardTable;
     
     /**
      * The translation table in the other direction.
      */
-    protected HashMap<TraversalSpecification,String> theBackwardTable = new HashMap<TraversalSpecification,String>();
+    protected Map<TraversalSpecification,String> theBackwardTable;
 }

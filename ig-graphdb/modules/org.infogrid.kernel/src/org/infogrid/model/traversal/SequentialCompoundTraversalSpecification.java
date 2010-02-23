@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -44,11 +44,6 @@ public class SequentialCompoundTraversalSpecification
         // we are paranoid, so we check
         if( steps == null || steps.length < 2 ) {
             throw new IllegalArgumentException( ArrayHelper.arrayToString( steps ) + " must be at least of length 2" );
-        }
-        for( int i=0 ; i<steps.length ; ++i ) {
-            if( steps[i] == null ) {
-                throw new IllegalArgumentException( "Sequential TraversalSpecification is null: " + ArrayHelper.arrayToString( steps ));
-            }
         }
 
         return new SequentialCompoundTraversalSpecification( steps );
@@ -162,8 +157,8 @@ public class SequentialCompoundTraversalSpecification
     {
         MeshObjectSet current = theSteps[0].traverse( start, considerEquivalents );
         for( int i=1 ; i<theSteps.length ; ++i ) {
-            current = current.traverse( theSteps[i], considerEquivalents );
-        }
+                current = current.traverse( theSteps[i], considerEquivalents );
+            }
         return current;
     }
 

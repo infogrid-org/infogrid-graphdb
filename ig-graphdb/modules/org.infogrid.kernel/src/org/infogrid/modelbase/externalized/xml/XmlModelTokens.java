@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -98,75 +98,77 @@ abstract class XmlModelTokens
      * One would really like to take a counter here, but then, we can't use the static finals as
      * labels in a switch/case statement any more.
      */
-    protected static final int MODEL_TOKEN                               =  0;
-    protected static final int SUBJECT_AREA_TOKEN                        =  1;
-    protected static final int DEPENDSON_TOKEN                           =  2;
-    protected static final int SUBJECT_AREA_REFERENCE_TOKEN              =  3;
-    protected static final int MODULE_REFERENCE_TOKEN                    =  4;
-    protected static final int ENTITY_TYPE_TOKEN                         =  5;
+    protected static final int MODEL_TOKEN                                   =  0;
+    protected static final int SUBJECT_AREA_TOKEN                            =  1;
+    protected static final int DEPENDSON_TOKEN                               =  2;
+    protected static final int SUBJECT_AREA_REFERENCE_TOKEN                  =  3;
+    protected static final int MODULE_REFERENCE_TOKEN                        =  4;
+    protected static final int ENTITY_TYPE_TOKEN                             =  5;
 
-    protected static final int RELATIONSHIP_TYPE_TOKEN                   =  6;
-    protected static final int PROPERTY_TYPE_TOKEN                       =  7;
-    protected static final int PROJECTED_PROPERTY_TYPE_TOKEN             =  8;
-    protected static final int PROPERTY_TYPE_GROUP_TOKEN                 =  9;
-    protected static final int PROPERTY_TYPE_GROUP_MEMBER_TOKEN          = 10;
-    protected static final int INPUT_PROPERTY_SPECIFICATION_TOKEN        = 11;
-    protected static final int TRAVERSAL_SPECIFICATION_TOKEN             = 12;
-    protected static final int ALTERNATIVE_TRAVERSAL_SPECIFICATION_TOKEN = 13;
-    protected static final int SEQUENTIAL_TRAVERSAL_SPECIFICATION_TOKEN  = 14;
-    protected static final int SELECTIVE_TRAVERSAL_SPECIFICATION_TOKEN   = 15;
-    protected static final int MESH_OBJECT_SELECTOR_TOKEN                = 16;
-    protected static final int BY_TYPE_MESH_OBJECT_SELECTOR_TOKEN        = 17;
-    protected static final int PROPERTY_TYPE_REFERENCE_TOKEN             = 18;
-    protected static final int ROLE_TYPE_REFERENCE_TOKEN                 = 19;
+    protected static final int RELATIONSHIP_TYPE_TOKEN                       =  6;
+    protected static final int PROPERTY_TYPE_TOKEN                           =  7;
+    protected static final int PROJECTED_PROPERTY_TYPE_TOKEN                 =  8;
+    protected static final int PROPERTY_TYPE_GROUP_TOKEN                     =  9;
+    protected static final int PROPERTY_TYPE_GROUP_MEMBER_TOKEN              = 10;
+    protected static final int INPUT_PROPERTY_SPECIFICATION_TOKEN            = 11;
+    protected static final int TRAVERSAL_SPECIFICATION_TOKEN                 = 12;
+    protected static final int ALTERNATIVE_TRAVERSAL_SPECIFICATION_TOKEN     = 13;
+    protected static final int SEQUENTIAL_TRAVERSAL_SPECIFICATION_TOKEN      = 14;
+    protected static final int SELECTIVE_TRAVERSAL_SPECIFICATION_TOKEN       = 15;
+    protected static final int STAY_RIGHT_HERE_TRAVERSAL_SPECIFICATION_TOKEN = 16;
+    protected static final int ALL_NEIGHBORS_TRAVERSAL_SPECIFICATION_TOKEN   = 17;
+    protected static final int MESH_OBJECT_SELECTOR_TOKEN                    = 18;
+    protected static final int BY_TYPE_MESH_OBJECT_SELECTOR_TOKEN            = 19;
+    protected static final int PROPERTY_TYPE_REFERENCE_TOKEN                 = 20;
+    protected static final int ROLE_TYPE_REFERENCE_TOKEN                     = 21;
 
-    protected static final int NAME_TOKEN                                = 20;
-    protected static final int MINVERSION_TOKEN                          = 21;
-    protected static final int VERSION_TOKEN                             = 22;
-    protected static final int USERNAME_TOKEN                            = 23;
-    protected static final int USERDESCRIPTION_TOKEN                     = 24;
-    protected static final int SUPERTYPE_TOKEN                           = 25;
-    protected static final int SYNONYM_TOKEN                             = 26;
-    protected static final int OVERRIDE_CODE_TOKEN                       = 27;
-    protected static final int PROJECTION_CODE_TOKEN                     = 28;
-    protected static final int IS_ABSTRACT_TOKEN                         = 29;
-    protected static final int MAYBE_USED_AS_FORWARD_REFERENCE           = 30;
-    protected static final int ADDITIONAL_INTERFACE                      = 31;
-    protected static final int IS_OPTIONAL_TOKEN                         = 32;
-    protected static final int IS_READONLY_TOKEN                         = 33;
-    protected static final int IS_SIGNIFICANT_TOKEN                      = 34;
-    protected static final int CODEGEN_TOKEN                             = 35;
-    protected static final int DATATYPE_TOKEN                            = 36;
-    protected static final int DEFAULT_VALUE_TOKEN                       = 37;
-    protected static final int SOURCE_TOKEN                              = 38;
-    protected static final int DESTINATION_TOKEN                         = 39;
-    protected static final int SOURCE_DESTINATION_TOKEN                  = 40;
-    protected static final int ENTITY_TOKEN                              = 41;
-    protected static final int REFINES_TOKEN                             = 42;
-    protected static final int TO_OVERRIDE_TOKEN                         = 43;
-    protected static final int GUARD_TOKEN                               = 44;
-    protected static final int SEQUENCE_NUMBER_TOKEN                     = 45;
-    protected static final int ICON_TOKEN                                = 46;
+    protected static final int NAME_TOKEN                                    = 22;
+    protected static final int MINVERSION_TOKEN                              = 23;
+    protected static final int VERSION_TOKEN                                 = 24;
+    protected static final int USERNAME_TOKEN                                = 25;
+    protected static final int USERDESCRIPTION_TOKEN                         = 26;
+    protected static final int SUPERTYPE_TOKEN                               = 27;
+    protected static final int SYNONYM_TOKEN                                 = 28;
+    protected static final int OVERRIDE_CODE_TOKEN                           = 29;
+    protected static final int PROJECTION_CODE_TOKEN                         = 30;
+    protected static final int IS_ABSTRACT_TOKEN                             = 31;
+    protected static final int MAYBE_USED_AS_FORWARD_REFERENCE               = 32;
+    protected static final int ADDITIONAL_INTERFACE                          = 33;
+    protected static final int IS_OPTIONAL_TOKEN                             = 34;
+    protected static final int IS_READONLY_TOKEN                             = 35;
+    protected static final int IS_SIGNIFICANT_TOKEN                          = 36;
+    protected static final int CODEGEN_TOKEN                                 = 37;
+    protected static final int DATATYPE_TOKEN                                = 38;
+    protected static final int DEFAULT_VALUE_TOKEN                           = 39;
+    protected static final int SOURCE_TOKEN                                  = 40;
+    protected static final int DESTINATION_TOKEN                             = 41;
+    protected static final int SOURCE_DESTINATION_TOKEN                      = 42;
+    protected static final int ENTITY_TOKEN                                  = 43;
+    protected static final int REFINES_TOKEN                                 = 44;
+    protected static final int TO_OVERRIDE_TOKEN                             = 45;
+    protected static final int GUARD_TOKEN                                   = 46;
+    protected static final int SEQUENCE_NUMBER_TOKEN                         = 47;
+    protected static final int ICON_TOKEN                                    = 48;
 
-    protected static final int BLOB_DATATYPE_TOKEN                       = 47;
-    protected static final int BOOLEAN_DATATYPE_TOKEN                    = 48;
-    protected static final int COLOR_DATATYPE_TOKEN                      = 49;
-    protected static final int ENUMERATED_DATATYPE_TOKEN                 = 50;
-    protected static final int EXTENT_DATATYPE_TOKEN                     = 51;
-    protected static final int FLOAT_DATATYPE_TOKEN                      = 52;
-    protected static final int FLOAT_MATRIX_DATATYPE_TOKEN               = 53;
-    protected static final int INTEGER_DATATYPE_TOKEN                    = 54;
-    protected static final int MULTIPLICITY_DATATYPE_TOKEN               = 55;
-    protected static final int POINT_DATATYPE_TOKEN                      = 56;
-    protected static final int STRING_DATATYPE_TOKEN                     = 57;
-    protected static final int TIME_PERIOD_DATATYPE_TOKEN                = 58;
-    protected static final int TIME_STAMP_DATATYPE_TOKEN                 = 59;
+    protected static final int BLOB_DATATYPE_TOKEN                           = 49;
+    protected static final int BOOLEAN_DATATYPE_TOKEN                        = 50;
+    protected static final int COLOR_DATATYPE_TOKEN                          = 51;
+    protected static final int ENUMERATED_DATATYPE_TOKEN                     = 52;
+    protected static final int EXTENT_DATATYPE_TOKEN                         = 53;
+    protected static final int FLOAT_DATATYPE_TOKEN                          = 54;
+    protected static final int FLOAT_MATRIX_DATATYPE_TOKEN                   = 55;
+    protected static final int INTEGER_DATATYPE_TOKEN                        = 56;
+    protected static final int MULTIPLICITY_DATATYPE_TOKEN                   = 57;
+    protected static final int POINT_DATATYPE_TOKEN                          = 58;
+    protected static final int STRING_DATATYPE_TOKEN                         = 59;
+    protected static final int TIME_PERIOD_DATATYPE_TOKEN                    = 60;
+    protected static final int TIME_STAMP_DATATYPE_TOKEN                     = 61;
 
-    protected static final int MULTIPLICITY_VALUE_TOKEN                  = 60;
-    protected static final int ENUM_TOKEN                                = 61;
+    protected static final int MULTIPLICITY_VALUE_TOKEN                      = 62;
+    protected static final int ENUM_TOKEN                                    = 63;
 
-    protected static final int DECLARES_METHOD_TOKEN                     = 62;
-    protected static final int IMPLEMENTS_METHOD_TOKEN                   = 63;
+    protected static final int DECLARES_METHOD_TOKEN                         = 64;
+    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 65;
 
     /**
      * The table to map integers into strings.
@@ -178,26 +180,28 @@ abstract class XmlModelTokens
      */
     protected static final HashMap<String,Integer> theTokenMap = new HashMap<String,Integer>();
     static {
-        addToTable( "model",                             MODEL_TOKEN );
-        addToTable( "subjectarea",                       SUBJECT_AREA_TOKEN );
-        addToTable( "dependson",                         DEPENDSON_TOKEN );
-        addToTable( "subjectareareference",              SUBJECT_AREA_REFERENCE_TOKEN );
-        addToTable( "modulereference",                   MODULE_REFERENCE_TOKEN );
-        addToTable( "entitytype",                        ENTITY_TYPE_TOKEN );
-        addToTable( "relationshiptype",                  RELATIONSHIP_TYPE_TOKEN );
-        addToTable( "propertytype",                      PROPERTY_TYPE_TOKEN );
-        addToTable( "projectedpropertytype",             PROJECTED_PROPERTY_TYPE_TOKEN );
-        addToTable( "propertytypegroup",                 PROPERTY_TYPE_GROUP_TOKEN );
-        addToTable( "propertytypegroupmember",           PROPERTY_TYPE_GROUP_MEMBER_TOKEN );
-        addToTable( "inputpropertyspecification",        INPUT_PROPERTY_SPECIFICATION_TOKEN );
-        addToTable( "traversalspecification",            TRAVERSAL_SPECIFICATION_TOKEN );
-        addToTable( "alternativetraversalspecification", ALTERNATIVE_TRAVERSAL_SPECIFICATION_TOKEN );
-        addToTable( "sequentialtraversalspecification",  SEQUENTIAL_TRAVERSAL_SPECIFICATION_TOKEN );
-        addToTable( "selectivetraversalspecification",   SELECTIVE_TRAVERSAL_SPECIFICATION_TOKEN );
-        addToTable( "meshobjectselector",                MESH_OBJECT_SELECTOR_TOKEN );
-        addToTable( "bytypemeshobjectselector",          BY_TYPE_MESH_OBJECT_SELECTOR_TOKEN );
-        addToTable( "propertytypereference",             PROPERTY_TYPE_REFERENCE_TOKEN );
-        addToTable( "roletypereference",                 ROLE_TYPE_REFERENCE_TOKEN );
+        addToTable( "model",                               MODEL_TOKEN );
+        addToTable( "subjectarea",                         SUBJECT_AREA_TOKEN );
+        addToTable( "dependson",                           DEPENDSON_TOKEN );
+        addToTable( "subjectareareference",                SUBJECT_AREA_REFERENCE_TOKEN );
+        addToTable( "modulereference",                     MODULE_REFERENCE_TOKEN );
+        addToTable( "entitytype",                          ENTITY_TYPE_TOKEN );
+        addToTable( "relationshiptype",                    RELATIONSHIP_TYPE_TOKEN );
+        addToTable( "propertytype",                        PROPERTY_TYPE_TOKEN );
+        addToTable( "projectedpropertytype",               PROJECTED_PROPERTY_TYPE_TOKEN );
+        addToTable( "propertytypegroup",                   PROPERTY_TYPE_GROUP_TOKEN );
+        addToTable( "propertytypegroupmember",             PROPERTY_TYPE_GROUP_MEMBER_TOKEN );
+        addToTable( "inputpropertyspecification",          INPUT_PROPERTY_SPECIFICATION_TOKEN );
+        addToTable( "traversalspecification",              TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "alternativetraversalspecification",   ALTERNATIVE_TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "sequentialtraversalspecification",    SEQUENTIAL_TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "selectivetraversalspecification",     SELECTIVE_TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "stayrightheretraversalspecification", STAY_RIGHT_HERE_TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "allneighborstraversalspecification",  ALL_NEIGHBORS_TRAVERSAL_SPECIFICATION_TOKEN );
+        addToTable( "meshobjectselector",                  MESH_OBJECT_SELECTOR_TOKEN );
+        addToTable( "bytypemeshobjectselector",            BY_TYPE_MESH_OBJECT_SELECTOR_TOKEN );
+        addToTable( "propertytypereference",               PROPERTY_TYPE_REFERENCE_TOKEN );
+        addToTable( "roletypereference",                   ROLE_TYPE_REFERENCE_TOKEN );
 
         addToTable( "name",                        NAME_TOKEN );
         addToTable( "minversion",                  MINVERSION_TOKEN );

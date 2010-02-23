@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -40,10 +40,10 @@ import org.infogrid.meshbase.transaction.Change;
 import org.infogrid.meshbase.transaction.MeshObjectRoleAddedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleChangeEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleRemovedEvent;
-import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
 import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
+import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
 import org.infogrid.model.traversal.TraversalPath;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.ArrayHelper;
@@ -229,7 +229,38 @@ public abstract class TraversalActiveMTraversalPathSet
     }
 
     /**
-     * This is the implemnentation for a set that knows it is always going to be empty.
+     * This is the implementation for a set that only contains itself.
+     */
+    protected static class ToSelfFromMeshObject
+            extends
+                StartFromMeshObject
+    {
+        /**
+         * Private constructor, use factory.
+         *
+         * @param factory the MeshObjectSetFactory that created this TraversalPathSet
+         * @param start the MeshObject from which we start the traversal
+         */
+        protected ToSelfFromMeshObject(
+                MeshObjectSetFactory   factory,
+                MeshObject             start )
+        {
+            super( factory, start );
+        }
+
+        /**
+          * Obtain the TraversalSpecification that has been specified in the constructor.
+          *
+          * @return the TraversalSpecification that has been specified in the constructor
+          */
+        public TraversalSpecification getTraversalSpecification()
+        {
+            return StayRightHereTraversalSpecification.create();
+        }
+    }
+
+    /**
+     * This is the implementation for a set that knows it is always going to be empty.
      */
     protected static class MeshObjectEmpty
             extends
@@ -271,7 +302,7 @@ public abstract class TraversalActiveMTraversalPathSet
     }
 
     /**
-     * This implements a single RoleType step from a MeshObject.
+     * This implements a single TraversalSpecification step from a MeshObject.
      */
     protected static class OneStepFromMeshObject
             extends
@@ -288,19 +319,19 @@ public abstract class TraversalActiveMTraversalPathSet
          * @param spec the TraversalSpecification to be used
          */
         protected OneStepFromMeshObject(
-                MeshObjectSetFactory factory,
-                MeshObject           start,
-                RoleType             spec )
+                MeshObjectSetFactory   factory,
+                MeshObject             start,
+                TraversalSpecification spec )
         {
             super( factory, start );
             
-            theRole = spec;
+            theSpec = spec;
 
-            MeshObject [] currentObjects = startOfTraversal.traverse( theRole ).getMeshObjects();
+            MeshObject [] currentObjects = startOfTraversal.traverse( theSpec ).getMeshObjects();
 
             TraversalPath [] content = new TraversalPath[ currentObjects.length ];
             for( int i=0 ; i<currentObjects.length ; ++i ) {
-                content[i] = TraversalPath.create( theRole, currentObjects[i] );
+                content[i] = TraversalPath.create( theSpec, currentObjects[i] );
             }
             setInitialContent( content );
 
@@ -354,7 +385,7 @@ public abstract class TraversalActiveMTraversalPathSet
                     MeshBase                  meshBase      = startOfTraversal.getMeshBase();
 
                     // but only in the right MetaRoles
-                    if( ! theRole.isAffectedBy( meshBase, realRealEvent )) {
+                    if( ! theSpec.isAffectedBy( meshBase, realRealEvent )) {
                         return;
                     }
 
@@ -364,7 +395,7 @@ public abstract class TraversalActiveMTraversalPathSet
                         MeshObject added = realRealRealEvent.getNeighborMeshObject();
 
                         // add to set
-                        TraversalPath addedPath = TraversalPath.create( theRole, added );
+                        TraversalPath addedPath = TraversalPath.create( theSpec, added );
                         certainlyAdd( addedPath );
 
                     } else if( realRealEvent instanceof MeshObjectRoleRemovedEvent ) {
@@ -403,7 +434,7 @@ public abstract class TraversalActiveMTraversalPathSet
           */
         public TraversalSpecification getTraversalSpecification()
         {
-            return theRole;
+            return theSpec;
         }
 
         /**
@@ -417,20 +448,20 @@ public abstract class TraversalActiveMTraversalPathSet
             d.dump( this,
                     new String[] {
                         "startOfTraversal",
-                        "role",
+                        "spec",
                         "current"
                     },
                     new Object[] {
                         startOfTraversal,
-                        theRole,
+                        theSpec,
                         getTraversalPaths()
                     });
         }
 
         /**
-         * The RoleType that we traverse.
+         * The TraversalSpecification that we traverse.
          */
-        protected RoleType theRole;
+        protected TraversalSpecification theSpec;
     }
 
     /**

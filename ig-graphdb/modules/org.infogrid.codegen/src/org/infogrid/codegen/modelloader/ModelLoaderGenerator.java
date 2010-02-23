@@ -35,9 +35,11 @@ import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.model.traversal.AllNeighborsTraversalSpecification;
 import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
 import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
+import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.model.traversal.TraversalToPropertySpecification;
 import org.infogrid.module.ModuleRequirement;
@@ -942,6 +944,12 @@ public class ModelLoaderGenerator
             }
             ret.append( " } )" );
             return ret.toString();
+
+        } else if( value instanceof StayRightHereTraversalSpecification ) {
+            return "org.infogrid.model.traversal.StayRightHereTraversalSpecification.create()";
+
+        } else if( value instanceof AllNeighborsTraversalSpecification ) {
+            return "org.infogrid.model.traversal.AllNeighborsTraversalSpecification.create()";
 
         } else if( value instanceof RoleType ) {
 

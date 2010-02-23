@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -34,7 +34,7 @@ public interface TraversalMeshObjectSet
     /**
      * Obtain the TraversalSpecification that was traversed.
      * 
-     * return the TraversalSpecification
+     * @return the TraversalSpecification
      */
     public abstract TraversalSpecification getTraversalSpecification();
 }

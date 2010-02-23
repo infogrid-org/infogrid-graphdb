@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -248,6 +248,18 @@ public class ImmutableMMeshObjectSetFactory
                 this,
                 sorter.getOrderedInNew( content.getMeshObjects() ),
                 max );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param singleMember the single member of the ImmutableMTraversalPathSet
+     * @return return the created ImmutableMTraversalPathSet
+     */
+    public ImmutableMTraversalPathSet createSingleMemberImmutableTraversalPathSet(
+            TraversalPath singleMember )
+    {
+        return new ImmutableMTraversalPathSet( this, new TraversalPath[] { singleMember } );
     }
 
     /**

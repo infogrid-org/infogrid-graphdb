@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -32,9 +32,9 @@ import org.infogrid.meshbase.transaction.Change;
 import org.infogrid.meshbase.transaction.MeshObjectRoleAddedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleChangeEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleRemovedEvent;
-import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
+import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
@@ -230,7 +230,7 @@ public abstract class TraversalActiveMMeshObjectSet
 
     /**
      * This is a somewhat degenerate TraversalActiveMMeshObjectSet: it contains the start object(s) as
-     * its sole content. It's content never changes, and its TraversalSpecification is null.
+     * its sole content. It's content never changes.
      */
     public static class ToSelfFromMeshObject
             extends
@@ -258,13 +258,13 @@ public abstract class TraversalActiveMMeshObjectSet
          */
         public TraversalSpecification getTraversalSpecification()
         {
-            return null;
+            return StayRightHereTraversalSpecification.create();
         }
     }
 
     /**
      * This is a somewhat degenerate TraversalActiveMMeshObjectSet: it contains the start object(s) as
-     * its sole content. It's content never changes, and its TraversalSpecification is null.
+     * its sole content. It's content never changes.
      */
     public static class ToSelfFromMeshObjectSet
             extends
@@ -292,7 +292,7 @@ public abstract class TraversalActiveMMeshObjectSet
          */
         public TraversalSpecification getTraversalSpecification()
         {
-            return null;
+            return StayRightHereTraversalSpecification.create();
         }
     }
 
@@ -314,13 +314,13 @@ public abstract class TraversalActiveMMeshObjectSet
         protected OneStepFromMeshObject(
                 ActiveMeshObjectSetFactory factory,
                 MeshObject                 start,
-                RoleType                   spec )
+                TraversalSpecification     spec )
         {
             super( factory, start );
 
-            theRoleType = spec;
+            theSpec = spec;
 
-            MeshObject [] initialContent = startMeshObject.traverse( theRoleType ).getMeshObjects();
+            MeshObject [] initialContent = startMeshObject.traverse( theSpec ).getMeshObjects();
 
             startMeshObject.addWeakPropertyChangeListener( this );
 
@@ -363,7 +363,7 @@ public abstract class TraversalActiveMMeshObjectSet
                     MeshBase meshBase = startMeshObject.getMeshBase();
                    
                     // but only in the right RoleTypes
-                    if( ! theRoleType.isAffectedBy( meshBase, realRealEvent )) {
+                    if( ! theSpec.isAffectedBy( meshBase, realRealEvent )) {
                         return;
                     }
 
@@ -401,12 +401,12 @@ public abstract class TraversalActiveMMeshObjectSet
             d.dump( this,
                     new String[] {
                         "start",
-                        "roleType",
+                        "spec",
                         "current"
                     },
                     new Object[] {
                         startMeshObject,
-                        theRoleType,
+                        theSpec,
                         getMeshObjects()
                     });
         }
@@ -418,13 +418,13 @@ public abstract class TraversalActiveMMeshObjectSet
          */
         public TraversalSpecification getTraversalSpecification()
         {
-            return theRoleType;
+            return theSpec;
         }
 
         /**
-         * The RoleType that acts as the TraversalSpecification used to construct the content of this set.
+         * The TraversalSpecification used to construct the content of this set.
          */
-        protected RoleType theRoleType;
+        protected TraversalSpecification theSpec;
     }
 
     /**

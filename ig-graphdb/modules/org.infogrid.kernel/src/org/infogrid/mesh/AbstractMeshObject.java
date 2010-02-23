@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -1449,18 +1449,6 @@ public abstract class AbstractMeshObject
         unblessRelationship( new RoleType[] { thisEnd }, neighbor );
     }
 
-//    /**
-//     * Internal helper to obtain all Roles that this MeshObject currently participates in.
-//     *
-//     * @param mb the MeshBase
-//     * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
-//     *        if false, only this MeshObject will be used as the start
-//     * @return the Roles that this MeshObject currently participates in.
-//     */
-//    protected abstract Role [] _getAllRoles(
-//            MeshBase mb,
-//            boolean  considerEquivalents );
-    
     /**
       * Traverse a TraversalSpecification from this MeshObject to obtain a set of MeshObjects.
       * This will consider all MeshObjects equivalent to this one as the start MeshObject.

@@ -1053,11 +1053,6 @@ public class AMeshObject
     {
         checkAlive();
 
-        if( theTraverseSpec == null ) {
-            MeshObjectSet ret = traverseToNeighborMeshObjects( considerEquivalents );
-            return ret;
-        }
-
         if( !( theTraverseSpec instanceof RoleType )) {
             return theTraverseSpec.traverse( this, considerEquivalents );
         }
