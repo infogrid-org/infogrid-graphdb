@@ -409,7 +409,9 @@ public class EnumeratedDataType
             ret.append( " }, new " ).append( L10Map.class.getName() ).append( "[] { " );
             for( int i=0 ; i<theDomain.length ; ++i ) {
                 if( theDomain[i].getUserVisibleNameMap() != null ) {
-                    ret.append( theDomain[i].getUserVisibleNameMap().getJavaConstructorString( classLoaderVar, null ));
+                    ret.append( theDomain[i].getUserVisibleNameMap().getJavaConstructorString(
+                            classLoaderVar,
+                            StringDataType.class.getName() + ".create" ));
                 } else {
                     ret.append( NULL_STRING );
                 }
@@ -420,7 +422,9 @@ public class EnumeratedDataType
             ret.append( " }, new " ).append( L10Map.class.getName() ).append( "[] { " );
             for( int i=0 ; i<theDomain.length ; ++i ) {
                 if( theDomain[i].getUserVisibleDescriptionMap() != null ) {
-                    ret.append( theDomain[i].getUserVisibleDescriptionMap().getJavaConstructorString( classLoaderVar, null ));
+                    ret.append( theDomain[i].getUserVisibleDescriptionMap().getJavaConstructorString(
+                            classLoaderVar,
+                            BlobDataType.class.getName() + ".theTextPlainOrHtmlType" ));
                 } else {
                     ret.append( NULL_STRING );
                 }
