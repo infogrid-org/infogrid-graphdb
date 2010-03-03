@@ -74,20 +74,20 @@ public class StoreMeshBaseTest6
             DataSet test = testData[i];
 
             MeshObjectIdentifier identifier = mb.getMeshObjectIdentifierFactory().fromExternalForm( test.theIdentifier );
-            MeshObject obj = life.createMeshObject( identifier, TestSubjectArea.PROPERTYTEST );
+            MeshObject obj = life.createMeshObject( identifier, TestSubjectArea.OPTIONALPROPERTIES );
 
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE,         test.theBlob );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALBOOLEANDATATYPE,      test.theBoolean );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALCOLORDATATYPE,        test.theColor );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE,   test.theEnumerated );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALEXTENTDATATYPE,       test.theExtent );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALFLOATDATATYPE,        test.theFloat );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALINTEGERDATATYPE,      test.theInteger );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALMULTIPLICITYDATATYPE, test.theMultiplicity );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALPOINTDATATYPE,        test.thePoint );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALSTRINGDATATYPE,       test.theString );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALTIMEPERIODDATATYPE,   test.theTimePeriod );
-            obj.setPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALTIMESTAMPDATATYPE,    test.theTimeStamp );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE,         test.theBlob );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBOOLEANDATATYPE,      test.theBoolean );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCOLORDATATYPE,        test.theColor );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE,   test.theEnumerated );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALEXTENTDATATYPE,       test.theExtent );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALFLOATDATATYPE,        test.theFloat );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALINTEGERDATATYPE,      test.theInteger );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALMULTIPLICITYDATATYPE, test.theMultiplicity );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALPOINTDATATYPE,        test.thePoint );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALSTRINGDATATYPE,       test.theString );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMEPERIODDATATYPE,   test.theTimePeriod );
+            obj.setPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMESTAMPDATATYPE,    test.theTimeStamp );
         }
         
         tx.commitTransaction();
@@ -110,18 +110,18 @@ public class StoreMeshBaseTest6
             MeshObjectIdentifier identifier = mb.getMeshObjectIdentifierFactory().fromExternalForm( test.theIdentifier );
             MeshObject obj = mb.accessLocally( identifier );
 
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE ),         test.theBlob,         "Wrong Blob value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALBOOLEANDATATYPE ),      test.theBoolean,      "Wrong Boolean value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALCOLORDATATYPE ),        test.theColor,        "Wrong Color value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE ),   test.theEnumerated,   "Wrong Enumerated value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALEXTENTDATATYPE ),       test.theExtent,       "Wrong Extent value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALFLOATDATATYPE ),        test.theFloat,        "Wrong Float value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALINTEGERDATATYPE ),      test.theInteger,      "Wrong Integer value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALMULTIPLICITYDATATYPE ), test.theMultiplicity, "Wrong Multiplicity value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALPOINTDATATYPE ),        test.thePoint,        "Wrong Point value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALSTRINGDATATYPE ),       test.theString,       "Wrong String value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALTIMEPERIODDATATYPE ),   test.theTimePeriod,   "Wrong TimePeriod value" );
-            checkEquals( obj.getPropertyValue( TestSubjectArea.PROPERTYTEST_OPTIONALTIMESTAMPDATATYPE ),    test.theTimeStamp,    "Wrong TimeStamp value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE ),         test.theBlob,         "Wrong Blob value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBOOLEANDATATYPE ),      test.theBoolean,      "Wrong Boolean value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCOLORDATATYPE ),        test.theColor,        "Wrong Color value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE ),   test.theEnumerated,   "Wrong Enumerated value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALEXTENTDATATYPE ),       test.theExtent,       "Wrong Extent value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALFLOATDATATYPE ),        test.theFloat,        "Wrong Float value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALINTEGERDATATYPE ),      test.theInteger,      "Wrong Integer value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALMULTIPLICITYDATATYPE ), test.theMultiplicity, "Wrong Multiplicity value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALPOINTDATATYPE ),        test.thePoint,        "Wrong Point value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALSTRINGDATATYPE ),       test.theString,       "Wrong String value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMEPERIODDATATYPE ),   test.theTimePeriod,   "Wrong TimePeriod value" );
+            checkEquals( obj.getPropertyValue( TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMESTAMPDATATYPE ),    test.theTimeStamp,    "Wrong TimeStamp value" );
         }        
     }
 
@@ -189,7 +189,7 @@ public class StoreMeshBaseTest6
                         BlobDataType.theAnyType.createBlobValue( "Simple String Blog", BlobValue.TEXT_PLAIN_MIME_TYPE ),
                         BooleanValue.create( true ),
                         ColorValue.create( 123 ),
-                        TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE_type.select( "Value1" ),
+                        TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value1" ),
                         ExtentValue.create( 12.34, 56.78 ),
                         FloatValue.create( 12.34 ),
                         IntegerValue.create( 123 ),
@@ -203,7 +203,7 @@ public class StoreMeshBaseTest6
                         BlobDataType.theAnyType.createBlobValue( "An <b>important&trade;</b>&#33; HTML String", BlobValue.TEXT_HTML_MIME_TYPE ),
                         BooleanValue.create( false ),
                         ColorValue.create( 255, 255, 255, 255 ),
-                        TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE_type.select( "Value2" ),
+                        TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value2" ),
                         ExtentValue.create( -12.34, 56.78 ),
                         FloatValue.create( -12.34 ),
                         IntegerValue.create( -123 ),
@@ -217,7 +217,7 @@ public class StoreMeshBaseTest6
                         BlobDataType.theAnyType.createBlobValue( "An <foo:bar>XML</foo:bar> String <!CDATA[with a CDATA]]> section.", BlobValue.TEXT_HTML_MIME_TYPE ),
                         null,
                         ColorValue.create( 1378 ),
-                        TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
+                        TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
                         ExtentValue.create( Double.MAX_VALUE, 0 ),
                         FloatValue.create( Double.MIN_VALUE ),
                         IntegerValue.create( Integer.MAX_VALUE ),

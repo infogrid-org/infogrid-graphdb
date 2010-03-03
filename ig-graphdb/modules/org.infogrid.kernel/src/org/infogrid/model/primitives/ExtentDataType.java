@@ -197,6 +197,8 @@ public final class ExtentDataType
         throws
             PropertyValueParsingException
     {
+        s = s.trim();
+
         try {
             Object [] found = representation.parseEntry( ExtentValue.class, ExtentValue.DEFAULT_ENTRY, s, this );
 

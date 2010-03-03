@@ -400,14 +400,6 @@ public final class TimePeriodValue
         }
 
         int millis = ((int) ( theSecond * 1000 )) % 1000;
-        StringBuilder paddedMillis = new StringBuilder();
-        if( millis < 100 ) {
-            paddedMillis.append( '0' );
-        }
-        if( millis < 10 ) {
-            paddedMillis.append( '0' );
-        }
-        paddedMillis.append( millis );
 
         return rep.formatEntry(
                 getClass(),
@@ -424,8 +416,7 @@ public final class TimePeriodValue
         /* 8 */ theMinute,
         /* 9 */ theSecond,
         /* 10 */ (int) theSecond,
-        /* 11 */ millis,
-        /* 12 */ paddedMillis );
+        /* 11 */ millis );
     }
     
     /**

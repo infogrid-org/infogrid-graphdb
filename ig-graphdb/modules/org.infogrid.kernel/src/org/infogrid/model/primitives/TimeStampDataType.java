@@ -199,8 +199,8 @@ public final class TimeStampDataType
             Object [] found = representation.parseEntry( TimeStampValue.class, TimeStampValue.DEFAULT_ENTRY, s, this );
 
             TimeZone tz;
-            if( found.length == 14 ) {
-                tz = TimeZone.getTimeZone( (String) found[13] );
+            if( found.length == 13 ) {
+                tz = TimeZone.getTimeZone( (String) found[12] );
             } else {
                 tz = Rfc3339Util.UTC;
             }
@@ -225,7 +225,7 @@ public final class TimeStampDataType
                             ((Number) found[6]).intValue(),    // day
                             ((Number) found[7]).intValue(),    // hour
                             ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[9]).intValue());   // second
+                            ((Number) found[10]).intValue());   // second
                     break;
 
                 case 12:
@@ -235,8 +235,8 @@ public final class TimeStampDataType
                             ((Number) found[6]).intValue(),    // day
                             ((Number) found[7]).intValue(),    // hour
                             ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[9]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , (Integer) found[11] );
+                            ((Number) found[10]).intValue());   // second
+                    cal.set(  Calendar.MILLISECOND , ((Number) found[11] ).intValue() );
                     break;
 
                 case 13:
@@ -246,23 +246,10 @@ public final class TimeStampDataType
                             ((Number) found[6]).intValue(),    // day
                             ((Number) found[7]).intValue(),    // hour
                             ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[9]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , (Integer) found[11] );
+                            ((Number) found[10]).intValue());   // second
+                    cal.set(  Calendar.MILLISECOND , ((Number) found[11] ).intValue() );
                     break;
 
-                case 14:
-                    cal.set(
-                            ((Number) found[4]).intValue(),    // year
-                            ((Number) found[5]).intValue() -1, // month
-                            ((Number) found[6]).intValue(),    // day
-                            ((Number) found[7]).intValue(),    // hour
-                            ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[9]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , (Integer) found[11] );
-                    break;
-
-                default:
-                    throw new PropertyValueParsingException( this, representation, s );
             }
 
             return TimeStampValue.create( cal );

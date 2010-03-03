@@ -72,6 +72,10 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // javadoc: same as html
         // java: same as plain
 
+        // int3
+        // javadoc: same as html
+        // java: same as plain
+
         // int4
         // javadoc: same as html
         // java: same as plain

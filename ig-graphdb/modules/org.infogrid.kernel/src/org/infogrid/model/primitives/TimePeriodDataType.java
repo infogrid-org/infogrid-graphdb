@@ -231,17 +231,7 @@ public final class TimePeriodDataType
                             ((Number) found[6]).shortValue(),   // day
                             ((Number) found[7]).shortValue(),   // hour
                             ((Number) found[8]).shortValue(),   // minute
-                            ((Number) found[10]).floatValue() + .001f * (Integer) found[11] );  // second
-                    break;
-
-                case 13:
-                    ret = TimePeriodValue.create(
-                            ((Number) found[4]).shortValue(),   // year
-                            ((Number) found[5]).shortValue(),   // month
-                            ((Number) found[6]).shortValue(),   // day
-                            ((Number) found[7]).shortValue(),   // hour
-                            ((Number) found[8]).shortValue(),   // minute
-                            ((Number) found[10]).floatValue() + .001f * Float.parseFloat( (String) found[12] ) );  // second
+                            ((Number) found[10]).floatValue() + .001f * ((Number) found[11] ).longValue() );  // second
                     break;
 
                 default:

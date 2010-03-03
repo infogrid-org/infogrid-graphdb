@@ -467,14 +467,6 @@ public final class TimeStampValue
         float sec   = cal.get( Calendar.SECOND ) + (0.001f * cal.get( Calendar.MILLISECOND ));
 
         int millis = cal.get( Calendar.MILLISECOND );
-        StringBuilder paddedMillis = new StringBuilder();
-        if( millis < 100 ) {
-            paddedMillis.append( '0' );
-        }
-        if( millis < 10 ) {
-            paddedMillis.append( '0' );
-        }
-        paddedMillis.append( millis );
 
         return rep.formatEntry(
                 getClass(),
@@ -492,9 +484,8 @@ public final class TimeStampValue
         /* 9 */ sec,
         /* 10 */ (int) sec,
         /* 11 */ millis,
-        /* 12 */ paddedMillis,
-        /* 13 */ ((TimeZone)tz).getID(),
-        /* 14 */ ((TimeZone)tz).getDisplayName() );
+        /* 12 */ ((TimeZone)tz).getID(),
+        /* 13 */ ((TimeZone)tz).getDisplayName() );
 
     }
 

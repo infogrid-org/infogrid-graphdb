@@ -59,18 +59,19 @@ public class MeshBaseTest10
 
         MeshObject home = theMeshBase.getHomeObject();
         Transaction tx = theMeshBase.createTransactionNow();
-        home.bless( TestSubjectArea.PROPERTYTEST );
+        home.bless( TestSubjectArea.OPTIONALPROPERTIES );
+        home.bless( TestSubjectArea.MANDATORYPROPERTIES );
         tx.commitTransaction();
 
-        checkEqualsOutOfSequence( home.getTypes(), new EntityType[] { TestSubjectArea.PROPERTYTEST }, "wrong types on home object" );
+        checkEqualsOutOfSequence( home.getTypes(), new EntityType[] { TestSubjectArea.OPTIONALPROPERTIES, TestSubjectArea.MANDATORYPROPERTIES }, "wrong types on home object" );
         
         //
 
         PropertyValue [] testValues1 = {
-                TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
-                TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
                 ExtentValue.create( 1.2, 3.4 ),
                 FloatValue.create( 56.78 ),
                 IntegerValue.create( 99 ),
@@ -81,18 +82,18 @@ public class MeshBaseTest10
                 TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
         };
         PropertyType [] testProperties1 = {
-                TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALBOOLEANDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALCOLORDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALEXTENTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALFLOATDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALINTEGERDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALMULTIPLICITYDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALPOINTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALSTRINGDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALTIMEPERIODDATATYPE,
-                TestSubjectArea.PROPERTYTEST_OPTIONALTIMESTAMPDATATYPE
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBOOLEANDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCOLORDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALEXTENTDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALFLOATDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALINTEGERDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALMULTIPLICITYDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALPOINTDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALSTRINGDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMEPERIODDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALTIMESTAMPDATATYPE
         };
 
         runWith( theMeshBase, testProperties1, testValues1 );
@@ -100,10 +101,10 @@ public class MeshBaseTest10
         //
 
         PropertyValue [] testValues2 = {
-                TestSubjectArea.PROPERTYTEST_MANDATORYBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
-                TestSubjectArea.PROPERTYTEST_MANDATORYENUMERATEDDATATYPE_type.select( "Value3" ),
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE_type.select( "Value3" ),
                 ExtentValue.create( 1.2, 3.4 ),
                 FloatValue.create( 56.78 ),
                 IntegerValue.create( 99 ),
@@ -114,18 +115,18 @@ public class MeshBaseTest10
                 TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
         };
         PropertyType [] testProperties2 = {
-                TestSubjectArea.PROPERTYTEST_MANDATORYBLOBDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYBOOLEANDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYCOLORDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYENUMERATEDDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYEXTENTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYFLOATDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYINTEGERDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYMULTIPLICITYDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYPOINTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYSTRINGDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYTIMEPERIODDATATYPE,
-                TestSubjectArea.PROPERTYTEST_MANDATORYTIMESTAMPDATATYPE
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBOOLEANDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYCOLORDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYEXTENTDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYFLOATDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYINTEGERDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYMULTIPLICITYDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYPOINTDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYSTRINGDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYTIMEPERIODDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYTIMESTAMPDATATYPE
         };
 
         runWith( theMeshBase, testProperties2, testValues2 );
