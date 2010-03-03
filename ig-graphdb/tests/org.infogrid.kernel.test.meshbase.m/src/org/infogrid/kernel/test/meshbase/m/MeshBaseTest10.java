@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -19,7 +19,6 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.m.MMeshBase;
 import org.infogrid.meshbase.transaction.Transaction;
-import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.ColorValue;
 import org.infogrid.model.primitives.EntityType;
@@ -66,12 +65,12 @@ public class MeshBaseTest10
         checkEqualsOutOfSequence( home.getTypes(), new EntityType[] { TestSubjectArea.PROPERTYTEST }, "wrong types on home object" );
         
         //
-        
-        PropertyValue [] testValues = {
-                TestSubjectArea.PROPERTYTEST_WHATABLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+
+        PropertyValue [] testValues1 = {
+                TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
-                TestSubjectArea.PROPERTYTEST_WHATAENUMERATEDDATATYPE_type.select( "Value3" ),
+                TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
                 ExtentValue.create( 1.2, 3.4 ),
                 FloatValue.create( 56.78 ),
                 IntegerValue.create( 99 ),
@@ -81,23 +80,81 @@ public class MeshBaseTest10
                 TimePeriodValue.create( (short) 1, (short) 2, (short) 3, (short)  4, (short)  5, (float)  6. ),
                 TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
         };
-        PropertyType [] testProperties = {
-                TestSubjectArea.PROPERTYTEST_WHATABLOBDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATABOOLEANDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATACOLORDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAENUMERATEDDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAEXTENTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAFLOATDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAINTEGERDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAMULTIPLICITYDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATAPOINTDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATASTRINGDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATATIMEPERIODDATATYPE,
-                TestSubjectArea.PROPERTYTEST_WHATATIMESTAMPDATATYPE
+        PropertyType [] testProperties1 = {
+                TestSubjectArea.PROPERTYTEST_OPTIONALBLOBDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALBOOLEANDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALCOLORDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALENUMERATEDDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALEXTENTDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALFLOATDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALINTEGERDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALMULTIPLICITYDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALPOINTDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALSTRINGDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALTIMEPERIODDATATYPE,
+                TestSubjectArea.PROPERTYTEST_OPTIONALTIMESTAMPDATATYPE
         };
+
+        runWith( theMeshBase, testProperties1, testValues1 );
+
+        //
+
+        PropertyValue [] testValues2 = {
+                TestSubjectArea.PROPERTYTEST_MANDATORYBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+                BooleanValue.TRUE,
+                ColorValue.create( 0x202020 ),
+                TestSubjectArea.PROPERTYTEST_MANDATORYENUMERATEDDATATYPE_type.select( "Value3" ),
+                ExtentValue.create( 1.2, 3.4 ),
+                FloatValue.create( 56.78 ),
+                IntegerValue.create( 99 ),
+                MultiplicityValue.create( 2, 7 ),
+                PointValue.create( 9.8, 7.6 ),
+                StringValue.create( "some string" ),
+                TimePeriodValue.create( (short) 1, (short) 2, (short) 3, (short)  4, (short)  5, (float)  6. ),
+                TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
+        };
+        PropertyType [] testProperties2 = {
+                TestSubjectArea.PROPERTYTEST_MANDATORYBLOBDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYBOOLEANDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYCOLORDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYENUMERATEDDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYEXTENTDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYFLOATDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYINTEGERDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYMULTIPLICITYDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYPOINTDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYSTRINGDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYTIMEPERIODDATATYPE,
+                TestSubjectArea.PROPERTYTEST_MANDATORYTIMESTAMPDATATYPE
+        };
+
+        runWith( theMeshBase, testProperties2, testValues2 );
+
+        //
+
+        theMeshBase.die();
+    }
+
+    /**
+     * Run one test set.
+     *
+     * @param mb the MeshBase to use for the test
+     * @param testProperties the PropertyTypes to test
+     * @param testValues the PropertyValues corresponding to the PropertyTypes to test
+     * @throws Exception all sorts of things may go wrong during a test.
+     */
+    protected void runWith(
+            MeshBase         mb,
+            PropertyType []  testProperties,
+            PropertyValue [] testValues )
+        throws
+            Exception
+    {
         checkEquals( testValues.length, testProperties.length, "inconsistency in test data" );
-        
-        tx = theMeshBase.createTransactionNow();
+
+        MeshObject home = mb.getHomeObject();
+
+        Transaction tx = mb.createTransactionNow();
         
         for( int i=0 ; i<testValues.length ; ++i ) {
             log.info( "Now running with offset " + i );
@@ -120,11 +177,7 @@ public class MeshBaseTest10
                 checkEquals( home.getPropertyValue( testProperties[i] ), testValues[i], "wrong value found" );
             }
         }
-        tx.commitTransaction();
-        
-        //
-        
-        theMeshBase.die();
+        tx.commitTransaction();        
     }
 
     /**

@@ -9,7 +9,7 @@
  
     For more information about InfoGrid go to http://infogrid.org/
 
-    Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
     All rights reserved.
 -->
 
@@ -137,29 +137,29 @@
             <name>PropertyTest</name>
             <userdescription>Holds properties of all InfoGrid PropertyTypes.</userdescription>
             
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataBlobDataType">
-                <name>WhataBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalBlobDataType">
+                <name>OptionalBlobDataType</name>
                 <datatype>
                     <BlobDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataBooleanDataType">
-                <name>WhataBooleanDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalBooleanDataType">
+                <name>OptionalBooleanDataType</name>
                 <datatype>
                     <BooleanDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataColorDataType">
-                <name>WhataColorDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalColorDataType">
+                <name>OptionalColorDataType</name>
                 <datatype>
                     <ColorDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataEnumeratedDataType">
-                <name>WhataEnumeratedDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalEnumeratedDataType">
+                <name>OptionalEnumeratedDataType</name>
                 <datatype>
                     <EnumeratedDataType>
                         <enum>
@@ -178,63 +178,161 @@
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataExtentDataType">
-                <name>WhataExtentDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalExtentDataType">
+                <name>OptionalExtentDataType</name>
                 <datatype>
                     <ExtentDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataFloatDataType">
-                <name>WhataFloatDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalFloatDataType">
+                <name>OptionalFloatDataType</name>
                 <datatype>
                     <FloatDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataIntegerDataType">
-                <name>WhataIntegerDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalIntegerDataType">
+                <name>OptionalIntegerDataType</name>
                 <datatype>
                     <IntegerDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataMultiplicityDataType">
-                <name>WhataMultiplicityDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalMultiplicityDataType">
+                <name>OptionalMultiplicityDataType</name>
                 <datatype>
                     <MultiplicityDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataPointDataType">
-                <name>WhataPointDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalPointDataType">
+                <name>OptionalPointDataType</name>
                 <datatype>
                     <PointDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataStringDataType">
-                <name>WhataStringDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalStringDataType">
+                <name>OptionalStringDataType</name>
                 <datatype>
                     <StringDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataTimePeriodDataType">
-                <name>WhataTimePeriodDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalTimePeriodDataType">
+                <name>OptionalTimePeriodDataType</name>
                 <datatype>
                     <TimePeriodDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
-            <propertytype ID="org.infogrid.model.Test/PropertyTest_WhataTimeStampDataType">
-                <name>WhataTimeStampDataType</name>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_OptionalTimeStampDataType">
+                <name>OptionalTimeStampDataType</name>
                 <datatype>
                     <TimeStampDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
 
+
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryBlobDataType">
+                <name>MandatoryBlobDataType</name>
+                <datatype>
+                    <BlobDataType/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryBooleanDataType">
+                <name>MandatoryBooleanDataType</name>
+                <datatype>
+                    <BooleanDataType/>
+                </datatype>
+                <defaultvalue>TRUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryColorDataType">
+                <name>MandatoryColorDataType</name>
+                <datatype>
+                    <ColorDataType/>
+                </datatype>
+                <defaultvalue>123</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryEnumeratedDataType">
+                <name>MandatoryEnumeratedDataType</name>
+                <datatype>
+                    <EnumeratedDataType>
+                        <enum>
+                            <name>Value1</name>
+                            <username>First value of Z</username>
+                        </enum>
+                        <enum>
+                            <name>Value2</name>
+                            <username>Second value of Z</username>
+                        </enum>
+                        <enum>
+                            <name>Value3</name>
+                            <username>Third value of Z</username>
+                        </enum>
+                    </EnumeratedDataType>
+                </datatype>
+                <defaultvalue>Value2</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryExtentDataType">
+                <name>MandatoryExtentDataType</name>
+                <datatype>
+                    <ExtentDataType/>
+                </datatype>
+                <defaultvalue>1:2</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryFloatDataType">
+                <name>MandatoryFloatDataType</name>
+                <datatype>
+                    <FloatDataType/>
+                </datatype>
+                <defaultvalue>1.2</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryIntegerDataType">
+                <name>MandatoryIntegerDataType</name>
+                <datatype>
+                    <IntegerDataType/>
+                </datatype>
+                <defaultvalue>1</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryMultiplicityDataType">
+                <name>MandatoryMultiplicityDataType</name>
+                <datatype>
+                    <MultiplicityDataType/>
+                </datatype>
+                <defaultvalue>1:N</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryPointDataType">
+                <name>MandatoryPointDataType</name>
+                <datatype>
+                    <PointDataType/>
+                </datatype>
+                <defaultvalue>1:2</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryStringDataType">
+                <name>MandatoryStringDataType</name>
+                <datatype>
+                    <StringDataType/>
+                </datatype>
+                <defaultvalue>DEFAULT</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryTimePeriodDataType">
+                <name>MandatoryTimePeriodDataType</name>
+                <datatype>
+                    <TimePeriodDataType/>
+                </datatype>
+                <defaultvalue>1/2/3/4/5/6</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/PropertyTest_MandatoryTimeStampDataType">
+                <name>MandatoryTimeStampDataType</name>
+                <datatype>
+                    <TimeStampDataType/>
+                </datatype>
+                <defaultvalue>2000/12/31/23/59/59</defaultvalue>
+            </propertytype>
         </entitytype>
 
         <entitytype ID="org.infogrid.model.Test/SimpleBlobTest">
