@@ -44,7 +44,9 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.Role;
 import org.infogrid.model.primitives.RoleType;
+import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.traversal.TraversalSpecification;
+import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.IdentifierStringifier;
@@ -1996,6 +1998,20 @@ public class AMeshObject
      */
     public String getUserVisibleString()
     {
+        // if it has a name, return that
+        try {
+            StringValue name = (StringValue) getPropertyValueByName( "Name" );
+            if( name != null && name.value().length() > 0 ) {
+                return name.value();
+            }
+        } catch( MeshTypeNotFoundException ex ) {
+            // ignore
+        } catch( NotPermittedException ex ) {
+            // ignore
+        } catch( ClassCastException ex ) {
+            // ignore
+        }
+
         String ret = getUserVisibleString( getTypes() ); // that makes a random sequence, but that's the best we can do
         if( ret == null ) {
             ret = theIdentifier.toExternalForm();
@@ -2019,9 +2035,9 @@ public class AMeshObject
         throws
             StringifierException
     {
-        String meshObjectExternalForm = IdentifierStringifier.defaultFormat( theIdentifier.toExternalForm(), pars );
+        String meshObjectExternalForm = IdentifierStringifier.defaultFormat( theIdentifier.toExternalForm(),               pars );
         String meshBaseExternalForm   = IdentifierStringifier.defaultFormat( theMeshBase.getIdentifier().toExternalForm(), pars );
-        String userVisible            = IdentifierStringifier.defaultFormat( getUserVisibleString( getTypes()), pars );
+        String userVisible            = IdentifierStringifier.defaultFormat( getUserVisibleString(),                       pars );
 
         String ret;
 
