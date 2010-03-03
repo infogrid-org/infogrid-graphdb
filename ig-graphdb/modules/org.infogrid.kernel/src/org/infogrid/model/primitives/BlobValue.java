@@ -1063,7 +1063,7 @@ public abstract class BlobValue
             sb.append( theLoadFrom );
 
             sb.append( ", value: " );
-            sb.append( theValue.length );
+            sb.append( theValue != null ? theValue.length : "null" );
 
             sb.append( "bytes, [" ).append( getMimeType()).append( "]" );
             sb.append( " }>" );

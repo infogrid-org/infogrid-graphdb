@@ -1289,8 +1289,10 @@ public class MyHandler
 
         } else if( type instanceof MultiplicityDataType ) {
             int colon = raw.indexOf( ':' );
-            int a = Integer.parseInt( raw.substring( 0, colon ));
-            int b = Integer.parseInt( raw.substring( colon+1 ));
+            String aString = raw.substring( 0, colon ).trim();
+            String bString = raw.substring( colon+1 ).trim();
+            int a = Integer.parseInt( aString );
+            int b = ( MultiplicityValue.N_SYMBOL.equals( bString ) || "N".equals( bString )) ? MultiplicityValue.N : Integer.parseInt( bString );
             ret = MultiplicityValue.create( a, b );
 
         } else if( type instanceof PointDataType ) {

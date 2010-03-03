@@ -320,7 +320,7 @@ public final class TimeStampValue
         buf.append( getClass().getName() );
         buf.append( ".create( " );
         buf.append( theValue );
-        buf.append( " )" );
+        buf.append( "L )" ); // make sure it's a long not an int
         return buf.toString();
     }
 
