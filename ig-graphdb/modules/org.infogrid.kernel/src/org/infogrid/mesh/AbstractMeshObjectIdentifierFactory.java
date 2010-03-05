@@ -15,6 +15,7 @@
 package org.infogrid.mesh;
 
 import java.text.ParseException;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.util.UniqueStringGenerator;
 import org.infogrid.util.logging.Log;
@@ -36,6 +37,39 @@ public abstract class AbstractMeshObjectIdentifierFactory
     }
 
     /**
+     * Determine the MeshBase to which this MeshObjectIdentifierFactory belongs.
+     *
+     * @return the MeshBase
+     */
+    public MeshBase getMeshBase()
+    {
+        return theMeshBase;
+    }
+
+    /**
+     * Set the MeshBase to which this MeshObjectIdentifierFactory belongs.
+     * This is invoked by the MeshBase's constructor and does not need to invoked
+     * by the application programmer. It can only be invoked once; subsequent
+     * invocations throw an IllegalStateException.
+     *
+     * @param mb the MeshBase
+     * @throws IllegalStateException thrown if this call is performed more than one on the same instance
+     */
+    public void setMeshBase(
+            MeshBase mb )
+        throws
+            IllegalStateException
+    {
+        if( mb == null ) {
+            throw new NullPointerException();
+        }
+        if( theMeshBase != null ) {
+            throw new IllegalStateException();
+        }
+        theMeshBase = mb;
+    }
+
+    /**
      * Create a unique MeshObjectIdentifier.
      *
      * @return the unique MeshObjectIdentifier
@@ -54,6 +88,11 @@ public abstract class AbstractMeshObjectIdentifierFactory
             return null;
         }
     }
+
+    /**
+     * The MeshBase to which this factory belongs.
+     */
+    protected MeshBase theMeshBase;
 
     /**
      * The internally used UniqueTokenCreator.

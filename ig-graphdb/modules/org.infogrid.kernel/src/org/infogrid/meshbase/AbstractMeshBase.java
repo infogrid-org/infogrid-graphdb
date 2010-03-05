@@ -131,7 +131,8 @@ public abstract class AbstractMeshBase
         this.theCache                       = cache;
         this.theContext                     = context;
 
-        this.theMeshBaseLifecycleManager.setMeshBase( this );
+        this.theMeshObjectIdentifierFactory.setMeshBase( this ); // may throw IllegalStateException
+        this.theMeshBaseLifecycleManager.setMeshBase(    this );
 
         QuitManager qm = getContext().findContextObject( QuitManager.class );
         if( qm != null ) {

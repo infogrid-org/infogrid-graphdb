@@ -27,6 +27,27 @@ public interface MeshObjectIdentifierFactory
              IdentifierFactory
 {
     /**
+     * Determine the MeshBase to which this MeshObjectIdentifierFactory belongs.
+     *
+     * @return the MeshBase
+     */
+    public abstract MeshBase getMeshBase();
+
+    /**
+     * Set the MeshBase to which this MeshObjectIdentifierFactory belongs.
+     * This is invoked by the MeshBase's constructor and does not need to invoked
+     * by the application programmer. It can only be invoked once; subsequent
+     * invocations throw an IllegalStateException.
+     *
+     * @param mb the MeshBase
+     * @throws IllegalStateException thrown if this call is performed more than one on the same instance
+     */
+    public void setMeshBase(
+            MeshBase mb )
+        throws
+            IllegalStateException;
+
+    /**
      * Determine the MeshObjectIdentifier of the Home MeshObject of this MeshBase.
      *
      * @return the Identifier
