@@ -14,14 +14,14 @@
 
 package org.infogrid.mesh.text;
 
-import org.infogrid.util.text.StringRepresentationContext;
+import org.infogrid.util.text.StringRepresentationParameters;
 
 /**
  * Extends StringRepresentationContext for the InfoGrid kernel.
  */
-public interface MeshStringRepresentationContext
+public interface MeshStringRepresentationParameters
         extends
-            StringRepresentationContext
+            StringRepresentationParameters
 {
     /**
      * Key for the default MeshBase.

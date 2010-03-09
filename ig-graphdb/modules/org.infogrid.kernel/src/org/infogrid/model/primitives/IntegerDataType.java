@@ -17,7 +17,6 @@ package org.infogrid.model.primitives;
 import java.io.ObjectStreamException;
 import java.text.ParseException;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -410,14 +409,12 @@ public class IntegerDataType
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentation(
             StringRepresentation           rep,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
@@ -426,9 +423,9 @@ public class IntegerDataType
                 IntegerValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( getDefaultValue(), rep, context, pars ), // all three presumably shorter, but we don't know
-                PropertyValue.toStringRepresentation( theMin,            rep, context, pars ),
-                PropertyValue.toStringRepresentation( theMax,            rep, context, pars ),
+                PropertyValue.toStringRepresentation( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
+                PropertyValue.toStringRepresentation( theMin,            rep, pars ),
+                PropertyValue.toStringRepresentation( theMax,            rep, pars ),
                 theUnitFamily,
                 theSupertype );
     }

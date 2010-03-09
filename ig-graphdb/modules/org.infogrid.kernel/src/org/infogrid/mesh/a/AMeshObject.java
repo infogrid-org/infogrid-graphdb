@@ -32,7 +32,7 @@ import org.infogrid.mesh.RoleTypeNotBlessedException;
 import org.infogrid.mesh.TypedMeshObjectFacade;
 import org.infogrid.mesh.externalized.SimpleExternalizedMeshObject;
 import org.infogrid.mesh.set.MeshObjectSet;
-import org.infogrid.mesh.text.SimpleMeshStringRepresentationContext;
+import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.WrongMeshBaseException;
 import org.infogrid.meshbase.a.AMeshBase;
@@ -51,7 +51,6 @@ import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
@@ -2023,14 +2022,12 @@ public class AMeshObject
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
     public String toStringRepresentation(
             StringRepresentation           rep,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
@@ -2051,11 +2048,9 @@ public class AMeshObject
                     meshBaseExternalForm );
 
         } else {
-            HashMap<String,Object> contextObjects = new HashMap<String,Object>();
-            contextObjects.put( SimpleMeshStringRepresentationContext.MESHOBJECT_KEY, this );
+            StringRepresentationParameters parsWithMeshObject = pars != null ? pars.with( MeshStringRepresentationParameters.MESHOBJECT_KEY, this ) : null;
             
-            StringRepresentationContext delegateContext = SimpleMeshStringRepresentationContext.create( contextObjects, context );
-            String identifierRep = theIdentifier.toStringRepresentation( rep, delegateContext, pars );
+            String identifierRep = theIdentifier.toStringRepresentation( rep, parsWithMeshObject );
 
             StringRepresentationParameters parsWithoutMax = pars != null ? pars.without( StringRepresentationParameters.MAX_LENGTH ) : null;
 
@@ -2078,16 +2073,16 @@ public class AMeshObject
      * @param target the HTML target, if any
      * @param title title of the HTML link, if any
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
+     * @param pars the parameters to use
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentationLinkStart(
-            String                      additionalArguments,
-            String                      target,
-            String                      title,
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            String                         additionalArguments,
+            String                         target,
+            String                         title,
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
         throws
             StringifierException
     {
@@ -2099,13 +2094,13 @@ public class AMeshObject
      * as a link/hyperlink and can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
+     * @param pars the parameters to use
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentationLinkEnd(
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
         throws
             StringifierException
     {

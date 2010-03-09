@@ -150,8 +150,8 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java: same as plain
 
         // PropertyValue raw
-        plainMap.put(     "pv",               PropertyValueStringifier.create( plain, null ) );
-        editPlainMap.put( "pv",               PropertyValueStringifier.create( plain, null ) );
+        plainMap.put(     "pv",               PropertyValueStringifier.create( plain ) );
+        editPlainMap.put( "pv",               PropertyValueStringifier.create( plain ) );
         // html: same as plain
         // javadoc: same as html
         javaMap.put(      "pv",               JavaPropertyValueStringifier.create());

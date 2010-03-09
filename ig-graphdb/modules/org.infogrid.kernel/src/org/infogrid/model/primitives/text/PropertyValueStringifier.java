@@ -17,7 +17,6 @@ package org.infogrid.model.primitives.text;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.util.text.AbstractStringifier;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
@@ -32,28 +31,23 @@ public class PropertyValueStringifier
      * Factory method.
      *
      * @param rep the StringRepresentation to use
-     * @param context the StringRepresentationContext to use
      * @return the created PropertyValueStringifier
      */
     public static PropertyValueStringifier create(
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            StringRepresentation rep )
     {
-        return new PropertyValueStringifier( rep, context );
+        return new PropertyValueStringifier( rep );
     }
 
     /**
      * Private constructor for subclasses only, use factory method.
      *
      * @param rep the StringRepresentation to use
-     * @param context the StringRepresentationContext to use
      */
     protected PropertyValueStringifier(
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            StringRepresentation rep )
     {
         theStringRepresentation = rep;
-        theContext              = context;
     }
 
     /**
@@ -75,7 +69,6 @@ public class PropertyValueStringifier
         String ret = PropertyValue.toStringRepresentationOrNull(
                 arg,
                 theStringRepresentation,
-                theContext,
                 pars );
         return ret;
     }
@@ -110,9 +103,4 @@ public class PropertyValueStringifier
      * The StringRepresentation to use. This recursion should be handled better. (FIXME)
      */
     protected StringRepresentation theStringRepresentation;
-
-    /**
-     * The StringRepresentationContext to use,
-     */
-    protected StringRepresentationContext theContext;
 }

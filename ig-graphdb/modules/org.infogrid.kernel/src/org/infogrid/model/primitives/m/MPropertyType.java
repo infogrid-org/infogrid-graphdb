@@ -31,7 +31,6 @@ import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
@@ -429,19 +428,17 @@ public class MPropertyType
      * Emit String representation of a null PropertyValue of this PropertyType.
      *
      * @param representation the representation scheme
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String nullValueStringRepresentation(
             StringRepresentation           representation,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
     {
-        return theDataType.nullValueStringRepresentation( representation, context, pars );
+        return theDataType.nullValueStringRepresentation( representation, pars );
     }
 
     /**

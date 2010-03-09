@@ -20,7 +20,6 @@ import java.util.Calendar;
 import java.util.TimeZone;
 import org.infogrid.util.Rfc3339Util;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringifierException;
@@ -159,14 +158,12 @@ public final class TimeStampDataType
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentation(
             StringRepresentation           rep,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException

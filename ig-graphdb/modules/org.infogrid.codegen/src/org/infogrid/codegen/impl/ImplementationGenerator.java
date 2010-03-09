@@ -249,15 +249,15 @@ public class ImplementationGenerator
         outStream.println( "  * <table>" );
         outStream.println(
                   "  *  <tr><td>Identifier:</td><td><tt>"
-                + theMeshType.getIdentifier().toStringRepresentation( theCommentsRepresentation, null, null )
+                + theMeshType.getIdentifier().toStringRepresentation( theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( theMeshType.getName(), theCommentsRepresentation, null, null )
+                + PropertyValue.toStringRepresentation( theMeshType.getName(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>IsAbstract:</td><td>"
-                + PropertyValue.toStringRepresentation( theMeshType.getIsAbstract(), theCommentsRepresentation, null, null )
+                + PropertyValue.toStringRepresentation( theMeshType.getIsAbstract(), theCommentsRepresentation, null )
                 + "</td></tr>" );
         generateL10Map(
                 theMeshType.getUserVisibleNameMap(),

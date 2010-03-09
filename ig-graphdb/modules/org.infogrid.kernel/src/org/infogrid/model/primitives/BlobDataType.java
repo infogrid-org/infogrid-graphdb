@@ -20,7 +20,6 @@ import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationPar
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.text.SimpleStringRepresentationDirectory;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringifierException;
@@ -759,14 +758,12 @@ public final class BlobDataType
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentation(
             StringRepresentation           rep,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
@@ -775,7 +772,7 @@ public final class BlobDataType
                 getClass(),
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( theDefaultValue, rep, context, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentation( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theMimeTypes,
                 theSupertype );
     }
@@ -865,7 +862,6 @@ public final class BlobDataType
      * here because Blobs have too many variations.
      *
      * @param representation the representation scheme
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
@@ -873,7 +869,6 @@ public final class BlobDataType
     @Override
     public String nullValueStringRepresentation(
             StringRepresentation           representation,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
@@ -909,7 +904,6 @@ public final class BlobDataType
                 /* 4 */ PropertyValue.toStringRepresentation(
                                 defaultValue,
                                 representation.getStringRepresentationDirectory().get( SimpleStringRepresentationDirectory.TEXT_PLAIN_NAME ),
-                                context,
                                 pars ),
                 /* 5 */ nullString );
 

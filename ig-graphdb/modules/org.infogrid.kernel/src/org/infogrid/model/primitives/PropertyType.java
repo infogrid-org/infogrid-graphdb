@@ -17,7 +17,6 @@ package org.infogrid.model.primitives;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
@@ -87,14 +86,12 @@ public interface PropertyType
      * Emit String representation of a null PropertyValue of this PropertyType.
      *
      * @param representation the representation scheme
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String nullValueStringRepresentation(
             StringRepresentation           representation,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException;

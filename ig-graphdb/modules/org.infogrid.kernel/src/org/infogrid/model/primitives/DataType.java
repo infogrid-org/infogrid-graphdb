@@ -19,7 +19,6 @@ import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationPar
 import org.infogrid.util.text.HasStringRepresentation;
 import org.infogrid.util.text.SimpleStringRepresentationDirectory;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationContext;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 import org.infogrid.util.text.StringifierUnformatFactory;
@@ -183,15 +182,15 @@ public abstract class DataType
      * @param target the HTML target, if any
      * @param title title of the HTML link, if any
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
+     * @param pars the parameters to use
      * @return String representation
      */
     public String toStringRepresentationLinkStart(
-            String                      additionalArguments,
-            String                      target,
-            String                      title,
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            String                         additionalArguments,
+            String                         target,
+            String                         title,
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
     {
         return "";
     }
@@ -201,12 +200,12 @@ public abstract class DataType
      * as a link/hyperlink and can be shown to the user.
      * 
      * @param rep the StringRepresentation
-     * @param context the StringRepresentationContext of this object
+     * @param pars the parameters to use
      * @return String representation
      */
     public String toStringRepresentationLinkEnd(
-            StringRepresentation        rep,
-            StringRepresentationContext context )
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
     {
         return "";
     }
@@ -232,14 +231,12 @@ public abstract class DataType
      * Emit String representation of a null PropertyValue of this PropertyType.
      *
      * @param representation the representation scheme
-     * @param context the StringRepresentationContext of this object
      * @param pars collects parameters that may influence the String representation
      * @return the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String nullValueStringRepresentation(
             StringRepresentation           representation,
-            StringRepresentationContext    context,
             StringRepresentationParameters pars )
         throws
             StringifierException
@@ -273,7 +270,6 @@ public abstract class DataType
         /* 4 */ PropertyValue.toStringRepresentation(
                         defaultValue,
                         representation.getStringRepresentationDirectory().get( SimpleStringRepresentationDirectory.TEXT_PLAIN_NAME ),
-                        context,
                         pars ),
         /* 5 */ nullString );
      }
