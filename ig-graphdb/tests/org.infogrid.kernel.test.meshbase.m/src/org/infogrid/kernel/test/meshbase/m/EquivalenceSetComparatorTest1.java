@@ -271,17 +271,11 @@ public class EquivalenceSetComparatorTest1
          * Obtain the start part of a String representation of this object that acts
          * as a link/hyperlink and can be shown to the user.
          *
-         * @param additionalArguments additional arguments for URLs, if any
-         * @param target the HTML target, if any
-         * @param title title of the HTML link, if any
          * @param rep the StringRepresentation
          * @param pars collects parameters that may influence the String representation
          * @return String representation
          */
         public String toStringRepresentationLinkStart(
-                String                         additionalArguments,
-                String                         target,
-                String                         title,
                 StringRepresentation           rep,
                 StringRepresentationParameters pars )
         {

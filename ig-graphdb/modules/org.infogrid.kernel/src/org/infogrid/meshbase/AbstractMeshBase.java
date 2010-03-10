@@ -1437,25 +1437,30 @@ public abstract class AbstractMeshBase
      * Obtain the start part of a String representation of this object that acts
      * as a link/hyperlink and can be shown to the user.
      *
-     * @param additionalArguments additional arguments for URLs, if any
-     * @param target the HTML target, if any
-     * @param title title of the HTML link, if any
      * @param rep the StringRepresentation
      * @param pars the parameters to use
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
     public String toStringRepresentationLinkStart(
-            String                         additionalArguments,
-            String                         target,
-            String                         title,
             StringRepresentation           rep,
             StringRepresentationParameters pars )
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase = pars != null ? ( equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ))) : true;
-        String  contextPath       = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY ) : null;
+        boolean isDefaultMeshBase  = true;
+        String contextPath         = null;
+        String additionalArguments = null;
+        String target              = null;
+        String title               = null;
+
+        if( pars != null ) {
+            isDefaultMeshBase   = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+            contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
+            title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
+            additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
+        }
 
         String meshBaseExternalForm = getIdentifier().toExternalForm();
 

@@ -176,9 +176,15 @@ public class DefaultAMeshObjectIdentifier
         throws
             StringifierException
     {
-        MeshObject meshObject  = pars != null ? (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY ) : null;
-        String     contextPath = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY ) : null;
-        MeshBase   meshBase    = meshObject != null ? meshObject.getMeshBase() : null;
+        MeshObject meshObject  = null;
+        String     contextPath = null;
+        MeshBase   meshBase    = null;
+
+        if( pars != null ) {
+            meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            meshBase    = meshObject.getMeshBase();
+        }
 
         boolean isDefaultMeshBase = false;
         if( meshBase != null && pars != null ) {
@@ -225,26 +231,32 @@ public class DefaultAMeshObjectIdentifier
      * Obtain the start part of a String representation of this object that acts
      * as a link/hyperlink and can be shown to the user.
      *
-     * @param additionalArguments additional arguments for URLs, if any
-     * @param target the HTML target, if any
-     * @param title title of the HTML link, if any
      * @param rep the StringRepresentation
      * @param pars collects parameters that may influence the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
     public String toStringRepresentationLinkStart(
-            String                         additionalArguments,
-            String                         target,
-            String                         title,
             StringRepresentation           rep,
             StringRepresentationParameters pars )
         throws
             StringifierException
     {
-        MeshObject meshObject  = pars != null ? (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY ) : null;
-        String     contextPath = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY ) : null;
-        MeshBase   meshBase    = meshObject != null ? meshObject.getMeshBase() : null;
+        MeshObject meshObject          = null;
+        String     contextPath         = null;
+        MeshBase   meshBase            = null;
+        String     additionalArguments = null;
+        String     target              = null;
+        String     title               = null;
+
+        if( pars != null ) {
+            meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            meshBase    = meshObject.getMeshBase();
+            target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
+            title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
+            additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
+        }
 
         boolean isDefaultMeshBase = false;
         if( meshBase != null && pars != null ) {
@@ -308,9 +320,15 @@ public class DefaultAMeshObjectIdentifier
         throws
             StringifierException
     {
-        MeshObject meshObject  = pars != null ? (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY ) : null;
-        String     contextPath = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY ) : null;
-        MeshBase   meshBase    = meshObject != null ? meshObject.getMeshBase() : null;
+        MeshObject meshObject  = null;
+        String     contextPath = null;
+        MeshBase   meshBase    = null;
+
+        if( pars != null ) {
+            meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            meshBase    = meshObject.getMeshBase();
+        }
 
         boolean isDefaultMeshBase = false;
         if( meshBase != null && pars != null ) {
