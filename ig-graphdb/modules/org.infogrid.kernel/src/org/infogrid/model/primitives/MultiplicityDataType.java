@@ -190,7 +190,7 @@ public class MultiplicityDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( MultiplicityValue.class, MultiplicityValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( MultiplicityValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             switch( found.length ) {
                 case 4:

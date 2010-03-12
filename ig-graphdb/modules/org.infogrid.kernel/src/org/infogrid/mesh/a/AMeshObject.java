@@ -32,7 +32,6 @@ import org.infogrid.mesh.RoleTypeNotBlessedException;
 import org.infogrid.mesh.TypedMeshObjectFacade;
 import org.infogrid.mesh.externalized.SimpleExternalizedMeshObject;
 import org.infogrid.mesh.set.MeshObjectSet;
-import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.WrongMeshBaseException;
 import org.infogrid.meshbase.a.AMeshBase;
@@ -49,7 +48,6 @@ import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -2012,9 +2010,6 @@ public class AMeshObject
         }
 
         String ret = getUserVisibleString( getTypes() ); // that makes a random sequence, but that's the best we can do
-        if( ret == null ) {
-            ret = theIdentifier.toExternalForm();
-        }
         return ret;
     }
 
@@ -2032,35 +2027,20 @@ public class AMeshObject
         throws
             StringifierException
     {
-        String meshObjectExternalForm = IdentifierStringifier.defaultFormat( theIdentifier.toExternalForm(),               pars );
-        String meshBaseExternalForm   = IdentifierStringifier.defaultFormat( theMeshBase.getIdentifier().toExternalForm(), pars );
-        String userVisible            = IdentifierStringifier.defaultFormat( getUserVisibleString(),                       pars );
-
+        String userVisible = getUserVisibleString();
         String ret;
 
         if( userVisible != null ) {
             ret = rep.formatEntry(
                     getClass(), // dispatch to the right subtype
-                    DEFAULT_ENTRY,
+                    StringRepresentation.DEFAULT_ENTRY,
                     pars,
-                    userVisible,
-                    meshObjectExternalForm,
-                    meshBaseExternalForm );
+            /* 0 */ this,
+            /* 1 */ getMeshBase(),
+            /* 2 */ userVisible );
 
         } else {
-            StringRepresentationParameters parsWithMeshObject = pars != null ? pars.with( MeshStringRepresentationParameters.MESHOBJECT_KEY, this ) : null;
-            
-            String identifierRep = theIdentifier.toStringRepresentation( rep, parsWithMeshObject );
-
-            StringRepresentationParameters parsWithoutMax = pars != null ? pars.without( StringRepresentationParameters.MAX_LENGTH ) : null;
-
-            ret = rep.formatEntry(
-                    getClass(), // dispatch to the right subtype
-                    NO_USER_VISIBLE_STRING_ENTRY,
-                    parsWithoutMax,
-                    identifierRep,
-                    meshObjectExternalForm,
-                    meshBaseExternalForm );
+            ret = theIdentifier.toStringRepresentation( rep, pars );
         }
         return ret;
     }
@@ -2155,15 +2135,4 @@ public class AMeshObject
      * side.
      */
     protected MeshObjectIdentifier [] theEquivalenceSetPointers;
-
-    /**
-     * Default entry in the resource files, prefixed by the StringRepresentation's prefix.
-     */
-    public static final String DEFAULT_ENTRY = "String";
-
-    /**
-     * Entry in the resource files, prefixed by the StringRepresentation's prefix,
-     * indicating a MeshObject that has no user-visible String.
-     */
-    public static final String NO_USER_VISIBLE_STRING_ENTRY = "NoUserVisibleString";
 }

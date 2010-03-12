@@ -16,7 +16,6 @@ package org.infogrid.model.primitives;
 
 import java.io.Serializable;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
-import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.text.HasStringRepresentation;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -187,14 +186,4 @@ public abstract class PropertyValue
             }
         }
     }
-    
-    /**
-     * Our ResourceHelper.
-     */
-    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( PropertyValue.class );
-
-    /**
-     * The default entry in the resouce files, prefixed by the StringRepresentation's prefix.
-     */
-    public static final String DEFAULT_ENTRY = "String";
 }

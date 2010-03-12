@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,10 +16,12 @@ package org.infogrid.model.primitives.text;
 
 import java.util.HashMap;
 import java.util.Map;
+import org.infogrid.util.text.HtmlifyingDelegatingStringifier;
 import org.infogrid.util.text.SimpleStringRepresentation;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationDirectory;
 import org.infogrid.util.text.StringRepresentationDirectorySingleton;
+import org.infogrid.util.text.StringStringifier;
 import org.infogrid.util.text.Stringifier;
 
 /**
@@ -89,7 +91,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         javaMap.put(      "double",           JavaDoubleStringifier.create() );
 
         // string
-        javadocMap.put(   "string",           JavadocHtmlStringStringifier.create() );
+        javadocMap.put(   "string",           JavadocHtmlStringStringifier.create( HtmlifyingDelegatingStringifier.create( StringStringifier.create() )) );
         javaMap.put(      "string",           JavaStringStringifier.create() );
 
         // stacktrace
@@ -135,12 +137,16 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // javadoc: same as html
         javaMap.put(      "multiplicity",     JavaPropertyValueStringifier.create());
 
-        // esacpe hash
-        plainMap.put(     "escapehashstring", EscapeHashHtmlStringStringifier.create() );
-        editPlainMap.put( "escapehashstring", EscapeHashHtmlStringStringifier.create() );
-        // html: same as plain
+        // identifiers in a URL
+        plainMap.put(     "idInWebContext",   WebContextAwareMeshObjectIdentifierStringifier.create( true ) );
+        editPlainMap.put( "idInWebContext",   WebContextAwareMeshObjectIdentifierStringifier.create( true ) );
+        htmlMap.put(      "idInWebContext",   HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( true ) ));
         // javadoc: same as html
         // java: same as plain
+
+        plainMap.put(     "shortId",          WebContextAwareMeshObjectIdentifierStringifier.create( false ) );
+        editPlainMap.put( "shortId",          WebContextAwareMeshObjectIdentifierStringifier.create( false ) );
+        htmlMap.put(      "shortId",          HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( false ) ));
 
         // DataType
         plainMap.put(     "type",             DataTypeStringifier.create() );

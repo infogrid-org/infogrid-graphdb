@@ -190,7 +190,7 @@ public final class ColorDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( ColorValue.class, ColorValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( ColorValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             ColorValue ret;
 

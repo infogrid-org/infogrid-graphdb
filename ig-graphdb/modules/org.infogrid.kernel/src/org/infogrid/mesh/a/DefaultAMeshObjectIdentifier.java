@@ -20,7 +20,6 @@ import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.AbstractIdentifier;
 import org.infogrid.util.Identifier;
-import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -105,6 +104,20 @@ public class DefaultAMeshObjectIdentifier
     }
 
     /**
+     * Obtain the external form of the MeshObjectIdentifier relative to some path.
+     *
+     * @param relativePath the relative path
+     * @param assembleAsPartOfLongerId if true, escape properly so that the produced String can become part of a longer identifier
+     * @return the local external form
+     */
+    public String toLocalExternalForm(
+            String  relativePath,
+            boolean assembleAsPartOfLongerId )
+    {
+        return theLocalId;
+    }
+
+    /**
       * Determine hashCode.
       *
       * @return the hash code
@@ -182,7 +195,7 @@ public class DefaultAMeshObjectIdentifier
 
         if( pars != null ) {
             meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
-            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
             meshBase    = meshObject.getMeshBase();
         }
 
@@ -212,17 +225,13 @@ public class DefaultAMeshObjectIdentifier
             }
         }
 
-        String meshObjectExternalForm = IdentifierStringifier.defaultFormat( toExternalForm(), pars );
-        String meshBaseExternalForm   = meshBase != null ? IdentifierStringifier.defaultFormat( meshBase.getIdentifier().toExternalForm(), pars ) : null;
-
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 key,
                 pars,
-                meshObjectExternalForm,
-                contextPath,
-                meshBaseExternalForm,
-                theAsEntered );
+        /* 0 */ this,
+        /* 1 */ contextPath,
+        /* 2 */ meshBase );
 
         return ret;
     }
@@ -251,7 +260,7 @@ public class DefaultAMeshObjectIdentifier
 
         if( pars != null ) {
             meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
-            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
             meshBase    = meshObject.getMeshBase();
             target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
             title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
@@ -287,16 +296,13 @@ public class DefaultAMeshObjectIdentifier
             target = "_self";
         }
 
-        String meshObjectExternalForm = toExternalForm();
-        String meshBaseExternalForm   = meshBase != null ? meshBase.getIdentifier().toExternalForm() : null;
-
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 key,
-                null,
-        /* 0 */ meshObjectExternalForm,
+                pars,
+        /* 0 */ this,
         /* 1 */ contextPath,
-        /* 2 */ meshBaseExternalForm,
+        /* 2 */ meshBase,
         /* 3 */ additionalArguments,
         /* 4 */ target,
         /* 5 */ title,
@@ -326,7 +332,7 @@ public class DefaultAMeshObjectIdentifier
 
         if( pars != null ) {
             meshObject  = (MeshObject) pars.get( MeshStringRepresentationParameters.MESHOBJECT_KEY );
-            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            contextPath = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
             meshBase    = meshObject.getMeshBase();
         }
 
@@ -356,17 +362,14 @@ public class DefaultAMeshObjectIdentifier
             }
         }
 
-        String meshObjectExternalForm = toExternalForm();
-        String meshBaseExternalForm   = meshBase != null ? meshBase.getIdentifier().toExternalForm() : null;
-
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 key,
-                null,
-                meshObjectExternalForm,
-                contextPath,
-                meshBaseExternalForm,
-                theAsEntered );
+                pars,
+        /* 0 */ this,
+        /* 1 */ contextPath,
+        /* 2 */ meshBase,
+        /* 3 */ theAsEntered );
 
         return ret;
     }

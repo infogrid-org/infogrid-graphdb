@@ -244,6 +244,20 @@ public class EquivalenceSetComparatorTest1
         }
 
         /**
+         * Obtain the external form of the MeshObjectIdentifier relative to some path.
+         *
+         * @param relativePath the relative path
+         * @param assembleAsPartOfLongerId if true, escape properly so that the produced String can become part of a longer identifier
+         * @return the local external form
+         */
+        public String toLocalExternalForm(
+                String  relativePath,
+                boolean assembleAsPartOfLongerId )
+        {
+            return theString;
+        }
+
+        /**
          * Determine whether this MeshObjectIdentifier identifies a Home Object.
          *
          * @return true if it identifies a Home Object

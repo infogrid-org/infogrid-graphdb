@@ -193,7 +193,7 @@ public final class TimeStampDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( TimeStampValue.class, TimeStampValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( TimeStampValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             TimeZone tz;
             if( found.length == 13 ) {

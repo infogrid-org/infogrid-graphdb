@@ -121,7 +121,7 @@ public class DefaultAMeshObjectIdentifierFactory
             }
 
             if( found != null && found.length == 1 ) {
-                DefaultAMeshObjectIdentifier ret = fromExternalForm( (String) found[0] ); // may throw
+                DefaultAMeshObjectIdentifier ret = (DefaultAMeshObjectIdentifier) found[0];
                 return ret;
             }
 

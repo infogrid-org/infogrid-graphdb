@@ -193,7 +193,7 @@ public class PointDataType
         s = s.trim();
         
         try {
-            Object [] found = representation.parseEntry( PointValue.class, PointValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( PointValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             PointValue ret;
             switch( found.length ) {

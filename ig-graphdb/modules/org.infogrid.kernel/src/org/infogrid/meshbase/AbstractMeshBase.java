@@ -58,7 +58,6 @@ import org.infogrid.util.context.Context;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
-import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -1415,8 +1414,6 @@ public abstract class AbstractMeshBase
     {
         boolean isDefaultMeshBase = pars != null ? ( equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ))) : true;
 
-        String meshBaseExternalForm = IdentifierStringifier.defaultFormat( getIdentifier().toExternalForm(), pars );
-
         String key;
         if( isDefaultMeshBase ) {
             key = DEFAULT_MESH_BASE_ENTRY;
@@ -1428,7 +1425,7 @@ public abstract class AbstractMeshBase
                 getClass(),
                 key,
                 pars,
-                meshBaseExternalForm );
+        /* 0 */ this );
 
         return ret;        
     }
@@ -1455,14 +1452,12 @@ public abstract class AbstractMeshBase
         String title               = null;
 
         if( pars != null ) {
-            isDefaultMeshBase   = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
-            contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            isDefaultMeshBase   = equals( pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+            contextPath         = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
             target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
             title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
             additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
         }
-
-        String meshBaseExternalForm = getIdentifier().toExternalForm();
 
         String key;
         if( isDefaultMeshBase ) {
@@ -1477,9 +1472,9 @@ public abstract class AbstractMeshBase
         String ret = rep.formatEntry(
                 getClass(),
                 key,
-                null,
-        /* 0 */ contextPath,
-        /* 1 */ meshBaseExternalForm,
+                pars,
+        /* 0 */ this,
+        /* 1 */ contextPath,
         /* 2 */ additionalArguments,
         /* 3 */ target,
         /* 4 */ title );
@@ -1503,9 +1498,7 @@ public abstract class AbstractMeshBase
             StringifierException
     {
         boolean isDefaultMeshBase = pars != null ? ( equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ))) : true;
-        String  contextPath       = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY ) : null;
-
-        String meshBaseExternalForm = getIdentifier().toExternalForm();
+        String  contextPath       = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY ) : null;
 
         String key;
         if( isDefaultMeshBase ) {
@@ -1517,9 +1510,9 @@ public abstract class AbstractMeshBase
         String ret = rep.formatEntry(
                 getClass(),
                 key,
-                null,
-                contextPath,
-                meshBaseExternalForm );
+                pars,
+        /* 0 */ this,
+        /* 1 */ contextPath );
 
         return ret;        
     }

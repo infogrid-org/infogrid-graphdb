@@ -448,7 +448,7 @@ public class IntegerDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( IntegerValue.class, IntegerValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( IntegerValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             IntegerValue ret;
 

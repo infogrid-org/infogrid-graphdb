@@ -193,7 +193,7 @@ public final class StringDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( StringValue.class, StringValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( StringValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             StringValue ret;
             switch( found.length ) {

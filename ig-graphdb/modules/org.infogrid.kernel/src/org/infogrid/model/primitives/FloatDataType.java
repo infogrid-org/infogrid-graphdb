@@ -443,7 +443,7 @@ public class FloatDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( FloatValue.class, FloatValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( FloatValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             FloatValue ret;
 

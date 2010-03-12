@@ -100,7 +100,7 @@ public class DefaultMeshBaseIdentifierFactory
             MeshBaseIdentifier ret;
             switch( found.length ) {
                 case 1:
-                    ret = fromExternalForm( (String) found[0] );
+                    ret = (MeshBaseIdentifier) found[0];
                     break;
 
                 default:

@@ -78,7 +78,7 @@ public class MMeshTypeIdentifierFactory
             MMeshTypeIdentifier ret;
             switch( found.length ) {
                 case 2:
-                    ret = fromExternalForm( (String) found[1] );
+                    ret = (MMeshTypeIdentifier) found[1];
                     break;
 
                 default:

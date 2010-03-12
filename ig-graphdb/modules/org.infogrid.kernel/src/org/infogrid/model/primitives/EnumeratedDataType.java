@@ -523,7 +523,7 @@ public class EnumeratedDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( EnumeratedValue.class, EnumeratedValue.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( EnumeratedValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             EnumeratedValue ret;
 

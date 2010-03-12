@@ -359,7 +359,7 @@ public final class ColorValue
 
         return rep.formatEntry(
                 getClass(),
-                DEFAULT_ENTRY,
+                StringRepresentation.DEFAULT_ENTRY,
                 pars,
         /* 0 */ editVariable,
         /* 1 */ meshObject,

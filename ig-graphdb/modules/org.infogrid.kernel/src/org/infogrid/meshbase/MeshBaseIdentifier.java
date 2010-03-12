@@ -18,7 +18,6 @@ import org.infogrid.util.AbstractIdentifier;
 import org.infogrid.util.Identifier;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
-import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -95,13 +94,11 @@ public class MeshBaseIdentifier
         throws
             StringifierException
     {
-        String externalForm = IdentifierStringifier.defaultFormat( toExternalForm(), pars );
-
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 DEFAULT_ENTRY,
                 pars,
-                externalForm );
+                this );
         return ret;
     }
 
@@ -126,19 +123,17 @@ public class MeshBaseIdentifier
         String title               = null;
 
         if( pars != null ) {
-            contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
             target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
             title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
             additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
         }
-        String externalForm = toExternalForm();
-
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 DEFAULT_LINK_START_ENTRY,
-                null,
+                pars,
         /* 0 */ contextPath,
-        /* 1 */ externalForm,
+        /* 1 */ this,
         /* 2 */ additionalArguments,
         /* 3 */ target,
         /* 4 */ title );
@@ -164,17 +159,15 @@ public class MeshBaseIdentifier
         String contextPath         = null;
 
         if( pars != null ) {
-            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_CONTEXT_KEY );
+            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
         }
-
-        String externalForm = toExternalForm();
 
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 DEFAULT_LINK_END_ENTRY,
-                null,
-                contextPath,
-                externalForm );
+                pars,
+        /* 0 */ contextPath,
+        /* 1 */ this );
         return ret;
     }
 

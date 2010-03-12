@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -33,6 +33,17 @@ public interface MeshObjectIdentifier
      * @return true if it identifies a Home Object
      */
     public abstract boolean identifiesHomeObject();
+
+    /**
+     * Obtain the external form of the MeshObjectIdentifier relative to some path.
+     *
+     * @param relativePath the relative path
+     * @param assembleAsPartOfLongerId if true, escape properly so that the produced String can become part of a longer identifier
+     * @return the local external form
+     */
+    public abstract String toLocalExternalForm(
+            String  relativePath,
+            boolean assembleAsPartOfLongerId );
 
     /**
      * To save memory, this constant is allocated here and used wherever appropriate.

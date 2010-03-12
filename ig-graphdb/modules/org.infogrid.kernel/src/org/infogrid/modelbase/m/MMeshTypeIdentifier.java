@@ -16,7 +16,6 @@ package org.infogrid.modelbase.m;
 
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.util.AbstractIdentifier;
-import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -95,8 +94,11 @@ public class MMeshTypeIdentifier
         throws
             StringifierException
     {
-        String extForm = IdentifierStringifier.defaultFormat( toExternalForm(), pars );
-        return rep.formatEntry( getClass(), DEFAULT_ENTRY, pars, extForm );
+        return rep.formatEntry(
+                getClass(),
+                DEFAULT_ENTRY,
+                pars,
+                this );
     }
 
     /**
