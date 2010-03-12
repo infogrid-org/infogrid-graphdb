@@ -464,63 +464,6 @@ public class TraversalPath
         return ret;
     }
 
-//    /**
-//     * Convert to an externalized String representation.
-//     *
-//     * @return externalized String representation
-//     */
-//    public String toExternalForm()
-//    {
-//        StringBuilder buf = new StringBuilder();
-//        if( theTraversedSpec != null ) {
-//            buf.append( EXTERNAL_FORM_TRAVERSAL_SPECIFICATION_TAG );
-//            buf.append( externalFormEscape( theTraversedSpec.toExternalForm() ));
-//            buf.append( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR );
-//        }
-//        buf.append( EXTERNAL_FORM_MESHOBJECT_TAG );
-//        buf.append( externalFormEscape( theReached.getIdentifier().toExternalForm() ));
-//        if( theRemainder != null ) {
-//            buf.append( EXTERNAL_FORM_STEP_SEPARATOR );
-//            buf.append( theRemainder.toExternalForm() );
-//        }
-//        return buf.toString();
-//    }
-//
-//    /**
-//     * Helper method to escape values inside our external form.
-//     *
-//     * @param toEscape the String to escape
-//     * @return the escaped String
-//     */
-//    protected String externalFormEscape(
-//            String toEscape )
-//    {
-//        String ret = toEscape.replaceAll( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR, HTTP.encodeToValidUrlArgument( EXTERNAL_FORM_WITHIN_STEP_SEPARATOR ));
-//        ret        = ret.replaceAll(      EXTERNAL_FORM_STEP_SEPARATOR,        HTTP.encodeToValidUrlArgument( EXTERNAL_FORM_STEP_SEPARATOR ));
-//
-//        return ret;
-//    }
-//
-//    /**
-//     * Indicates the beginning of the TraversalSpecification component of this step.
-//     */
-//    public static final String EXTERNAL_FORM_TRAVERSAL_SPECIFICATION_TAG = "t=";
-//
-//    /**
-//     * Separates the serialized fields from each other within one step.
-//     */
-//    public static final String EXTERNAL_FORM_WITHIN_STEP_SEPARATOR = ",";
-//
-//    /**
-//     * Indicates the beginning of the reached MeshObject component of this step.
-//     */
-//    public static final String EXTERNAL_FORM_MESHOBJECT_TAG = "o=";
-//
-//    /**
-//     * Separates the steps from each other.
-//     */
-//    public static final String EXTERNAL_FORM_STEP_SEPARATOR = ";";
-
     /**
      * Determine equality.
      *
