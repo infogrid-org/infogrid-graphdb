@@ -119,7 +119,9 @@ public abstract class AbstractTraversalTranslator
         if( reachedString == null ) {
             throw new TermMissingTraversalTranslatorException( REACHED_TAG );
         }
-        String [] reachedComponents = reachedString.split( "," );
+        // don't do String.split, it might ignore empty strings.
+
+        String [] reachedComponents = mySplit( reachedString, ',' );
 
         TraversalSpecification spec = translateTraversalSpecification( start, traversalTerms );
 
@@ -159,6 +161,38 @@ public abstract class AbstractTraversalTranslator
         } catch( NotPermittedException ex ) {
             throw new TraversalTranslatorException( ex );
         }
+    }
+
+    /**
+     * Helper method to split a String by a separator without ignoring empty Strings.
+     *
+     * @param in the String to split
+     * @param s the separator
+     * @return the components
+     */
+    protected String [] mySplit(
+            String in,
+            char   s )
+    {
+        int count = 1;
+        for( int i=0 ; i<in.length() ; ++i ) {
+            if( in.charAt( i ) == s ) {
+                ++count;
+            }
+        }
+
+        String [] ret = new String[count];
+        count = 0;
+        int start = 0;
+        for( int i=0 ; i<in.length() ; ++i ) {
+            if( in.charAt( i ) == s ) {
+                ret[count++] = in.substring( start, i );
+                ++i;
+                start = i;
+            }
+        }
+        ret[count++] = in.substring( start );
+        return ret;
     }
 
     /**
