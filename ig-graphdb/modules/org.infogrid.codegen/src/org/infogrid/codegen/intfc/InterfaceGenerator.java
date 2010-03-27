@@ -118,11 +118,11 @@ public class InterfaceGenerator
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( theMeshType.getName(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getName(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>IsAbstract:</td><td>"
-                + PropertyValue.toStringRepresentation( theMeshType.getIsAbstract(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getIsAbstract(), theCommentsRepresentation, null )
                 + "</td></tr>" );
         generateL10Map(
                 theMeshType.getUserVisibleNameMap(),
@@ -389,7 +389,7 @@ public class InterfaceGenerator
             
             if( type.getUserVisibleDescription() != null ) {
                 outStream.println( "    /**" );
-                outStream.println( "      * " + PropertyValue.toStringRepresentation( type.getUserVisibleDescription(), theCommentsRepresentation, null ));
+                outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( type.getUserVisibleDescription(), theCommentsRepresentation, null ));
                 outStream.println( "      */" );
             }
 
@@ -409,7 +409,7 @@ public class InterfaceGenerator
                     outStream.println();
                     if( propType.getUserVisibleDescription() != null ) {
                         outStream.println( "    /**" );
-                        outStream.println( "      * " + PropertyValue.toStringRepresentation( propType.getUserVisibleDescription(), theCommentsRepresentation, null ));
+                        outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( propType.getUserVisibleDescription(), theCommentsRepresentation, null ));
                         outStream.println( "      */" );
                     }
                     outStream.println( "    public static final PropertyType " + upperName + "_" + upperPropName + " = " + packageName + getInterfaceSubPackageName() + "." + name + "." + propName.toUpperCase() + ";" );
@@ -457,7 +457,7 @@ public class InterfaceGenerator
         w.println( " </head>" );
         w.println( " <body>" );
         
-        w.println( PropertyValue.toStringRepresentation( theSubjectArea.getUserVisibleDescription(), theCommentsRepresentation, null ));
+        w.println( PropertyValue.toStringRepresentationOrNull( theSubjectArea.getUserVisibleDescription(), theCommentsRepresentation, null ));
 
         w.println( " </body>" );
         w.println( "</html>" );

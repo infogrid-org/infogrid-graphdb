@@ -174,7 +174,7 @@ public final class TimePeriodDataType
                 TimePeriodValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }
 
@@ -201,34 +201,34 @@ public final class TimePeriodDataType
             TimePeriodValue ret;
 
             switch( found.length ) {
+                case 8:
+                    ret = TimePeriodValue.create(
+                            ((Number) found[2]).shortValue(),   // year
+                            ((Number) found[3]).shortValue(),   // month
+                            ((Number) found[4]).shortValue(),   // day
+                            ((Number) found[5]).shortValue(),   // hour
+                            ((Number) found[6]).shortValue(),   // minute
+                            ((Number) found[7]).floatValue());  // second
+                    break;
+
+                case 9:
+                    ret = TimePeriodValue.create(
+                            ((Number) found[2]).shortValue(),   // year
+                            ((Number) found[3]).shortValue(),   // month
+                            ((Number) found[4]).shortValue(),   // day
+                            ((Number) found[5]).shortValue(),   // hour
+                            ((Number) found[6]).shortValue(),   // minute
+                            (found[7] != null ? (Number) found[7] : (Number) found[8] ).floatValue());  // second
+                    break;
+
                 case 10:
                     ret = TimePeriodValue.create(
-                            ((Number) found[4]).shortValue(),   // year
-                            ((Number) found[5]).shortValue(),   // month
-                            ((Number) found[6]).shortValue(),   // day
-                            ((Number) found[7]).shortValue(),   // hour
-                            ((Number) found[8]).shortValue(),   // minute
-                            ((Number) found[9]).floatValue());  // second
-                    break;
-
-                case 11:
-                    ret = TimePeriodValue.create(
-                            ((Number) found[4]).shortValue(),   // year
-                            ((Number) found[5]).shortValue(),   // month
-                            ((Number) found[6]).shortValue(),   // day
-                            ((Number) found[7]).shortValue(),   // hour
-                            ((Number) found[8]).shortValue(),   // minute
-                            ((Number) found[10]).floatValue());  // second
-                    break;
-
-                case 12:
-                    ret = TimePeriodValue.create(
-                            ((Number) found[4]).shortValue(),   // year
-                            ((Number) found[5]).shortValue(),   // month
-                            ((Number) found[6]).shortValue(),   // day
-                            ((Number) found[7]).shortValue(),   // hour
-                            ((Number) found[8]).shortValue(),   // minute
-                            ((Number) found[10]).floatValue() + .001f * ((Number) found[11] ).longValue() );  // second
+                            ((Number) found[2]).shortValue(),   // year
+                            ((Number) found[3]).shortValue(),   // month
+                            ((Number) found[4]).shortValue(),   // day
+                            ((Number) found[5]).shortValue(),   // hour
+                            ((Number) found[6]).shortValue(),   // minute
+                            ((Number) found[8]).floatValue() + .001f * ((Number) found[9] ).longValue() );  // second
                     break;
 
                 default:

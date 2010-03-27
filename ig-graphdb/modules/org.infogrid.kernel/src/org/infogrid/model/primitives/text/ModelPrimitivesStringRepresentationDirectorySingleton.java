@@ -14,14 +14,11 @@
 
 package org.infogrid.model.primitives.text;
 
-import java.util.HashMap;
 import java.util.Map;
 import org.infogrid.util.text.HtmlifyingDelegatingStringifier;
-import org.infogrid.util.text.SimpleStringRepresentation;
+import org.infogrid.util.text.InvalidStringifier;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationDirectory;
 import org.infogrid.util.text.StringRepresentationDirectorySingleton;
-import org.infogrid.util.text.StringStringifier;
 import org.infogrid.util.text.Stringifier;
 
 /**
@@ -51,137 +48,126 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         }
         instantiateDefaultSingleton();
 
-        StringRepresentation plain     = theSingleton.get( TEXT_PLAIN_NAME );
-        StringRepresentation editPlain = theSingleton.get( EDIT_TEXT_PLAIN_NAME );
-        StringRepresentation html      = theSingleton.get( TEXT_HTML_NAME );
-        StringRepresentation editHtml  = theSingleton.get( EDIT_TEXT_HTML_NAME );
+        // what we have s0 far
+        StringRepresentation plain      = theSingleton.get( TEXT_PLAIN_NAME );
+        StringRepresentation editPlain  = theSingleton.get( EDIT_TEXT_PLAIN_NAME );
+        StringRepresentation html       = theSingleton.get( TEXT_HTML_NAME );
+        StringRepresentation editHtml   = theSingleton.get( EDIT_TEXT_HTML_NAME );
+        StringRepresentation url        = theSingleton.get( TEXT_URL_NAME );
+        StringRepresentation java       = theSingleton.get( TEXT_JAVA_NAME );
+        StringRepresentation javadoc    = theSingleton.get( TEXT_JAVADOC_NAME );
+        StringRepresentation javascript = theSingleton.get( TEXT_JAVASCRIPT_NAME );
 
-        Map<String,Stringifier<? extends Object>> plainMap     = plain.getLocalStringifierMap();
-        Map<String,Stringifier<? extends Object>> editPlainMap = editPlain.getLocalStringifierMap();
-        Map<String,Stringifier<? extends Object>> htmlMap      = html.getLocalStringifierMap();
-        Map<String,Stringifier<? extends Object>> editHtmlMap  = editHtml.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> plainMap      = plain.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> editPlainMap  = editPlain.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> htmlMap       = html.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> editHtmlMap   = editHtml.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> urlMap        = url.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> javaMap       = java.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> javadocMap    = javadoc.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> javascriptMap = javascript.getLocalStringifierMap();
 
-        Map<String,Stringifier<? extends Object>> javadocMap = new HashMap<String,Stringifier<? extends Object>>();
-        Map<String,Stringifier<? extends Object>> javaMap    = new HashMap<String,Stringifier<? extends Object>>();
+    // blob
 
-    // old tags for new StringRepresentations
+        plainMap.put(     "mimelist",         BlobMimeOptionsStringifier.create( null,       null,                             ",",  null,        " (selected)" ));
+        // editPlain:  same as plain
+        // html:       same as plain
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // int
-        // javadoc: same as html
-        // java: same as plain
-
-        // int2
-        // javadoc: same as html
-        // java: same as plain
-
-        // int3
-        // javadoc: same as html
-        // java: same as plain
-
-        // int4
-        // javadoc: same as html
-        // java: same as plain
-
-        // float
-        // javadoc: same as html
-        javaMap.put(      "float",            JavaFloatStringifier.create() );
-
-        // double
-        // javadoc: same as html
-        javaMap.put(      "double",           JavaDoubleStringifier.create() );
-
-        // string
-        javadocMap.put(   "string",           JavadocHtmlStringStringifier.create( HtmlifyingDelegatingStringifier.create( StringStringifier.create() )) );
-        javaMap.put(      "string",           JavaStringStringifier.create() );
-
-        // stacktrace
-        // javadoc: same as html
-        // java: same as plain
-
-        // urlappend
-        // javadoc: same as html
-        // java: same as plain
-
-        // list
-        // javadoc: same as html
-        // java: FIXME?
-
-        // new tags for all
-
-        // blob
-        editHtmlMap.put(  "mimeoptions",      BlobMimeOptionsHtmlStringifier.create( "<option>", "<option selected=\"selected\">", "\n", "</option>", "</option>" ));
-        editHtmlMap.put(  "mimelist",         BlobMimeOptionsHtmlStringifier.create( null, null, ",", null, " (selected)" ));
+        // not plain
+        // editPlain:  same as plain
+        editHtmlMap.put(  "mimeoptions",      BlobMimeOptionsStringifier.create( "<option>", "<option selected=\"selected\">", "\n", "</option>", "</option>" ));
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
         
-        // enum
+    // enum
+
         plainMap.put(     "enum",             EnumeratedValueStringifier.create( true ) );
-        editPlainMap.put( "enum",             EnumeratedValueStringifier.create( true ) );
-        htmlMap.put(      "enum",             EnumeratedValueStringifier.create( true ) );
-        editHtmlMap.put(  "enum",             EnumeratedValueStringifier.create( true ) );
+        // editPlain:  same as plain
+        htmlMap.put(      "enum",             HtmlifyingDelegatingStringifier.create( EnumeratedValueStringifier.create( true ) ));
+        // editHtml:   same as html
+        urlMap.put(       "enum",             EnumeratedValueStringifier.create( false ) );
+        javaMap.put(      "enum",             EnumeratedValueStringifier.create( false ) );
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // enumdomain -- render the domain of an EnumeratedDataType
+    // enumdomain -- render the domain of an EnumeratedDataType
+
         plainMap.put(     "enumdomain",       EnumeratedDataTypeDomainStringifier.create( EnumeratedValueStringifier.create( true ), ", " ));
-        // does not exist in plain / edit
-        htmlMap.put(      "enumdomain",       EnumeratedDataTypeDomainStringifier.create( EnumeratedValueStringifier.create( true ), "<li>", "</li><li>", "</li>" ));
-        // does not exist in html / edit
+        editPlainMap.put( "enumdomain",       InvalidStringifier.create() );
+        htmlMap.put(      "enumdomain",       EnumeratedDataTypeDomainStringifier.create( HtmlifyingDelegatingStringifier.create( EnumeratedValueStringifier.create( true )), "<li>", "</li><li>", "</li>" ));
+        editHtmlMap.put(  "enumdomain",       InvalidStringifier.create() );
+        urlMap.put(       "enumdomain",       InvalidStringifier.create() );
+        javaMap.put(      "enumdomain",       EnumeratedDataTypeDomainStringifier.create( EnumeratedValueStringifier.create( false ), ", " ));
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // enumchoice -- render the domain of an EnumeratedValue, with the given EnumeratedValue being selected
-        // does not exist in plain / non-edit
-        // does not exist in plain / edit
-        // does not exist in html / non-edit
+    // enumchoice -- render the domain of an EnumeratedValue, with the given EnumeratedValue being selected
+        
+        plainMap.put(     "enumchoice",       InvalidStringifier.create() );
+        // editPlain:  same as plain
+        // html:       same as plain
         editHtmlMap.put(  "enumchoice",       EnumeratedValueChoiceHtmlStringifier.create( "option" ));
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // multiplicity
-        plainMap.put(     "multiplicity",     MultiplicityValueStringStringifier.create() );
-        editPlainMap.put( "multiplicity",     MultiplicityValueStringStringifier.create() );
-        // html: same as plain
-        // javadoc: same as html
-        javaMap.put(      "multiplicity",     JavaPropertyValueStringifier.create());
+    // identifiers in a URL
 
-        // identifiers in a URL
         plainMap.put(     "idInWebContext",   WebContextAwareMeshObjectIdentifierStringifier.create( true ) );
-        editPlainMap.put( "idInWebContext",   WebContextAwareMeshObjectIdentifierStringifier.create( true ) );
+        // editPlain:  same as plain
         htmlMap.put(      "idInWebContext",   HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( true ) ));
-        // javadoc: same as html
-        // java: same as plain
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
+
+    // short identifiers
 
         plainMap.put(     "shortId",          WebContextAwareMeshObjectIdentifierStringifier.create( false ) );
-        editPlainMap.put( "shortId",          WebContextAwareMeshObjectIdentifierStringifier.create( false ) );
+        // editPlain:  same as plain
         htmlMap.put(      "shortId",          HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( false ) ));
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // DataType
+    // DataType
+
         plainMap.put(     "type",             DataTypeStringifier.create() );
-        editPlainMap.put( "type",             DataTypeStringifier.create() );
-        // html: same as plain
-        // javadoc: same as html
-        // java: same as plain
+        // editPlain:  same as plain
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
 
-        // PropertyValue raw
+    // PropertyValue raw
+
         plainMap.put(     "pv",               PropertyValueStringifier.create( plain ) );
-        editPlainMap.put( "pv",               PropertyValueStringifier.create( plain ) );
-        // html: same as plain
-        // javadoc: same as html
+        // editPlain:  same as plain
+        htmlMap.put(      "pv",               PropertyValueStringifier.create( html ) );
+        // editHtml:   same as html
+        // url:        same as plain
         javaMap.put(      "pv",               JavaPropertyValueStringifier.create());
-
-
-        SimpleStringRepresentation javadoc = SimpleStringRepresentation.create(
-                theSingleton,
-                StringRepresentationDirectory.TEXT_JAVADOC_NAME,
-                javadocMap,
-                html );
-        SimpleStringRepresentation java = SimpleStringRepresentation.create(
-                theSingleton,
-                StringRepresentationDirectory.TEXT_JAVA_NAME,
-                javaMap,
-                plain );
-
-        // after the fact due to dependency
-
-        theSingleton.put( javadoc.getName(), javadoc  );
-        theSingleton.put(    java.getName(), java  );
+        javascriptMap.put("pv",               PropertyValueStringifier.create( javascript ) );
+        javadocMap.put(   "pv",               PropertyValueStringifier.create( javadoc ) );
     }
 
     /**
      * Has this class been initialized.
      */
     protected static boolean theIsInitialized = false;
+
+
 }

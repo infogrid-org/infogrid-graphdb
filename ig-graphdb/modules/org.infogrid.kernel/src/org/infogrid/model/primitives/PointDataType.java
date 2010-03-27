@@ -169,7 +169,7 @@ public class PointDataType
                 PointValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( getDefaultValue(), rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( getDefaultValue(), rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }
 
@@ -197,10 +197,10 @@ public class PointDataType
 
             PointValue ret;
             switch( found.length ) {
-                case 6:
+                case 4:
                     ret = PointValue.create(
-                            ((Number) found[4]).doubleValue(),
-                            ((Number) found[5]).doubleValue() );
+                            ((Number) found[2]).doubleValue(),
+                            ((Number) found[3]).doubleValue() );
                     break;
 
                 default:

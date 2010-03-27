@@ -423,9 +423,9 @@ public class IntegerDataType
                 IntegerValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
-                PropertyValue.toStringRepresentation( theMin,            rep, pars ),
-                PropertyValue.toStringRepresentation( theMax,            rep, pars ),
+                PropertyValue.toStringRepresentationOrNull( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theMin,            rep, pars ),
+                PropertyValue.toStringRepresentationOrNull( theMax,            rep, pars ),
                 theUnitFamily,
                 theSupertype );
     }
@@ -453,9 +453,9 @@ public class IntegerDataType
             IntegerValue ret;
 
             switch( found.length ) {
-                case 5:
-                case 6:
-                    ret = IntegerValue.create( (Number) found[4] );
+                case 3:
+                case 4:
+                    ret = IntegerValue.create( (Number) found[2] );
                     break;
 
                 default:

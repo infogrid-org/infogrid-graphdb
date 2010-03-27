@@ -168,7 +168,7 @@ public class MultiplicityDataType
                 MultiplicityValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( MultiplicityValue.ZERO_N, rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( MultiplicityValue.ZERO_N, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }
 
@@ -192,15 +192,38 @@ public class MultiplicityDataType
         try {
             Object [] found = representation.parseEntry( MultiplicityValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
+            int min;
+            int max;
+            MultiplicityValue ret;
             switch( found.length ) {
+                case 1:
+                case 2:
+                    ret = (MultiplicityValue) found[0];
+                    break;
+
                 case 4:
+                    min = ( (Number)found[2] ).intValue();
+                    max = ( (Number)found[3] ).intValue();
+                    ret = MultiplicityValue.create( min, max );
+                    break;
+
+                case 6:
+                    if( MultiplicityValue.N_SYMBOL.equals( found[4] )) {
+                        min = MultiplicityValue.N;
+                    } else {
+                        min = Integer.parseInt( (String)found[4] );
+                    }
+                    if( MultiplicityValue.N_SYMBOL.equals( found[5] )) {
+                        max = MultiplicityValue.N;
+                    } else {
+                        max = Integer.parseInt( (String)found[5] );
+                    }
+                    ret = MultiplicityValue.create( min, max );
                     break;
 
                 default:
                     throw new PropertyValueParsingException( this, representation, s );
             }
-
-            MultiplicityValue ret = (MultiplicityValue) found[3];
 
             return ret;
 

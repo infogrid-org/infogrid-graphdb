@@ -14,7 +14,6 @@
 
 package org.infogrid.model.primitives;
 
-import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -208,17 +207,9 @@ public final class BooleanValue
         throws
             StringifierException
     {
-        Object editVariable;
-        Object meshObject;
-        Object propertyType;
+        String editVar = null;
         if( pars != null ) {
-            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-        } else {
-            editVariable = null;
-            meshObject   = null;
-            propertyType = null;
+            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
         }
 
         String s;
@@ -232,9 +223,8 @@ public final class BooleanValue
                 getClass(),
                 s,
                 pars,
-        /* 0 */ editVariable,
-        /* 1 */ meshObject,
-        /* 2 */ propertyType );
+        /* 0 */ this,
+        /* 1 */ editVar );
     }
 
     /**

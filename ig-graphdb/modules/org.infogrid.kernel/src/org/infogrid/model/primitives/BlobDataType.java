@@ -87,8 +87,8 @@ public final class BlobDataType
     public static final BlobDataType theJdkSupportedBitmapType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.gif",
-            BlobValue.IMAGE_JPG_MIME_TYPE,
-            new String[] { "image/gif", "image/jpg", "image/png" },
+            BlobValue.IMAGE_JPEG_MIME_TYPE,
+            new String[] { BlobValue.IMAGE_GIF_MIME_TYPE, BlobValue.IMAGE_JPEG_MIME_TYPE, BlobValue.IMAGE_PNG_MIME_TYPE },
             theAnyType );
 
     /**
@@ -107,8 +107,8 @@ public final class BlobDataType
     public static final BlobDataType theJpgType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.jpg",
-            BlobValue.IMAGE_JPG_MIME_TYPE,
-            new String[] { BlobValue.IMAGE_JPG_MIME_TYPE },
+            BlobValue.IMAGE_JPEG_MIME_TYPE,
+            new String[] { BlobValue.IMAGE_JPEG_MIME_TYPE },
             theJdkSupportedBitmapType );
 
     /**
@@ -559,6 +559,21 @@ public final class BlobDataType
     }
 
     /**
+     * Determine whether this BlobDataType supports at least non non-text MIME type.
+     *
+     * @return true if it supports at least one MIME type that is not text
+     */
+    public boolean supportsBinaryMimeType()
+    {
+        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
+            if( !theMimeTypes[i].startsWith( "text/" )) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
       * Determine whether a domain check shall be performed on
       * assignments. Default to false.
       *
@@ -650,7 +665,7 @@ public final class BlobDataType
                 + " default, mime: "
                 + ( (theMimeTypes.length == 1 )
                         ? theMimeTypes[0]
-                        : ArrayHelper.arrayToString( theMimeTypes ));
+                        : ArrayHelper.arrayToString( theMimeTypes, "," ));
     }
 
     /**
@@ -772,7 +787,7 @@ public final class BlobDataType
                 getClass(),
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theMimeTypes,
                 theSupertype );
     }
@@ -795,13 +810,13 @@ public final class BlobDataType
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( BlobValue.class, "DontInterpretTextString", s, this );
+            Object [] found = representation.parseEntry( BlobValue.class, "String", s, this );
 
             BlobValue ret;
 
             switch( found.length ) {
-                case 6:
-                    ret = createBlobValue( (String) found[5], mimeType );
+                case 4:
+                    ret = createBlobValue( (String) found[3], mimeType );
                     break;
 
                 default:
@@ -818,121 +833,6 @@ public final class BlobDataType
 
         } catch( ClassCastException ex ) {
             throw new PropertyValueParsingException( this, representation, s, ex );
-        }
-    }
-
-//    /**
-//     * Given a String representation, an optional parsed mime type and this BlobDataType, determine which MIME type it should be.
-//     *
-//     * @param representation the StringRepresentation in which the content was given
-//     * @param mimeContext the context in which this parsing took place
-//     * @param content the found content
-//     * @param mime the parsed mime type, if any
-//     * @return the correct mime type
-//     */
-//    protected String determineParsedMimeType(
-//            StringRepresentation representation,
-//            String               mimeContext,
-//            Object               content,
-//            String               mime )
-//    {
-//        // FIXME this needs more work
-//        if( mime != null ) {
-//            return mime;
-//        }
-//        if( mimeContext != null ) {
-//            return mimeContext;
-//        }
-//        if( content instanceof String ) {
-//            if( StringRepresentationDirectory.TEXT_HTML_NAME.equals( representation.getName() )) {
-//                if( isAllowedMimeType( BlobValue.TEXT_HTML_MIME_TYPE )) {
-//                    return BlobValue.TEXT_HTML_MIME_TYPE;
-//                }
-//            } else {
-//                if( isAllowedMimeType( BlobValue.TEXT_PLAIN_MIME_TYPE )) {
-//                    return BlobValue.TEXT_PLAIN_MIME_TYPE;
-//                }
-//            }
-//        }
-//        return BlobValue.OCTET_STREAM_MIME_TYPE;
-//    }
-
-    /**
-     * Emit String representation of a null PropertyValue of this PropertyType. This must be overridden
-     * here because Blobs have too many variations.
-     *
-     * @param representation the representation scheme
-     * @param pars collects parameters that may influence the String representation
-     * @return the String representation
-     * @throws StringifierException thrown if there was a problem when attempting to stringify
-     */
-    @Override
-    public String nullValueStringRepresentation(
-            StringRepresentation           representation,
-            StringRepresentationParameters pars )
-        throws
-            StringifierException
-    {
-        BlobValue defaultValue = getDefaultValue();
-
-        Object editVariable;
-        Object meshObject;
-        Object propertyType;
-        Object nullString;
-        if( pars != null ) {
-            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-            nullString   = pars.get( StringRepresentationParameters.NULL_STRING );
-        } else {
-            editVariable = null;
-            meshObject   = null;
-            propertyType = null;
-            nullString   = null;
-        }
-
-        if( supportsTextMimeType() ) {
-            if( defaultValue == null || defaultValue.hasTextMimeType() ) {
-                return representation.formatEntry(
-                        defaultValue != null ? defaultValue.getClass() : null,
-                        "UploadEditStringWithTextDefault",
-                        pars,
-                /* 0 */ editVariable,
-                /* 1 */ meshObject,
-                /* 2 */ propertyType,
-                /* 3 */ this,
-                /* 4 */ PropertyValue.toStringRepresentation(
-                                defaultValue,
-                                representation.getStringRepresentationDirectory().get( SimpleStringRepresentationDirectory.TEXT_PLAIN_NAME ),
-                                pars ),
-                /* 5 */ nullString );
-
-            } else {
-                return representation.formatEntry(
-                        defaultValue.getClass(),
-                        "UploadEditStringWithBinaryDefault",
-                        pars,
-                /* 0 */ editVariable,
-                /* 1 */ meshObject,
-                /* 2 */ propertyType,
-                /* 3 */ this,
-                /* 4 */ defaultValue,
-                /* 5 */ nullString );
-                
-            }
-            
-        } else {
-            return representation.formatEntry(
-                    defaultValue.getClass(),
-                    "UploadNoEditStringWithBinaryDefault",
-                    pars,
-            /* 0 */ editVariable,
-            /* 1 */ meshObject,
-            /* 2 */ propertyType,
-            /* 3 */ this,
-            /* 4 */ defaultValue,
-            /* 5 */ nullString );
-            
         }
     }
 

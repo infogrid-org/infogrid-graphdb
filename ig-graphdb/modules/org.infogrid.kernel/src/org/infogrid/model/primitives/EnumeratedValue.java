@@ -237,31 +237,20 @@ public final class EnumeratedValue
         throws
             StringifierException
     {
-        Object editVariable;
-        Object meshObject;
-        Object propertyType;
+        String editVar = null;
         if( pars != null ) {
-            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-        } else {
-            editVariable = null;
-            meshObject   = null;
-            propertyType = null;
+            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
         }
 
         return rep.formatEntry(
                 getClass(),
                 StringRepresentation.DEFAULT_ENTRY,
                 pars,
-        /* 0 */ editVariable,
-        /* 1 */ meshObject,
-        /* 2 */ propertyType,
-        /* 3 */ this,
-        /* 4 */ theValue,
-        /* 5 */ theDataType.getDomain(),
-        /* 6 */ getUserVisibleName()        != null ? getUserVisibleName().value()        : null,
-        /* 7 */ getUserVisibleDescription() != null ? getUserVisibleDescription().value() : null );
+        /* 0 */ this,
+        /* 1 */ editVar,
+        /* 2 */ theValue,
+        /* 3 */ getUserVisibleName()        != null ? getUserVisibleName().value()        : null,
+        /* 4 */ getUserVisibleDescription() != null ? getUserVisibleDescription().value() : null );
     }
 
     /**

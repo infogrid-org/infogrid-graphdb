@@ -36,6 +36,12 @@ public interface ModelPrimitivesStringRepresentationParameters
     public final String PROPERTY_TYPE = "propertyType";
 
     /**
+     * The key into this object hat identifies a Boolean which indicates whether a Property is allowed to
+     * be set to null from a JSP page.
+     */
+    public final String ALLOW_NULL = "allow-null";
+
+    /**
      * The key into this object that identifies the TimeZone in which the rendered PropertyValue shall be
      * shown, if any.
      */

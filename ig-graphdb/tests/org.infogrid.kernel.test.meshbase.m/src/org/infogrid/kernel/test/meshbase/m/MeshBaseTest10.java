@@ -68,7 +68,7 @@ public class MeshBaseTest10
         //
 
         PropertyValue [] testValues1 = {
-                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPEANY_type.createBlobValue( "test1", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
@@ -82,7 +82,7 @@ public class MeshBaseTest10
                 TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
         };
         PropertyType [] testProperties1 = {
-                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPEANY,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBOOLEANDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCOLORDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE,
@@ -101,7 +101,7 @@ public class MeshBaseTest10
         //
 
         PropertyValue [] testValues2 = {
-                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPE_type.createBlobValue( "test", "text/plain" ),
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPEANY_type.createBlobValue( "test", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE_type.select( "Value3" ),
@@ -115,7 +115,7 @@ public class MeshBaseTest10
                 TimeStampValue.create(  (short) 7, (short) 8, (short) 9, (short) 10, (short) 11, (float) 12. )
         };
         PropertyType [] testProperties2 = {
-                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPEANY,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBOOLEANDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYCOLORDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE,

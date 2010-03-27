@@ -1412,7 +1412,10 @@ public abstract class AbstractMeshBase
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase = pars != null ? ( equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ))) : true;
+        boolean isDefaultMeshBase = true;
+        if( pars != null ) {
+            isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+        }
 
         String key;
         if( isDefaultMeshBase ) {
@@ -1497,8 +1500,13 @@ public abstract class AbstractMeshBase
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase = pars != null ? ( equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ))) : true;
-        String  contextPath       = pars != null ? (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY ) : null;
+        boolean isDefaultMeshBase = true;
+        String  contextPath       = null;
+
+        if( pars != null ) {
+            isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+            contextPath       = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
+        }
 
         String key;
         if( isDefaultMeshBase ) {

@@ -153,22 +153,22 @@ public abstract class AbstractGenerator
                 + thePropertyType.getIdentifier().toExternalForm()
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( thePropertyType.getName(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getName(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>DataType:</td><td><tt>"
                 + thePropertyType.getDataType().toStringRepresentation( theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>DefaultValue:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( thePropertyType.getDefaultValue(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getDefaultValue(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>IsOptional:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( thePropertyType.getIsOptional(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsOptional(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>IsReadOnly:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( thePropertyType.getIsReadOnly(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsReadOnly(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>SequenceNumber:</td><td><tt>"
-                + PropertyValue.toStringRepresentation( thePropertyType.getSequenceNumber(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getSequenceNumber(), theCommentsRepresentation, null )
                 + "</tt></td></tr>" );
         generateL10Map(
                 thePropertyType.getUserVisibleNameMap(),
@@ -334,7 +334,7 @@ public abstract class AbstractGenerator
         try {
             w.print( prefix );
             w.print( "<table><tr><td>default locale:</td><td>" );
-            w.print( PropertyValue.toStringRepresentation( theMap.getDefault(), theCommentsRepresentation, null ));
+            w.print( PropertyValue.toStringRepresentationOrNull( theMap.getDefault(), theCommentsRepresentation, null ));
             w.print( "</td></tr>" );
             Iterator<String> theIter = theMap.keyIterator();
             while( theIter.hasNext() ) {
@@ -342,7 +342,7 @@ public abstract class AbstractGenerator
                 w.print( "<tr><td>" );
                 w.print( key );
                 w.print( "</td><td>" );
-                w.print( PropertyValue.toStringRepresentation( theMap.getExact( key ), theCommentsRepresentation, null ));
+                w.print( PropertyValue.toStringRepresentationOrNull( theMap.getExact( key ), theCommentsRepresentation, null ));
                 w.print( "</td></tr>" );
             }
             w.print( "</table>" );

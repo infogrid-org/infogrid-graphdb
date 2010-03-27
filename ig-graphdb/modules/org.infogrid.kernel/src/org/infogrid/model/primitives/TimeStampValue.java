@@ -435,20 +435,16 @@ public final class TimeStampValue
         throws
             StringifierException
     {
-        Object editVariable;
-        Object meshObject;
-        Object propertyType;
+        String editVar = null;
+        if( pars != null ) {
+            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+        }
+
         Object tz;
         if( pars != null ) {
-            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-            tz           = pars.get( ModelPrimitivesStringRepresentationParameters.TIME_ZONE );
+            tz = pars.get( ModelPrimitivesStringRepresentationParameters.TIME_ZONE );
         } else {
-            editVariable = null;
-            meshObject   = null;
-            propertyType = null;
-            tz           = null;
+            tz = null;
         }
         if( tz == null ) {
             tz = Rfc3339Util.UTC;
@@ -469,20 +465,18 @@ public final class TimeStampValue
                 getClass(),
                 StringRepresentation.DEFAULT_ENTRY,
                 pars,
-        /* 0 */ editVariable,
-        /* 1 */ meshObject,
-        /* 2 */ propertyType,
-        /* 3 */ this,
-        /* 4 */ year,
-        /* 5 */ month,
-        /* 6 */ day,
-        /* 7 */ hour,
-        /* 8 */ min,
-        /* 9 */ sec,
-        /* 10 */ (int) sec,
-        /* 11 */ millis,
-        /* 12 */ ((TimeZone)tz).getID(),
-        /* 13 */ ((TimeZone)tz).getDisplayName() );
+        /* 0 */ this,
+        /* 1 */ editVar,
+        /* 2 */ year,
+        /* 3 */ month,
+        /* 4 */ day,
+        /* 5 */ hour,
+        /* 6 */ min,
+        /* 7 */ sec,
+        /* 8 */ (int) sec,
+        /* 9 */ millis,
+        /* 10 */ ((TimeZone)tz).getID(),
+        /* 11 */ ((TimeZone)tz).getDisplayName() );
 
     }
 

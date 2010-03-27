@@ -15,7 +15,6 @@
 package org.infogrid.model.primitives;
 
 import java.io.Serializable;
-import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.text.HasStringRepresentation;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -113,41 +112,25 @@ public abstract class PropertyValue
         if( v != null ) {
             return v.toStringRepresentation( representation, pars );
         } else {
-            return null;
+            return nullToStringRepresentation( representation, pars );
         }
     }
 
     /**
-     * Convert a PropertyValue to its String representation, using the representation scheme.
-     * Return a String representation of null, too.
+     * Convert a null PropertyValue to its String representation, using the representation scheme.
      *
-     * @param v the PropertyValue to convert
      * @param representation the representation scheme
      * @param pars collects parameters that may influence the String representation
      * @return the String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
-    public final static String toStringRepresentation(
-            PropertyValue                  v,
+    public static String nullToStringRepresentation(
             StringRepresentation           representation,
             StringRepresentationParameters pars )
         throws
             StringifierException
     {
-        if( v != null ) {
-            return v.toStringRepresentation( representation, pars );
-        }
-        if( pars != null ) {
-            PropertyType type = (PropertyType) pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-            if( type != null ) {
-                String ret = type.nullValueStringRepresentation( representation, pars );
-            
-                return ret;
-            }
-        }
-        // falling through here to the default
-
-        return representation.formatEntry( PropertyValue.class, "Null", pars, null, null, null, null, null, null );
+        return representation.formatEntry( PropertyValue.class, "Null", pars );
     }
 
     /**

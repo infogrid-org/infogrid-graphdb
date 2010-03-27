@@ -138,13 +138,49 @@
             <name>OptionalProperties</name>
             <userdescription>Holds properties of all optional InfoGrid PropertyTypes.</userdescription>
 
-            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataType">
-                <name>OptionalBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataTypeAny">
+                <name>OptionalBlobDataTypeAny</name>
                 <datatype>
-                    <BlobDataType/>
+                    <BlobDataType typefield="theAnyType"/>
                 </datatype>
                 <isoptional/>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataTypePlainOrHtml">
+                <name>OptionalBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataTypePlain">
+                <name>OptionalBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataHtml">
+                <name>OptionalBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataTypeImage">
+                <name>OptionalBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBlobDataTypeJpg">
+                <name>OptionalBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+
             <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalBooleanDataType">
                 <name>OptionalBooleanDataType</name>
                 <datatype>
@@ -242,13 +278,49 @@
             <name>MandatoryProperties</name>
             <userdescription>Holds properties of all mandatory InfoGrid PropertyTypes.</userdescription>
 
-            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataType">
-                <name>MandatoryBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataTypeAny">
+                <name>MandatoryBlobDataTypeAny</name>
                 <datatype>
-                    <BlobDataType/>
+                    <BlobDataType typefield="theAnyType"/>
                 </datatype>
                 <defaultvalue>DEFAULT VALUE</defaultvalue>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataTypePlainOrHtml">
+                <name>MandatoryBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataTypePlain">
+                <name>MandatoryBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataHtml">
+                <name>MandatoryBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataTypeImage">
+                <name>MandatoryBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBlobDataTypeJpg">
+                <name>MandatoryBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+
             <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryBooleanDataType">
                 <name>MandatoryBooleanDataType</name>
                 <datatype>
@@ -345,10 +417,45 @@
             <name>AllProperties</name>
             <userdescription>Holds properties of all InfoGrid PropertyTypes.</userdescription>
             
-            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataType">
-                <name>OptionalBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataTypeAny">
+                <name>OptionalBlobDataTypeAny</name>
                 <datatype>
-                    <BlobDataType/>
+                    <BlobDataType typefield="theAnyType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataTypePlainOrHtml">
+                <name>OptionalBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataTypePlain">
+                <name>OptionalBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataHtml">
+                <name>OptionalBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataTypeImage">
+                <name>OptionalBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalBlobDataTypeJpg">
+                <name>OptionalBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
                 </datatype>
                 <isoptional/>
             </propertytype>
@@ -444,10 +551,45 @@
             </propertytype>
 
 
-            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataType">
-                <name>MandatoryBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataTypeAny">
+                <name>MandatoryBlobDataTypeAny</name>
                 <datatype>
-                    <BlobDataType/>
+                    <BlobDataType typefield="theAnyType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataTypePlainOrHtml">
+                <name>MandatoryBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataTypePlain">
+                <name>MandatoryBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataHtml">
+                <name>MandatoryBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataTypeImage">
+                <name>MandatoryBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryBlobDataTypeJpg">
+                <name>MandatoryBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
                 </datatype>
                 <defaultvalue>DEFAULT VALUE</defaultvalue>
             </propertytype>
@@ -544,13 +686,73 @@
         </entitytype>
 
 
-        <entitytype ID="org.infogrid.model.Test/OptionalBlob">
-            <name>OptionalBlob</name>
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobAny">
+            <name>OptionalBlobAny</name>
 
-            <propertytype ID="org.infogrid.model.Test/OptionalBlob_OptionalBlobDataType">
-                <name>OptionalBlobDataType</name>
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobAny_OptionalBlobDataTypeAny">
+                <name>OptionalBlobDataTypeAny</name>
                 <datatype>
-                    <BlobDataType/>
+                    <BlobDataType typefield="theAnyType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobPlainOrHtml">
+            <name>OptionalBlobPlainOrHtml</name>
+
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobPlainOrHtml_OptionalBlobDataTypePlainOrHtml">
+                <name>OptionalBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobPlain">
+            <name>OptionalBlobPlain</name>
+
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobPlain_OptionalBlobDataTypePlain">
+                <name>OptionalBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobHtml">
+            <name>OptionalBlobHtml</name>
+
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobHtml_OptionalBlobDataHtml">
+                <name>OptionalBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobImage">
+            <name>OptionalBlobImage</name>
+
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobImage_OptionalBlobDataTypeImage">
+                <name>OptionalBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalBlobJpg">
+            <name>OptionalBlobJpg</name>
+
+            <propertytype ID="org.infogrid.model.Test/OptionalBlobJpg_OptionalBlobDataTypeJpg">
+                <name>OptionalBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
                 </datatype>
                 <isoptional/>
             </propertytype>
@@ -691,12 +893,67 @@
         </entitytype>
 
 
-        <entitytype ID="org.infogrid.model.Test/MandatoryBlob">
-            <name>MandatoryBlob</name>
-            <propertytype ID="org.infogrid.model.Test/MandatoryBlob_MandatoryBlobDataType">
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobAny">
+            <name>MandatoryBlobAny</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobAny_MandatoryBlobDataType">
                 <name>MandatoryBlobDataType</name>
                 <datatype>
                     <BlobDataType/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobPlainOrHtml">
+            <name>MandatoryBlobPlainOrHtml</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobPlainOrHtml_MandatoryBlobDataTypePlainOrHtml">
+                <name>MandatoryBlobDataTypePlainOrHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainOrHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobPlain">
+            <name>MandatoryBlobPlain</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobPlain_MandatoryBlobDataTypePlain">
+                <name>MandatoryBlobDataTypePlain</name>
+                <datatype>
+                    <BlobDataType typefield="theTextPlainType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobHtml">
+            <name>MandatoryBlobHtml</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobHtml_MandatoryBlobDataHtml">
+                <name>MandatoryBlobDataHtml</name>
+                <datatype>
+                    <BlobDataType typefield="theTextHtmlType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobImage">
+            <name>MandatoryBlobImage</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobImage_MandatoryBlobDataTypeImage">
+                <name>MandatoryBlobDataTypeImage</name>
+                <datatype>
+                    <BlobDataType typefield="theJdkSupportedBitmapType"/>
+                </datatype>
+                <defaultvalue>DEFAULT VALUE</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryBlobJpg">
+            <name>MandatoryBlobJpg</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryBlobJpg_MandatoryBlobDataTypeJpg">
+                <name>MandatoryBlobDataTypeJpg</name>
+                <datatype>
+                    <BlobDataType typefield="theJpgType"/>
                 </datatype>
                 <defaultvalue>DEFAULT VALUE</defaultvalue>
             </propertytype>

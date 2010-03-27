@@ -101,14 +101,19 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         }
 
         MeshObjectIdentifier realIdentifier  = (MeshObjectIdentifier) arg;
-        MeshBase             defaultMeshBase = (MeshBase) pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY );
-        String contextPath;
-        if( defaultMeshBase != null ) {
-            contextPath = defaultMeshBase.getIdentifier().toExternalForm();
-        } else {
-            contextPath = (String) pars.get( StringRepresentationParameters.WEB_ABSOLUTE_CONTEXT_KEY ); // which may or may not be null
-            if( contextPath != null && !contextPath.endsWith( "/" )) {
-                contextPath += "/";
+        MeshBase             defaultMeshBase = null;
+        String               contextPath     = "";
+
+        if( pars != null ) {
+            defaultMeshBase = (MeshBase) pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY );
+
+            if( defaultMeshBase != null ) {
+                contextPath = defaultMeshBase.getIdentifier().toExternalForm();
+            } else {
+                contextPath = (String) pars.get( StringRepresentationParameters.WEB_ABSOLUTE_CONTEXT_KEY ); // which may or may not be null
+                if( contextPath != null && !contextPath.endsWith( "/" )) {
+                    contextPath += "/";
+                }
             }
         }
 

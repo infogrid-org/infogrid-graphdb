@@ -17,8 +17,6 @@ package org.infogrid.model.primitives;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationParameters;
-import org.infogrid.util.text.StringifierException;
 
 /**
   * <p>This is a value-holding property of an AttributableObjectType.</p>
@@ -81,20 +79,6 @@ public interface PropertyType
             String               mimeType )
         throws
             PropertyValueParsingException;
-
-    /**
-     * Emit String representation of a null PropertyValue of this PropertyType.
-     *
-     * @param representation the representation scheme
-     * @param pars collects parameters that may influence the String representation
-     * @return the String representation
-     * @throws StringifierException thrown if there was a problem when attempting to stringify
-     */
-    public String nullValueStringRepresentation(
-            StringRepresentation           representation,
-            StringRepresentationParameters pars )
-        throws
-            StringifierException;
 
     /**
       * Obtain the value of the IsOptional property.

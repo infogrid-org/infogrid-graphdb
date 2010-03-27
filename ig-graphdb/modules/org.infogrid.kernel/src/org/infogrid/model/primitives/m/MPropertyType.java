@@ -423,23 +423,6 @@ public class MPropertyType
     {
         return theDataType.fromStringRepresentation( representation, s, mimeType );
     }
-    
-    /**
-     * Emit String representation of a null PropertyValue of this PropertyType.
-     *
-     * @param representation the representation scheme
-     * @param pars collects parameters that may influence the String representation
-     * @return the String representation
-     * @throws StringifierException thrown if there was a problem when attempting to stringify
-     */
-    public String nullValueStringRepresentation(
-            StringRepresentation           representation,
-            StringRepresentationParameters pars )
-        throws
-            StringifierException
-    {
-        return theDataType.nullValueStringRepresentation( representation, pars );
-    }
 
     /**
      * Dump this object.

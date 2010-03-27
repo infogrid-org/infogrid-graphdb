@@ -171,7 +171,7 @@ public final class StringDataType
                 StringValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }
 
@@ -197,8 +197,8 @@ public final class StringDataType
 
             StringValue ret;
             switch( found.length ) {
-                case 5:
-                    ret = StringValue.create( (String) found[4] );
+                case 3:
+                    ret = StringValue.create( (String) found[2] );
                     break;
 
                 default:

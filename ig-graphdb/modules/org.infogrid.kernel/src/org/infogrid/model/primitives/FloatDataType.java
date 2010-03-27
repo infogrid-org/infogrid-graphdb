@@ -418,9 +418,9 @@ public class FloatDataType
                 FloatValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
-                PropertyValue.toStringRepresentation( theMin,            rep, pars ),
-                PropertyValue.toStringRepresentation( theMax,            rep, pars ),
+                PropertyValue.toStringRepresentationOrNull( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theMin,            rep, pars ),
+                PropertyValue.toStringRepresentationOrNull( theMax,            rep, pars ),
                 theUnitFamily,
                 theSupertype );
     }
@@ -442,15 +442,24 @@ public class FloatDataType
         throws
             PropertyValueParsingException
     {
+        s = s.trim();
+        if( s.length() == 0 ) {
+            return null;
+        }
+
         try {
             Object [] found = representation.parseEntry( FloatValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             FloatValue ret;
+            // /* 0 */ this,
+            // /* 1 */ editVar,
+            // /* 2 */ theValue,
+            // /* 3 */ theUnit
 
             switch( found.length ) {
-                case 5:
-                case 6:
-                    ret = FloatValue.create( (Number) found[4] );
+                case 3:
+                case 4:
+                    ret = FloatValue.create( (Number) found[2] );
                     break;
 
                 default:

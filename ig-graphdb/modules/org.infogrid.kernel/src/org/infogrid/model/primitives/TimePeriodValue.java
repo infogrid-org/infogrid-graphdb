@@ -14,7 +14,6 @@
 
 package org.infogrid.model.primitives;
 
-import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -383,17 +382,9 @@ public final class TimePeriodValue
         throws
             StringifierException
     {
-        Object editVariable;
-        Object meshObject;
-        Object propertyType;
+        String editVar = null;
         if( pars != null ) {
-            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-        } else {
-            editVariable = null;
-            meshObject   = null;
-            propertyType = null;
+            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
         }
 
         int millis = ((int) ( theSecond * 1000 )) % 1000;
@@ -402,18 +393,16 @@ public final class TimePeriodValue
                 getClass(),
                 StringRepresentation.DEFAULT_ENTRY,
                 pars,
-        /* 0 */ editVariable,
-        /* 1 */ meshObject,
-        /* 2 */ propertyType,
-        /* 3 */ this,
-        /* 4 */ theYear,
-        /* 5 */ theMonth,
-        /* 6 */ theDay,
-        /* 7 */ theHour,
-        /* 8 */ theMinute,
-        /* 9 */ theSecond,
-        /* 10 */ (int) theSecond,
-        /* 11 */ millis );
+        /* 0 */ this,
+        /* 1 */ editVar,
+        /* 2 */ theYear,
+        /* 3 */ theMonth,
+        /* 4 */ theDay,
+        /* 5 */ theHour,
+        /* 6 */ theMinute,
+        /* 7 */ theSecond,
+        /* 8 */ (int) theSecond,
+        /* 9 */ millis );
     }
     
     /**

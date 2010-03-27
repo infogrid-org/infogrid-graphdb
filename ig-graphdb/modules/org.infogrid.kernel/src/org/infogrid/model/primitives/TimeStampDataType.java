@@ -196,8 +196,8 @@ public final class TimeStampDataType
             Object [] found = representation.parseEntry( TimeStampValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             TimeZone tz;
-            if( found.length == 13 ) {
-                tz = TimeZone.getTimeZone( (String) found[12] );
+            if( found.length == 11 ) {
+                tz = TimeZone.getTimeZone( (String) found[10] );
             } else {
                 tz = Rfc3339Util.UTC;
             }
@@ -205,48 +205,37 @@ public final class TimeStampDataType
             Calendar cal = Calendar.getInstance( tz );
 
             switch( found.length ) {
-                case 10:
+                case 8:
                     cal.set(
-                            ((Number) found[4]).intValue(),    // year
-                            ((Number) found[5]).intValue() -1, // month
-                            ((Number) found[6]).intValue(),    // day
-                            ((Number) found[7]).intValue(),    // hour
-                            ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[9]).intValue());   // second
+                            ((Number) found[2]).intValue(),    // year
+                            ((Number) found[3]).intValue() -1, // month
+                            ((Number) found[4]).intValue(),    // day
+                            ((Number) found[5]).intValue(),    // hour
+                            ((Number) found[6]).intValue(),    // minute
+                            ((Number) found[7]).intValue());   // second
                     break;
 
+                case 9:
+                    cal.set(
+                            ((Number) found[1]).intValue(),    // year
+                            ((Number) found[2]).intValue() -1, // month
+                            ((Number) found[3]).intValue(),    // day
+                            ((Number) found[5]).intValue(),    // hour
+                            ((Number) found[6]).intValue(),    // minute
+                            ( found[7] != null ? (Number) found[7] : (Number) found[8]).intValue());   // second
+                    break;
+
+                case 10:
                 case 11:
                     cal.set(
-                            ((Number) found[4]).intValue(),    // year
-                            ((Number) found[5]).intValue() -1, // month
-                            ((Number) found[6]).intValue(),    // day
-                            ((Number) found[7]).intValue(),    // hour
-                            ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[10]).intValue());   // second
+                            ((Number) found[2]).intValue(),    // year
+                            ((Number) found[3]).intValue() -1, // month
+                            ((Number) found[4]).intValue(),    // day
+                            ((Number) found[5]).intValue(),    // hour
+                            ((Number) found[6]).intValue(),    // minute
+                            ((Number) found[8]).intValue());   // second
+                    cal.set(  Calendar.MILLISECOND , ((Number) found[9] ).intValue() );
                     break;
-
-                case 12:
-                    cal.set(
-                            ((Number) found[4]).intValue(),    // year
-                            ((Number) found[5]).intValue() -1, // month
-                            ((Number) found[6]).intValue(),    // day
-                            ((Number) found[7]).intValue(),    // hour
-                            ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[10]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , ((Number) found[11] ).intValue() );
-                    break;
-
-                case 13:
-                    cal.set(
-                            ((Number) found[4]).intValue(),    // year
-                            ((Number) found[5]).intValue() -1, // month
-                            ((Number) found[6]).intValue(),    // day
-                            ((Number) found[7]).intValue(),    // hour
-                            ((Number) found[8]).intValue(),    // minute
-                            ((Number) found[10]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , ((Number) found[11] ).intValue() );
-                    break;
-
             }
 
             return TimeStampValue.create( cal );

@@ -24,7 +24,7 @@ import org.infogrid.util.text.StringRepresentationParameters;
 /**
  * Stringifies the allowed MIME types of a BlobDataType.
  */
-public class BlobMimeOptionsHtmlStringifier
+public class BlobMimeOptionsStringifier
         extends
             AbstractStringifier<BlobDataType>
 {
@@ -38,14 +38,14 @@ public class BlobMimeOptionsHtmlStringifier
      * @param endSelected String to print after a value if the value is selected.
      * @return the created EnumeratedValueStringifier
      */
-    public static BlobMimeOptionsHtmlStringifier create(
+    public static BlobMimeOptionsStringifier create(
             String begin,
             String beginSelected,
             String middle,
             String end,
             String endSelected )
     {
-        return new BlobMimeOptionsHtmlStringifier( begin, beginSelected, middle, end, endSelected );
+        return new BlobMimeOptionsStringifier( begin, beginSelected, middle, end, endSelected );
     }
 
     /**
@@ -57,7 +57,7 @@ public class BlobMimeOptionsHtmlStringifier
      * @param end String to print after a value if the value is not selected.
      * @param endSelected String to print after a value if the value is selected.
      */
-    protected BlobMimeOptionsHtmlStringifier(
+    protected BlobMimeOptionsStringifier(
             String begin,
             String beginSelected,
             String middle,
@@ -197,29 +197,13 @@ public class BlobMimeOptionsHtmlStringifier
         if( arg instanceof BlobDataType ) {
             BlobDataType realArg = (BlobDataType) arg;
 
-            if( realArg.getDefaultValue() != null ) {
-                SimpleStringRepresentationParameters realPars = SimpleStringRepresentationParameters.create( pars );
-                realPars.put( CURRENT_VALUE, realArg.getDefaultValue() );
-
-                return format( soFar, realArg, realPars );
-
-            } else {
-                return format( soFar, realArg, pars );
-            }
+            return format( soFar, realArg, pars );
 
         } else if( arg instanceof PropertyType ) {
             PropertyType realArg  = (PropertyType) arg;
             BlobDataType realType = (BlobDataType) realArg.getDataType();
 
-            if( realArg.getDefaultValue() != null ) {
-                SimpleStringRepresentationParameters realPars = SimpleStringRepresentationParameters.create( pars );
-                realPars.put( CURRENT_VALUE, realArg.getDefaultValue() );
-
-                return format( soFar, realType, realPars );
-
-            } else {
-                return format( soFar, realType, pars );
-            }
+            return format( soFar, realType, pars );
 
         } else if( arg instanceof BlobValue ) {
             BlobValue    realArg  = (BlobValue) arg;

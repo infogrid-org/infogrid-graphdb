@@ -173,7 +173,7 @@ public final class ExtentDataType
                 ExtentValue.class,
                 DEFAULT_ENTRY,
                 pars,
-                PropertyValue.toStringRepresentation( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }
 
@@ -201,10 +201,10 @@ public final class ExtentDataType
 
             ExtentValue ret;
             switch( found.length ) {
-                case 6:
+                case 4:
                     ret = ExtentValue.create(
-                            ((Number) found[4]).doubleValue(),
-                            ((Number) found[5]).doubleValue() );
+                            ((Number) found[2]).doubleValue(),
+                            ((Number) found[3]).doubleValue() );
                     break;
 
                 default:
