@@ -297,10 +297,19 @@ public abstract class DataType
             IllegalPropertyTypeException,
             NotPermittedException
     {
-        String  editVar   = null;
-        Boolean allowNull = null;
+        String  editVar    = null;
+        Boolean allowNull  = null;
+
+        PropertyValue currentValue = owningMeshObject.getPropertyValue( propertyType );
+        PropertyValue defaultValue = propertyType.getDefaultValue();
 
         if( pars != null ) {
+            if( currentValue == null ) {
+                String nullString = (String) pars.get( StringRepresentationParameters.NULL_STRING );
+                if( nullString != null ) {
+                    return nullString;
+                }
+            }
             editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
             allowNull = (Boolean) pars.get( ModelPrimitivesStringRepresentationParameters.ALLOW_NULL );
             if( allowNull != null && allowNull.booleanValue() ) {
@@ -314,12 +323,8 @@ public abstract class DataType
         if( pars == null ) {
             pars = SimpleStringRepresentationParameters.create();
         }
-        StringRepresentationParameters realPars = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );
 
-        PropertyValue currentValue  = owningMeshObject.getPropertyValue( propertyType );
-        PropertyValue defaultValue  = propertyType.getDefaultValue();
-        String        entry;
-
+        String entry;
         if( currentValue != null ) {
             entry = "Value";
         } else {
@@ -329,7 +334,8 @@ public abstract class DataType
         if( defaultValue == null ) {
             defaultValue = getDefaultValue(); // the DataType's default, rather than the PropertyType's (which is null)
         }
-        StringRepresentation jsRep = StringRepresentationDirectorySingleton.getSingleton().get( StringRepresentationDirectory.TEXT_JAVASCRIPT_NAME );
+        StringRepresentation           jsRep    = StringRepresentationDirectorySingleton.getSingleton().get( StringRepresentationDirectory.TEXT_JAVASCRIPT_NAME );
+        StringRepresentationParameters realPars = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );
 
         String currentValueJsString = PropertyValue.toStringRepresentationOrNull( currentValue, jsRep, realPars );
         String defaultValueJsString = PropertyValue.toStringRepresentationOrNull( defaultValue, jsRep, realPars );
@@ -347,12 +353,14 @@ public abstract class DataType
                 realPars,
         /* 0 */ owningMeshObject,
         /* 1 */ propertyType,
-        /* 2 */ currentValueJsString,
-        /* 3 */ defaultValueJsString,
-        /* 4 */ propertyHtml,
-        /* 5 */ allowNull,
-        /* 6 */ propertyType.getIsReadOnly().value(),
-        /* 7 */ editVar );
+        /* 2 */ currentValue,
+        /* 3 */ currentValueJsString,
+        /* 4 */ defaultValue,
+        /* 5 */ defaultValueJsString,
+        /* 6 */ propertyHtml,
+        /* 7 */ allowNull,
+        /* 8 */ propertyType.getIsReadOnly().value(),
+        /* 9 */ editVar );
 
         return ret;
     }
