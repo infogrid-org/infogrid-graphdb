@@ -201,6 +201,38 @@ public abstract class AbstractMeshObjectSet
     }
 
     /**
+     * Determine whether this set contains all MeshObjects in a supposed subset.
+     *
+     * @param subset the supposed subset
+     * @return true if this set contains all MeshObjects in the supposed subset
+     * @throws WrongMeshBaseException thrown if a tested object is contained in a different MeshBase than the MeshObjects in this set
+     */
+    public boolean containsAll(
+            MeshObjectSet subset )
+        throws
+            WrongMeshBaseException
+    {
+        if( getMeshBase() != subset.getMeshBase()) {
+            throw new WrongMeshBaseException( getMeshBase(), subset.getMeshBase() );
+        }
+
+        for( MeshObject current2 : subset ) {
+            boolean found = false;
+
+            for( MeshObject current1 : this ) {
+                if( current2.equals( current1 )) {
+                    found = true;
+                    break;
+                }
+            }
+            if( !found ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Determine whether this set contains a MeshObject with this identifier.
      * 
      * @param identifier the identifier of the MeshObject to look for

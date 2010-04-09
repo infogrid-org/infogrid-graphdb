@@ -139,7 +139,19 @@ public interface MeshObjectSet
     public abstract boolean contains(
             Identifier identifier );
 
-   /**
+    /**
+     * Determine whether this set contains all MeshObjects in a supposed subset.
+     *
+     * @param subset the supposed subset
+     * @return true if this set contains all MeshObjects in the supposed subset
+     * @throws WrongMeshBaseException thrown if a tested object is contained in a different MeshBase than the MeshObjects in this set
+     */
+    public abstract boolean containsAll(
+            MeshObjectSet subset )
+        throws
+            WrongMeshBaseException;
+
+    /**
      * Convenience method to to easily find a member of this set by providing a
      * MeshObjectSelector that will select the MeshObject to be found. This method will return
      * the match and THEN STOP. If you expect more than one match, do not use this method.
@@ -147,7 +159,7 @@ public interface MeshObjectSet
      * @param selector the criteria for selection
      * @return the first found MeshObject, or null if none
      */
-     public abstract MeshObject find(
+    public abstract MeshObject find(
             MeshObjectSelector selector );
 
     /**
