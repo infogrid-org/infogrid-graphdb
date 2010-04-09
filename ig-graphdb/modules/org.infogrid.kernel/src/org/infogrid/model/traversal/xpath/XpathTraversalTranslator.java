@@ -718,6 +718,9 @@ public class XpathTraversalTranslator
             throw new TraversalTranslatorException( "Cannot find SubjectArea corresponding to prefix " + prefix );
         }
         CollectableMeshType ret = sa.findCollectableMeshTypeByName( StringValue.create( name ));
+        if( ret == null ) {
+            throw new TraversalTranslatorException( "Cannot find CollectableMeshType '" + name + "' in SubjectArea " + sa.toExternalForm() );
+        }
         return ret;
     }
 

@@ -87,6 +87,11 @@ public class SequentialCompoundTraversalSpecification
     private SequentialCompoundTraversalSpecification(
             TraversalSpecification [] steps )
     {
+        for( int i=0 ; i<steps.length ; ++i ) {
+            if( steps[i] == null ) {
+                throw new NullPointerException( "Step " + i + " in SequentialCompoundTraversalSpecification is null" );
+            }
+        }
         theSteps = steps;
     }
 
