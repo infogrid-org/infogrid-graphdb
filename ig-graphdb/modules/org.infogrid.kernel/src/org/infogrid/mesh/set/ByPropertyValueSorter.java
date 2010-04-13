@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -20,6 +20,7 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
+import org.infogrid.util.InverseComparator;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -57,6 +58,44 @@ public class ByPropertyValueSorter
             String       userName )
     {
         Comparator<MeshObject> c = new PropertyValueComparator( property );
+        return new ByPropertyValueSorter( c, userName );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param property the PropertyType by whose values we sort
+     * @param inverse if true, sort in reverse order
+     * @return the created ByPropertyValueSorter
+     */
+    public static ByPropertyValueSorter create(
+            PropertyType property,
+            boolean      inverse )
+    {
+        Comparator<MeshObject> c = new PropertyValueComparator( property );
+        if( inverse ) {
+            c = new InverseComparator<MeshObject>( c );
+        }
+        return new ByPropertyValueSorter( c, null );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param property the PropertyType by whose values we sort
+     * @param inverse if true, sort in reverse order
+     * @param userName localized user-visible name in the current locale
+     * @return the created ByPropertyValueSorter
+     */
+    public static ByPropertyValueSorter create(
+            PropertyType property,
+            boolean      inverse,
+            String       userName )
+    {
+        Comparator<MeshObject> c = new PropertyValueComparator( property );
+        if( inverse ) {
+            c = new InverseComparator<MeshObject>( c );
+        }
         return new ByPropertyValueSorter( c, userName );
     }
 

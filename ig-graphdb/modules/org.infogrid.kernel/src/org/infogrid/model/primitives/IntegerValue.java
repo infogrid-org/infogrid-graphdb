@@ -160,6 +160,16 @@ public final class IntegerValue
     }
 
     /**
+     * Convenience method along the lines of Number.doubleValue.
+     *
+     * @return the value as double
+     */
+    public Double doubleValue()
+    {
+        return Double.valueOf( theValue );
+    }
+
+    /**
       * Obtain Unit, if any.
       *
       * @return the Unit, if any

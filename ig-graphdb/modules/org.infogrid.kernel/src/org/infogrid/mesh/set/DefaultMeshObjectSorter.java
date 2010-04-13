@@ -8,17 +8,16 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set;
 
-import org.infogrid.mesh.MeshObject;
-import org.infogrid.util.ArrayHelper;
-
 import java.util.Arrays;
 import java.util.Comparator;
+import org.infogrid.mesh.MeshObject;
+import org.infogrid.util.ArrayHelper;
 
 /**
  * This is a default MeshObjectSorter implementation that uses the Java collections API.

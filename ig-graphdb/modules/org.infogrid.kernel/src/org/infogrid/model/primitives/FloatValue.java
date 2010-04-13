@@ -171,6 +171,16 @@ public final class FloatValue
     }
 
     /**
+     * Convenience method along the lines of Number.doubleValue.
+     *
+     * @return the value as double
+     */
+    public Double doubleValue()
+    {
+        return theValue;
+    }
+
+    /**
       * Determine equality of two objects.
       *
       * @param otherValue the object to test against
