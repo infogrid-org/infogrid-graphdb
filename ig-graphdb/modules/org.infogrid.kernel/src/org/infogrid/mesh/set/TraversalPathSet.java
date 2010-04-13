@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -132,6 +132,18 @@ public interface TraversalPathSet
      * @return the destinations of the contained TraversalPaths as a MeshObjectSet
      */
     public abstract MeshObjectSet getDestinationsAsSet();
+
+    /**
+     * Obtain the MeshObjects found at the given index in all the contained TraversalPaths,
+     * and return them as a MeshObjectSet.
+     * While the same MeshObject may be a step in more than one contained TraversalPath,
+     * the MeshObjectSet naturally only contains this MeshObject once.
+     * 
+     * @param index the index from which we want to obtain the MeshObject
+     * @return the MeshObjects found at the given index as a MeshObjectSet
+     */
+    public abstract MeshObjectSet getStepAsSet(
+            int index );
 
     /**
      * Add a PropertyChangeListener to all the MeshObjects in all the

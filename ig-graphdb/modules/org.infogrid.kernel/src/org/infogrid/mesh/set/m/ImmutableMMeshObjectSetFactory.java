@@ -24,7 +24,10 @@ import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSorter;
 import org.infogrid.mesh.set.OrderedImmutableMeshObjectSet;
 import org.infogrid.mesh.set.OrderedMeshObjectSet;
+import org.infogrid.mesh.set.TraversalPathSet;
+import org.infogrid.mesh.set.TraversalPathSorter;
 import org.infogrid.model.traversal.TraversalPath;
+import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.ArrayHelper;
 
 /**
@@ -63,6 +66,113 @@ public class ImmutableMMeshObjectSetFactory
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ImmutableMMeshObjectSet createImmutableMeshObjectSet(
+            MeshObject [] members )
+    {
+        return (ImmutableMMeshObjectSet) super.createImmutableMeshObjectSet( members );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ImmutableMMeshObjectSet createImmutableMeshObjectSet(
+            MeshObjectSet      input,
+            MeshObjectSelector selector )
+    {
+        return (ImmutableMMeshObjectSet) super.createImmutableMeshObjectSet( input, selector );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetUnification(
+            MeshObjectSet [] operands )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetUnification( operands );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetUnification(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetUnification( one, two );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetUnification(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetUnification( one, two );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetIntersection(
+            MeshObjectSet [] operands )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetIntersection( operands );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetIntersection(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetIntersection( one, two );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetIntersection(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetIntersection( one, two );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public CompositeImmutableMMeshObjectSet createImmutableMeshObjectSetMinus(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return (CompositeImmutableMMeshObjectSet) super.createImmutableMeshObjectSetMinus( one, two );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public OrderedImmutableMMeshObjectSet createOrderedImmutableMeshObjectSet(
+            MeshObjectSet    content,
+            MeshObjectSorter sorter )
+    {
+        return (OrderedImmutableMMeshObjectSet) super.createOrderedImmutableMeshObjectSet( content, sorter );
+    }
+
+    /**
      * Factory method to create an empty MeshObjectSet. This method may return
      * the same instance every time it is invoked, but is not required to do so.
      * 
@@ -76,6 +186,19 @@ public class ImmutableMMeshObjectSetFactory
         return theEmptySet;
     }
     
+    /**
+     * Factory method to construct a MeshObjectSet with the single specified member.
+     * Given that it has only one member, we might as well return an OrderedMeshObjectSet.
+     *
+     * @param member the content of the set
+     * @return the created MeshObjectSet
+     */
+    public OrderedImmutableMeshObjectSet createSingleMemberImmutableMeshObjectSet(
+            MeshObject member )
+    {
+        return new OrderedImmutableMMeshObjectSet( this, new MeshObject[] { member }, 1 );
+    }
+
     /**
      * Factory method to construct a MeshObjectSet with the specified members, as long
      * as they are selected by the MeshObjectSelector.
@@ -250,16 +373,75 @@ public class ImmutableMMeshObjectSetFactory
                 max );
     }
 
+   /**
+     * Factory method to construct a ImmutableMeshObjectSet as the result of
+     * traversing from a MeshObject through a TraversalSpecification.
+     *
+     * @param startObject the MeshObject from where we start the traversal
+     * @param specification the TraversalSpecification to apply to the startObject
+     * @return the created ActiveMeshObjectSet
+     */
+    public ImmutableMeshObjectSet createImmutableMeshObjectSet(
+            MeshObject             startObject,
+            TraversalSpecification specification )
+    {
+        MeshObjectSet ret = startObject.traverse( specification );
+
+        if( ret.getFactory() != this ) {
+            return (ImmutableMeshObjectSet) ret;
+        } else {
+            // happens if two MeshObjectSetFactories are in use
+            return createImmutableMeshObjectSet( ret.getMeshObjects() );
+        }
+    }
+
+    /**
+     * Factory method to construct a ImmutableMeshObjectSet as the result of
+     * traversing from a MeshObjectSet through a TraversalSpecification.
+     *
+     * @param startSet the MeshObjectSet from where we start the traversal
+     * @param specification the TraversalSpecification to apply to the startObject
+     * @return the created ActiveMeshObjectSet
+     */
+    public ImmutableMMeshObjectSet createImmutableMeshObjectSet(
+            MeshObjectSet          startSet,
+            TraversalSpecification specification )
+    {
+        MeshObjectSet ret = startSet.traverse( specification );
+
+        if( ret.getFactory() != this ) {
+            return (ImmutableMMeshObjectSet) ret;
+        } else {
+            // happens if two MeshObjectSetFactories are in use
+            return createImmutableMeshObjectSet( ret.getMeshObjects() );
+        }
+    }
+
+    /**
+     * Factory method to construct a ImmutableMeshObjectSet as the result of
+     * traversing from a MeshObject through a TraversalSpecification, and repeating that process.
+     *
+     * @param startObject the MeshObject from where we start the traversal
+     * @param specification the TraversalSpecification to apply to the startObject
+     * @return the created ActiveMeshObjectSet
+     */
+    public TransitiveClosureImmutableMMeshObjectSet createTransitiveClosureImmutableMeshObjectSet(
+            MeshObject             startObject,
+            TraversalSpecification specification )
+    {
+        return new TransitiveClosureImmutableMMeshObjectSet( this, startObject, specification );
+    }
+
     /**
      * Factory method.
      *
      * @param singleMember the single member of the ImmutableMTraversalPathSet
      * @return return the created ImmutableMTraversalPathSet
      */
-    public ImmutableMTraversalPathSet createSingleMemberImmutableTraversalPathSet(
+    public OrderedImmutableMTraversalPathSet createSingleMemberImmutableTraversalPathSet(
             TraversalPath singleMember )
     {
-        return new ImmutableMTraversalPathSet( this, new TraversalPath[] { singleMember } );
+        return new OrderedImmutableMTraversalPathSet( this, new TraversalPath[] { singleMember }, 1 );
     }
 
     /**
@@ -275,15 +457,18 @@ public class ImmutableMMeshObjectSetFactory
     }
 
     /**
-     * Factory method. This creates a set of TraversalPaths each with length 1.
+     * Factory method to create an ImmutableTraversalPathSet.
+     * This creates a set of TraversalPaths each with length 1.
      * The destination of each TraversalPath corresponds to the elements of the
-     * given MeshObjectSet.
+     * given MeshObjectSet. The TraversalSpecification is passed in.
      *
-     * @param set used to construct the content for the ImmutableMTraversalPathSet
-     * @return the created ImmutableMTraversalPathSet
+     * @param spec the traversed TraversalSpecification
+     * @param set used to construct the content for the ImmutableTraversalPathSet
+     * @return the created ImmutableTraversalPathSet
      */
     public ImmutableMTraversalPathSet createImmutableTraversalPathSet(
-            MeshObjectSet set )
+            TraversalSpecification spec,
+            MeshObjectSet          set )
     {
         if( theMeshBase != set.getMeshBase() ) {
             throw new IllegalArgumentException();
@@ -292,10 +477,102 @@ public class ImmutableMMeshObjectSetFactory
         MeshObject    [] res     = set.getMeshObjects();
         TraversalPath [] content = new TraversalPath[ res.length ];
         for( int i=0 ; i<content.length ; ++i ) {
-            content[i] = TraversalPath.create( null, res[i] );
+            content[i] = TraversalPath.create( spec, res[i] );
         }
 
         return new ImmutableMTraversalPathSet( this, content );
+    }
+
+    /**
+     * Factory method to create an ImmutableTraversalPathSet.
+     *
+     * @param start the MeshObject from which we start the traversal
+     * @param spec the TraversalSpecification from the start MeshObject
+     * @return the created ImmutableTraversalPathSet
+     */
+    public ImmutableMTraversalPathSet createImmutableTraversalPathSet(
+            MeshObject             start,
+            TraversalSpecification spec )
+    {
+        return createImmutableTraversalPathSet( spec, start.traverse( spec ));
+    }
+
+    /**
+     * Factory method to create an ImmutableTraversalPathSet.
+     *
+     * @param startSet the MeshObjectSet from which we start the traversal
+     * @param spec the TraversalSpecification from the start MeshObject
+     * @return the created ImmutableTraversalPathSet
+     */
+    public ImmutableMTraversalPathSet createImmutableTraversalPathSet(
+            MeshObjectSet          startSet,
+            TraversalSpecification spec )
+    {
+        return createImmutableTraversalPathSet( spec, startSet.traverse( spec ));
+    }
+
+    /**
+     * Factory method to create an ImmutableTraversalPathSet.
+     *
+     * @param startSet the TraversalPathSet from whose destination MeshObject we start the traversal
+     * @param spec the TraversalSpecification from the start MeshObject
+     * @return the created ImmutableTraversalPathSet
+     */
+    public ImmutableMTraversalPathSet createImmutableTraversalPathSet(
+            TraversalPathSet       startSet,
+            TraversalSpecification spec )
+    {
+        TraversalPath [] oldPaths = startSet.getTraversalPaths();
+        MeshObjectSet [] newSets  = new MeshObjectSet[ oldPaths.length ];
+
+        int count = 0;
+        for( int i=0 ; i<oldPaths.length ; ++i ) {
+            newSets[i] = oldPaths[i].getLastMeshObject().traverse( spec );
+
+            count += newSets[i].size();
+        }
+
+        TraversalPath [] newPaths = new TraversalPath[ count ];
+        int count2 = 0;
+        for( int i=0 ; i<oldPaths.length ; ++i ) {
+            for( int j=0 ; j<newSets[i].size() ; ++j ) {
+                newPaths[ count2++ ] = TraversalPath.create( newPaths[i], spec, newSets[i].get( j ));
+            }
+        }
+        return createImmutableTraversalPathSet( newPaths );
+    }
+
+    /**
+     * Factory method to create an OrderedImmutableTraversalPathSet.
+     *
+     * @param content the content of the TraversalPathSet
+     * @param sorter the TraversalPathSorter that determines the ordering within the OrderedTraversalPathSet
+     * @return the created OrderedImmutableTraversalPathSet
+     */
+    public OrderedImmutableMTraversalPathSet createOrderedImmutableTraversalPathSet(
+            TraversalPathSet    content,
+            TraversalPathSorter sorter )
+    {
+        return createOrderedImmutableTraversalPathSet( content, sorter, Integer.MAX_VALUE );
+    }
+
+    /**
+     * Factory method to create an OrderedImmutableTraversalPathSet.
+     *
+     * @param content the content of the TraversalPathSet
+     * @param sorter the TraversalPathSorter that determines the ordering within the OrderedTraversalPathSet
+     * @param max the maximum number of TraversalPaths that will be contained by this set. If the underlying set contains more,
+     *        this set will only contain the first max TraversalPaths according to the sorter.
+     * @return the created OrderedImmutableTraversalPathSet
+     */
+    public OrderedImmutableMTraversalPathSet createOrderedImmutableTraversalPathSet(
+            TraversalPathSet    content,
+            TraversalPathSorter sorter,
+            int                 max )
+    {
+        TraversalPath [] sorted = sorter.getOrderedInNew( content.getTraversalPaths() );
+
+        return new OrderedImmutableMTraversalPathSet( this, sorted, max );
     }
 
     /**

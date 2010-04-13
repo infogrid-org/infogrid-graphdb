@@ -142,6 +142,25 @@ public class TraversalPath
     }
 
     /**
+     * Factory method to construct one by concatenating another step to an existing TraversalPath.
+     *
+     * @param one the first TraversalPath
+     * @param spec the TraversalSpecification traversed from the last MeshObject of the first TraversalPath
+     * @param reached the MeshObject reached in the process
+     * @return the created TraversalPath
+     * @throws WrongMeshBaseException thrown if a TraversalPath is prepended to a TraversalPath with MeshObjects in different MeshBases
+     */
+    public static TraversalPath create(
+            TraversalPath          one,
+            TraversalSpecification spec,
+            MeshObject             reached )
+        throws
+            WrongMeshBaseException
+    {
+        return create( one, TraversalPath.create( spec, reached ));
+    }
+
+    /**
      * Factory method to construct one from equal-length arrays of TraversalSpecification and reached MeshObjects.
      *
      * @param steps the steps taken, in sequence

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -45,7 +45,7 @@ import org.infogrid.util.logging.Log;
  * forwarded from all MeshObjects that in the set
  * (if PropertyTypes are specified, only from those PropertyTypes)</p>
  * 
- * <p>To instantiate, use static factory methods.</p>
+ * <p>To instantiate, use factory methods.</p>
  * 
  * <p>This is how it works: All current members of the set have an associated
  * TraversalActiveMMeshObjectSet, which contains the objects reachable from the

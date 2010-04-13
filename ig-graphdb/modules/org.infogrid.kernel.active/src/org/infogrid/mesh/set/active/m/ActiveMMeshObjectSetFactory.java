@@ -21,9 +21,12 @@ import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSorter;
 import org.infogrid.mesh.set.OrderedMeshObjectSet;
 import org.infogrid.mesh.set.TraversalPathSet;
+import org.infogrid.mesh.set.TraversalPathSorter;
 import org.infogrid.mesh.set.active.ActiveMeshObjectSet;
 import org.infogrid.mesh.set.active.ActiveMeshObjectSetFactory;
+import org.infogrid.mesh.set.active.ActiveTraversalPathSet;
 import org.infogrid.mesh.set.active.OrderedActiveMeshObjectSet;
+import org.infogrid.mesh.set.active.OrderedActiveTraversalPathSet;
 import org.infogrid.mesh.set.active.TraversalActiveMeshObjectSet;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
 import org.infogrid.model.primitives.RoleType;
@@ -32,6 +35,7 @@ import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
 import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
 import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
+import org.infogrid.model.traversal.TraversalPath;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
@@ -80,14 +84,29 @@ public class ActiveMMeshObjectSetFactory
      * 
      * @return the empty MeshObjectSet
      */
-    public ActiveMeshObjectSet obtainEmptyConstantActiveMeshObjectSet()
+    public OrderedActiveMMeshObjectSet obtainEmptyConstantActiveMeshObjectSet()
     {
         if( theEmptyActiveSet == null ) {
-            theEmptyActiveSet = new ConstantActiveMMeshObjectSet( this, new MeshObject[0] );
+            theEmptyActiveSet = new OrderedConstantActiveMMeshObjectSet( this, new MeshObject[0], 0 );
         }
         return theEmptyActiveSet;
     }
     
+    /**
+     * Factory method to create a MeshObjectSet with a single specified member.
+     * This method may return
+     * the same instance every time it is invoked, but is not required to do so.
+     * Given that it has only one member, it might as well return an ordered ActiveMeshObjectSet.
+     *
+     * @param member the content of the set
+     * @return the created MeshObjectSet
+     */
+    public OrderedActiveMMeshObjectSet obtainSingleMemberConstantActiveMeshObjectSet(
+            MeshObject member )
+    {
+        return new OrderedConstantActiveMMeshObjectSet( this, new MeshObject[] { member }, 1 );
+    }
+
     /**
      * Factory method to construct a MeshObjectSet with the specified members, as long
      * as they are selected by the MeshObjectSelector.
@@ -131,6 +150,32 @@ public class ActiveMMeshObjectSetFactory
             ret = new ConstantActiveMMeshObjectSet( this, candidates );
         }
         return ret;        
+    }
+
+    /**
+     * Factory method to construct a MeshObjectSet with the specified members, as long
+     * as they are selected by the MeshObjectSelector.
+     *
+     * @param input the input MeshObjectSet
+     * @param selector determines which candidates are included
+     * @return the created MeshObjectSet
+     */
+    public ConstantActiveMMeshObjectSet createConstantActiveMeshObjectSet(
+            MeshObjectSet      input,
+            MeshObjectSelector selector )
+    {
+        MeshObject [] content = new MeshObject[ input.size() ];
+        int count = 0;
+        for( int i=0 ; i<input.size() ; ++i ) {
+            if( selector.accepts( input.get( i ) )) {
+                content[count++] = input.get( i );
+            }
+        }
+        if( count < content.length ) {
+            content = ArrayHelper.copyIntoNewArray( content, 0, count, MeshObject.class );
+        }
+
+        return new ConstantActiveMMeshObjectSet( this, content );
     }
 
     /**
@@ -183,6 +228,44 @@ public class ActiveMMeshObjectSetFactory
     }
     
     /**
+     * Factory method to construct a MeshObjectSet with all the members of the provided
+     * MeshObjectSets.
+     *
+     * @param one the first set to unify
+     * @param two the second set to unify
+     * @return the created MeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetUnification(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return createActiveMeshObjectSetUnification(
+                new MeshObjectSet[] {
+                        one,
+                        two
+                });
+    }
+
+    /**
+     * Factory method to construct a MeshObjectSet with all the members of the provided
+     * MeshObjectSets.
+     *
+     * @param one the first set to unify
+     * @param two the second set to unify
+     * @return the created MeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetUnification(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return createActiveMeshObjectSetUnification(
+                new MeshObjectSet[] {
+                        one,
+                        createSingleMemberImmutableMeshObjectSet( two )
+                });
+    }
+
+    /**
      * Factory method to construct a MeshObjectSet that contains those MeshObjects that are contained
      * in all of the provided MeshObjectSets.
      * 
@@ -233,17 +316,102 @@ public class ActiveMMeshObjectSetFactory
         }        
     }
 
+   /**
+     * Factory method to construct a MeshObjectSet that conatins those MeshObjects that are
+     * contained in all of the provided MeshObjectSets, as long as they are also
+     * selected by the MeshObjectSelector.
+     *
+     * @param one the first set to intersect
+     * @param two the second set to intersect
+     * @return the created MeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetIntersection(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return createActiveMeshObjectSetIntersection(
+                new MeshObjectSet[] {
+                        one,
+                        two
+                });
+    }
+
+    /**
+     * Factory method to construct a MeshObjectSet that conatins those MeshObjects that are
+     * contained in all of the provided MeshObjectSets, as long as they are also
+     * selected by the MeshObjectSelector.
+     *
+     * @param one the first set to intersect
+     * @param two the second set to intersect
+     * @return the created MeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetIntersection(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return createActiveMeshObjectSetIntersection(
+                new MeshObjectSet[] {
+                        one,
+                        createSingleMemberImmutableMeshObjectSet( two )
+                });
+    }
+
+    /**
+     * Factory method to construct a MeshObjectSet that contains those MeshObjects from
+     * a first MeshObjectSet that are not contained in a second MeshObjectSet.
+     *
+     * @param one the first MeshObjectSet
+     * @param two the second MeshObjectSet
+     * @return the created CompositeActiveMeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetMinus(
+            MeshObjectSet one,
+            MeshObjectSet two )
+    {
+        return createActiveMeshObjectSetMinus( one, two, null );
+    }
+
+    /**
+     * Factory method to construct a MeshObjectSet that contains those MeshObjects from
+     * a first MeshObjectSet that are not contained in a second MeshObjectSet, as long
+     * as they are also selected by the MeshObjectSelector.
+     *
+     * @param one the first MeshObjectSet
+     * @param two the second MeshObjectSet
+     * @param selector the MeshObjectSelector to use, if any
+     * @return the created CompositeActiveMeshObjectSet
+     */
+    public CompositeActiveMMeshObjectSet createActiveMeshObjectSetMinus(
+            MeshObjectSet      one,
+            MeshObjectSet      two,
+            MeshObjectSelector selector )
+    {
+        throw new UnsupportedOperationException( "for now" ); // FIXME
+    }
+
+    /**
+     * Factory method to create an OrderedMeshObjectSet.
+     *
+     * @param contentInOrder the content of the OrderedMeshObjectSet, in order
+     * @return the created OrderedActiveMeshObjectSet
+     */
+    public OrderedActiveMeshObjectSet createOrderedActiveMeshObjectSet(
+            MeshObject [] contentInOrder )
+    {
+        return new OrderedConstantActiveMMeshObjectSet( this, contentInOrder, contentInOrder.length );
+    }
+
     /**
      * Factory method to create an OrderedMeshObjectSet.
      * 
      * @param content the content of the OrderedMeshObjectSet
      * @param sorter the MeshObjectSorter that determines the ordering within the OrderedMeshObjectSet
      */
-    public OrderedActiveMeshObjectSet createActiveOrderedMeshObjectSet(
+    public OrderedActiveMeshObjectSet createOrderedActiveMeshObjectSet(
             MeshObjectSet    content,
             MeshObjectSorter sorter )
     {
-        return createActiveOrderedMeshObjectSet( content, sorter, OrderedMeshObjectSet.UNLIMITED );
+        return createOrderedActiveMeshObjectSet( content, sorter, OrderedMeshObjectSet.UNLIMITED );
     }
 
     /**
@@ -254,7 +422,7 @@ public class ActiveMMeshObjectSetFactory
      * @param max the maximum number of MeshObjects that will be contained by this set. If the underlying set contains more,
      *        this set will only contain the first max MeshObjects according to the sorter.
      */
-    public OrderedActiveMeshObjectSet createActiveOrderedMeshObjectSet(
+    public OrderedActiveMeshObjectSet createOrderedActiveMeshObjectSet(
             MeshObjectSet    content,
             MeshObjectSorter sorter,
             int              max )
@@ -340,13 +508,54 @@ public class ActiveMMeshObjectSetFactory
      * @param specification the TraversalSpecification to apply to the startObject
      * @return the created ActiveMeshObjectSet
      */
-    public ActiveMeshObjectSet createTransitiveClosureAktiveMeshObjectSet(
+    public ActiveMeshObjectSet createTransitiveClosureActiveMeshObjectSet(
             MeshObject             startObject,
             TraversalSpecification specification )
     {
         return new TransitiveClosureTraversalActiveMMeshObjectSet( this, startObject, specification );        
     }
 
+    /**
+     * Factory method to create an ImmutableTraversalPathSet.
+     * Given that it has only one member, it might as well return an ordered TraversalPathSet.
+     *
+     * @param singleMember the single member of the ImmutableTraversalPathSet
+     * @return return the created ImmutableTraversalPathSet
+     */
+    public OrderedActiveTraversalPathSet createSingleMemberConstantActiveTraversalPathSet(
+            TraversalPath singleMember )
+    {
+        throw new UnsupportedOperationException( "for now" ); // FIXME
+    }
+
+    /**
+     * Factory method to create an ActiveTraversalPathSet.
+     *
+     * @param content the content for the ActiveTraversalPathSet
+     * @return the created ActiveTraversalPathSet
+     */
+    public ActiveTraversalPathSet createActiveTraversalPathSet(
+            TraversalPath [] content )
+    {
+        throw new UnsupportedOperationException( "for now" ); // FIXME
+    }
+
+    /**
+     * Factory method to create an ActiveTraversalPathSet.
+     * This creates a set of TraversalPaths each with length 1.
+     * The destination of each TraversalPath corresponds to the elements of the
+     * given MeshObjectSet. The TraversalSpecification is passed in.
+     *
+     * @param spec the traversed TraversalSpecification
+     * @param set used to construct the content for the ActiveTraversalPathSet
+     * @return the created ActiveTraversalPathSet
+     */
+    public ActiveTraversalPathSet createActiveTraversalPathSet(
+            TraversalSpecification spec,
+            MeshObjectSet          set )
+    {
+        throw new UnsupportedOperationException( "for now" ); // FIXME
+    }
 
     /**
      * Factory method.
@@ -425,6 +634,38 @@ public class ActiveMMeshObjectSetFactory
         return new TraversalActiveMTraversalPathSet.PathUnifier( this, startSet, spec );
     }
     
+
+    /**
+     * Factory method to create an OrderedActiveTraversalPathSet.
+     *
+     * @param content the content of the TraversalPathSet
+     * @param sorter the TraversalPathSorter that determines the ordering within the OrderedTraversalPathSet
+     * @return the created OrderedActiveTraversalPathSet
+     */
+    public OrderedActiveTraversalPathSet createOrderedActiveTraversalPathSet(
+            TraversalPathSet    content,
+            TraversalPathSorter sorter )
+    {
+        return createOrderedActiveTraversalPathSet( content, sorter, Integer.MAX_VALUE );
+    }
+
+    /**
+     * Factory method to create an OrderedActiveTraversalPathSet.
+     *
+     * @param content the content of the TraversalPathSet
+     * @param sorter the TraversalPathSorter that determines the ordering within the OrderedTraversalPathSet
+     * @param max the maximum number of TraversalPaths that will be contained by this set. If the underlying set contains more,
+     *        this set will only contain the first max TraversalPaths according to the sorter.
+     * @return the created OrderedActiveTraversalPathSet
+     */
+    public OrderedActiveTraversalPathSet createOrderedActiveTraversalPathSet(
+            TraversalPathSet    content,
+            TraversalPathSorter sorter,
+            int                 max )
+    {
+        throw new UnsupportedOperationException( "Placeholder for now" );
+    }
+
     /**
      * Factory method to construct a TraversalActiveMMeshObjectSet as the result of
      * traversing from a MeshObject through a RoleType. Only forward
@@ -653,5 +894,5 @@ public class ActiveMMeshObjectSetFactory
     /**
      * Buffer for an empty MeshObjectSet.
      */
-    protected ConstantActiveMMeshObjectSet theEmptyActiveSet;
+    protected OrderedConstantActiveMMeshObjectSet theEmptyActiveSet;
 }

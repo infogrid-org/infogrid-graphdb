@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -64,7 +64,7 @@ public class ActiveMeshObjectSetTest7
 
         log.info( "Set up TransitiveClosureTraversalActiveMeshObjectSet" );
 
-        ActiveMeshObjectSet monitor = theMeshObjectSetFactory.createTransitiveClosureAktiveMeshObjectSet(
+        ActiveMeshObjectSet monitor = theMeshObjectSetFactory.createTransitiveClosureActiveMeshObjectSet(
                 theCPO_11,
                 typeAR1A.getSource() );
 

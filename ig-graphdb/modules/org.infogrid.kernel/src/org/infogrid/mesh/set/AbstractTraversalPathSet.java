@@ -8,24 +8,22 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.util.EventObject;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.model.traversal.TraversalPath;
-
 import org.infogrid.util.ArrayCursorIterator;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.FlexiblePropertyChangeListenerSet;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
-import java.util.EventObject;
 
 /**
  * This abstract class factors out some functionality common to most TraversalPathSets.
@@ -215,7 +213,44 @@ public abstract class AbstractTraversalPathSet
         if( count < content.length ) {
             content = ArrayHelper.copyIntoNewArray( content, 0, count, MeshObject.class );
         }
-        return theFactory.createImmutableMeshObjectSet( content );
+        return theFactory.createOrderedImmutableMeshObjectSet( content ); // must be ordered, so subclasses can simply typecast
+    }
+
+    /**
+     * Obtain the MeshObjects found at the given index in all the contained TraversalPaths,
+     * and return them as a MeshObjectSet.
+     * While the same MeshObject may be a step in more than one contained TraversalPath,
+     * the MeshObjectSet naturally only contains this MeshObject once.
+     *
+     * @param index the index from which we want to obtain the MeshObject
+     * @return the MeshObjects found at the given index as a MeshObjectSet
+     */
+    public MeshObjectSet getStepAsSet(
+            int index )
+    {
+        // there may be duplicates
+        TraversalPath [] paths   = getTraversalPaths();
+        MeshObject    [] content = new MeshObject[ paths.length ];
+        int count = 0;
+
+        for( int i=0 ; i<paths.length ; ++i ) {
+            boolean found   = false;
+            MeshObject  current = paths[i].getMeshObjectAt( index );
+            for( int j=0 ; j<i ; ++j ) {
+                if( content[j] == current ) {
+                    found = true;
+                    break;
+                }
+            }
+            if( found ) {
+                continue;
+            }
+            content[ count++ ] = current;
+        }
+        if( count < content.length ) {
+            content = ArrayHelper.copyIntoNewArray( content, 0, count, MeshObject.class );
+        }
+        return theFactory.createOrderedImmutableMeshObjectSet( content ); // must be ordered, so subclasses can simply typecast
     }
 
     /**

@@ -8,22 +8,38 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set.active;
 
-import org.infogrid.mesh.set.TraversalMeshObjectSet;
+import org.infogrid.mesh.set.MeshObjectSet;
+import org.infogrid.model.traversal.TraversalSpecification;
 
 /**
  * An ActiveMeshObjectSet that is created by having traversed a TraversalSpecification.
+ * Currently, no equivalent exists for ImmutableMeshObjectSets: the overhead does not
+ * seem to justify the API, as there seem to be few circumstances where these methods would actually
+ * be invoked on ImmutableMeshObjectSets; it's different for ActiveMeshObjectSets.
  */
 public interface TraversalActiveMeshObjectSet
         extends
-            ActiveMeshObjectSet,
-            TraversalMeshObjectSet
+            ActiveMeshObjectSet
 {
-    // nothing
+    /**
+     * Obtain the set of start MeshObjects. If this TraversalMeshObjectSet was created
+     * by traversing from a single MeshObject, this will return a single-element set.
+     *
+     * @return the start NeshObjects
+     */
+    public abstract MeshObjectSet getStartOfTraversalSet();
+
+    /**
+     * Obtain the TraversalSpecification that was traversed.
+     *
+     * @return the TraversalSpecification
+     */
+    public abstract TraversalSpecification getTraversalSpecification();
 }
 

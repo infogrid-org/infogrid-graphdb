@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -42,6 +42,29 @@ public interface OrderedTraversalPathSet
      */
     public abstract int findIndexOf(
             TraversalPath candidate );
+
+    /**
+     * Obtain the destinations of the contained TraversalPaths as a MeshObjectSet.
+     * While the same MeshObject may be a destination of more than one contained
+     * TraversalPath, the MeshObjectSet naturally only contains this MeshObject once.
+     * Given that this TraversalPathSet is ordered, the returned MeshObjectSet is ordered, too.
+     *
+     * @return the destinations of the contained TraversalPaths as a MeshObjectSet
+     */
+    public abstract OrderedMeshObjectSet getDestinationsAsSet();
+
+    /**
+     * Obtain the MeshObjects found at the given index in all the contained TraversalPaths,
+     * and return them as a MeshObjectSet.
+     * While the same MeshObject may be a step in more than one contained TraversalPath,
+     * the MeshObjectSet naturally only contains this MeshObject once.
+     * Given that this TraversalPathSet is ordered, the returned MeshObjectSet is ordered, too.
+     *
+     * @param index the index from which we want to obtain the MeshObject
+     * @return the MeshObjects found at the given index as a MeshObjectSet
+     */
+    public abstract OrderedMeshObjectSet getStepAsSet(
+            int index );
 
     /**
      * Obtain the maximum number of elements in ths set.

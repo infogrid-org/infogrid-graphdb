@@ -16,6 +16,7 @@ package org.infogrid.mesh.set.active.m;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import org.infogrid.mesh.set.OrderedMeshObjectSet;
 import org.infogrid.mesh.set.TraversalPathSorter;
 import org.infogrid.mesh.set.active.ActiveTraversalPathSet;
 import org.infogrid.mesh.set.active.ActiveTraversalPathSetListener;
@@ -133,6 +134,35 @@ public class OrderedActiveMTraversalPathSet
         super.potentiallyReorder( theSorter );
 
         fireSetReordered( new OrderedTraversalPathSetReorderedEvent( this ));
+    }
+
+    /**
+     * Obtain the destinations of the contained TraversalPaths as a MeshObjectSet.
+     * While the same MeshObject may be a destination of more than one contained
+     * TraversalPath, the MeshObjectSet naturally only contains this MeshObject once.
+     *
+     * @return the destinations of the contained TraversalPaths as a MeshObjectSet
+     */
+    @Override
+    public OrderedMeshObjectSet getDestinationsAsSet()
+    {
+        return (OrderedMeshObjectSet) super.getDestinationsAsSet();
+    }
+
+    /**
+     * Obtain the MeshObjects found at the given index in all the contained TraversalPaths,
+     * and return them as a MeshObjectSet.
+     * While the same MeshObject may be a step in more than one contained TraversalPath,
+     * the MeshObjectSet naturally only contains this MeshObject once.
+     *
+     * @param index the index from which we want to obtain the MeshObject
+     * @return the MeshObjects found at the given index as a MeshObjectSet
+     */
+    @Override
+    public OrderedMeshObjectSet getStepAsSet(
+            int index )
+    {
+        return (OrderedMeshObjectSet) super.getStepAsSet( index );
     }
 
     /**

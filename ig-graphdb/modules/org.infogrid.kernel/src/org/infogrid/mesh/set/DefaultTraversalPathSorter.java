@@ -8,22 +8,22 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set;
 
+import java.util.Arrays;
+import java.util.Comparator;
+import org.infogrid.mesh.IllegalPropertyTypeException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.traversal.TraversalPath;
 import org.infogrid.util.ArrayHelper;
-
-import java.util.Arrays;
-import java.util.Comparator;
-import org.infogrid.mesh.IllegalPropertyTypeException;
+import org.infogrid.util.StringHelper;
 
 /**
  * A default TraversalPathSorter implementation leveraging the Java collections API.
@@ -335,4 +335,47 @@ public class DefaultTraversalPathSorter
          */
         protected PropertyType thePropertyType;
     }
+
+    /**
+     * A pre-defined Comparator class to compare by the the user-visibile String of two MeshObjects.
+     */
+    public static class ByUserVisibleStringComparator
+        extends
+            AbstractComparator
+    {
+        /**
+         * Constructor.
+         *
+         * @param index the index of the MeshObject in the TraversalPath that we compare. -1 indicates the last
+         *        MeshObject in the TraversalPath
+         */
+        public ByUserVisibleStringComparator(
+               int index )
+        {
+            super( index );
+        }
+
+
+        /**
+         * Comparison method.
+         *
+         * @param one the first TraversalPath to compare
+         * @param two the second TraversalPath to compare
+         * @return the comparison value (-1, 0, +1)
+         */
+        public int compare(
+                TraversalPath one,
+                TraversalPath two )
+        {
+            MeshObject objectOne = getMeshObjectFrom( one );
+            MeshObject objectTwo = getMeshObjectFrom( two );
+
+            String valueOne = objectOne.getUserVisibleString();
+            String valueTwo = objectTwo.getUserVisibleString();
+
+            int ret = StringHelper.compareTo( valueOne, valueTwo );
+            return ret;
+        }
+    }
 }
+

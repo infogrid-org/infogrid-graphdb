@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -53,18 +53,6 @@ public abstract class AbstractMeshObjectSetFactory
             throw new IllegalStateException( "Already have MeshBase, cannot reset after it has been set" );
         }
         theMeshBase = newValue;
-    }
-
-    /**
-     * Factory method to construct a MeshObjectSet with the single specified member.
-     * 
-     * @param member the content of the set
-     * @return the created MeshObjectSet
-     */
-    public ImmutableMeshObjectSet createSingleMemberImmutableMeshObjectSet(
-            MeshObject member )
-    {
-        return createImmutableMeshObjectSet( new MeshObject[] { member }, null );
     }
 
     /**
@@ -180,6 +168,22 @@ public abstract class AbstractMeshObjectSetFactory
             MeshObjectSet two )
     {
         return createImmutableMeshObjectSetIntersection( new MeshObjectSet[] { one, two } );        
+    }
+
+    /**
+     * Convenience factory method to construct an intersection of two MeshObjectSets.
+     *
+     * @param one the first set to intersect
+     * @param two the second set to intersect
+     * @return the created MeshObjectSet
+     */
+    public CompositeImmutableMeshObjectSet createImmutableMeshObjectSetIntersection(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return createImmutableMeshObjectSetIntersection(
+                one,
+                createSingleMemberImmutableMeshObjectSet( two ));
     }
 
     /**
