@@ -190,4 +190,42 @@ public class DefaultMeshObjectSorter
 
             },
             DefaultMeshObjectSorter.class.getName() + ".BY_IDENTIFIER" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's user-visible String.
+     */
+    public static final DefaultMeshObjectSorter BY_USER_VISIBLE_STRING = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        String id1 = o1.getUserVisibleString();
+                        String id2 = o2.getUserVisibleString();
+ 
+                        int ret = id1.compareTo( id2 );
+                        return ret;
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_USER_VISIBLE_STRING" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's user-visible String in reverse order.
+     */
+    public static final DefaultMeshObjectSorter BY_REVERSE_USER_VISIBLE_STRING = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        String id1 = o1.getUserVisibleString();
+                        String id2 = o2.getUserVisibleString();
+
+                        int ret = id1.compareTo( id2 );
+                        return -ret; // notice the minus
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_REVERSE_USER_VISIBLE_STRING" );
 }

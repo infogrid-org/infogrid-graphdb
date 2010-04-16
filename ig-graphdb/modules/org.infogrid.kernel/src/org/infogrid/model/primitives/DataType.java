@@ -227,53 +227,6 @@ public abstract class DataType
         throws
             PropertyValueParsingException;
 
-//    /**
-//     * Emit String representation of a null PropertyValue of this PropertyType.
-//     *
-//     * @param representation the representation scheme
-//     * @param pars collects parameters that may influence the String representation
-//     * @return the String representation
-//     * @throws StringifierException thrown if there was a problem when attempting to stringify
-//     */
-//    public String nullValueStringRepresentation(
-//            StringRepresentation           representation,
-//            StringRepresentationParameters pars )
-//        throws
-//            StringifierException
-//    {
-//        PropertyValue defaultValue = getDefaultValue();
-//
-//        Object editVariable;
-//        Object meshObject;
-//        Object propertyType;
-//        Object nullString;
-//        if( pars != null ) {
-//            editVariable = pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-//            meshObject   = pars.get( ModelPrimitivesStringRepresentationParameters.MESH_OBJECT );
-//            propertyType = pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
-//            nullString   = pars.get( StringRepresentationParameters.NULL_STRING );
-//        } else {
-//            editVariable = null;
-//            meshObject   = null;
-//            propertyType = null;
-//            nullString   = null;
-//        }
-//
-//        return representation.formatEntry(
-//                defaultValue.getClass(),
-//                NULL_ENTRY,
-//                pars,
-//        /* 0 */ editVariable,
-//        /* 1 */ meshObject,
-//        /* 2 */ propertyType,
-//        /* 3 */ this,
-//        /* 4 */ PropertyValue.toStringRepresentation(
-//                        defaultValue,
-//                        representation.getStringRepresentationDirectory().get( SimpleStringRepresentationDirectory.TEXT_PLAIN_NAME ),
-//                        pars ),
-//        /* 5 */ nullString );
-//     }
-
     /**
      * Format a Property.
      *
@@ -404,9 +357,4 @@ public abstract class DataType
      * The default entry in the resource files for a DataType, prefixed by the StringRepresentation's prefix.
      */
     public static final String DEFAULT_ENTRY = "Type";
-
-    /**
-     * Our ResourceHelper.
-     */
-    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( DataType.class );
 }
