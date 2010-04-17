@@ -203,7 +203,14 @@ public class DefaultMeshObjectSorter
                         String id1 = o1.getUserVisibleString();
                         String id2 = o2.getUserVisibleString();
  
-                        int ret = id1.compareTo( id2 );
+                        int ret;
+                        if( id1 == null ) {
+                            ret = id2 == null ? 0 : -1;
+                        } else if( id2 == null ) {
+                            ret = 0;
+                        } else {
+                            ret = id1.compareTo( id2 );
+                        }
                         return ret;
                     }
 
@@ -222,7 +229,14 @@ public class DefaultMeshObjectSorter
                         String id1 = o1.getUserVisibleString();
                         String id2 = o2.getUserVisibleString();
 
-                        int ret = id1.compareTo( id2 );
+                        int ret;
+                        if( id1 == null ) {
+                            ret = id2 == null ? 0 : -1;
+                        } else if( id2 == null ) {
+                            ret = 0;
+                        } else {
+                            ret = id1.compareTo( id2 );
+                        }
                         return -ret; // notice the minus
                     }
 
