@@ -177,11 +177,11 @@ public abstract class ThreadIdentityManager
      *
      * FIXME? It's not clear that this is the right place where to maintain this.
      */
-    protected static HashMap<Thread,MeshObject> theCallersOnThreads = new HashMap<Thread,MeshObject>();
+    protected static final HashMap<Thread,MeshObject> theCallersOnThreads = new HashMap<Thread,MeshObject>();
     
     /**
      * The threads that currently are su'd. The value of the HashMap counts the number of
      * su invocations on that Thread.
      */
-    protected static HashMap<Thread,Integer> theSuThreads = new HashMap<Thread,Integer>();
+    protected static final HashMap<Thread,Integer> theSuThreads = new HashMap<Thread,Integer>();
 }
