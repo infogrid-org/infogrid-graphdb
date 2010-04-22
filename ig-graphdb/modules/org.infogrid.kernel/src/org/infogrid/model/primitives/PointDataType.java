@@ -169,6 +169,7 @@ public class PointDataType
                 PointValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( getDefaultValue(), rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }

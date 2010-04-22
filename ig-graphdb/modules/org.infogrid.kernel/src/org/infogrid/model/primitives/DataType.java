@@ -19,7 +19,6 @@ import org.infogrid.mesh.IllegalPropertyTypeException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
-import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.text.HasStringRepresentation;
 import org.infogrid.util.text.SimpleStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;

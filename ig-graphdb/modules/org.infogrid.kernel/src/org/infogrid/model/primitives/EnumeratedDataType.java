@@ -498,8 +498,8 @@ public class EnumeratedDataType
                 EnumeratedValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 getDefaultValue(),
-                // PropertyValue.toStringRepresentation( getDefaultValue(), rep, context, pars ),
                 this,
                 theDomain,
                 theSupertype );

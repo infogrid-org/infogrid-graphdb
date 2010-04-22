@@ -16,9 +16,7 @@ package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
 import java.text.ParseException;
-import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.ArrayHelper;
-import org.infogrid.util.text.SimpleStringRepresentationDirectory;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
@@ -784,9 +782,10 @@ public final class BlobDataType
             StringifierException
     {
         return rep.formatEntry(
-                getClass(),
+                BlobValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theMimeTypes,
                 theSupertype );

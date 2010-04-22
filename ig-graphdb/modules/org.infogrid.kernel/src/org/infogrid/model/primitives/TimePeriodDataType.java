@@ -174,6 +174,7 @@ public final class TimePeriodDataType
                 TimePeriodValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }

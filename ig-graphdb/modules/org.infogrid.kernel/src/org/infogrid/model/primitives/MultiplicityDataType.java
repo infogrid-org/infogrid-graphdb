@@ -168,6 +168,7 @@ public class MultiplicityDataType
                 MultiplicityValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( MultiplicityValue.ZERO_N, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }

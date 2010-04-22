@@ -173,6 +173,7 @@ public final class ExtentDataType
                 ExtentValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
                 theSupertype );
     }

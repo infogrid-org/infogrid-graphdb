@@ -172,6 +172,7 @@ public final class TimeStampDataType
                 TimeStampValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 theSupertype );
     }
 

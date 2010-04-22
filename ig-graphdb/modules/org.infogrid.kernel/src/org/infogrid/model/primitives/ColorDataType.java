@@ -168,6 +168,7 @@ public final class ColorDataType
                 ColorValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ),
                 theSupertype );
     }

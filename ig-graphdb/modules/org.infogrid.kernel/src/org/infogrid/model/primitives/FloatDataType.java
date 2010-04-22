@@ -418,6 +418,7 @@ public class FloatDataType
                 FloatValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 PropertyValue.toStringRepresentationOrNull( getDefaultValue(), rep, pars ), // all three presumably shorter, but we don't know
                 PropertyValue.toStringRepresentationOrNull( theMin,            rep, pars ),
                 PropertyValue.toStringRepresentationOrNull( theMax,            rep, pars ),

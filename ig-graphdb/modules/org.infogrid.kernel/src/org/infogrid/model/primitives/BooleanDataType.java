@@ -186,6 +186,7 @@ public final class BooleanDataType
                 BooleanValue.class,
                 DEFAULT_ENTRY,
                 pars,
+                this,
                 theSupertype );
     }
 
