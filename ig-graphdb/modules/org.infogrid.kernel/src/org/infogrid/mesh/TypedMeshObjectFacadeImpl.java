@@ -720,6 +720,17 @@ public abstract class TypedMeshObjectFacadeImpl
     }
 
     /**
+     * Convert to String form, for debugging.
+     *
+     * @return String form
+     */
+    @Override
+    public String toString()
+    {
+        return super.toString() + "{ id: " + getIdentifier().toExternalForm() + " }";
+    }
+
+    /**
      * The underlying MeshObject. It is named with an underscore, so code-generated
      * code is less likely to interfere with it.
      */
