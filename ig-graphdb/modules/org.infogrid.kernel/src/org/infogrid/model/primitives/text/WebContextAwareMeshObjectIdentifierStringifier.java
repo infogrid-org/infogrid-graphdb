@@ -14,12 +14,22 @@
 
 package org.infogrid.model.primitives.text;
 
+import java.text.ParseException;
+import java.util.Iterator;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.Identifier;
+import org.infogrid.util.IdentifierFactory;
+import org.infogrid.util.OneElementIterator;
+import org.infogrid.util.ResourceHelper;
+import org.infogrid.util.ZeroElementCursorIterator;
 import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentationParameters;
+import org.infogrid.util.text.StringifierParseException;
+import org.infogrid.util.text.StringifierParsingChoice;
+import org.infogrid.util.text.StringifierUnformatFactory;
+import org.infogrid.util.text.StringifierValueParsingChoice;
 
 /**
  * A Stringifier that knows how to format Identifiers correctly as part of a URL
@@ -119,7 +129,11 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         String ext = realIdentifier.toLocalExternalForm( contextPath, theAssembleAsPartOfLongerId );
 
-        ext = potentiallyProcessColloquial( ext, pars );
+        if( ext != null ) {
+            ext = potentiallyProcessColloquial( ext, pars );
+        } else {
+            ext = HOME_OBJECT_STRING;
+        }
         ext = escape( ext );
 
         String ret = processPrefixPostfix( ext );
@@ -145,6 +159,80 @@ public class WebContextAwareMeshObjectIdentifierStringifier
     }
 
     /**
+     * Parse out the Object in rawString that were inserted using this Stringifier.
+     * This default implementation simply throws an UnsupportedOperationException.
+     *
+     * @param rawString the String to parse
+     * @param factory the factory needed to create the parsed values, if any
+     * @return the found Object
+     * @throws StringifierParseException thrown if a parsing problem occurred
+     */
+    @Override
+    public Identifier unformat(
+            String                     rawString,
+            StringifierUnformatFactory factory )
+        throws
+            StringifierParseException
+    {
+        IdentifierFactory realFactory = (IdentifierFactory) factory;
+        Identifier        found;
+
+        try {
+            if( HOME_OBJECT_STRING.equals( rawString )) {
+                found = realFactory.fromExternalForm( null );
+            } else {
+                found = realFactory.fromExternalForm( rawString );
+            }
+        } catch( ParseException ex ) {
+            throw new StringifierParseException( this, rawString, ex );
+        }
+        return found;
+    }
+
+
+    /**
+     * Obtain an iterator that iterates through all the choices that exist for this Stringifier to
+     * parse the String. The iterator returns zero elements if the String could not be parsed
+     * by this Stringifier.
+     * This default implementation simply throws an UnsupportedOperationException.
+     *
+     * @param rawString the String to parse
+     * @param startIndex the position at which to parse rawString
+     * @param endIndex the position at which to end parsing rawString
+     * @param max the maximum number of choices to be returned by the Iterator.
+     * @param matchAll if true, only return those matches that match the entire String from startIndex to endIndex.
+     *                 If false, return other matches that only match the beginning of the String.
+     * @param factory the factory needed to create the parsed values, if any
+     * @return the Iterator
+     */
+    @Override
+    public Iterator<StringifierParsingChoice<Identifier>> parsingChoiceIterator(
+            String                     rawString,
+            int                        startIndex,
+            int                        endIndex,
+            int                        max,
+            boolean                    matchAll,
+            StringifierUnformatFactory factory )
+    {
+        IdentifierFactory realFactory = (IdentifierFactory) factory;
+
+        try {
+            Identifier found;
+            if( HOME_OBJECT_STRING.equals( rawString )) {
+                found = realFactory.fromExternalForm( null );
+            } else {
+                found = realFactory.fromExternalForm( rawString );
+            }
+
+            return OneElementIterator.<StringifierParsingChoice<Identifier>>create(
+                    new StringifierValueParsingChoice<Identifier>( startIndex, endIndex, found ));
+
+        } catch( ParseException ex ) {
+            return ZeroElementCursorIterator.create();
+        }
+    }
+
+    /**
      * Overridable method to possibly unescape a String first.
      *
      * @param s the String to be unescaped
@@ -166,4 +254,10 @@ public class WebContextAwareMeshObjectIdentifierStringifier
      * If true, escape.
      */
     protected boolean theAssembleAsPartOfLongerId;
+
+    /**
+     * String representing the home object.
+     */
+    public static final String HOME_OBJECT_STRING
+            = ResourceHelper.getInstance( WebContextAwareMeshObjectIdentifierStringifier.class ).getResourceStringOrDefault( "HomeObjectString", "<HOME>" );
 }

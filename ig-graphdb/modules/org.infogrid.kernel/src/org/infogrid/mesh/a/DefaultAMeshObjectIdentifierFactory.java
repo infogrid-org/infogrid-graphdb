@@ -78,55 +78,8 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             ParseException
     {
-        String [] entriesToTry1 = {
-                DefaultAMeshObjectIdentifier.DEFAULT_MESH_BASE_HOME_ENTRY,
-                DefaultAMeshObjectIdentifier.NON_DEFAULT_MESH_BASE_HOME_ENTRY };
-
-        Throwable firstException = null;
-
-        for( String entry : entriesToTry1 ) {
-
-            try {
-                representation.parseEntry( DefaultAMeshObjectIdentifier.class, entry, s, this );
-                return fromExternalForm( "" );
-
-            } catch( ParseException ex ) {
-                // that wasn't it ...
-                if( firstException == null ) {
-                    firstException = ex;
-                }
-            }
-        }
-
-        String [] entriesToTry2 = {
-                DefaultAMeshObjectIdentifier.DEFAULT_MESH_BASE_ENTRY,
-                DefaultAMeshObjectIdentifier.NON_DEFAULT_MESH_BASE_ENTRY };
-
-        for( String entry : entriesToTry2 ) {
-            Object [] found = null;
-            try {
-                found = representation.parseEntry( DefaultAMeshObjectIdentifier.class, entry, s, this );
-
-            } catch( ParseException ex ) {
-                // that wasn't it ...
-                if( firstException == null ) {
-                    firstException = ex;
-                }
-
-            } catch( ClassCastException ex ) {
-                // that wasn't it ...
-                if( firstException == null ) {
-                    firstException = ex;
-                }
-            }
-
-            if( found != null && found.length == 1 ) {
-                DefaultAMeshObjectIdentifier ret = (DefaultAMeshObjectIdentifier) found[0];
-                return ret;
-            }
-
-        }
-        throw new StringRepresentationParseException( s, null, firstException );
+        Object [] found = representation.parseEntry( DefaultAMeshObjectIdentifier.class, StringRepresentation.DEFAULT_ENTRY, s, this );
+        return (DefaultAMeshObjectIdentifier) found[0];
     }
     
     /**

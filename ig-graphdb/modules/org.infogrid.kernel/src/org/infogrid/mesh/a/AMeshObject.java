@@ -32,6 +32,7 @@ import org.infogrid.mesh.RoleTypeNotBlessedException;
 import org.infogrid.mesh.TypedMeshObjectFacade;
 import org.infogrid.mesh.externalized.SimpleExternalizedMeshObject;
 import org.infogrid.mesh.set.MeshObjectSet;
+import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.WrongMeshBaseException;
 import org.infogrid.meshbase.a.AMeshBase;
@@ -2060,7 +2061,55 @@ public class AMeshObject
         throws
             StringifierException
     {
-        return "";
+        String     contextPath         = null;
+        String     additionalArguments = null;
+        String     target              = null;
+        String     title               = null;
+
+        if( pars != null ) {
+            contextPath         = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
+            target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
+            title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
+            additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
+        }
+
+        boolean isDefaultMeshBase = true;
+        if( pars != null ) {
+            isDefaultMeshBase = getMeshBase().equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+        }
+        boolean isHomeObject = this == getMeshBase().getHomeObject();
+
+        String key;
+        if( isDefaultMeshBase ) {
+            if( isHomeObject ) {
+                key = DEFAULT_MESH_BASE_HOME_LINK_START_ENTRY;
+            } else {
+                key = DEFAULT_MESH_BASE_LINK_START_ENTRY;
+            }
+        } else {
+            if( isHomeObject ) {
+                key = NON_DEFAULT_MESH_BASE_HOME_LINK_START_ENTRY;
+            } else {
+                key = NON_DEFAULT_MESH_BASE_LINK_START_ENTRY;
+            }
+        }
+        if( target == null ) {
+            target = "_self";
+        }
+
+        String ret = rep.formatEntry(
+                getClass(), // dispatch to the right subtype
+                key,
+                pars,
+        /* 0 */ this,
+        /* 1 */ getIdentifier(),
+        /* 2 */ contextPath,
+        /* 3 */ getMeshBase(),
+        /* 4 */ additionalArguments,
+        /* 5 */ target,
+        /* 6 */ title );
+
+        return ret;
     }
 
     /**
@@ -2078,7 +2127,43 @@ public class AMeshObject
         throws
             StringifierException
     {
-        return "";
+        String contextPath = null;
+
+        if( pars != null ) {
+            contextPath = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
+        }
+
+        boolean isDefaultMeshBase = true;
+        if( pars != null ) {
+            isDefaultMeshBase = getMeshBase().equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+        }
+        boolean isHomeObject = this == getMeshBase().getHomeObject();
+
+        String key;
+        if( isDefaultMeshBase ) {
+            if( isHomeObject ) {
+                key = DEFAULT_MESH_BASE_HOME_LINK_END_ENTRY;
+            } else {
+                key = DEFAULT_MESH_BASE_LINK_END_ENTRY;
+            }
+        } else {
+            if( isHomeObject ) {
+                key = NON_DEFAULT_MESH_BASE_HOME_LINK_END_ENTRY;
+            } else {
+                key = NON_DEFAULT_MESH_BASE_LINK_END_ENTRY;
+            }
+        }
+
+        String ret = rep.formatEntry(
+                getClass(), // dispatch to the right subtype
+                key,
+                pars,
+        /* 0 */ this,
+        /* 1 */ getIdentifier(),
+        /* 2 */ contextPath,
+        /* 3 */ getMeshBase() );
+
+        return ret;
     }
 
     /**
@@ -2135,4 +2220,44 @@ public class AMeshObject
      * side.
      */
     protected MeshObjectIdentifier [] theEquivalenceSetPointers;
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String DEFAULT_MESH_BASE_LINK_START_ENTRY = "DefaultMeshBaseLinkStartString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String DEFAULT_MESH_BASE_HOME_LINK_START_ENTRY = "DefaultMeshBaseHomeLinkStartString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String DEFAULT_MESH_BASE_LINK_END_ENTRY = "DefaultMeshBaseLinkEndString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String DEFAULT_MESH_BASE_HOME_LINK_END_ENTRY = "DefaultMeshBaseHomeLinkEndString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String NON_DEFAULT_MESH_BASE_LINK_START_ENTRY = "NonDefaultMeshBaseLinkStartString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String NON_DEFAULT_MESH_BASE_HOME_LINK_START_ENTRY = "NonDefaultMeshBaseHomeLinkStartString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String NON_DEFAULT_MESH_BASE_LINK_END_ENTRY = "NonDefaultMeshBaseLinkEndString";
+
+    /**
+     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String NON_DEFAULT_MESH_BASE_HOME_LINK_END_ENTRY = "NonDefaultMeshBaseHomeLinkEndString";
 }

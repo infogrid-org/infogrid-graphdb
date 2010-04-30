@@ -27,9 +27,4 @@ public interface MeshStringRepresentationParameters
      * Key for the default MeshBase.
      */
     public static final String DEFAULT_MESHBASE_KEY = "default-meshbase";
-
-    /**
-     * Key for the context MeshObject, if any.
-     */
-    public static final String MESHOBJECT_KEY = "meshObject";
 }

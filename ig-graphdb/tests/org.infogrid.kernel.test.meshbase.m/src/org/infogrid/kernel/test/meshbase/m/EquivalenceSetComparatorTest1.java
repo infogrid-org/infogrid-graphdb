@@ -258,16 +258,6 @@ public class EquivalenceSetComparatorTest1
         }
 
         /**
-         * Determine whether this MeshObjectIdentifier identifies a Home Object.
-         *
-         * @return true if it identifies a Home Object
-         */
-        public boolean identifiesHomeObject()
-        {
-            throw new UnsupportedOperationException();
-        }
-
-        /**
          * Obtain a String representation of this instance that can be shown to the user.
          *
          * @param rep the StringRepresentation

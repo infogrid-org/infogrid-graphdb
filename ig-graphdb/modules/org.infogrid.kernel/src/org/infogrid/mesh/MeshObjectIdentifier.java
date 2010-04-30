@@ -28,13 +28,6 @@ public interface MeshObjectIdentifier
             Identifier
 {
     /**
-     * Determine whether this MeshObjectIdentifier identifies a Home Object.
-     *
-     * @return true if it identifies a Home Object
-     */
-    public abstract boolean identifiesHomeObject();
-
-    /**
      * Obtain the external form of the MeshObjectIdentifier relative to some path.
      *
      * @param relativePath the relative path
