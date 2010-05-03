@@ -116,6 +116,7 @@ public class IterableStoreMeshBase
                 objectStorage,
                 context );
 
+        setFactory.setMeshBase( ret );
         objectMapper.setMeshBase( ret );
         ret.initializeHomeObject();
         
