@@ -18,6 +18,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.util.ArrayHelper;
+import org.infogrid.util.StringHelper;
 
 /**
  * This is a default MeshObjectSorter implementation that uses the Java collections API.
@@ -193,6 +194,7 @@ public class DefaultMeshObjectSorter
 
     /**
      * Default instance of this class that sorts by the MeshObject's user-visible String.
+     * This comparison follows the same approach as DefaultTraversalPathSorter.ByUserVisibleStringComparator.
      */
     public static final DefaultMeshObjectSorter BY_USER_VISIBLE_STRING = new DefaultMeshObjectSorter(
             new Comparator<MeshObject>() {
@@ -200,17 +202,15 @@ public class DefaultMeshObjectSorter
                             MeshObject o1,
                             MeshObject o2 )
                     {
-                        String id1 = o1.getUserVisibleString();
-                        String id2 = o2.getUserVisibleString();
+                        String valueOne = o1.getUserVisibleString();
+                        String valueTwo = o2.getUserVisibleString();
  
-                        int ret;
-                        if( id1 == null ) {
-                            ret = id2 == null ? 0 : -1;
-                        } else if( id2 == null ) {
-                            ret = 0;
-                        } else {
-                            ret = id1.compareTo( id2 );
+                        if( valueOne == null && valueTwo == null ) {
+                            valueOne = o1.getIdentifier().toExternalForm();
+                            valueTwo = o2.getIdentifier().toExternalForm();
                         }
+
+                        int ret = StringHelper.compareTo( valueOne, valueTwo );
                         return ret;
                     }
 
@@ -226,17 +226,15 @@ public class DefaultMeshObjectSorter
                             MeshObject o1,
                             MeshObject o2 )
                     {
-                        String id1 = o1.getUserVisibleString();
-                        String id2 = o2.getUserVisibleString();
+                        String valueOne = o1.getUserVisibleString();
+                        String valueTwo = o2.getUserVisibleString();
 
-                        int ret;
-                        if( id1 == null ) {
-                            ret = id2 == null ? 0 : -1;
-                        } else if( id2 == null ) {
-                            ret = 0;
-                        } else {
-                            ret = id1.compareTo( id2 );
+                        if( valueOne == null && valueTwo == null ) {
+                            valueOne = o1.getIdentifier().toExternalForm();
+                            valueTwo = o2.getIdentifier().toExternalForm();
                         }
+
+                        int ret = StringHelper.compareTo( valueOne, valueTwo );
                         return -ret; // notice the minus
                     }
 

@@ -357,11 +357,13 @@ public class DefaultTraversalPathSorter
 
 
         /**
-         * Comparison method.
+         * Comparison method. This follows the same comparison approach based on UserVisibleString,
+         * with a fallback of Identifier, as DefaultMeshObjectSorter.BY_USER_VISIBLE_STRING.
          *
          * @param one the first TraversalPath to compare
          * @param two the second TraversalPath to compare
          * @return the comparison value (-1, 0, +1)
+         * @see DefaultMeshObjectSorter.BY_USER_VISIBLE_STRING
          */
         public int compare(
                 TraversalPath one,
@@ -373,6 +375,10 @@ public class DefaultTraversalPathSorter
             String valueOne = objectOne.getUserVisibleString();
             String valueTwo = objectTwo.getUserVisibleString();
 
+            if( valueOne == null && valueTwo == null ) {
+                valueOne = objectOne.getIdentifier().toExternalForm();
+                valueTwo = objectTwo.getIdentifier().toExternalForm();
+            }
             int ret = StringHelper.compareTo( valueOne, valueTwo );
             return ret;
         }
