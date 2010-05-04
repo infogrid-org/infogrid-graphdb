@@ -168,6 +168,4 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
      * Has this class been initialized.
      */
     protected static boolean theIsInitialized = false;
-
-
 }

@@ -98,7 +98,7 @@ public interface TraversalTranslator
      */
     public abstract TraversalPath translateTraversalPath(
             MeshObject  startObject,
-            String []  traversalTerms )
+            String []   traversalTerms )
         throws
             TraversalTranslatorException;
 
