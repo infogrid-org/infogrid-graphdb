@@ -282,6 +282,15 @@ public interface MeshObjectSetFactory
             TraversalSpecification specification );
 
     /**
+     * Factory method to create an empty TraversalPathSet. This method may return
+     * the same instance every time it is invoked, but is not required to do so.
+     * Given that it is empty, we might as well return an OrderedTraversalPathSet.
+     * 
+     * @return the empty TraversalPathSet
+     */
+    public OrderedImmutableTraversalPathSet obtainEmptyImmutableTraversalPathSet();
+    
+    /**
      * Factory method to create an ImmutableTraversalPathSet.
      * Given that it has only one member, it might as well return an ordered TraversalPathSet.
      * 

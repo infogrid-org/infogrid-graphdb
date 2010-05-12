@@ -23,6 +23,7 @@ import org.infogrid.mesh.set.MeshObjectSelector;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSorter;
 import org.infogrid.mesh.set.OrderedImmutableMeshObjectSet;
+import org.infogrid.mesh.set.OrderedImmutableTraversalPathSet;
 import org.infogrid.mesh.set.OrderedMeshObjectSet;
 import org.infogrid.mesh.set.TraversalPathSet;
 import org.infogrid.mesh.set.TraversalPathSorter;
@@ -180,10 +181,10 @@ public class ImmutableMMeshObjectSetFactory
      */
     public OrderedImmutableMeshObjectSet obtainEmptyImmutableMeshObjectSet()
     {
-        if( theEmptySet == null ) {
-            theEmptySet = new OrderedImmutableMMeshObjectSet( this, new MeshObject[0], 0 );
+        if( theEmptyMeshObjectSet == null ) {
+            theEmptyMeshObjectSet = new OrderedImmutableMMeshObjectSet( this, new MeshObject[0], 0 );
         }
-        return theEmptySet;
+        return theEmptyMeshObjectSet;
     }
     
     /**
@@ -433,6 +434,21 @@ public class ImmutableMMeshObjectSetFactory
     }
 
     /**
+     * Factory method to create an empty TraversalPathSet. This method may return
+     * the same instance every time it is invoked, but is not required to do so.
+     * Given that it is empty, we might as well return an OrderedTraversalPathSet.
+     *
+     * @return the empty TraversalPathSet
+     */
+    public OrderedImmutableTraversalPathSet obtainEmptyImmutableTraversalPathSet()
+    {
+        if( theEmptyTraversalPathSet == null ) {
+            theEmptyTraversalPathSet = new OrderedImmutableMTraversalPathSet( this, new TraversalPath[0], 0 );
+        }
+        return theEmptyTraversalPathSet;
+    }
+
+    /**
      * Factory method.
      *
      * @param singleMember the single member of the ImmutableMTraversalPathSet
@@ -578,5 +594,10 @@ public class ImmutableMMeshObjectSetFactory
     /**
      * Buffer for an empty MeshObjectSet.
      */
-    protected OrderedImmutableMeshObjectSet theEmptySet;
+    protected OrderedImmutableMeshObjectSet theEmptyMeshObjectSet;
+
+    /**
+     * Buffer for an empty TraversalPathSet.
+     */
+    protected OrderedImmutableTraversalPathSet theEmptyTraversalPathSet;
 }

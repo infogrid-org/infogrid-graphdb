@@ -96,7 +96,7 @@ public class MeshBaseIdentifier
     {
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
-                DEFAULT_ENTRY,
+                StringRepresentation.DEFAULT_ENTRY,
                 pars,
                 this );
         return ret;
@@ -130,7 +130,7 @@ public class MeshBaseIdentifier
         }
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
-                DEFAULT_LINK_START_ENTRY,
+                StringRepresentation.DEFAULT_LINK_START_ENTRY,
                 pars,
         /* 0 */ contextPath,
         /* 1 */ this,
@@ -164,7 +164,7 @@ public class MeshBaseIdentifier
 
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
-                DEFAULT_LINK_END_ENTRY,
+                StringRepresentation.DEFAULT_LINK_END_ENTRY,
                 pars,
         /* 0 */ contextPath,
         /* 1 */ this );
@@ -231,19 +231,4 @@ public class MeshBaseIdentifier
      * The factory with which this MeshBaseIdentifier was created.
      */
     protected MeshBaseIdentifierFactory theFactory;
-
-    /**
-     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
-     */
-    public static final String DEFAULT_ENTRY = "String";
-
-    /**
-     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
-     */
-    public static final String DEFAULT_LINK_START_ENTRY = "LinkStartString";
-
-    /**
-     * Entry in the resource files, prefixed by the StringRepresentation's prefix.
-     */
-    public static final String DEFAULT_LINK_END_ENTRY = "LinkEndString";
 }
