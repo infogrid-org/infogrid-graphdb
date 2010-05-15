@@ -15,6 +15,7 @@
 package org.infogrid.mesh.set;
 
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.model.traversal.TraversalSpecification;
 
 /**
@@ -48,6 +49,36 @@ public class ByRelatedMeshObjectSelector
             TraversalSpecification traversal,
             MeshObjectSelector     delegate )
     {
+        return new ByRelatedMeshObjectSelector( traversal, delegate, 1, Integer.MAX_VALUE );
+    }
+
+    /**
+     * Factory method: related to the given MeshObject.
+     *
+     * @param traversal the TraversalSpecification
+     * @param related the MeshObject to be related to.
+     * @return the created ByRelatedMeshObjectSelector
+     */
+    public static ByRelatedMeshObjectSelector createOneOrMore(
+            TraversalSpecification traversal,
+            MeshObject             related )
+    {
+        MeshObjectSelector delegate = RightInstanceMeshObjectSelector.create( related );
+        return new ByRelatedMeshObjectSelector( traversal, delegate, 1, Integer.MAX_VALUE );
+    }
+
+    /**
+     * Factory method: related to the MeshObject with the given Identifier.
+     *
+     * @param traversal the TraversalSpecification
+     * @param relatedIdentifier identifier of the MeshObject to be related to.
+     * @return the created ByRelatedMeshObjectSelector
+     */
+    public static ByRelatedMeshObjectSelector createOneOrMore(
+            TraversalSpecification traversal,
+            MeshObjectIdentifier   relatedIdentifier )
+    {
+        MeshObjectSelector delegate = RightInstanceMeshObjectSelector.create( relatedIdentifier );
         return new ByRelatedMeshObjectSelector( traversal, delegate, 1, Integer.MAX_VALUE );
     }
 
