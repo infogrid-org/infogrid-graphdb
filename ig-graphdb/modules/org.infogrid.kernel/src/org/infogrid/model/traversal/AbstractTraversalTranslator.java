@@ -141,6 +141,9 @@ public abstract class AbstractTraversalTranslator
                 for( int i=0 ; i<reached.length ; ++i ) {
                     MeshObjectIdentifier identifier = idFact.fromExternalForm( reachedComponents[i] );
                     reached[i] = theMeshBase.accessLocally( identifier );
+                    if( reached[i] == null ) {
+                        throw new TraversalTranslatorException( "Cannot find MeshObject: " + identifier );
+                    }
                 }
                 ret = TraversalPath.create( realSpec.getSteps(), reached );
 
