@@ -122,7 +122,10 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             ParseException
     {
-        if( raw == null || raw.length() == 0 ) {
+        if( raw == null ) {
+            throw new NullPointerException();
+        }
+        if( raw.length() == 0 ) {
             return;
         }
 
@@ -134,7 +137,7 @@ public class DefaultAMeshObjectIdentifierFactory
     /**
      * The Home Object's identifier. Subclass to avoid having to make the constructor public.
      */
-    public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, null, null ) {};
+    public final DefaultAMeshObjectIdentifier HOME_OBJECT = new DefaultAMeshObjectIdentifier( this, "", null ) {};
 
     /**
      * Our ResourceHelper.

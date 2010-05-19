@@ -115,7 +115,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         String               contextPath     = "";
 
         if( pars != null ) {
-            defaultMeshBase = (MeshBase) pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY );
+            defaultMeshBase = (MeshBase) pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY );
 
             if( defaultMeshBase != null ) {
                 contextPath = defaultMeshBase.getIdentifier().toExternalForm();
@@ -180,6 +180,8 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         try {
             if( HOME_OBJECT_STRING.equals( rawString )) {
                 found = realFactory.fromExternalForm( null );
+            } else if( theProcessColloquial ) {
+                found = realFactory.guessFromExternalForm( rawString );
             } else {
                 found = realFactory.fromExternalForm( rawString );
             }
@@ -220,6 +222,8 @@ public class WebContextAwareMeshObjectIdentifierStringifier
             Identifier found;
             if( HOME_OBJECT_STRING.equals( rawString )) {
                 found = realFactory.fromExternalForm( null );
+            } else if( theProcessColloquial ) {
+                found = realFactory.guessFromExternalForm( rawString );
             } else {
                 found = realFactory.fromExternalForm( rawString );
             }

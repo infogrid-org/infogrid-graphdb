@@ -59,6 +59,20 @@ public class MMeshTypeIdentifierFactory
     }
 
     /**
+     * Create a MeshTypeIdentifier from an external form. Be lenient about syntax and
+     * attempt to interpret what the user meant when entering an invalid or incomplete
+     * raw String.
+     *
+     * @param raw the external form
+     * @return the Identifier
+     */
+    public MMeshTypeIdentifier guessFromExternalForm(
+            String raw )
+    {
+        return fromExternalForm( raw );
+    }
+
+    /**
      * Convert this StringRepresentation back to an Identifier.
      *
      * @param representation the StringRepresentation in which this String is represented

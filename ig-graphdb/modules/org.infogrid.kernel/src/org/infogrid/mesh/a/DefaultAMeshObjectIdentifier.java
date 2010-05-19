@@ -66,6 +66,12 @@ public class DefaultAMeshObjectIdentifier
     {
         super( asEnteredByUser );
 
+        if( factory == null ) {
+            throw new NullPointerException();
+        }
+        if( localId == null ) {
+            throw new NullPointerException();
+        }
         theFactory = factory;
         theLocalId = localId;
     }
