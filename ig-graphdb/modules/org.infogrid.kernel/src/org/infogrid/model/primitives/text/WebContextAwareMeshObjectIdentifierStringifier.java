@@ -129,7 +129,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         String ext = realIdentifier.toLocalExternalForm( contextPath, theAssembleAsPartOfLongerId );
 
-        if( ext != null ) {
+        if( ext != null && ext.length() > 0 ) {
             ext = potentiallyProcessColloquial( ext, pars );
         } else {
             ext = HOME_OBJECT_STRING;
