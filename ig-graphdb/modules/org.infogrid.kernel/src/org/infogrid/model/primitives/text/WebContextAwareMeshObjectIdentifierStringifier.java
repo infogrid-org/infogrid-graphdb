@@ -19,6 +19,7 @@ import java.util.Iterator;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
+import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.util.Identifier;
 import org.infogrid.util.IdentifierFactory;
 import org.infogrid.util.OneElementIterator;
@@ -174,16 +175,24 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         throws
             StringifierParseException
     {
-        IdentifierFactory realFactory = (IdentifierFactory) factory;
-        Identifier        found;
+        MeshObjectIdentifierFactory realFactory   = (MeshObjectIdentifierFactory) factory;
+        String                      contextString = realFactory.getMeshBase().getIdentifier().toExternalForm();
+        String                      realRawString;
 
+        if( rawString.startsWith( contextString )) {
+            realRawString = rawString.substring( contextString.length() );
+        } else {
+            realRawString = rawString;
+        }
+
+        Identifier found;
         try {
             if( HOME_OBJECT_STRING.equals( rawString )) {
                 found = realFactory.fromExternalForm( null );
             } else if( theProcessColloquial ) {
-                found = realFactory.guessFromExternalForm( rawString );
+                found = realFactory.guessFromExternalForm( realRawString );
             } else {
-                found = realFactory.fromExternalForm( rawString );
+                found = realFactory.fromExternalForm( realRawString );
             }
         } catch( ParseException ex ) {
             throw new StringifierParseException( this, rawString, ex );
@@ -216,16 +225,24 @@ public class WebContextAwareMeshObjectIdentifierStringifier
             boolean                    matchAll,
             StringifierUnformatFactory factory )
     {
-        IdentifierFactory realFactory = (IdentifierFactory) factory;
+        MeshObjectIdentifierFactory realFactory   = (MeshObjectIdentifierFactory) factory;
+        String                      contextString = realFactory.getMeshBase().getIdentifier().toExternalForm();
+        String                      realRawString;
+
+        if( rawString.startsWith( contextString )) {
+            realRawString = rawString.substring( contextString.length() );
+        } else {
+            realRawString = rawString;
+        }
 
         try {
             Identifier found;
-            if( HOME_OBJECT_STRING.equals( rawString )) {
+            if( HOME_OBJECT_STRING.equals( realRawString )) {
                 found = realFactory.fromExternalForm( null );
             } else if( theProcessColloquial ) {
-                found = realFactory.guessFromExternalForm( rawString );
+                found = realFactory.guessFromExternalForm( realRawString );
             } else {
-                found = realFactory.fromExternalForm( rawString );
+                found = realFactory.fromExternalForm( realRawString );
             }
 
             return OneElementIterator.<StringifierParsingChoice<Identifier>>create(
