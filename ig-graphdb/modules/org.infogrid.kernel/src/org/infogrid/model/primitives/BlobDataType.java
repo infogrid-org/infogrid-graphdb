@@ -16,6 +16,7 @@ package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
 import java.text.ParseException;
+import java.util.regex.Pattern;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -34,21 +35,47 @@ public final class BlobDataType
     private static final long serialVersionUID = 1L; // helps with serialization
 
     /**
+     * The known MIME type patterns.
+     */
+    static final Pattern [] theKnownMimeTypePatterns;
+    static {
+        theKnownMimeTypePatterns = new Pattern[ BlobValue.KNOWN_MIME_TYPES.length ];
+        for( int i=0 ; i<theKnownMimeTypePatterns.length ; ++i ) {
+            theKnownMimeTypePatterns[i] = Pattern.compile( BlobValue.KNOWN_MIME_TYPES[i] );
+        }
+    }
+
+    /**
       * This DataType allows any MIME type.
       */
     public static final BlobDataType theAnyType = create(
             "",
-            BlobValue.TEXT_PLAIN_MIME_TYPE,
             BlobValue.KNOWN_MIME_TYPES,
+            new Pattern[] { Pattern.compile( ".*" ) },
+            null );
+
+    /**
+      * This DataType allows any known MIME type.
+      */
+    public static final BlobDataType theAnyKnownType = create(
+            "",
+            BlobValue.KNOWN_MIME_TYPES,
+            theKnownMimeTypePatterns,
             null );
 
     /**
      * This is a text DataType of any text format, plain or formatted.
      */
-    public static final BlobDataType theTextPlainOrHtmlType = create(
+    public static final BlobDataType theTextAnyType = create(
             "",
-            BlobValue.TEXT_PLAIN_MIME_TYPE,
-            new String[] { BlobValue.TEXT_PLAIN_MIME_TYPE, BlobValue.TEXT_HTML_MIME_TYPE },
+            new String[] {
+                    BlobValue.TEXT_PLAIN_MIME_TYPE,
+                    BlobValue.TEXT_HTML_MIME_TYPE
+            },
+            new Pattern[] {
+                    Pattern.compile( Pattern.quote( BlobValue.TEXT_PLAIN_MIME_TYPE )),
+                    Pattern.compile( Pattern.quote( BlobValue.TEXT_HTML_MIME_TYPE ))
+            },
             theAnyType );
 
     /**
@@ -56,18 +83,34 @@ public final class BlobDataType
      */
     public static final BlobDataType theTextPlainType = create(
             "",
-            BlobValue.TEXT_PLAIN_MIME_TYPE,
-            new String[] { BlobValue.TEXT_PLAIN_MIME_TYPE },
-            theTextPlainOrHtmlType );
+            new String[]  { BlobValue.TEXT_PLAIN_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.TEXT_PLAIN_MIME_TYPE )) },
+            theTextAnyType );
 
     /**
      * This is an HTML text DataType.
      */
     public static final BlobDataType theTextHtmlType = create(
             "",
-            BlobValue.TEXT_HTML_MIME_TYPE,
-            new String[] { BlobValue.TEXT_HTML_MIME_TYPE },
-            theTextPlainOrHtmlType );
+            new String[]  { BlobValue.TEXT_HTML_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.TEXT_HTML_MIME_TYPE )) },
+            theTextAnyType );
+
+    /**
+     * This is an XML text DataType.
+     */
+    public static final BlobDataType theTextXmlType = create(
+            "<xml/>",
+            new String[] {
+                    BlobValue.TEXT_XML_MIME_TYPE,
+                    BlobValue.APPLICATION_XML_MIME_TYPE
+            },
+            new Pattern[] {
+                    Pattern.compile( Pattern.quote( BlobValue.TEXT_XML_MIME_TYPE )),
+                    Pattern.compile( Pattern.quote( BlobValue.APPLICATION_XML_MIME_TYPE )),
+                    Pattern.compile( "^application/(.+)\\+xml$" )
+            },
+            theTextAnyType );
 
     /**
      * Helper variable.
@@ -85,8 +128,16 @@ public final class BlobDataType
     public static final BlobDataType theJdkSupportedBitmapType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.gif",
-            BlobValue.IMAGE_JPEG_MIME_TYPE,
-            new String[] { BlobValue.IMAGE_GIF_MIME_TYPE, BlobValue.IMAGE_JPEG_MIME_TYPE, BlobValue.IMAGE_PNG_MIME_TYPE },
+            new String[] {
+                    BlobValue.IMAGE_GIF_MIME_TYPE,
+                    BlobValue.IMAGE_JPEG_MIME_TYPE,
+                    BlobValue.IMAGE_PNG_MIME_TYPE
+            },
+            new Pattern[] {
+                    Pattern.compile( Pattern.quote( BlobValue.IMAGE_GIF_MIME_TYPE )),
+                    Pattern.compile( Pattern.quote( BlobValue.IMAGE_JPEG_MIME_TYPE )),
+                    Pattern.compile( Pattern.quote( BlobValue.IMAGE_PNG_MIME_TYPE ))
+            },
             theAnyType );
 
     /**
@@ -95,8 +146,8 @@ public final class BlobDataType
     public static final BlobDataType theGifType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.gif",
-            BlobValue.IMAGE_GIF_MIME_TYPE,
-            new String[] { BlobValue.IMAGE_GIF_MIME_TYPE },
+            new String[]  { BlobValue.IMAGE_GIF_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.IMAGE_GIF_MIME_TYPE )) },
             theJdkSupportedBitmapType );
 
     /**
@@ -105,8 +156,8 @@ public final class BlobDataType
     public static final BlobDataType theJpgType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.jpg",
-            BlobValue.IMAGE_JPEG_MIME_TYPE,
-            new String[] { BlobValue.IMAGE_JPEG_MIME_TYPE },
+            new String[]  { BlobValue.IMAGE_JPEG_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.IMAGE_JPEG_MIME_TYPE )) },
             theJdkSupportedBitmapType );
 
     /**
@@ -115,8 +166,8 @@ public final class BlobDataType
     public static final BlobDataType thePngType = createByLoadingFrom(
             BlobDataType.class.getClassLoader(),
             packageName + "/BlobDefaultValue.png",
-            BlobValue.IMAGE_PNG_MIME_TYPE,
-            new String[] { BlobValue.IMAGE_PNG_MIME_TYPE },
+            new String[]  { BlobValue.IMAGE_PNG_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.IMAGE_PNG_MIME_TYPE )) },
             theJdkSupportedBitmapType );
 
     /**
@@ -128,36 +179,36 @@ public final class BlobDataType
      * Factory method.
      *
      * @param defaultValue default value for instances of this DataType, expressed as String. May be null.
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      * @return the created BlobDataType
      */
     public static BlobDataType create(
-            String    defaultValue,
-            String    defaultValueMimeType,
-            String [] mimeTypes,
-            DataType  superType )
+            String     defaultValue,
+            String []  defaultValueMimeTypes,
+            Pattern [] mimeTypeRegexes,
+            DataType   superType )
     {
-        return new BlobDataType( defaultValue, defaultValueMimeType, mimeTypes, superType );
+        return new BlobDataType( defaultValue, defaultValueMimeTypes, mimeTypeRegexes, superType );
     }
 
     /**
      * Factory method.
      *
      * @param defaultValue default value for instances of this DataType, expressed as byte array. May be null.
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      * @return the created BlobDataType
      */
     public static BlobDataType create(
-            byte []   defaultValue,
-            String    defaultValueMimeType,
-            String [] mimeTypes,
-            DataType  superType )
+            byte []    defaultValue,
+            String[]   defaultValueMimeTypes,
+            Pattern [] mimeTypeRegexes,
+            DataType   superType )
     {
-        return new BlobDataType( defaultValue, defaultValueMimeType, mimeTypes, superType );
+        return new BlobDataType( defaultValue, defaultValueMimeTypes, mimeTypeRegexes, superType );
     }
 
     /**
@@ -165,65 +216,67 @@ public final class BlobDataType
      *
      * @param defaultValueLoader the ClassLoader through which the default value is loaded
      * @param defaultValueLoadFrom the location relative to loader from which we load
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      * @return the created BlobDataType
      */
     public static BlobDataType createByLoadingFrom(
-            ClassLoader  defaultValueLoader,
-            String       defaultValueLoadFrom,
-            String       defaultValueMimeType,
-            String []    mimeTypes,
-            DataType     superType )
+            ClassLoader defaultValueLoader,
+            String      defaultValueLoadFrom,
+            String []   defaultValueMimeTypes,
+            Pattern []  mimeTypeRegexes,
+            DataType    superType )
     {
-        return new BlobDataType( defaultValueLoader, defaultValueLoadFrom, defaultValueMimeType, mimeTypes, superType );
+        return new BlobDataType( defaultValueLoader, defaultValueLoadFrom, defaultValueMimeTypes, mimeTypeRegexes, superType );
     }
 
     /**
      * Private constructor, use factory methods.
      *
      * @param defaultValue default value for instances of this DataType, expressed as String. May be null.
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      */
     private BlobDataType(
-            String    defaultValue,
-            String    defaultValueMimeType,
-            String [] mimeTypes,
-            DataType  superType )
+            String     defaultValue,
+            String []  defaultValueMimeTypes,
+            Pattern [] mimeTypeRegexes,
+            DataType   superType )
     {
         super( superType );
 
-        if( mimeTypes == null || mimeTypes.length == 0 ) {
+        if( mimeTypeRegexes == null || mimeTypeRegexes.length == 0 ) {
             throw new IllegalArgumentException( "Must support at least one MIME type" );
         }
-        theMimeTypes    = mimeTypes;
-        theDefaultValue = createBlobValueOrNull( defaultValue, defaultValueMimeType );
+        theMimeTypeRegexes  = mimeTypeRegexes;
+        theDefaultValue     = createBlobValueOrNull( defaultValue, defaultValueMimeTypes[0] );
+        theDefaultMimeTypes = defaultValueMimeTypes;
     }
 
     /**
      * Private constructor, use factory methods.
      *
      * @param defaultValue default value for instances of this DataType, expressed as a byte array. May be null.
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      */
     private BlobDataType(
-            byte []   defaultValue,
-            String    defaultValueMimeType,
-            String [] mimeTypes,
-            DataType  superType )
+            byte []    defaultValue,
+            String []  defaultValueMimeTypes,
+            Pattern [] mimeTypeRegexes,
+            DataType   superType )
     {
         super( superType );
 
-        if( mimeTypes == null || mimeTypes.length == 0 ) {
+        if( mimeTypeRegexes == null || mimeTypeRegexes.length == 0 ) {
             throw new IllegalArgumentException( "Must support at least one MIME type" );
         }
-        theMimeTypes    = mimeTypes;
-        theDefaultValue = createBlobValueOrNull( defaultValue, defaultValueMimeType );
+        theMimeTypeRegexes  = mimeTypeRegexes;
+        theDefaultValue     = createBlobValueOrNull( defaultValue, defaultValueMimeTypes[0] );
+        theDefaultMimeTypes = defaultValueMimeTypes;
     }
 
     /**
@@ -231,24 +284,25 @@ public final class BlobDataType
      *
      * @param defaultValueLoader the ClassLoader through which the default value is loaded
      * @param defaultValueLoadFrom the location relative to loader from which we load
-     * @param defaultValueMimeType MIME type of the default value
-     * @param mimeTypes the allowed MIME types
+     * @param defaultValueMimeTypes default MIME types, the first one being the MIME type of the default value
+     * @param mimeTypeRegexes the allowed MIME types
      * @param superType supertype of this DataType
      */
     private BlobDataType(
-            ClassLoader  defaultValueLoader,
-            String       defaultValueLoadFrom,
-            String       defaultValueMimeType,
-            String []    mimeTypes,
-            DataType     superType )
+            ClassLoader defaultValueLoader,
+            String      defaultValueLoadFrom,
+            String []   defaultValueMimeTypes,
+            Pattern []  mimeTypeRegexes,
+            DataType    superType )
     {
         super( superType );
 
-        if( mimeTypes == null || mimeTypes.length == 0 ) {
+        if( mimeTypeRegexes == null || mimeTypeRegexes.length == 0 ) {
             throw new IllegalArgumentException( "Must support at least one MIME type" );
         }
-        theMimeTypes    = mimeTypes;
-        theDefaultValue = createBlobValueByLoadingFrom( defaultValueLoader, defaultValueLoadFrom, defaultValueMimeType );
+        theMimeTypeRegexes  = mimeTypeRegexes;
+        theDefaultValue     = createBlobValueByLoadingFrom( defaultValueLoader, defaultValueLoadFrom, defaultValueMimeTypes[0] );
+        theDefaultMimeTypes = defaultValueMimeTypes;
     }
 
     
@@ -267,15 +321,9 @@ public final class BlobDataType
         if( value == null ) {
             throw new IllegalArgumentException( "null value" );
         }
-        if( mimeType == null ) {
-            for( String candidate : theMimeTypes ) {
-                if( candidate.startsWith( "text/" )) {
-                    mimeType = candidate;
-                    break;
-                }
-            }
+        if( value == null ) {
+            throw new IllegalArgumentException( "null mimeType" );
         }
-
         if( !isAllowedMimeType( mimeType )) {
             throw new MimeTypeNotInDomainException( this, mimeType );
         }
@@ -427,13 +475,13 @@ public final class BlobDataType
     }
 
     /**
-     * Determine the allowed MIME types. If this is null, all MIME types are allowed.
+     * Determine the allowed MIME type regular expressions. If this is null, all MIME types are allowed.
      *
      * @return the MIME types
      */
-    public String [] getMimeTypes()
+    public Pattern [] getMimeTypeRegexes()
     {
-        return theMimeTypes;
+        return theMimeTypeRegexes;
     }
 
     /**
@@ -449,7 +497,7 @@ public final class BlobDataType
         if( other instanceof BlobDataType ) {
             BlobDataType realOther = (BlobDataType) other;
 
-            if( !ArrayHelper.hasSameContentOutOfOrder( theMimeTypes, realOther.theMimeTypes, true )) {
+            if( !ArrayHelper.hasSameContentOutOfOrder( theMimeTypeRegexes, realOther.theMimeTypeRegexes, true )) {
                 return false;
             }
 
@@ -474,8 +522,8 @@ public final class BlobDataType
         if( theDefaultValue != null ) {
             ret ^= theDefaultValue.hashCode();
         }
-        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
-            ret ^= theMimeTypes[i].hashCode();
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+            ret ^= theMimeTypeRegexes[i].hashCode();
         }
         return ret;
     }
@@ -495,7 +543,7 @@ public final class BlobDataType
         if( other instanceof BlobDataType ) {
             BlobDataType realOther = (BlobDataType) other;
 
-            return ArrayHelper.firstHasSecondAsSubset( theMimeTypes, realOther.theMimeTypes, true );
+            return ArrayHelper.firstHasSecondAsSubset( theMimeTypeRegexes, realOther.theMimeTypeRegexes, true );
         }
         return false;
     }
@@ -514,8 +562,8 @@ public final class BlobDataType
 
             String mime = realValue.getMimeType();
             
-            for( int i=0 ; i<theMimeTypes.length ; ++i ) {
-                if( mime.equals( theMimeTypes[i] )) {
+            for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+                if( theMimeTypeRegexes[i].matcher( mime ).matches() ) {
                     return true;
                 }
             }
@@ -533,8 +581,8 @@ public final class BlobDataType
     public boolean isAllowedMimeType(
             String mime )
     {
-        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
-            if( mime.equals( theMimeTypes[i] )) {
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+            if( theMimeTypeRegexes[i].matcher( mime ).matches() ) {
                 return true;
             }
         }
@@ -548,8 +596,8 @@ public final class BlobDataType
      */
     public boolean supportsTextMimeType()
     {
-        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
-            if( theMimeTypes[i].startsWith( "text/" )) {
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+            if( theMimeTypeRegexes[i].toString().startsWith( "text/" )) {
                 return true;
             }
         }
@@ -563,8 +611,8 @@ public final class BlobDataType
      */
     public boolean supportsBinaryMimeType()
     {
-        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
-            if( !theMimeTypes[i].startsWith( "text/" )) {
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+            if( !theMimeTypeRegexes[i].toString().startsWith( "text/" )) {
                 return true;
             }
         }
@@ -605,15 +653,14 @@ public final class BlobDataType
     {
         StringBuilder almostRet = new StringBuilder( 100 );
         almostRet.append( "(" );
-        for( int i=0 ; i<theMimeTypes.length ; ++i ) {
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
             if( i!=0 ) {
-                almostRet.append( " ||" );
+                almostRet.append( " || " );
             }
-            almostRet.append( " \"" );
-            almostRet.append( theMimeTypes[i] );
-            almostRet.append( "\".equals( " );
+            almostRet.append( theMimeTypeRegexes[i] );
+            almostRet.append( ".matcher( " );
             almostRet.append( varName );
-            almostRet.append( ".getMimeType() )" );
+            almostRet.append( " ).matches() )" );
         }
         almostRet.append( CLOSE_PARENTHESIS_STRING );
         return almostRet.toString();
@@ -640,13 +687,23 @@ public final class BlobDataType
     }
     
     /**
+     * Obtain all default MIME typse of this BlobDataType.
+     *
+     * @return the default MIME types.
+     */
+    public String [] getDefaultMimeTypes()
+    {
+        return theDefaultMimeTypes;
+    }
+
+    /**
      * Obtain the default MIME type of this BlobDataType.
-     * 
+     *
      * @return the default MIME type.
      */
     public String getDefaultMimeType()
     {
-        return theMimeTypes[0];
+        return theDefaultMimeTypes[0];
     }
 
     /**
@@ -661,9 +718,9 @@ public final class BlobDataType
         return  "BlobDataType: with"
                 + ((theDefaultValue == null ) ? "out" : "" )
                 + " default, mime: "
-                + ( (theMimeTypes.length == 1 )
-                        ? theMimeTypes[0]
-                        : ArrayHelper.arrayToString( theMimeTypes, "," ));
+                + ( (theMimeTypeRegexes.length == 1 )
+                        ? theMimeTypeRegexes[0]
+                        : ArrayHelper.arrayToString( theMimeTypeRegexes, "," ));
     }
 
     /**
@@ -680,18 +737,24 @@ public final class BlobDataType
             return theDefault;
         } else if( this.equals( theAnyType )) {
             return theAnyType;
+        } else if( this.equals( theAnyKnownType )) {
+            return theAnyKnownType;
         } else if( this.equals( theGifType )) {
             return theGifType;
-        } else if( this.equals( theJdkSupportedBitmapType )) {
-            return theJdkSupportedBitmapType;
         } else if( this.equals( theJpgType )) {
             return theJpgType;
-        } else if( this.equals( theTextPlainOrHtmlType )) {
-            return theTextPlainOrHtmlType;
+        } else if( this.equals( thePngType )) {
+            return thePngType;
+        } else if( this.equals( theJdkSupportedBitmapType )) {
+            return theJdkSupportedBitmapType;
+        } else if( this.equals( theTextAnyType )) {
+            return theTextAnyType;
         } else if( this.equals( theTextHtmlType )) {
             return theTextHtmlType;
         } else if( this.equals( theTextPlainType )) {
             return theTextPlainType;
+        } else if( this.equals( theTextXmlType )) {
+            return theTextXmlType;
         } else {
             return this;
         }
@@ -717,20 +780,24 @@ public final class BlobDataType
             return className + ".theAnyType";
         } else if( this == theDefault ) {
             return className + DEFAULT_STRING;
+        } else if( this == theAnyKnownType ) {
+            return className + ".theAnyKnownType";
         } else if( this == theGifType ) {
             return className + ".theGifType";
-        } else if( this == theJdkSupportedBitmapType ) {
-            return className + ".theJdkSupportedBitmapType";
         } else if( this == theJpgType ) {
             return className + ".theJpgType";
         } else if( this == thePngType ) {
             return className + ".thePngType";
-        } else if( this == theTextPlainOrHtmlType ) {
-            return className + ".theTextPlainOrHtmlType";
+        } else if( this == theJdkSupportedBitmapType ) {
+            return className + ".theJdkSupportedBitmapType";
+        } else if( this == theTextAnyType ) {
+            return className + ".theTextAnyType";
         } else if( this == theTextHtmlType ) {
             return className + ".theTextHtmlType";
         } else if( this == theTextPlainType ) {
             return className + ".theTextPlainType";
+        } else if( this == theTextXmlType ) {
+            return className + ".theTextXmlType";
         } else {
             StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
@@ -741,13 +808,13 @@ public final class BlobDataType
             }
             ret.append( COMMA_STRING );
 
-            if( theMimeTypes != null ) {
-                ret.append( "new String[] { " );
-                for( int i=0 ; i<theMimeTypes.length ; ++i ) {
+            if( theMimeTypeRegexes != null ) {
+                ret.append( "new java.util.Pattern[] { " );
+                for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
                     ret.append( QUOTE_STRING );
-                    ret.append( theMimeTypes[i] );
+                    ret.append( theMimeTypeRegexes[i].toString() );
                     ret.append( QUOTE_STRING );
-                    if( i<theMimeTypes.length-1 ) {
+                    if( i<theMimeTypeRegexes.length-1 ) {
                         ret.append( COMMA_STRING );
                     }
                 }
@@ -787,7 +854,7 @@ public final class BlobDataType
                 pars,
                 this,
                 PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
-                theMimeTypes,
+                theMimeTypeRegexes,
                 theSupertype );
     }
 
@@ -841,8 +908,13 @@ public final class BlobDataType
     protected BlobValue theDefaultValue;
 
     /**
-     * The set of MIME types allowed for BlobValues. This must not be null. Wildcard
-     * subtypes (e.g. "all types of text") are not supported.
+     * The default MIME types that goes with this DataType.
      */
-    protected String [] theMimeTypes;
+    protected String [] theDefaultMimeTypes;
+
+    /**
+     * The set of MIME types allowed for BlobValues. This must not be null. If any one of the regexes matches,
+     * the MIME type is supported.
+     */
+    protected Pattern [] theMimeTypeRegexes;
 }

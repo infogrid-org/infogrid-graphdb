@@ -805,7 +805,7 @@ public class ModelLoaderGenerator
         if( val == null ) {
             return "null";
         } else {
-            return val.getJavaConstructorString( LOADER_VAR, BlobDataType.theTextPlainOrHtmlType.getJavaConstructorString( LOADER_VAR ) );
+            return val.getJavaConstructorString( LOADER_VAR, BlobDataType.theTextAnyType.getJavaConstructorString( LOADER_VAR ) );
         }
     }
 

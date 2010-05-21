@@ -423,7 +423,7 @@ public class EnumeratedDataType
                 if( theDomain[i].getUserVisibleDescriptionMap() != null ) {
                     ret.append( theDomain[i].getUserVisibleDescriptionMap().getJavaConstructorString(
                             classLoaderVar,
-                            BlobDataType.class.getName() + ".theTextPlainOrHtmlType" ));
+                            BlobDataType.class.getName() + ".theTextAnyType" ));
                 } else {
                     ret.append( NULL_STRING );
                 }

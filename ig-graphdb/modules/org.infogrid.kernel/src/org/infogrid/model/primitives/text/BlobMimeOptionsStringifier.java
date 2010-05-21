@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -146,19 +146,20 @@ public class BlobMimeOptionsStringifier
             selectedMime = null;
         }
 
-        String []     values = arg.getMimeTypes();
+        String []     values = arg.getDefaultMimeTypes();
         StringBuilder ret    = new StringBuilder();
 
         String sep = null;
         for( int i=0 ; i<values.length ; ++i ) {
+            String current = values[i].toString();
             if( sep != null ) {
                 ret.append( sep );
             }
-            if( values[i].equals( selectedMime )) {
+            if( current.equals( selectedMime )) {
                 if( theBeginStringSelected != null ) {
                     ret.append( theBeginStringSelected );
                 }
-                ret.append( values[i] );
+                ret.append( current );
                 if( theEndStringSelected != null ) {
                     ret.append( theEndStringSelected );
                 }
@@ -166,7 +167,7 @@ public class BlobMimeOptionsStringifier
                 if( theBeginString != null ) {
                     ret.append( theBeginString );
                 }
-                ret.append( values[i] );
+                ret.append( current );
                 if( theEndString != null ) {
                     ret.append( theEndString );
                 }
