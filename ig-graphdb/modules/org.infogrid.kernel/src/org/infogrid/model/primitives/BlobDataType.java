@@ -597,7 +597,7 @@ public final class BlobDataType
     public boolean supportsTextMimeType()
     {
         for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
-            if( theMimeTypeRegexes[i].toString().startsWith( "text/" )) {
+            if( theMimeTypeRegexes[i].toString().startsWith( "\\Qtext/" )) {
                 return true;
             }
         }
@@ -612,7 +612,7 @@ public final class BlobDataType
     public boolean supportsBinaryMimeType()
     {
         for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
-            if( !theMimeTypeRegexes[i].toString().startsWith( "text/" )) {
+            if( !theMimeTypeRegexes[i].toString().startsWith( "\\Qtext/" )) {
                 return true;
             }
         }
