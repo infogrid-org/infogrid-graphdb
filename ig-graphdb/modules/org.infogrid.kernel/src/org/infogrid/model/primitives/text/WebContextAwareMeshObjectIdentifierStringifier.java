@@ -135,6 +135,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         } else {
             ext = HOME_OBJECT_STRING;
         }
+        ext = potentiallyShorten( ext, pars );
         ext = escape( ext );
 
         String ret = processPrefixPostfix( ext );
