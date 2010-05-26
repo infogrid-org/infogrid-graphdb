@@ -33,6 +33,7 @@ import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.primitives.TimePeriodValue;
 import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.model.Test.TestSubjectArea;
+import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -71,6 +72,7 @@ public class MeshBaseTest10
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPEANY_type.createBlobValue( "test1", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
+                CurrencyValue.parseCurrencyValue( "1.23 USD" ),
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE_type.select( "Value3" ),
                 ExtentValue.create( 1.2, 3.4 ),
                 FloatValue.create( 56.78 ),
@@ -85,6 +87,7 @@ public class MeshBaseTest10
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBLOBDATATYPEANY,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALBOOLEANDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCOLORDATATYPE,
+                TestSubjectArea.OPTIONALPROPERTIES_OPTIONALCURRENCYDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALENUMERATEDDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALEXTENTDATATYPE,
                 TestSubjectArea.OPTIONALPROPERTIES_OPTIONALFLOATDATATYPE,
@@ -104,6 +107,7 @@ public class MeshBaseTest10
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPEANY_type.createBlobValue( "test", "text/plain" ),
                 BooleanValue.TRUE,
                 ColorValue.create( 0x202020 ),
+                CurrencyValue.parseCurrencyValue( "0.01\nEUR" ),
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE_type.select( "Value3" ),
                 ExtentValue.create( 1.2, 3.4 ),
                 FloatValue.create( 56.78 ),
@@ -118,6 +122,7 @@ public class MeshBaseTest10
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBLOBDATATYPEANY,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYBOOLEANDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYCOLORDATATYPE,
+                TestSubjectArea.MANDATORYPROPERTIES_MANDATORYCURRENCYDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYENUMERATEDDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYEXTENTDATATYPE,
                 TestSubjectArea.MANDATORYPROPERTIES_MANDATORYFLOATDATATYPE,

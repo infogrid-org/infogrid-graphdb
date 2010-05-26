@@ -86,7 +86,17 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
-        
+
+    // currency
+        plainMap.put(     "currency",         CurrencyValueStringifier.create() );
+        // editPlain:  same as plain
+        htmlMap.put(      "currency",         HtmlifyingDelegatingStringifier.create( CurrencyValueStringifier.create()));
+        // editHtml:   same as html
+        // url:        same as plain
+        // java:       same as plain
+        // javascript: same as java
+        // javadoc:    same as java
+
     // enum
 
         plainMap.put(     "enum",             EnumeratedValueStringifier.create( true ) );

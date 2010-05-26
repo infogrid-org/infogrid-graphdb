@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -40,10 +40,13 @@ public interface PropertyValueXmlTags
     
     /** Tag indicating that a BooleanValue is FALSE. */
     public static final String BOOLEAN_VALUE_FALSE_TAG = "FALSE";
-    
+
     /** Tag indicating that this is a ColorValue. */
     public static final String COLOR_VALUE_TAG = "ColorValue";
-    
+
+    /** Tag indicating that this is a CurrencyValue. */
+    public static final String CURRENCY_VALUE_TAG = "CurrencyValue";
+
     /** Tag indicating that this is an EnumeratedValue. */
     public static final String ENUMERATED_VALUE_TAG = "EnumeratedValue";
     

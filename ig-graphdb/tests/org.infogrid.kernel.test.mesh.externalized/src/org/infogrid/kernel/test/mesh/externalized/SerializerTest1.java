@@ -23,6 +23,8 @@ import org.infogrid.model.primitives.BooleanDataType;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.ColorDataType;
 import org.infogrid.model.primitives.ColorValue;
+import org.infogrid.model.primitives.CurrencyDataType;
+import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.model.primitives.DataType;
 import org.infogrid.model.primitives.EnumeratedDataType;
 import org.infogrid.model.primitives.EnumeratedValue;
@@ -188,6 +190,21 @@ public class SerializerTest1
     };
 
    /**
+     * The test cases for CurrencyValue
+     */
+    protected static TestCase [] currencyValueTestData = new TestCase[] {
+            new TestCase(
+                    CurrencyDataType.theDefault,
+                    new CurrencyValue[] {
+                         CurrencyValue.create( 1, 1, CurrencyDataType.USD ),
+                         CurrencyValue.create( 1, 0, CurrencyDataType.USD ),
+                         CurrencyValue.create( 1, 1, CurrencyDataType.USD ),
+                         CurrencyValue.create( 123, 45, CurrencyDataType.USD ),
+                         CurrencyValue.create( 123, 45, CurrencyDataType.EUR ),
+                    } )
+    };
+
+    /**
      * The test cases for EnumeratedValue
      */
     protected static TestCase [] enumeratedValueTestData = new TestCase[] {
@@ -534,6 +551,7 @@ public class SerializerTest1
             blobValueTestData,
             booleanValueTestData,
             colorValueTestData,
+            currencyValueTestData,
             enumeratedValueTestData,
             extentValueTestData,
             floatValueTestData,

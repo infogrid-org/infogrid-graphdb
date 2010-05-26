@@ -29,6 +29,8 @@ import org.infogrid.model.primitives.BooleanDataType;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.ColorDataType;
 import org.infogrid.model.primitives.ColorValue;
+import org.infogrid.model.primitives.CurrencyDataType;
+import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.model.primitives.DataType;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.EnumeratedDataType;
@@ -384,6 +386,9 @@ public class MyHandler
                     theStack.push( new ExternalizedAttributes( attrs ));
                     break;
                 case XmlModelTokens.COLOR_DATATYPE_TOKEN:
+                    theStack.push( new ExternalizedAttributes( attrs ));
+                    break;
+                case XmlModelTokens.CURRENCY_DATATYPE_TOKEN:
                     theStack.push( new ExternalizedAttributes( attrs ));
                     break;
                 case XmlModelTokens.ENUMERATED_DATATYPE_TOKEN:
@@ -961,6 +966,10 @@ public class MyHandler
                     theAttributes = (ExternalizedAttributes) theStack.pop();
                     theStack.push( ColorDataType.theDefault );
                     break;
+                case XmlModelTokens.CURRENCY_DATATYPE_TOKEN:
+                    theAttributes = (ExternalizedAttributes) theStack.pop();
+                    theStack.push( CurrencyDataType.theDefault );
+                    break;
                 case XmlModelTokens.ENUMERATED_DATATYPE_TOKEN:
                     theCollection = toArrayList(             theStack.pop());
                     theAttributes = (ExternalizedAttributes) theStack.pop();
@@ -1265,6 +1274,9 @@ public class MyHandler
         } else if( type instanceof ColorDataType ) {
             int value = Integer.parseInt( raw );
             ret = ColorValue.create( value );
+
+        } else if( type instanceof CurrencyDataType ) {
+            ret = CurrencyValue.parseCurrencyValue( raw );
 
         } else if( type instanceof EnumeratedDataType ) {
             try {

@@ -195,6 +195,13 @@
                 </datatype>
                 <isoptional/>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalCurrencyDataType">
+                <name>OptionalCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalEnumeratedDataType">
                 <name>OptionalEnumeratedDataType</name>
                 <datatype>
@@ -335,6 +342,13 @@
                 </datatype>
                 <defaultvalue>123</defaultvalue>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryCurrencyDataType">
+                <name>MandatoryCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
+                </datatype>
+                <defaultvalue>1 USD</defaultvalue>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryEnumeratedDataType">
                 <name>MandatoryEnumeratedDataType</name>
                 <datatype>
@@ -473,6 +487,13 @@
                 </datatype>
                 <isoptional/>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalCurrencyDataType">
+                <name>OptionalCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalEnumeratedDataType">
                 <name>OptionalEnumeratedDataType</name>
                 <datatype>
@@ -606,6 +627,13 @@
                     <ColorDataType/>
                 </datatype>
                 <defaultvalue>123</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryCurrencyDataType">
+                <name>MandatoryCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
+                </datatype>
+                <defaultvalue>1 USD</defaultvalue>
             </propertytype>
             <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryEnumeratedDataType">
                 <name>MandatoryEnumeratedDataType</name>
@@ -775,6 +803,17 @@
                 <name>OptionalColorDataType</name>
                 <datatype>
                     <ColorDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalCurrency">
+            <name>OptionalCurrency</name>
+            <propertytype ID="org.infogrid.model.Test/OptionalCurrency_OptionalCurrencyDataType">
+                <name>OptionalCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
                 </datatype>
                 <isoptional/>
             </propertytype>
@@ -978,6 +1017,17 @@
                     <ColorDataType/>
                 </datatype>
                 <defaultvalue>123</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryCurrency">
+            <name>MandatoryCurrency</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryCurrency_MandatoryCurrencyDataType">
+                <name>MandatoryCurrencyDataType</name>
+                <datatype>
+                    <CurrencyDataType/>
+                </datatype>
+                <defaultvalue>0.01 EUR</defaultvalue>
             </propertytype>
         </entitytype>
 

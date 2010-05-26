@@ -9,7 +9,7 @@
 
     For more information about InfoGrid go to http://infogrid.org/
 
-    Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
     All rights reserved.
   -->
 
@@ -568,6 +568,7 @@
     BlobDataType
      | BooleanDataType
      | ColorDataType
+     | CurrencyDataType
      | EnumeratedDataType
      | ExtentDataType
      | FloatDataType
@@ -736,6 +737,19 @@
     There are no attributes.
   -->
 <!ELEMENT ColorDataType EMPTY>
+
+<!--
+    Specifies a CurrencyDataType.
+
+    There are no contained elements.
+
+    Its attributes are:
+        typefield                   optional    name of the static member variable, defined in CurrencyDataType, that holds the correct instance of CurrencyDataType.
+  -->
+<!ELEMENT CurrencyDataType EMPTY>
+<!ATTLIST CurrencyDataType
+    typefield CDATA #IMPLIED
+>
 
 <!--
     Specifies an EnumeratedDataType.

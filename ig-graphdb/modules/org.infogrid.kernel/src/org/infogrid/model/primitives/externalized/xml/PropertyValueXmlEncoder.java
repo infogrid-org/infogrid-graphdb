@@ -26,6 +26,7 @@ import org.infogrid.model.primitives.BlobDataType;
 import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.ColorValue;
+import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.model.primitives.EnumeratedValue;
 import org.infogrid.model.primitives.ExtentValue;
 import org.infogrid.model.primitives.FloatValue;
@@ -153,6 +154,12 @@ public class PropertyValueXmlEncoder
             buf.append( "<" ).append( COLOR_VALUE_TAG ).append( ">" );
             buf.append( String.valueOf( realValue.getRGB()) );
             buf.append( "</" ).append( COLOR_VALUE_TAG ).append( ">" );
+
+        } else if( value instanceof CurrencyValue ) {
+            CurrencyValue realValue = (CurrencyValue)value;
+            buf.append( "<" ).append( CURRENCY_VALUE_TAG ).append( ">" );
+            buf.append( XmlUtils.escape( realValue.value() ));
+            buf.append( "</" ).append( CURRENCY_VALUE_TAG ).append( ">" );
 
         } else if( value instanceof EnumeratedValue ) {
             EnumeratedValue realValue = (EnumeratedValue) value;
@@ -341,6 +348,8 @@ public class PropertyValueXmlEncoder
             // no op
         } else if( COLOR_VALUE_TAG.equals( qName )) {
             // no op
+        } else if( CURRENCY_VALUE_TAG.equals( qName )) {
+            // no op
         } else if( ENUMERATED_VALUE_TAG.equals( qName )) {
             // no op
         } else if( EXTENT_VALUE_TAG.equals( qName )) {
@@ -518,7 +527,14 @@ public class PropertyValueXmlEncoder
             } else {
                 throw new SAXException( "No value given for ColorValue" );
             }
-            
+
+        } else if( CURRENCY_VALUE_TAG.equals( qName )) {
+            if( theCharacters != null ) {
+                thePropertyValue = CurrencyValue.parseCurrencyValue( theCharacters.toString() );
+            } else {
+                throw new SAXException( "No value given for ColorValue" );
+            }
+
         } else if( ENUMERATED_VALUE_TAG.equals( qName )) {
             if( theCharacters != null ) {
                 thePropertyValue = EnumeratedValue.create( null, theCharacters.toString().trim(), null, null );

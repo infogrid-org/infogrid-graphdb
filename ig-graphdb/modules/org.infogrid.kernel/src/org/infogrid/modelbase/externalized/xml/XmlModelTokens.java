@@ -153,22 +153,23 @@ abstract class XmlModelTokens
     protected static final int BLOB_DATATYPE_TOKEN                           = 49;
     protected static final int BOOLEAN_DATATYPE_TOKEN                        = 50;
     protected static final int COLOR_DATATYPE_TOKEN                          = 51;
-    protected static final int ENUMERATED_DATATYPE_TOKEN                     = 52;
-    protected static final int EXTENT_DATATYPE_TOKEN                         = 53;
-    protected static final int FLOAT_DATATYPE_TOKEN                          = 54;
-    protected static final int FLOAT_MATRIX_DATATYPE_TOKEN                   = 55;
-    protected static final int INTEGER_DATATYPE_TOKEN                        = 56;
-    protected static final int MULTIPLICITY_DATATYPE_TOKEN                   = 57;
-    protected static final int POINT_DATATYPE_TOKEN                          = 58;
-    protected static final int STRING_DATATYPE_TOKEN                         = 59;
-    protected static final int TIME_PERIOD_DATATYPE_TOKEN                    = 60;
-    protected static final int TIME_STAMP_DATATYPE_TOKEN                     = 61;
+    protected static final int CURRENCY_DATATYPE_TOKEN                       = 52;
+    protected static final int ENUMERATED_DATATYPE_TOKEN                     = 53;
+    protected static final int EXTENT_DATATYPE_TOKEN                         = 54;
+    protected static final int FLOAT_DATATYPE_TOKEN                          = 55;
+    protected static final int FLOAT_MATRIX_DATATYPE_TOKEN                   = 56;
+    protected static final int INTEGER_DATATYPE_TOKEN                        = 57;
+    protected static final int MULTIPLICITY_DATATYPE_TOKEN                   = 58;
+    protected static final int POINT_DATATYPE_TOKEN                          = 59;
+    protected static final int STRING_DATATYPE_TOKEN                         = 60;
+    protected static final int TIME_PERIOD_DATATYPE_TOKEN                    = 61;
+    protected static final int TIME_STAMP_DATATYPE_TOKEN                     = 62;
 
-    protected static final int MULTIPLICITY_VALUE_TOKEN                      = 62;
-    protected static final int ENUM_TOKEN                                    = 63;
+    protected static final int MULTIPLICITY_VALUE_TOKEN                      = 63;
+    protected static final int ENUM_TOKEN                                    = 64;
 
-    protected static final int DECLARES_METHOD_TOKEN                         = 64;
-    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 65;
+    protected static final int DECLARES_METHOD_TOKEN                         = 65;
+    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 66;
 
     /**
      * The table to map integers into strings.
@@ -235,6 +236,7 @@ abstract class XmlModelTokens
         addToTable( "BlobDataType",             BLOB_DATATYPE_TOKEN );
         addToTable( "BooleanDataType",          BOOLEAN_DATATYPE_TOKEN );
         addToTable( "ColorDataType",            COLOR_DATATYPE_TOKEN );
+        addToTable( "CurrencyDataType",         CURRENCY_DATATYPE_TOKEN );
         addToTable( "EnumeratedDataType",       ENUMERATED_DATATYPE_TOKEN );
         addToTable( "ExtentDataType",           EXTENT_DATATYPE_TOKEN );
         addToTable( "FloatDataType",            FLOAT_DATATYPE_TOKEN );

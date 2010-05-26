@@ -31,6 +31,8 @@ import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.CollectableMeshType;
 import org.infogrid.model.primitives.ColorDataType;
 import org.infogrid.model.primitives.ColorValue;
+import org.infogrid.model.primitives.CurrencyDataType;
+import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.model.primitives.DataType;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.EnumeratedDataType;
@@ -872,6 +874,12 @@ public class XmlModelExporter
             theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.COLOR_DATATYPE_TOKEN ));
             theWriter.write( "/>\n" );
 
+        } else if( type instanceof CurrencyDataType ) {
+            doIndent( indent, theWriter );
+            theWriter.write( "<" );
+            theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.CURRENCY_DATATYPE_TOKEN ));
+            theWriter.write( "/>\n" );
+
         } else if( type instanceof EnumeratedDataType ) {
             EnumeratedDataType realType = (EnumeratedDataType) type;
             EnumeratedValue [] domain   = realType.getDomain();
@@ -1265,6 +1273,15 @@ public class XmlModelExporter
                 theWriter.write( "Color:" );
             }
             theWriter.write( String.valueOf( ((ColorValue)value).getRGB() ));
+            return;
+        }
+
+        if( value instanceof CurrencyValue ) {
+            CurrencyValue realValue = (CurrencyValue) value;
+            if( writeTag ) {
+                theWriter.write( "Currency:" );
+            }
+            theWriter.write( realValue.value() );
             return;
         }
 
