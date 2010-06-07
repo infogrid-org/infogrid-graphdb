@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.meshbase.m.security;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.AclBasedSecurity.AclBasedSecuritySubjectArea;
 import org.infogrid.util.logging.Log;
@@ -43,21 +44,21 @@ public class MeshBaseSecurityTest3
         
         MeshObject owner = life.createMeshObject( idFact.fromExternalForm( "#owner" ));
 
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
 
         MeshObject ownerProtectionDomain = life.createMeshObject( idFact.fromExternalForm( "#owner-protectiondomain" ), AclBasedSecuritySubjectArea.PROTECTIONDOMAIN );
         MeshObject ownerData             = life.createMeshObject( idFact.fromExternalForm( "#owner-data" ) );
 
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         MeshObject attacker = life.createMeshObject( idFact.fromExternalForm( "#attacker" ));
 
-        theAccessManager.setCaller( attacker );
+        ThreadIdentityManager.setCaller( attacker );
 
         MeshObject attackerProtectionDomain = life.createMeshObject( idFact.fromExternalForm( "#attacker-protectiondomain" ), AclBasedSecuritySubjectArea.PROTECTIONDOMAIN );
         MeshObject attackerData             = life.createMeshObject( idFact.fromExternalForm( "#attacker-data" ) );
 
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         tx.commitTransaction();
         
@@ -68,7 +69,7 @@ public class MeshBaseSecurityTest3
         
         log.info( "Attacker attempting to put owner's data into his own ProtectionDomain" );
         
-        theAccessManager.setCaller( attacker );
+        ThreadIdentityManager.setCaller( attacker );
         tx = theMeshBase.createTransactionNow();
         
         try {
@@ -79,13 +80,13 @@ public class MeshBaseSecurityTest3
             // no op
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Owner putting owner's data into his own ProtectionDomain" );
         
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         tx = theMeshBase.createTransactionNow();
         
         try {
@@ -95,13 +96,13 @@ public class MeshBaseSecurityTest3
             reportError( "Owner unable putting owner's data into owner's ProtectionDomain" );
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Attacker attempting to remove owner's ProtectionDomain from owner's data" );
         
-        theAccessManager.setCaller( attacker );
+        ThreadIdentityManager.setCaller( attacker );
         tx = theMeshBase.createTransactionNow();
         
         try {
@@ -112,13 +113,13 @@ public class MeshBaseSecurityTest3
             // no op
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Owner should be able to remove owner's ProtectionDomain from owner's data" );
         
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         tx = theMeshBase.createTransactionNow();
         
         try {
@@ -128,7 +129,7 @@ public class MeshBaseSecurityTest3
             reportError( "Owner was unable to remove owner's ProtectionDomain from owner's data" );
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
     }
 
     /**

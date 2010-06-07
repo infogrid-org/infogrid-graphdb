@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
@@ -24,30 +24,34 @@ import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.RoleType;
 
 /**
- * A simplistic AccessManager implementation that allows all operations under all circumstances
- * and does nothing to assign owners when asked.
- * This may not be very useful in production applications, but is useful for testing purposes.
+ * Makes it easy to create an AccessManager by delegating to another AccessManager and
+ * potentially overriding some methods.
  */
-public class PermitAllAccessManager
+public class DelegatingAccessManager
         implements
             AccessManager
 {
     /**
      * Factory method.
-     * 
-     * @return the created PermitAllAccessManager
+     *
+     * @param delegate the AccessManager to delegate to
+     * @return the created DelegatingNetAccessManager
      */
-    public static PermitAllAccessManager create()
+    public static DelegatingAccessManager create(
+            AccessManager delegate )
     {
-        return new PermitAllAccessManager();
+        return new DelegatingAccessManager( delegate );
     }
 
     /**
      * Constructor.
+     *
+     * @param delegate the AccessManager to delegate to
      */
-    protected PermitAllAccessManager()
+    protected DelegatingAccessManager(
+            AccessManager delegate )
     {
-        // no op
+        theDelegate = delegate;
     }
 
     /**
@@ -64,13 +68,13 @@ public class PermitAllAccessManager
         throws
             TransactionException
     {
-        // no op
+        theDelegate.assignOwner( toBeOwned, newOwner );
     }
-    
+
     /**
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
-     * 
+     *
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
@@ -79,14 +83,14 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedCreate( identifier );
     }
-    
+
     /**
-     * Check whether it is permitted to set a MeshObject's timeExpires to the given value.
+     * Check whether it is permitted to set a MeshObject's auto-delete time to the given value.
      *
      * @param obj the MeshObject
-     * @param newValue the proposed new value for timeExpires
+     * @param newValue the proposed new value for the auto-delete time
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedSetTimeExpires(
@@ -95,9 +99,9 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedSetTimeExpires( obj, newValue );
     }
-    
+
     /**
      * Check whether it is permitted to set a MeshObject's given property to the given
      * value.
@@ -114,9 +118,9 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedSetProperty( obj, thePropertyType, newValue );
     }
-    
+
     /**
      * Check whether it is permitted to obtain a MeshObject's given property.
      *
@@ -130,13 +134,13 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedGetProperty( obj, thePropertyType );
     }
 
     /**
      * Check whether it is permitted to determine whether or not a MeshObject is blessed with
      * the given type.
-     * 
+     *
      * @param obj the MeshObject
      * @param type the EntityType whose blessing we wish to check
      * @throws NotPermittedException thrown if it is not permitted
@@ -147,12 +151,12 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedBlessedBy( obj, type );
     }
 
     /**
      * Check whether it is permitted to bless a MeshObject with the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes with which to bless
      * @throws NotPermittedException thrown if it is not permitted
@@ -163,12 +167,12 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedBless( obj, types );
     }
 
     /**
      * Check whether it is permitted to unbless a MeshObject from the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes from which to unbless
      * @throws NotPermittedException thrown if it is not permitted
@@ -179,7 +183,7 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedUnbless( obj, types );
     }
 
     /**
@@ -200,9 +204,8 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedBless( obj, thisEnds, neighborIdentifier, neighbor );
     }
-
 
     /**
      * Check whether it is permitted to unbless the relationship to the neighbor from the
@@ -222,7 +225,7 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedUnbless( obj, thisEnds, neighborIdentifier, neighbor );
     }
 
     /**
@@ -243,7 +246,7 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedTraversal( obj, toTraverse, neighborIdentifier, neighbor );
     }
 
     /**
@@ -261,13 +264,14 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedAddAsEquivalent( one, twoIdentifier, two );
     }
 
     /**
      * Check whether it is permitted to remove a MeshObject from the equivalence set
      * it is currently a member of.
-     * 
+     * Subclasses may override this.
+     *
      * @param obj the MeshObject to remove
      * @param roleTypesToAsk the RoleTypes to ask
      * @throws NotPermittedException thrown if it is not permitted
@@ -278,10 +282,10 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedRemoveAsEquivalent( obj, roleTypesToAsk );
     }
 
-   /**
+    /**
      * Check whether it is permitted to delete this MeshObject. This checks both whether the
      * MeshObject itself may be deleted, and whether the relationships it participates in may
      * be deleted (which in turn depends on whether the relationships may be unblessed).
@@ -294,6 +298,11 @@ public class PermitAllAccessManager
         throws
             NotPermittedException
     {
-        // no op
+        theDelegate.checkPermittedDelete( obj );
     }
+
+    /**
+     * The AccessManager to delegate to.
+     */
+    protected AccessManager theDelegate;
 }

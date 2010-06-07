@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.meshbase.m.security;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.AclBasedSecurity.AclBasedSecuritySubjectArea;
 import org.infogrid.model.SecurityTest.SecurityTestSubjectArea;
@@ -49,7 +50,7 @@ public class MeshBaseSecurityTest5
 
         MeshObject owner    = life.createMeshObject();
 
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         MeshObject dataObject = life.createMeshObject();
         MeshObject domain     = life.createMeshObject( AclBasedSecuritySubjectArea.PROTECTIONDOMAIN );
 
@@ -60,7 +61,7 @@ public class MeshBaseSecurityTest5
         // actorMayDelete.relateAndBless( hasDeleteAccessToType.getSource(), domain );
 
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         StringValue   orgValue   = StringValue.create( "owner value" );
         StringValue   wrongValue = StringValue.create( "WRONG value" );
@@ -69,7 +70,7 @@ public class MeshBaseSecurityTest5
         
         log.info( "Owner can do anything" );
         
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         tx = theMeshBase.createTransactionNow();
         
         dataObject.bless( SecurityTestSubjectArea.AA );
@@ -78,13 +79,13 @@ public class MeshBaseSecurityTest5
         dataObject.unbless( SecurityTestSubjectArea.B );
 
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         //
         
         log.info( "Testing reader" );
         
-        theAccessManager.setCaller( actorMayRead );
+        ThreadIdentityManager.setCaller( actorMayRead );
         tx = theMeshBase.createTransactionNow();
         try {
             readValue = dataObject.getPropertyValue( SecurityTestSubjectArea.A_X );
@@ -126,13 +127,13 @@ public class MeshBaseSecurityTest5
             // no op
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Testing updater" );
         
-        theAccessManager.setCaller( actorMayUpdate );
+        ThreadIdentityManager.setCaller( actorMayUpdate );
         tx = theMeshBase.createTransactionNow();
         try {
             readValue = dataObject.getPropertyValue( SecurityTestSubjectArea.A_X );
@@ -169,7 +170,7 @@ public class MeshBaseSecurityTest5
         }
 
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         //
         

@@ -21,11 +21,11 @@ import org.infogrid.mesh.MeshObjectGraphModificationException;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.MeshObjectIdentifierNotUniqueException;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.security.AccessManager;
-import org.infogrid.meshbase.security.IdentityChangeException;
 import org.infogrid.meshbase.transaction.DefaultTransaction;
 import org.infogrid.meshbase.transaction.IllegalTransactionThreadException;
 import org.infogrid.meshbase.transaction.MeshObjectCreatedEvent;
@@ -173,9 +173,8 @@ public abstract class AbstractMeshBase
             Transaction tx = null;
             
             try {
-                if( theAccessManager != null ) {
-                    theAccessManager.sudo();
-                }
+                ThreadIdentityManager.sudo();
+
                 tx = createTransactionNowIfNeeded();
 
                 homeObject = this.getMeshBaseLifecycleManager().createMeshObject(
@@ -198,16 +197,11 @@ public abstract class AbstractMeshBase
             } catch( NotPermittedException ex ) {
                 log.error( ex );
 
-            } catch( IdentityChangeException ex ) {
-                log.error( ex );
-
             } finally {
                 if( tx != null ) {
                     tx.commitTransaction();
                 }
-                if( theAccessManager != null ) {
-                    theAccessManager.sudone();
-                }
+                ThreadIdentityManager.sudone();
             }
         }
         return homeObject;

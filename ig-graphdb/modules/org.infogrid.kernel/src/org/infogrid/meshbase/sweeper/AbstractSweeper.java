@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,10 +16,9 @@ package org.infogrid.meshbase.sweeper;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.Sweeper;
-import org.infogrid.meshbase.security.AccessManager;
-import org.infogrid.meshbase.security.IdentityChangeException;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.meshbase.transaction.TransactionException;
 
@@ -104,14 +103,11 @@ public abstract class AbstractSweeper
             log.traceMethodCallEntry( this, "deleteMeshObject", toDelete.getIdentifier() );
         }
 
-        MeshBase      base   = toDelete.getMeshBase();
-        AccessManager access = base.getAccessManager();
+        MeshBase base = toDelete.getMeshBase();
 
         Transaction tx = null;
         try {
-            if( access != null ) {
-                access.sudo();
-            }
+            ThreadIdentityManager.sudo();
             
             tx = base.createTransactionAsapIfNeeded();
             
@@ -123,16 +119,11 @@ public abstract class AbstractSweeper
         } catch( NotPermittedException ex ) {
             log.error( ex );
             
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-            
         } finally {
             if( tx != null ) {
                 tx.commitTransaction();
             }
-            if( access != null ) {
-                access.sudone();
-            }            
+            ThreadIdentityManager.sudone();
         }
     }
 }

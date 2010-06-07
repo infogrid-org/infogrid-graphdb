@@ -8,13 +8,14 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.kernel.test.meshbase.m.security;
 
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.AclBasedSecurity.AclBasedSecuritySubjectArea;
@@ -44,9 +45,9 @@ public class MeshBaseSecurityTest1
         
         tx.commitTransaction();
         
-        theAccessManager.setCaller( caller );
+        ThreadIdentityManager.setCaller( caller );
         
-        checkIdentity( caller, theAccessManager.getCaller(), "Not the same caller" );
+        checkIdentity( caller, ThreadIdentityManager.getCaller(), "Not the same caller" );
         
         //
         
@@ -68,7 +69,7 @@ public class MeshBaseSecurityTest1
         
         log.info( "Set anonymous owner and try again" );
         
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         tx = theMeshBase.createTransactionNow();
         

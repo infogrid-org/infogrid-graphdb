@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.meshbase.m.security;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.AclBasedSecurity.AclBasedSecuritySubjectArea;
 import org.infogrid.model.primitives.RelationshipType;
@@ -46,15 +47,15 @@ public class MeshBaseSecurityTest4
         
         MeshObject owner    = life.createMeshObject();
 
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         MeshObject ownerProtectionDomain = life.createMeshObject( AclBasedSecuritySubjectArea.PROTECTIONDOMAIN );
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         MeshObject attacker = life.createMeshObject();
 
-        theAccessManager.setCaller( attacker );
+        ThreadIdentityManager.setCaller( attacker );
         MeshObject attackerProtectionDomain = life.createMeshObject( AclBasedSecuritySubjectArea.PROTECTIONDOMAIN );
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         tx.commitTransaction();
         
@@ -67,7 +68,7 @@ public class MeshBaseSecurityTest4
 
         tx = theMeshBase.createTransactionNow();
 
-        theAccessManager.setCaller( attacker );
+        ThreadIdentityManager.setCaller( attacker );
         thirdParty.relate( ownerProtectionDomain );
         for( RelationshipType right : rightsTypes ) {
             try {
@@ -78,7 +79,7 @@ public class MeshBaseSecurityTest4
                 // noop
             }
         }
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         tx.commitTransaction();
         
         //
@@ -87,7 +88,7 @@ public class MeshBaseSecurityTest4
         
         tx = theMeshBase.createTransactionNow();
 
-        theAccessManager.setCaller( owner );
+        ThreadIdentityManager.setCaller( owner );
         for( RelationshipType right : rightsTypes ) {
             try {
                 thirdParty.blessRelationship( right.getSource(), ownerProtectionDomain );
@@ -96,7 +97,7 @@ public class MeshBaseSecurityTest4
                 reportError( "Owner could not add third party to owner's ProtectionDomain using RelationshipType ", right.getIdentifier() );
             }
         }
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         tx.commitTransaction();
         
     }

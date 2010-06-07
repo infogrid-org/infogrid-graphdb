@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -24,82 +24,11 @@ import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.RoleType;
 
 /**
- * <p>Manages access control rights associated with Threads on behalf of a MeshBase.
- * This is an interface so different implementations are possible.</p>
- * <p>To change identities associated with a thread, the following coding pattern
- * is recommended:</p>
- * <pre>
- * try {
- *     setCaller( theCaller );
- *     performWork();
- * } finally {
- *     unsetCaller();
- * }
- * </pre>
+ * <p>Manages access control rights. Implementations typically use
+ * ThreadIdentityManager to determine the current caller.</p>
  */
 public interface AccessManager
 {
-    /**
-     * Determine the identity of the caller. This may return null, indicating that
-     * the caller is anonymous.
-     *
-     * @return the identity of the caller, or null.
-     * @see #setCaller
-     * @see #unsetCaller
-     */
-    public MeshObject getCaller();
-
-    /**
-     * Determine whether the current Thread has super user privileges.
-     *
-     * @return true if the current Thread has super user privileges.
-     */
-    public boolean isSu();
-
-    /**
-     * Set the identity of the caller on this Thread. This will unset any previous
-     * identity set on this Thread.
-     *
-     * @param caller the caller, or null if anonymous
-     * @return the previously set caller, if any
-     * @throws IdentityChangeException thrown if the current caller was not authorized to perform this operation
-     * @see #getCaller
-     * @see #unsetCaller
-     */
-    public MeshObject setCaller(
-            MeshObject caller )
-        throws
-            IdentityChangeException;
-
-    /**
-     * Unset the identity of the caller on this Thread. This is called when the caller
-     * is done, for example.
-     *
-     * @return the previously set caller, if any
-     * @throws IdentityChangeException thrown if the current caller was not authorized to perform this operation
-     * @see #getCaller
-     * @see #setCaller
-     */
-    public MeshObject unsetCaller()
-        throws
-            IdentityChangeException;
-
-    /**
-     * Make the current Thread have super-user rights. This is very similar to common
-     * operating-systems calls.
-     * 
-     * @throws IdentityChangeException thrown if the current caller was not authorized to perform this operation
-     */
-    public void sudo()
-        throws
-            IdentityChangeException;
-
-    /**
-     * Release super-user rights from the current Thread. If the current Thread does not
-     * have super-user rights, nothing happens.
-     */
-    public void sudone();
-    
     /**
      * Assign the second MeshObject to be the owner of the first MeshObject. This
      * must only be called if the current Thread has an open Transaction.

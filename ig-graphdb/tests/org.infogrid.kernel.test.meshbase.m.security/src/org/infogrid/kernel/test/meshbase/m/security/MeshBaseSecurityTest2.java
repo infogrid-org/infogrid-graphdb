@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.meshbase.m.security;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.AclBasedSecurity.AclBasedSecuritySubjectArea;
 import org.infogrid.util.logging.Log;
@@ -45,12 +46,12 @@ public class MeshBaseSecurityTest2
         MeshObject attacker1 = life.createMeshObject();
         MeshObject attacker2 = life.createMeshObject();
 
-        theAccessManager.setCaller( owner1 );
+        ThreadIdentityManager.setCaller( owner1 );
         
         MeshObject data = life.createMeshObject();
         
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         checkIdentity( owner1, data.traverse( AclBasedSecuritySubjectArea.MESHOBJECT_HASOWNER_MESHOBJECT.getSource() ).getSingleMember(), "Not the same owner1" );
         
@@ -59,7 +60,7 @@ public class MeshBaseSecurityTest2
         
         log.info( "Attacker cannot create new owner" );
         
-        theAccessManager.setCaller( attacker1 );
+        ThreadIdentityManager.setCaller( attacker1 );
         tx = theMeshBase.createTransactionNow();
 
         try {
@@ -78,13 +79,13 @@ public class MeshBaseSecurityTest2
             // noop
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Owner can add second owner" );
         
-        theAccessManager.setCaller( owner1 );
+        ThreadIdentityManager.setCaller( owner1 );
         tx = theMeshBase.createTransactionNow();
 
         try {
@@ -94,13 +95,13 @@ public class MeshBaseSecurityTest2
             reportError( "Owner could not add a second owner" );
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         //
         
         log.info( "Owner can remove itself as owner" );
         
-        theAccessManager.setCaller( owner1 );
+        ThreadIdentityManager.setCaller( owner1 );
         tx = theMeshBase.createTransactionNow();
 
         try {
@@ -110,13 +111,13 @@ public class MeshBaseSecurityTest2
             reportError( "Owner could not remove itself as owner" );
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         
         log.info( "Ex-owner is just like attacker now" );
         
-        theAccessManager.setCaller( owner1 );
+        ThreadIdentityManager.setCaller( owner1 );
         tx = theMeshBase.createTransactionNow();
 
         try {
@@ -127,13 +128,13 @@ public class MeshBaseSecurityTest2
             // noop
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
 
         //
         
         log.info( "Second Owner can add back in first owner" );
         
-        theAccessManager.setCaller( owner2 );
+        ThreadIdentityManager.setCaller( owner2 );
         tx = theMeshBase.createTransactionNow();
 
         try {
@@ -143,7 +144,7 @@ public class MeshBaseSecurityTest2
             reportError( "Second owner could not add ex-owner" );
         }
         tx.commitTransaction();
-        theAccessManager.unsetCaller();
+        ThreadIdentityManager.unsetCaller();
         
         //
         

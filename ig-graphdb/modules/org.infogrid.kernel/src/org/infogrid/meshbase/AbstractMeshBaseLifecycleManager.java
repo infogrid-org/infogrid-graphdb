@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,15 +23,13 @@ import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
 import org.infogrid.mesh.externalized.ParserFriendlyExternalizedMeshObject;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.security.AccessManager;
-
 import org.infogrid.meshbase.transaction.MeshObjectCreatedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectDeletedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectLifecycleEvent;
 import org.infogrid.meshbase.transaction.TransactionException;
-
 import org.infogrid.model.primitives.EntityType;
-
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
 
@@ -409,7 +407,7 @@ public abstract class AbstractMeshBaseLifecycleManager
             return; // no AccessManager
         }
 
-        MeshObject caller = accessMgr.getCaller();
+        MeshObject caller = ThreadIdentityManager.getCaller();
         if( caller == null ) {
             return; // no owner
         }

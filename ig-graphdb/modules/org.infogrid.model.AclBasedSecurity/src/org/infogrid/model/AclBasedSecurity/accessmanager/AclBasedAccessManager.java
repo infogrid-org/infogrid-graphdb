@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -20,10 +20,10 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.RelatedAlreadyException;
+import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshObjectAccessException;
-import org.infogrid.meshbase.security.AbstractAccessManager;
-import org.infogrid.meshbase.security.IdentityChangeException;
+import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
@@ -39,8 +39,8 @@ import org.infogrid.util.logging.Log;
  * start calling arbitrary APIs.
  */
 public class AclBasedAccessManager
-        extends
-            AbstractAccessManager
+        implements
+            AccessManager
 {
     private static final Log log = Log.getLogInstance( AclBasedAccessManager.class ); // our own, private logger
     
@@ -77,11 +77,8 @@ public class AclBasedAccessManager
             TransactionException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             toBeOwned.relateAndBless( AclBasedSecuritySubjectArea.MESHOBJECT_HASOWNER_MESHOBJECT.getSource(), newOwner );
-
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
 
         } catch( EntityNotBlessedException ex ) {
             log.error( ex );
@@ -96,7 +93,7 @@ public class AclBasedAccessManager
             log.error( ex );
 
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }
     }
     
@@ -130,9 +127,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             for( Role current : obj.getRoles( false ) ) {
                 current.getRoleType().checkPermittedSetTimeExpires(
@@ -140,11 +137,8 @@ public class AclBasedAccessManager
                         newValue,
                         caller );
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }
     }
 
@@ -165,20 +159,17 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             thePropertyType.checkPermittedSetProperty(
                     obj,
                     newValue,
                     caller );
 
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }
     }
 
@@ -196,19 +187,16 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             thePropertyType.checkPermittedGetProperty(
                     obj,
                     caller );
         
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }
     }
 
@@ -227,19 +215,16 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             type.checkPermittedBlessedBy(
                     obj,
                     caller );
         
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }
     }
 
@@ -257,9 +242,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller      = getCaller();
+            MeshObject caller      = ThreadIdentityManager.getCaller();
             MeshBase   theMeshBase = obj.getMeshBase();
 
             // we ask the new EntityTypes, and we ask the existing RoleTypes
@@ -282,11 +267,8 @@ public class AclBasedAccessManager
                         neighbor,
                         caller );
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 
@@ -304,9 +286,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller      = getCaller();
+            MeshObject caller      = ThreadIdentityManager.getCaller();
             MeshBase   theMeshBase = obj.getMeshBase();
 
             for( EntityType current : types ) {
@@ -325,11 +307,8 @@ public class AclBasedAccessManager
                         neighbor,
                         caller );
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }                
     }
 
@@ -352,9 +331,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             for( RoleType current : thisEnds ) {
                 current.checkPermittedBless(
@@ -412,11 +391,8 @@ public class AclBasedAccessManager
                             caller );
                 }
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 
@@ -439,9 +415,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
         
             for( RoleType current : thisEnds ) {
                 current.checkPermittedUnbless(
@@ -500,11 +476,8 @@ public class AclBasedAccessManager
                 }
             }
 
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
     
@@ -527,17 +500,14 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             toTraverse.checkPermittedTraversal( obj, neighborIdentifier, neighbor, caller );
 
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 
@@ -696,9 +666,9 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             throw new UnsupportedOperationException(); // this needs some thinking FIXME
 //            for( RoleType current : roleTypesOneToAsk ) {
@@ -707,11 +677,8 @@ public class AclBasedAccessManager
 //            for( RoleType current : roleTypesTwoToAsk ) {
 //                current.checkPermittedAddAsEquivalent( two, one, caller );
 //            }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 
@@ -731,20 +698,17 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
+            MeshObject caller = ThreadIdentityManager.getCaller();
 
             for( RoleType current : roleTypesToAsk ) {
                 current.checkPermittedRemoveAsEquivalent(
                         obj,
                         caller );
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 
@@ -762,10 +726,8 @@ public class AclBasedAccessManager
             NotPermittedException
     {
         try {
-            sudo();
+            ThreadIdentityManager.sudo();
             
-            MeshObject caller = getCaller();
-
             EntityType [] allTypes = obj.getTypes();
  
             checkPermittedUnbless( obj, allTypes );
@@ -793,11 +755,8 @@ public class AclBasedAccessManager
                     log.info( ex );
                 }
             }
-        } catch( IdentityChangeException ex ) {
-            log.error( ex );
-
         } finally {
-            sudone();
+            ThreadIdentityManager.sudone();
         }        
     }
 }
