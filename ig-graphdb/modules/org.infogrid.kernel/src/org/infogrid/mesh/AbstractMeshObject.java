@@ -1517,6 +1517,29 @@ public abstract class AbstractMeshObject
     }
 
     /**
+     * Determine whether this MeshObject's relationship to the other MeshObject is blessed
+     * with a given RoleType.
+     *
+     * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to
+     * @param neighbor the other MeshObject
+     * @return true if this MeshObject's relationship to the other MeshObject is blessed with the given RoleType
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     */
+    public final boolean isRelated(
+            RoleType   thisEnd,
+            MeshObject neighbor )
+        throws
+            NotRelatedException
+    {
+        RoleType [] allRoleTypes = getRoleTypes( neighbor );
+        if( ArrayHelper.isIn( thisEnd, allRoleTypes, false )) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
      * Obtain the Identifiers of the equivalent MeshObjects. This is sometimes more efficient than
      * traversing to the equivalents, and determining the MeshObjectIdentifiers.
      *

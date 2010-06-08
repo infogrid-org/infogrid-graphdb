@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -838,7 +838,7 @@ public interface MeshObject
      *
      * @param neighbor the other MeshObject
      * @return the RoleTypes that this MeshObject currently participates in.
-     * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
      */
     public abstract RoleType [] getRoleTypes(
             MeshObject neighbor )
@@ -855,11 +855,26 @@ public interface MeshObject
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
-     * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
      */
     public abstract RoleType [] getRoleTypes(
             MeshObject neighbor,
             boolean    considerEquivalents )
+        throws
+            NotRelatedException;
+
+    /**
+     * Determine whether this MeshObject's relationship to the other MeshObject is blessed
+     * with a given RoleType.
+     *
+     * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to
+     * @param neighbor the other MeshObject
+     * @return true if this MeshObject's relationship to the other MeshObject is blessed with the given RoleType
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     */
+    public abstract boolean isRelated(
+            RoleType   thisEnd,
+            MeshObject neighbor )
         throws
             NotRelatedException;
 
