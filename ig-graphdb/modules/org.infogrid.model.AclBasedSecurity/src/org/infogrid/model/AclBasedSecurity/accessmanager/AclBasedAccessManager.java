@@ -126,6 +126,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -158,6 +162,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -186,6 +194,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -214,6 +226,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -241,6 +257,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -285,6 +305,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -330,6 +354,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -414,6 +442,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -499,6 +531,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -665,6 +701,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -697,6 +737,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
@@ -725,6 +769,10 @@ public class AclBasedAccessManager
         throws
             NotPermittedException
     {
+        if( ThreadIdentityManager.isSu() ) {
+            return; // root many do anything
+        }
+
         try {
             ThreadIdentityManager.sudo();
             
