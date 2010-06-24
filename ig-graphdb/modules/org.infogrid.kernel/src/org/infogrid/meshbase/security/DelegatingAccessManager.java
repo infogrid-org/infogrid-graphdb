@@ -24,8 +24,9 @@ import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.RoleType;
 
 /**
- * Makes it easy to create an AccessManager by delegating to another AccessManager and
- * potentially overriding some methods.
+ * Makes it easy to create an AccessManager by delegating to one or more other AccessManagers and
+ * potentially overriding some methods. Access is granted only if all other AccessManagers grant
+ * access.
  */
 public class DelegatingAccessManager
         implements
@@ -34,24 +35,36 @@ public class DelegatingAccessManager
     /**
      * Factory method.
      *
-     * @param delegate the AccessManager to delegate to
-     * @return the created DelegatingNetAccessManager
+     * @param singleDelegate a single AccessManager to delegate to
+     * @return the created DelegatingAccessManager
      */
     public static DelegatingAccessManager create(
-            AccessManager delegate )
+            AccessManager singleDelegate )
     {
-        return new DelegatingAccessManager( delegate );
+        return new DelegatingAccessManager( new AccessManager[] { singleDelegate } );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param delegates the AccessManagers to delegate to
+     * @return the created DelegatingAccessManager
+     */
+    public static DelegatingAccessManager create(
+            AccessManager [] delegates )
+    {
+        return new DelegatingAccessManager( delegates );
     }
 
     /**
      * Constructor.
      *
-     * @param delegate the AccessManager to delegate to
+     * @param delegates the AccessManagers to delegate to
      */
     protected DelegatingAccessManager(
-            AccessManager delegate )
+            AccessManager [] delegates )
     {
-        theDelegate = delegate;
+        theDelegates = delegates;
     }
 
     /**
@@ -68,7 +81,9 @@ public class DelegatingAccessManager
         throws
             TransactionException
     {
-        theDelegate.assignOwner( toBeOwned, newOwner );
+        for( AccessManager current : theDelegates ) {
+            current.assignOwner( toBeOwned, newOwner );
+        }
     }
 
     /**
@@ -83,7 +98,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedCreate( identifier );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedCreate( identifier );
+        }
     }
 
     /**
@@ -99,7 +116,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedSetTimeExpires( obj, newValue );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedSetTimeExpires( obj, newValue );
+        }
     }
 
     /**
@@ -118,7 +137,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedSetProperty( obj, thePropertyType, newValue );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedSetProperty( obj, thePropertyType, newValue );
+        }
     }
 
     /**
@@ -134,7 +155,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedGetProperty( obj, thePropertyType );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedGetProperty( obj, thePropertyType );
+        }
     }
 
     /**
@@ -151,7 +174,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedBlessedBy( obj, type );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedBlessedBy( obj, type );
+        }
     }
 
     /**
@@ -167,7 +192,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedBless( obj, types );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedBless( obj, types );
+        }
     }
 
     /**
@@ -183,7 +210,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedUnbless( obj, types );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedUnbless( obj, types );
+        }
     }
 
     /**
@@ -204,7 +233,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedBless( obj, thisEnds, neighborIdentifier, neighbor );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedBless( obj, thisEnds, neighborIdentifier, neighbor );
+        }
     }
 
     /**
@@ -225,7 +256,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedUnbless( obj, thisEnds, neighborIdentifier, neighbor );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedUnbless( obj, thisEnds, neighborIdentifier, neighbor );
+        }
     }
 
     /**
@@ -246,7 +279,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedTraversal( obj, toTraverse, neighborIdentifier, neighbor );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedTraversal( obj, toTraverse, neighborIdentifier, neighbor );
+        }
     }
 
     /**
@@ -264,7 +299,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedAddAsEquivalent( one, twoIdentifier, two );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedAddAsEquivalent( one, twoIdentifier, two );
+        }
     }
 
     /**
@@ -282,7 +319,9 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedRemoveAsEquivalent( obj, roleTypesToAsk );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedRemoveAsEquivalent( obj, roleTypesToAsk );
+        }
     }
 
     /**
@@ -298,11 +337,13 @@ public class DelegatingAccessManager
         throws
             NotPermittedException
     {
-        theDelegate.checkPermittedDelete( obj );
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedDelete( obj );
+        }
     }
 
     /**
-     * The AccessManager to delegate to.
+     * The AccessManagers to delegate to.
      */
-    protected AccessManager theDelegate;
+    protected AccessManager [] theDelegates;
 }

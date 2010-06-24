@@ -1,10 +1,10 @@
 org.infogrid.kernel.test.modelbase
 org.infogrid.model.Test
-org.infogrid.model.SecurityTest
+# org.infogrid.model.SecurityTest
 org.infogrid.kernel.test.mesh.externalized
 org.infogrid.kernel.test.meshbase.m
-org.infogrid.kernel.test.meshbase.m.security [no-run] # FIXME currently broken
 org.infogrid.kernel.test.differencer
 org.infogrid.kernel.test.traversal
 org.infogrid.meshbase.store.test
+org.infogrid.meshbase.security.aclbased.test
 org.infogrid.kernel.active.test

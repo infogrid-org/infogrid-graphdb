@@ -428,7 +428,7 @@ public class AMeshObject
             TransactionException,
             NotPermittedException
     {
-        internalUnrelate( neighbor.getIdentifier(), theMeshBase, true, 0L );
+        internalUnrelate( neighbor.getIdentifier(), theMeshBase, true, true, 0L );
     }
     
     /**
@@ -437,6 +437,7 @@ public class AMeshObject
      * @param neighborIdentifier identifier of the MeshObject to unrelate from
      * @param mb the MeshBase that this MeshObject does or used to belong to
      * @param isMaster true if this is the master replica
+     * @param performChecks if true, perform the AccessManager checks; if false, skip them
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
      * @throws NotRelatedException thrown if this MeshObject is not already related to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
@@ -446,6 +447,7 @@ public class AMeshObject
             MeshObjectIdentifier neighborIdentifier,
             MeshBase             mb,
             boolean              isMaster,
+            boolean              performChecks,
             long                 timeUpdated )
         throws
             NotRelatedException,
@@ -505,50 +507,13 @@ public class AMeshObject
                 }
 
                 // check that the RoleTypes with the other side let us
-                if( roleTypes != null ) {
+                if( performChecks && roleTypes != null ) {
                     checkPermittedUnbless( roleTypes, neighborIdentifier, realNeighbor );
                 }
-                if( realNeighbor != null && neighborRoleTypes != null ) {
+                if( performChecks && realNeighbor != null && neighborRoleTypes != null ) {
                     realNeighbor.checkPermittedUnbless( neighborRoleTypes, here, this );
                 }
 
-
-//                // check that all other Roles let us
-//                for( MeshObjectIdentifier oldNeighborIdentifier : oldNeighborIdentifiers ) {
-//                    if( neighborIdentifier.equals( oldNeighborIdentifier )) {
-//                        // skip this one
-//                        continue;
-//                    }
-//                    RoleType [] roleTypes2 = nMgr.getRoleTypesFor( this, oldNeighborIdentifier );
-//                    if( roleTypes2 == null || roleTypes2.length == 0 ) {
-//                        // nothing to do here
-//                        continue;
-//                    }
-//                    checkPermittedUnbless(
-//                            roleTypes,
-//                            neighborIdentifier,
-//                            roleTypes2,
-//                            oldNeighborIdentifier );
-//                }
-//                if( realNeighbor != null ) {
-//                    for( MeshObjectIdentifier oldNeighborNeighborIdentifier : oldNeighborNeighborIdentifiers ) {
-//                        if( here.equals( oldNeighborNeighborIdentifier )) {
-//                            // skip this one
-//                            continue;
-//                        }
-//                        RoleType [] neighborRoleTypes2 = nMgr.getRoleTypesFor( realNeighbor, oldNeighborNeighborIdentifier );
-//                        if( neighborRoleTypes2 == null || neighborRoleTypes2.length == 0 ) {
-//                            // nothing to do here
-//                            continue;
-//                        }
-//                        checkPermittedUnbless(
-//                                neighborRoleTypes,
-//                                here,
-//                                neighborRoleTypes2,
-//                                oldNeighborNeighborIdentifier );
-//                    }
-//                }
-                
                 // first remove all the RoleTypes
                 if( roleTypes != null ) {
                     fireTypesRemoved(
@@ -810,6 +775,7 @@ public class AMeshObject
                 }
 
                 checkPermittedBless( roleTypesToAdd, neighborIdentifier, neighbor ); // implementation does everything else
+                realNeighbor.checkPermittedBless( neighborRoleTypesToAdd, here, this ); // implementation does everything else
 
                 for( RoleType thisEnd : roleTypesToAdd ) {
                     RoleType otherEnd = thisEnd.getInverseRoleType();
@@ -1803,7 +1769,7 @@ public class AMeshObject
             for( int i=0 ; i<neighborIdentifiers.length ; ++i ) {
                 if( neighborIdentifiers[i] != null ) {
                     try {
-                        internalUnrelate( neighborIdentifiers[i], oldMeshBase, isMaster, timeUpdated );
+                        internalUnrelate( neighborIdentifiers[i], oldMeshBase, isMaster, false, timeUpdated );
                     } catch( NotRelatedException ex ) {
                         // that's fine, ignore
                     } catch( NotPermittedException ex ) {
