@@ -390,6 +390,12 @@ public class InterfaceGenerator
         outStream.println( "public abstract class " + saShortName + "SubjectArea" );
         outStream.println( "{" );
 
+        outStream.println( "    /**" );
+        outStream.println( "      * The SubjectArea itself." );
+        outStream.println( "      */" );
+        outStream.println( "    public static final SubjectArea _SA = ModelBaseSingleton.findSubjectArea( \"" + packageName + "\" );" );
+        outStream.println();
+
         for( CollectableMeshType type : theSa.getCollectableMeshTypes() ) {
             if( !type.getDoGenerateInterfaceCode().value() ) {
                 continue;
