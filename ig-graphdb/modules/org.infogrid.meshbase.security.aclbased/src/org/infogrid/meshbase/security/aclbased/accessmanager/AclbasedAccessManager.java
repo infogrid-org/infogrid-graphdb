@@ -135,9 +135,16 @@ public class AclbasedAccessManager
             MeshObject    caller = ThreadIdentityManager.getCaller();
             MeshObjectSet owners = obj.traverse( AclbasedSubjectArea.MESHOBJECT_HASOWNER_MESHOBJECT.getSource(), false );
 
-            if( owners.isEmpty() || owners.contains( caller )) {
+            if( owners.isEmpty() ) {
                 return;
             }
+            if( caller == null ) {
+                throw new CallerHasInsufficientPermissionsException( obj, caller );
+            }
+            if( owners.contains( caller )) {
+                return;
+            }
+
             MeshObject protectionDomain = obj.traverse( AclbasedSubjectArea.PROTECTIONDOMAIN_GOVERNS_MESHOBJECT.getDestination(), false ).getSingleMember();
             if( protectionDomain == null ) {
                 return;
