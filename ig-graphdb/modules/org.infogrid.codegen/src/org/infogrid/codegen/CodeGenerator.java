@@ -23,9 +23,6 @@ import org.infogrid.codegen.intfc.InterfaceGenerator;
 import org.infogrid.codegen.modelloader.ModelLoaderGenerator;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationDirectorySingleton;
-import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.modelbase.m.MModelBase;
-import org.infogrid.module.DefaultModelModuleActivator;
 import org.infogrid.module.ModelModule;
 import org.infogrid.module.Module;
 import org.infogrid.module.ModuleActivator;
@@ -81,6 +78,10 @@ public class CodeGenerator
             }
         }
         if( outputDir == null ) {
+            usageAndQuit();
+        }
+
+        if( theModuleRegistry == null ) {
             usageAndQuit();
         }
 
@@ -146,8 +147,9 @@ public class CodeGenerator
      */
     private static void usageAndQuit()
     {
-        System.err.println( "Usage:" );
-        System.err.println( "    java " + CodeGenerator.class.getName() + " <subjectArea> ... -o <outputDir>" );
+        System.err.println( "Usage: The code generator must be invoked from the InfoGrid Module Framework:" );
+        System.err.println( "    root module: " + CodeGenerator.class.getName() );
+        System.err.println( "    arguments: <subjectArea> ... -o <outputDir>" );
         System.exit( 1 );
     }
 
