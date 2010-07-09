@@ -17,6 +17,7 @@ package org.infogrid.mesh.a;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.util.AbstractIdentifier;
 import org.infogrid.util.Identifier;
+import org.infogrid.util.StringHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -131,9 +132,23 @@ public class DefaultAMeshObjectIdentifier
     public final boolean equals(
             Object otherValue )
     {
+        // trying to speed this up a bit
+        if( this == otherValue ) {
+            return true;
+        }
+        if( otherValue == null ) {
+            return false;
+        }
+        if( getClass() == otherValue.getClass() ) {
+            DefaultAMeshObjectIdentifier realValue = (DefaultAMeshObjectIdentifier) otherValue;
+
+            if( StringHelper.compareTo( theLocalId, realValue.theLocalId ) != 0 ) {
+                return false;
+            }
+        }
         if( otherValue instanceof Identifier ) {
             Identifier realValue = (Identifier) otherValue;
-            
+
             if( !toExternalForm().equals( realValue.toExternalForm() )) {
                 return false;
             }

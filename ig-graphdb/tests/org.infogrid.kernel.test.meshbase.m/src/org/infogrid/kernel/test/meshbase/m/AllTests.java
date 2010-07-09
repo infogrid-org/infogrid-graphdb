@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -50,9 +50,10 @@ public abstract class AllTests
                 new TestSpec( MeshBaseTest14.class ),
                 new TestSpec( MeshBaseTest15.class ),
                 new TestSpec( MeshBaseTest16.class ),
+                new TestSpec( MeshBaseTest17.class ),
 
                 new TestSpec( GarbageCollectionTest1.class ),
-                
+
                 new TestSpec( SweeperTest1.class ),
                 new TestSpec( SweeperTest2.class )
         };

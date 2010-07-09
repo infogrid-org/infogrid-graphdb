@@ -8,13 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.a;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
@@ -178,7 +178,7 @@ public abstract class AMeshBase
     {
         Change [] theChanges = tx.getChangeSet().getChanges();
 
-        ArrayList<MeshObjectIdentifier> writtenAlready = new ArrayList<MeshObjectIdentifier>( theChanges.length );
+        HashSet<MeshObjectIdentifier> writtenAlready = new HashSet<MeshObjectIdentifier>( theChanges.length );
             // this needs to be MeshObjectIdentifier, not MeshObject, otherwise things get swapped back
 
         for( int i=0 ; i<theChanges.length ; ++i ) {
