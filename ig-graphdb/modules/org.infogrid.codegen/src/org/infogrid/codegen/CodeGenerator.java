@@ -120,10 +120,10 @@ public class CodeGenerator
                 generator.generateForAll( sas );
 
             } catch( ModuleActivationException ex ) {
-                throw new StandardModuleRunException( saCandidate, CodeGenerator.class.getName(), "main", ex.getCause() );
+                throw new CodeGeneratorRunException( saCandidate, CodeGenerator.class.getName(), ex.getCause() );
 
             } catch( Throwable ex ) {
-                throw new StandardModuleRunException( saCandidate, CodeGenerator.class.getName(), "main", ex );
+                throw new CodeGeneratorRunException( saCandidate, CodeGenerator.class.getName(), ex );
             }
         }
     }
