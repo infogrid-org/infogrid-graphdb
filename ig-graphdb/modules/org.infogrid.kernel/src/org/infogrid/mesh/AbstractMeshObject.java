@@ -260,7 +260,7 @@ public abstract class AbstractMeshObject
         checkAlive();
 
         if( thePropertyType == null ) {
-            throw new NullPointerException();
+            throw new NullPointerException( "Null PropertyType" );
         }
 
         EntityType requiredType = (EntityType) thePropertyType.getAttributableMeshType();

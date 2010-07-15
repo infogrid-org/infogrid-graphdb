@@ -31,25 +31,8 @@ public class WrongNumberTermsTraversalTranslatorException
     public WrongNumberTermsTraversalTranslatorException(
             String [] terms )
     {
-        theTerms = terms;
+        super( terms );
     }
 
-    /**
-     * Obtain resource parameters for the internationalization.
-     *
-     * @return the resource parameters
-     */
-    @Override
-    public Object [] getLocalizationParameters()
-    {
-        return new Object[] {
-            theTerms.length,
-            theTerms
-        };
-    }
-
-    /**
-     * The terms that were given.
-     */
-    protected String [] theTerms;
+    // don't need to override getLocalizationParameters()
 }

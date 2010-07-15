@@ -115,7 +115,7 @@ public class ByPropertyValueSorter
     /**
      * The underlying Comparator of property values.
      */
-    static class PropertyValueComparator
+    public static class PropertyValueComparator
             implements
                 Comparator<MeshObject>
     {
@@ -127,6 +127,9 @@ public class ByPropertyValueSorter
         public PropertyValueComparator(
                 PropertyType property )
         {
+            if( property == null ) {
+                throw new NullPointerException( "Null PropertyType" );
+            }
             thePropertyType = property;
         }
         

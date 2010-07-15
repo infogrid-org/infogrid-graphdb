@@ -34,6 +34,7 @@ import org.infogrid.model.traversal.AlternativeCompoundTraversalSpecification;
 import org.infogrid.model.traversal.SelectiveTraversalSpecification;
 import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
 import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
+import org.infogrid.model.traversal.TermInvalidTraversalTranslatorException;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.model.traversal.TraversalTranslatorException;
 import org.infogrid.model.traversal.WrongNumberTermsTraversalTranslatorException;
@@ -130,15 +131,15 @@ public class XpathTraversalTranslator
             }
         }
         if( xpathCount == 0 ) {
-            throw new TermMissingTraversalTranslatorException( XPATH_TAG );
+            throw new TermMissingTraversalTranslatorException( traversalTerms, XPATH_TAG );
         }
         // dictString is optional
 
-        XpathNamespaceMap         dict = unserializeNamespaceMap( dictString );
+        XpathNamespaceMap         dict = unserializeNamespaceMap( dictString, traversalTerms );
         TraversalSpecification [] ret  = new TraversalSpecification[ xpathCount ];
         
         for( int i=0 ; i<xpathCount ; ++i ) {
-            ret[i] = unserializeTraversalSpecification( startObject, xpathStrings[i], dict );
+            ret[i] = unserializeTraversalSpecification( startObject, xpathStrings[i], traversalTerms, dict );
         }
         return ret;
     }
@@ -429,7 +430,8 @@ public class XpathTraversalTranslator
      * @throws TraversalTranslatorException thrown if the translation failed
      */
     public XpathNamespaceMap unserializeNamespaceMap(
-            String raw )
+            String    raw,
+            String [] traversalTerms )
         throws
             TraversalTranslatorException
     {
@@ -444,9 +446,9 @@ public class XpathTraversalTranslator
 
         String [] parts = raw.split( "," );
         for( int i=0 ; i<parts.length ; ++i ) {
-            int equals = parts[i].indexOf( "=" );
+            int equals = parts[i].indexOf( '=' );
             if( equals < 0 ) {
-                throw new TraversalTranslatorException( "Syntax error in serialized namespace map" );
+                throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Syntax error in serialized namespace map" );
             }
             String name  = parts[i].substring( 0, equals );
             String value = parts[i].substring( equals+1 );
@@ -458,7 +460,7 @@ public class XpathTraversalTranslator
 
                 ret.put( name, sa );
             } catch( MeshTypeWithIdentifierNotFoundException ex ) {
-                throw new TraversalTranslatorException( ex );
+                throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, ex );
             }
         }
         return ret;
@@ -476,6 +478,7 @@ public class XpathTraversalTranslator
     public TraversalSpecification unserializeTraversalSpecification(
             MeshObject        startObject,
             String            raw,
+            String []         traversalTerms,
             XpathNamespaceMap dict )
         throws
             TraversalTranslatorException
@@ -494,13 +497,13 @@ public class XpathTraversalTranslator
                 case PARENTHESIS_CLOSE:
                     --parenthesisLevel;
                     if( parenthesisLevel < 0 ) {
-                        throw new TraversalTranslatorException( "Cannot close more parentheses than are open" );
+                        throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot close more parentheses than are open" );
                     }
                     break;
                 case AXIS_SEPARATOR:
                     if( parenthesisLevel == 0 ) {
                         if( foundAlt ) {
-                            throw new TraversalTranslatorException( "Use parenthesis to disambiguate precedence between " + AXIS_SEPARATOR + " and " + ALTERNATIVE_SEPARATOR );
+                            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Use parenthesis to disambiguate precedence between " + AXIS_SEPARATOR + " and " + ALTERNATIVE_SEPARATOR );
                         }
                         foundAxis = true;
                         components.add( subexpression( raw, start, i ) );
@@ -510,7 +513,7 @@ public class XpathTraversalTranslator
                 case ALTERNATIVE_SEPARATOR:
                     if( parenthesisLevel == 0 ) {
                         if( foundAxis ) {
-                            throw new TraversalTranslatorException( "Use parenthesis to disambiguate precedence between " + AXIS_SEPARATOR + " and " + ALTERNATIVE_SEPARATOR );
+                            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Use parenthesis to disambiguate precedence between " + AXIS_SEPARATOR + " and " + ALTERNATIVE_SEPARATOR );
                         }
                         foundAlt = true;
                         components.add( subexpression( raw, start, i ) );
@@ -527,7 +530,7 @@ public class XpathTraversalTranslator
         if( components.size() > 1 ) {
             TraversalSpecification [] steps = new TraversalSpecification[ components.size() ];
             for( int i=0 ; i<steps.length ; ++i ) {
-                steps[i] = unserializeTraversalSpecification( startObject, components.get( i ), dict );
+                steps[i] = unserializeTraversalSpecification( startObject, components.get( i ), traversalTerms, dict );
             }
             if( foundAxis ) {
                 return SequentialCompoundTraversalSpecification.create( steps );
@@ -542,12 +545,12 @@ public class XpathTraversalTranslator
         }
 
         String    singleComponent = components.get( 0 );
-        String [] triple          = parseSinglePathComponent( singleComponent );
+        String [] triple          = parseSinglePathComponent( singleComponent, traversalTerms );
 
         if( triple[0] != null || triple[2] != null ) {
-            MeshObjectSelector     startSelector = triple[0] != null ? qualifierToMeshObjectSelector( triple[0], dict ) : null;
-            MeshObjectSelector     endSelector   = triple[2] != null ? qualifierToMeshObjectSelector( triple[2], dict ) : null;
-            TraversalSpecification qualified     = unserializeTraversalSpecification( startObject, triple[1], dict );
+            MeshObjectSelector     startSelector = triple[0] != null ? qualifierToMeshObjectSelector( triple[0], traversalTerms, dict ) : null;
+            MeshObjectSelector     endSelector   = triple[2] != null ? qualifierToMeshObjectSelector( triple[2], traversalTerms, dict ) : null;
+            TraversalSpecification qualified     = unserializeTraversalSpecification( startObject, triple[1], traversalTerms, dict );
 
             return SelectiveTraversalSpecification.create(
                     startSelector,
@@ -561,7 +564,7 @@ public class XpathTraversalTranslator
             return StayRightHereTraversalSpecification.create();
         }
 
-        RoleType rt = (RoleType) findMeshType( triple[1], dict );
+        RoleType rt = (RoleType) findMeshType( triple[1], traversalTerms, dict );
         return rt;
     }
 
@@ -595,7 +598,8 @@ public class XpathTraversalTranslator
      * @throws TraversalTranslatorException thrown if the translation failed
      */
     protected static String[] parseSinglePathComponent(
-            String raw )
+            String    raw,
+            String [] traversalTerms )
         throws
             TraversalTranslatorException
     {
@@ -620,11 +624,11 @@ public class XpathTraversalTranslator
                     break;
                 case QUALIFIER_CLOSE:
                     if( currentSection == -1 || currentSection == 1 ) {
-                        throw new TraversalTranslatorException( "Cannot close ] before open [" );
+                        throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot close ] before open [" );
                     } else if( currentSection == 0 ) {
                         --bracketLevel;
                         if( bracketLevel < 0 ) {
-                            throw new TraversalTranslatorException( "Cannot close more brackets than are open" );
+                            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot close more brackets than are open" );
                         } else if( bracketLevel == 0 ) {
                             currentSection = 1;
                             ret[0] = raw.substring( start, i );
@@ -633,13 +637,13 @@ public class XpathTraversalTranslator
                     } else if( currentSection == 2 ) {
                         --bracketLevel;
                         if( bracketLevel < 0 ) {
-                            throw new TraversalTranslatorException( "Cannot close more brackets than are open" );
+                            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot close more brackets than are open" );
                         } else if( bracketLevel == 0 ) {
                             currentSection = 3;
                             ret[2] = raw.substring( start, i );
                             start = i+1;
                             if( start < raw.length() ) {
-                                throw new TraversalTranslatorException( "Leftover characters at end of qualifier" );
+                                throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Leftover characters at end of qualifier" );
                             }
                         }
                     }
@@ -659,67 +663,69 @@ public class XpathTraversalTranslator
     /**
      * Convert a qualifier expression back into a MeshObjectSelector.
      *
-     * @param expr the expression
+     * @param raw the expression
      * @param namespaceMap the interpretation of the prefixes contained in the pseudoXpath
      * @return the MeshObjectSelector
      * @throws TraversalTranslatorException thrown if the translation failed
      */
     public static MeshObjectSelector qualifierToMeshObjectSelector(
-            String                  expr,
+            String            raw,
+            String []         traversalTerms,
             XpathNamespaceMap namespaceMap )
         throws
             TraversalTranslatorException
     {
-        expr = expr.trim();
+        raw = raw.trim();
 
-        if( expr.startsWith( HAS_TYPE_FUNCTION + PARENTHESIS_OPEN ) && expr.charAt( expr.length()-1 ) == PARENTHESIS_CLOSE ) {
-            String middle = expr.substring( HAS_TYPE_FUNCTION.length() + 1, expr.length()-1 ).trim();
+        if( raw.startsWith( HAS_TYPE_FUNCTION + PARENTHESIS_OPEN ) && raw.charAt( raw.length()-1 ) == PARENTHESIS_CLOSE ) {
+            String middle = raw.substring( HAS_TYPE_FUNCTION.length() + 1, raw.length()-1 ).trim();
             if( middle.startsWith( ".," )) {
                 String     typeString = middle.substring( 2 );
-                EntityType type       = (EntityType) findMeshType( typeString, namespaceMap );
+                EntityType type       = (EntityType) findMeshType( typeString, traversalTerms, namespaceMap );
 
                 return ByTypeMeshObjectSelector.create( type, true );
             }
-        } else if( expr.startsWith( HAS_EXACT_TYPE_FUNCTION + PARENTHESIS_OPEN ) && expr.charAt( expr.length()-1 ) == PARENTHESIS_CLOSE ) {
-            String middle = expr.substring( HAS_EXACT_TYPE_FUNCTION.length() + 1, expr.length()-1 ).trim();
+        } else if( raw.startsWith( HAS_EXACT_TYPE_FUNCTION + PARENTHESIS_OPEN ) && raw.charAt( raw.length()-1 ) == PARENTHESIS_CLOSE ) {
+            String middle = raw.substring( HAS_EXACT_TYPE_FUNCTION.length() + 1, raw.length()-1 ).trim();
             if( middle.startsWith( ".," )) {
                 String     typeString = middle.substring( 2 );
-                EntityType type       = (EntityType) findMeshType( typeString, namespaceMap );
+                EntityType type       = (EntityType) findMeshType( typeString, traversalTerms, namespaceMap );
 
                 return ByTypeMeshObjectSelector.create( type, false );
             }
         }
-        throw new TraversalTranslatorException( "Sorry, can't understand your MeshObjectSelector (this is not a very complete implementation)" );
+        throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Sorry, can't understand your MeshObjectSelector (this is not a very complete implementation)" );
     }
 
     /**
      * Helper method to find a MeshType given as String.
      *
-     * @param s the String
+     * @param raw the String
      * @param namespaceMap the interpretation of the prefixes contained in the pseudoXpath
      * @return the MeshType, or null
      * @throws TraversalTranslatorException thrown if the translation failed
      */
     protected static CollectableMeshType findMeshType(
-            String            s,
+            String            raw,
+            String []         traversalTerms,
             XpathNamespaceMap namespaceMap )
         throws
             TraversalTranslatorException
     {
-        int colon = s.indexOf( COLON );
+        int colon = raw.indexOf( COLON );
         if( colon < 0 ) {
-            throw new TraversalTranslatorException( "No " + COLON + " in " + s );
+            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "No " + COLON + " in " + raw );
         }
-        String prefix = s.substring( 0, colon );
-        String name   = s.substring( colon+1 );
+        String prefix = raw.substring( 0, colon );
+        String name   = raw.substring( colon+1 );
 
         SubjectArea sa = namespaceMap.getSubjectAreaFor( prefix );
         if( sa == null ) {
-            throw new TraversalTranslatorException( "Cannot find SubjectArea corresponding to prefix " + prefix );
+            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot find SubjectArea corresponding to prefix " + prefix );
         }
         CollectableMeshType ret = sa.findCollectableMeshTypeByName( StringValue.create( name ));
         if( ret == null ) {
-            throw new TraversalTranslatorException( "Cannot find CollectableMeshType '" + name + "' in SubjectArea " + sa.toExternalForm() );
+            throw new TermInvalidTraversalTranslatorException( traversalTerms, raw, "Cannot find CollectableMeshType '" + name + "' in SubjectArea " + sa.toExternalForm() );
         }
         return ret;
     }

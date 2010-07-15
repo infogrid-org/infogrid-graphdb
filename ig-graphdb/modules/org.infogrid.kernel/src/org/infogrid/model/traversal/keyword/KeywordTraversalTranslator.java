@@ -68,7 +68,7 @@ public class KeywordTraversalTranslator
         }
         TraversalSpecification ret = theForwardTable.get( traversalTerms[0] );
         if( ret == null ) {
-            throw new UnknownTermTraversalTranslatorException( traversalTerms[0] );
+            throw new UnknownTermTraversalTranslatorException( traversalTerms, traversalTerms[0] );
         }
         return ret;
     }

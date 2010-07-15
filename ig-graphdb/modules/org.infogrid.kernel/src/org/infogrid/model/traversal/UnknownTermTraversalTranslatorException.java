@@ -14,6 +14,8 @@
 
 package org.infogrid.model.traversal;
 
+import org.infogrid.util.ArrayHelper;
+
 /**
  * An unknown term was given.
  */
@@ -26,11 +28,15 @@ public class UnknownTermTraversalTranslatorException
     /**
      * Constructor.
      *
+     * @param terms the terms that were given
      * @param unknownTerm the unknown term
      */
     public UnknownTermTraversalTranslatorException(
-            String unknownTerm )
+            String [] terms,
+            String    unknownTerm )
     {
+        super( terms );
+
         theUnknownTerm = unknownTerm;
     }
 
@@ -43,6 +49,9 @@ public class UnknownTermTraversalTranslatorException
     public Object [] getLocalizationParameters()
     {
         return new Object[] {
+                theTerms.length,
+                theTerms,
+                ArrayHelper.join( " ", theTerms ),
                 theUnknownTerm
         };
     }

@@ -14,7 +14,7 @@
 
 package org.infogrid.model.traversal;
 
-import org.infogrid.model.traversal.TraversalTranslatorException;
+import org.infogrid.util.ArrayHelper;
 
 /**
  * A term was given more than once.
@@ -28,12 +28,16 @@ public class DuplicateTermTraversalTranslatorException
     /**
      * Constructor.
      *
-     * @param term the duplicate term
+     * @param terms the terms that were given
+     * @param duplicate the duplicate term
      */
     public DuplicateTermTraversalTranslatorException(
-            String term )
+            String [] terms,
+            String    duplicate )
     {
-        theTerm = term;
+        super( terms );
+
+        theDuplicate = duplicate;
     }
 
     /**
@@ -45,12 +49,15 @@ public class DuplicateTermTraversalTranslatorException
     public Object [] getLocalizationParameters()
     {
         return new Object[] {
-            theTerm
+            theTerms.length,
+            theTerms,
+            ArrayHelper.join( " ", theTerms ),
+            theDuplicate
         };
     }
 
     /**
      * The duplicate term.
      */
-    protected String theTerm;
+    protected String theDuplicate;
 }

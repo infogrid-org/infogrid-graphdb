@@ -117,7 +117,7 @@ public abstract class AbstractTraversalTranslator
     {
         String reachedString = findTermWithTag( REACHED_TAG, traversalTerms );
         if( reachedString == null ) {
-            throw new TermMissingTraversalTranslatorException( REACHED_TAG );
+            throw new TermMissingTraversalTranslatorException( traversalTerms, REACHED_TAG );
         }
         // don't do String.split, it might ignore empty strings.
 
@@ -131,18 +131,18 @@ public abstract class AbstractTraversalTranslator
             TraversalPath ret;
             if( reachedComponents.length > 1 ) {
                 if( !( spec instanceof SequentialCompoundTraversalSpecification )) {
-                    throw new TraversalTranslatorException( "Components: " + reachedComponents.length + ", TraversalSpec: " + spec );
+                    throw new TraversalTranslatorException( traversalTerms, "Components: " + reachedComponents.length + ", TraversalSpec: " + spec );
                 }
                 SequentialCompoundTraversalSpecification realSpec = (SequentialCompoundTraversalSpecification) spec;
                 if( realSpec.getStepCount() != reachedComponents.length ) {
-                    throw new TraversalTranslatorException( "Components: " + reachedComponents.length + ", TraversalSpec steps: " + realSpec.getStepCount() );
+                    throw new TraversalTranslatorException( traversalTerms, "Components: " + reachedComponents.length + ", TraversalSpec steps: " + realSpec.getStepCount() );
                 }
                 MeshObject [] reached = new MeshObject[ reachedComponents.length ];
                 for( int i=0 ; i<reached.length ; ++i ) {
                     MeshObjectIdentifier identifier = idFact.fromExternalForm( reachedComponents[i] );
                     reached[i] = theMeshBase.accessLocally( identifier );
                     if( reached[i] == null ) {
-                        throw new TraversalTranslatorException( "Cannot find MeshObject: " + identifier );
+                        throw new TraversalTranslatorException( traversalTerms, "Cannot find MeshObject: " + identifier );
                     }
                 }
                 ret = TraversalPath.create( realSpec.getSteps(), reached );
@@ -156,13 +156,13 @@ public abstract class AbstractTraversalTranslator
             return ret;
 
         } catch( ParseException ex ) {
-            throw new TraversalTranslatorException( ex );
+            throw new TraversalTranslatorException( traversalTerms, ex );
 
         } catch( MeshObjectAccessException ex ) {
-            throw new TraversalTranslatorException( ex );
+            throw new TraversalTranslatorException( traversalTerms, ex );
 
         } catch( NotPermittedException ex ) {
-            throw new TraversalTranslatorException( ex );
+            throw new TraversalTranslatorException( traversalTerms, ex );
         }
     }
 

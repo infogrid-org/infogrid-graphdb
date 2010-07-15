@@ -17,9 +17,9 @@ package org.infogrid.model.traversal;
 import org.infogrid.util.ArrayHelper;
 
 /**
- * A required term was missing.
+ * A term was invalid.
  */
-public class TermMissingTraversalTranslatorException
+public class TermInvalidTraversalTranslatorException
         extends
             TraversalTranslatorException
 {
@@ -29,15 +29,34 @@ public class TermMissingTraversalTranslatorException
      * Constructor.
      *
      * @param terms the terms that were given
-     * @param missing the missing term
+     * @param invalid the invalid term
+     * @param msg the message
      */
-    public TermMissingTraversalTranslatorException(
+    public TermInvalidTraversalTranslatorException(
             String [] terms,
-            String    missing )
+            String    invalid,
+            String    msg )
     {
-        super( terms );
-        
-        theMissing = missing;
+        super( terms, msg );
+
+        theInvalid = invalid;
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param terms the terms that were given
+     * @param invalid the invalid term
+     * @param cause the cause of the exception
+     */
+    public TermInvalidTraversalTranslatorException(
+            String [] terms,
+            String    invalid,
+            Throwable cause )
+    {
+        super( terms, cause );
+
+        theInvalid = invalid;
     }
 
     /**
@@ -48,16 +67,21 @@ public class TermMissingTraversalTranslatorException
     @Override
     public Object [] getLocalizationParameters()
     {
+        String msg = getMessage();
+        if( msg == null && getCause() != null ) {
+            msg = getCause().getMessage();
+        }
         return new Object[] {
             theTerms.length,
             theTerms,
             ArrayHelper.join( " ", theTerms ),
-            theMissing
+            theInvalid,
+            msg
         };
     }
 
     /**
-     * The missing term.
+     * The invalid term.
      */
-    protected String theMissing;
+    protected String theInvalid;
 }

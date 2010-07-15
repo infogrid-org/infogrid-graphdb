@@ -14,6 +14,8 @@
 
 package org.infogrid.model.traversal;
 
+import org.infogrid.util.ArrayHelper;
+
 /**
  * A TraversalSpecification was given that does not have a defined term for it.
  */
@@ -31,6 +33,8 @@ public class TermNotFoundTraversalTranslatorException
     public TermNotFoundTraversalTranslatorException(
             TraversalSpecification spec )
     {
+        super( null );
+
         theSpec = spec;
     }
 

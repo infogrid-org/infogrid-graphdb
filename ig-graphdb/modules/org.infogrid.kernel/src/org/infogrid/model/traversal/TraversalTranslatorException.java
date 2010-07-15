@@ -15,6 +15,7 @@
 package org.infogrid.model.traversal;
 
 import org.infogrid.util.AbstractLocalizedException;
+import org.infogrid.util.ArrayHelper;
 
 /**
  * Thrown if a TraversalSpecification could not be translated. This may be overridden by subclasses.
@@ -27,44 +28,70 @@ public class TraversalTranslatorException
 
     /**
      * Constructor.
+     *
+     * @param terms the terms that were given
      */
-    public TraversalTranslatorException()
+    public TraversalTranslatorException(
+            String [] terms )
     {
+        theTerms = terms;
     }
 
     /**
      * Constructor with a message.
      *
+     * @param terms the terms that were given
      * @param msg the message
      */
     public TraversalTranslatorException(
-            String msg )
+            String [] terms,
+            String    msg )
     {
         super( msg );
+
+        theTerms = terms;
     }
 
     /**
      * Constructor with no message but a cause.
      *
+     * @param terms the terms that were given
      * @param cause the Throwable that caused this Exception
      */
     public TraversalTranslatorException(
+            String [] terms,
             Throwable cause )
     {
         super( cause );
+
+        theTerms = terms;
     }
 
     /**
      * Constructor with a message and a cause.
      *
+     * @param terms the terms that were given
      * @param msg the message
      * @param cause the Exception that caused this Exception
      */
     public TraversalTranslatorException(
+            String [] terms,
             String    msg,
             Throwable cause )
     {
         super( msg, cause );
+
+        theTerms = terms;
+    }
+
+    /**
+     * Obtain the traversal terms that were given.
+     *
+     * @return the terms
+     */
+    public String [] getTerms()
+    {
+        return theTerms;
     }
 
     /**
@@ -74,6 +101,15 @@ public class TraversalTranslatorException
      */
     public Object [] getLocalizationParameters()
     {
-        return new Object[0];
+        return new Object[] {
+            theTerms.length,
+            theTerms,
+            ArrayHelper.join( " ", theTerms )
+        };
     }
+
+    /**
+     * The terms that were given.
+     */
+    protected String [] theTerms;
 }
