@@ -1,6 +1,5 @@
 org.infogrid.kernel.test.modelbase
 org.infogrid.model.Test
-# org.infogrid.model.SecurityTest
 org.infogrid.kernel.test.mesh.externalized
 org.infogrid.kernel.test.meshbase.m
 org.infogrid.kernel.test.differencer
