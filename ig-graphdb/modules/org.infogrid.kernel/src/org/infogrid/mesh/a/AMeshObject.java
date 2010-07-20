@@ -29,6 +29,7 @@ import org.infogrid.mesh.NotRelatedException;
 import org.infogrid.mesh.RelatedAlreadyException;
 import org.infogrid.mesh.RoleTypeBlessedAlreadyException;
 import org.infogrid.mesh.RoleTypeNotBlessedException;
+import org.infogrid.mesh.TypeInitializer;
 import org.infogrid.mesh.TypedMeshObjectFacade;
 import org.infogrid.mesh.externalized.SimpleExternalizedMeshObject;
 import org.infogrid.mesh.set.MeshObjectSet;
@@ -1713,9 +1714,16 @@ public class AMeshObject
             TransactionException,
             NotPermittedException
     {
+        EntityType [] types = getTypes();
+
+        for( int i=0 ; i<types.length ; ++i ) {
+            TypeInitializer init = createTypeInitializer( types[i] );
+            init.cascadingDelete();
+        }
+
         internalDelete( true, 0L );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -86,6 +86,28 @@ public class TypeInitializer
             TransactionException
     {
         theMeshObject.internalSetPropertyValues( propertyTypes, propertyValues, false, timeUpdated );
+    }
+
+    /**
+     * Perform a cascading delete.
+     */
+    public void cascadingDelete()
+    {
+        try {
+            Class<?> implClass = theMeshObject.getMeshBase().getMeshBaseLifecycleManager().getImplementationClass( theType );
+
+            if( implClass != null ) {
+                TypedMeshObjectFacade facade      = theMeshObject.getTypedFacadeFor( theType );
+                Method                initializer = implClass.getDeclaredMethod( "cascadingDelete" );
+                // will throw if not found
+                initializer.invoke( facade );
+            }
+
+        } catch( NoSuchMethodException ex ) {
+            // do nothing
+        } catch( Exception ex ) {
+            AbstractMeshObject.log.error( ex );
+        }
     }
 
     /**
