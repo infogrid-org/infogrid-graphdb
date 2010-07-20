@@ -1,0 +1,175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file is part of InfoGrid(tm). You may not use this file except in
+    compliance with the InfoGrid license. The InfoGrid license and important
+    disclaimers are contained in the file LICENSE.InfoGrid.txt that you should
+    have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
+    or you do not consent to all aspects of the license and the disclaimers,
+    no license is granted; do not use this file.
+ 
+    For more information about InfoGrid go to http://infogrid.org/
+
+    Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    All rights reserved.
+-->
+
+<!DOCTYPE model PUBLIC '-//InfoGrid.org//InfoGrid Model//EN' 'http://infogrid.org/dtds/model.dtd'>
+<model>
+    <subjectarea ID="org.infogrid.model.SecurityTest">
+        <name>org.infogrid.model.SecurityTest</name>
+        <username>Test Subject Area</username>
+        <userdescription>The Test Subject Area is only used to test InfoGrid code.</userdescription>
+
+        <dependson>
+          <subjectareareference>
+            <name>org.infogrid.model.AclBasedSecurity</name>
+          </subjectareareference>
+        </dependson>
+
+        <entitytype ID="org.infogrid.model.SecurityTest/A">
+            <name>A</name>
+            <username>The A EntityType</username>
+            <userdescription>This EntityType is a test EntityType.</userdescription>
+            <isabstract/>
+            <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultEntityTypeGuard</guard>
+
+            <propertytype ID="org.infogrid.model.SecurityTest/A_X">
+                <name>X</name>
+                <username>The X PropertyType of the A EntityType</username>
+                <userdescription>A property.</userdescription>
+                <datatype>
+                    <StringDataType/>
+                </datatype>
+                <isoptional/>
+                <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultPropertyTypeGuard</guard>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.SecurityTest/AA">
+            <name>AA</name>
+            <username>The AA EntityType</username>
+            <userdescription>This EntityType is a test EntityType.</userdescription>
+            <supertype>org.infogrid.model.SecurityTest/A</supertype>
+            <propertytype ID="org.infogrid.model.SecurityTest/AA_Y">
+                <name>Y</name>
+                <username>The Y PropertyType of the A EntityType</username>
+                <userdescription>A property.</userdescription>
+                <datatype>
+                    <FloatDataType/>
+                </datatype>
+                <isoptional/>
+                <defaultvalue>12.34</defaultvalue>
+            </propertytype>
+        </entitytype>
+        
+        <entitytype ID="org.infogrid.model.SecurityTest/B">
+            <name>B</name>
+            <username>The B EntityType</username>
+            <userdescription>This EntityType is a test EntityType.</userdescription>
+            <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultEntityTypeGuard</guard>
+
+            <propertytype ID="org.infogrid.model.SecurityTest/B_Z">
+                <name>Z</name>
+                <username>The Z PropertyType of the B EntityType</username>
+                <userdescription>A property.</userdescription>
+                <datatype>
+                    <EnumeratedDataType>
+                        <enum>
+                            <name>Value1</name>
+                            <username>First value of Z</username>
+                        </enum>
+                        <enum>
+                            <name>Value2</name>
+                            <username>Second value of Z</username>
+                        </enum>
+                        <enum>
+                            <name>Value3</name>
+                            <username>Third value of Z</username>
+                        </enum>
+                    </EnumeratedDataType>
+                </datatype>
+                <defaultvalue>Value2</defaultvalue>
+            </propertytype>
+
+            <propertytype ID="org.infogrid.model.SecurityTest/A_U">
+                <name>U</name>
+                <username>The U PropertyType of the B EntityType</username>
+                <userdescription>A property.</userdescription>
+                <datatype>
+                    <StringDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.SecurityTest/C">
+            <name>C</name>
+            <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultEntityTypeGuard</guard>
+        </entitytype>
+        
+        <relationshiptype ID="org.infogrid.model.SecurityTest/R">
+            <name>R</name>
+            <username>The R RelationshipType</username>
+            <userdescription>This RelationshipType is a test RelationshipType.</userdescription>
+            <src>
+              <e>org.infogrid.model.SecurityTest/A</e>
+              <MultiplicityValue>0:N</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultRoleTypeGuard</guard>
+            </src>
+            <dest>
+              <e>org.infogrid.model.SecurityTest/B</e>
+              <MultiplicityValue>0:1</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultRoleTypeGuard</guard>
+            </dest>
+        </relationshiptype>
+
+        <relationshiptype ID="org.infogrid.model.SecurityTest/RR">
+            <name>RR</name>
+            <username>The RR RelationshipType</username>
+            <userdescription>This RelationshipType is a test RelationshipType.</userdescription>
+            
+            <src>
+              <e>org.infogrid.model.SecurityTest/AA</e>
+              <refines>org.infogrid.model.SecurityTest/R-S</refines>
+              <MultiplicityValue>0:N</MultiplicityValue>
+            </src>
+            <dest>
+              <e>org.infogrid.model.SecurityTest/B</e>
+              <refines>org.infogrid.model.SecurityTest/R-D</refines>
+              <MultiplicityValue>0:1</MultiplicityValue>
+            </dest>
+        </relationshiptype>
+
+        <relationshiptype ID="org.infogrid.model.SecurityTest/AR1A">
+            <name>AR1A</name>
+            <username>The AR1A RelationshipType</username>
+            <userdescription>This RelationshipType is a test RelationshipType.</userdescription>
+            <src>
+              <e>org.infogrid.model.SecurityTest/A</e>
+              <MultiplicityValue>0:N</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultRoleTypeGuard</guard>
+            </src>
+            <dest>
+              <e>org.infogrid.model.SecurityTest/A</e>
+              <MultiplicityValue>0:N</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultRoleTypeGuard</guard>
+            </dest>
+        </relationshiptype>
+
+        <relationshiptype ID="org.infogrid.model.SecurityTest/AR2A">
+            <name>AR2A</name>
+            <username>The AR2A RelationshipType</username>
+            <userdescription>This RelationshipType is a test RelationshipType.</userdescription>
+            <src>
+              <e>org.infogrid.model.SecurityTest/A</e>
+              <MultiplicityValue>0:N</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.DefaultRoleTypeGuard</guard>
+            </src>
+            <dest>
+              <e>org.infogrid.model.SecurityTest/A</e>
+              <MultiplicityValue>0:N</MultiplicityValue>
+              <guard>org.infogrid.model.AclBasedSecurity.guards.guards.DefaultRoleTypeGuard</guard>
+            </dest>
+        </relationshiptype>
+    </subjectarea>
+</model>
