@@ -423,7 +423,7 @@
                 <datatype>
                     <TimeStampDataType/>
                 </datatype>
-                <defaultvalue>2000/12/31/23/59/59</defaultvalue>
+                <defaultvalue>2000-12-31T23:59:59.999Z</defaultvalue>
             </propertytype>
         </entitytype>
 
@@ -709,7 +709,7 @@
                 <datatype>
                     <TimeStampDataType/>
                 </datatype>
-                <defaultvalue>2000/12/31/23/59/59</defaultvalue>
+                <defaultvalue>2000-12-31T23:59:59.999Z</defaultvalue>
             </propertytype>
         </entitytype>
 
@@ -1139,7 +1139,7 @@
                 <datatype>
                     <TimeStampDataType/>
                 </datatype>
-                <defaultvalue>2000/12/31/23/59/59</defaultvalue>
+                <defaultvalue>2000-12-31T23:59:59.999Z</defaultvalue>
             </propertytype>
         </entitytype>
 
