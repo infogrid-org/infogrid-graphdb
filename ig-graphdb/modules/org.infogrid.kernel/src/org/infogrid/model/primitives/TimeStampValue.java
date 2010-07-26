@@ -483,5 +483,5 @@ public final class TimeStampValue
     /**
      * The time, in System.currentTimeMillis() format.
      */
-    protected long theValue;
+    private long theValue;
 }

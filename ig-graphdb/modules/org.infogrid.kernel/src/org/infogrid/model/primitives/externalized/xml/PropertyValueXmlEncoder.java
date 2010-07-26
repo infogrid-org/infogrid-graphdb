@@ -623,7 +623,7 @@ public class PropertyValueXmlEncoder
      * @throws org.xml.sax.SAXParseException thrown if a parsing error occurs
      */
     public final void error(
-            Throwable ex )
+            Exception ex )
         throws
             SAXParseException
     {
@@ -778,7 +778,7 @@ public class PropertyValueXmlEncoder
     /**
      * Java FixedSAXParseException's constructor is broken, so we created this workaround class.
      */
-    static class FixedSAXParseException
+    private static class FixedSAXParseException
             extends
                 SAXParseException
     {
@@ -791,12 +791,12 @@ public class PropertyValueXmlEncoder
          * @param locator indicates the location of the error in the stream
          * @param cause the underlying cause, if any
          */
-        public FixedSAXParseException(
+        FixedSAXParseException(
                 String    message,
                 Locator   locator,
-                Throwable cause )
+                Exception cause )
         {
-            super( message, locator );
+            super( message, locator, cause );
             
             initCause( cause );
         }
