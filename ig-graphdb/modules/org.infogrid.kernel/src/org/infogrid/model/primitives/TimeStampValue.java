@@ -279,6 +279,44 @@ public final class TimeStampValue
     }
 
     /**
+     * Compare two TimeStampValues and return the earlier one of the two.
+     *
+     * @param one first TimeStampValue
+     * @param two second TimeStampValue
+     * @return the earlier TimeStampValue
+     */
+    public static TimeStampValue earlierOf(
+            TimeStampValue one,
+            TimeStampValue two )
+    {
+        int comparison = compare( one, two );
+        if( comparison <= 0 ) {
+            return one;
+        } else {
+            return two;
+        }
+    }
+
+    /**
+     * Compare two TimeStampValues and return the later one of the two.
+     *
+     * @param one first TimeStampValue
+     * @param two second TimeStampValue
+     * @return the later TimeStampValue
+     */
+    public static TimeStampValue laterOf(
+            TimeStampValue one,
+            TimeStampValue two )
+    {
+        int comparison = compare( one, two );
+        if( comparison > 0 ) {
+            return one;
+        } else {
+            return two;
+        }
+    }
+
+    /**
      * Determine hash code. Make editor happy that otherwise indicates a warning.
      *
      * @return hash code
