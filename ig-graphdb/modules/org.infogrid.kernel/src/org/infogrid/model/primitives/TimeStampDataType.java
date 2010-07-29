@@ -194,6 +194,17 @@ public final class TimeStampDataType
             PropertyValueParsingException
     {
         try {
+            Object [] found = representation.parseEntry( TimeStampValue.class, NOW_ENTRY, s, this );
+
+            return TimeStampValue.now();
+
+        } catch( StringRepresentationParseException ex ) {
+            // do nothing, try next
+        } catch( ParseException ex ) {
+            // do nothing, try next
+        }
+
+        try {
             Object [] found = representation.parseEntry( TimeStampValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             TimeZone tz;
@@ -251,4 +262,9 @@ public final class TimeStampDataType
             throw new PropertyValueParsingException( this, representation, s, ex );
         }
     }
+        
+    /**
+     * Entry into the StringRepresentation that represents the current time.
+     */
+    public static final String NOW_ENTRY = "Now";
 }
