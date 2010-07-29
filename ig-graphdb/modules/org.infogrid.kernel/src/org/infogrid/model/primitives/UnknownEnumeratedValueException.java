@@ -82,6 +82,7 @@ public abstract class UnknownEnumeratedValueException
          *
          * @return the resource parameters
          */
+        @Override
         public Object [] getLocalizationParameters()
         {
             return new Object[] { theType, theKey };
@@ -132,6 +133,7 @@ public abstract class UnknownEnumeratedValueException
          *
          * @return the resource parameters
          */
+        @Override
         public Object [] getLocalizationParameters()
         {
             return new Object[] { theType, theUserVisibleName };
