@@ -201,6 +201,23 @@ public abstract class AbstractMeshObjectSetFactory
     }
 
     /**
+     * Factory method to construct a MeshObjectSet that contains those MeshObjects from
+     * a first MeshObjectSet that are not contained in a second MeshObjectSet.
+     *
+     * @param one the first MeshObjectSet
+     * @param two the second MeshObjectSet
+     * @return the created CompositeImmutableMeshObjectSet
+     */
+    public CompositeImmutableMeshObjectSet createImmutableMeshObjectSetMinus(
+            MeshObjectSet one,
+            MeshObject    two )
+    {
+        return createImmutableMeshObjectSetMinus(
+                one,
+                createSingleMemberImmutableMeshObjectSet( two ));
+    }
+
+    /**
      * Factory method to create an OrderedMeshObjectSet.
      * 
      * @param content the content of the OrderedMeshObjectSet

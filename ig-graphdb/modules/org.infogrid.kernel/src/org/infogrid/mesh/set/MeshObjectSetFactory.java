@@ -187,7 +187,7 @@ public interface MeshObjectSetFactory
     /**
      * Factory method to construct a MeshObjectSet that contains those MeshObjects from
      * a first MeshObjectSet that are not contained in a second MeshObjectSet.
-     * 
+     *
      * @param one the first MeshObjectSet
      * @param two the second MeshObjectSet
      * @return the created CompositeImmutableMeshObjectSet
@@ -195,6 +195,18 @@ public interface MeshObjectSetFactory
     public CompositeImmutableMeshObjectSet createImmutableMeshObjectSetMinus(
             MeshObjectSet one,
             MeshObjectSet two );
+
+    /**
+     * Factory method to construct a MeshObjectSet that contains those MeshObjects from
+     * a first MeshObjectSet that are not contained in a second MeshObjectSet.
+     *
+     * @param one the first MeshObjectSet
+     * @param two the second MeshObjectSet
+     * @return the created CompositeImmutableMeshObjectSet
+     */
+    public CompositeImmutableMeshObjectSet createImmutableMeshObjectSetMinus(
+            MeshObjectSet one,
+            MeshObject    two );
 
     /**
      * Factory method to construct a MeshObjectSet that contains those MeshObjects from
