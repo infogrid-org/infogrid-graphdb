@@ -81,6 +81,7 @@ import org.infogrid.modelbase.externalized.ExternalizedModuleRequirement;
 import org.infogrid.modelbase.externalized.ExternalizedProjectedPropertyType;
 import org.infogrid.modelbase.externalized.ExternalizedPropertyType;
 import org.infogrid.modelbase.externalized.ExternalizedPropertyTypeGroup;
+import org.infogrid.modelbase.externalized.ExternalizedRegex;
 import org.infogrid.modelbase.externalized.ExternalizedRelationshipType;
 import org.infogrid.modelbase.externalized.ExternalizedRoleType;
 import org.infogrid.modelbase.externalized.ExternalizedSubjectArea;
@@ -416,6 +417,7 @@ public class MyHandler
                     break;
                 case XmlModelTokens.STRING_DATATYPE_TOKEN:
                     theStack.push( new ExternalizedAttributes( attrs ));
+                    theStack.push( new ExternalizedRegex() );
                     break;
                 case XmlModelTokens.TIME_PERIOD_DATATYPE_TOKEN:
                     theStack.push( new ExternalizedAttributes( attrs ));
@@ -428,6 +430,9 @@ public class MyHandler
                     break;
                 case XmlModelTokens.ENUM_TOKEN:
                     theStack.push( new ExternalizedEnum());
+                    break;
+                case XmlModelTokens.REGEX_TOKEN:
+                    // noop
                     break;
                 case XmlModelTokens.DECLARES_METHOD_TOKEN:
                     // noop
@@ -471,7 +476,7 @@ public class MyHandler
 
             ExternalizedSubjectArea                      theSubjectArea;
             ExternalizedSubjectAreaDependency            theSubjectAreaDependency;
-            ExternalizedModuleRequirement                 theModuleRequirement;
+            ExternalizedModuleRequirement                theModuleRequirement;
             ExternalizedEntityType                       theEntityType;
             ExternalizedRelationshipType                 theRelationshipType;
             ExternalizedRoleType                         theRoleType;
@@ -480,6 +485,7 @@ public class MyHandler
             ExternalizedProjectedPropertyType            theProjectedPropertyType;
             ExternalizedAttributes                       theAttributes;
             ExternalizedEnum                             theEnum;
+            ExternalizedRegex                            theRegex;
             ExternalizedTraversalToPropertySpecification theTraversalToPropertySpecification;
             ExternalizedTraversalSpecification           theTraversalSpecification;
             ExternalizedMeshObjectSelector               theMeshObjectSelector;
@@ -882,6 +888,9 @@ public class MyHandler
                         } else {
                             thePropertyType.setDefaultValue( constructDefaultValue( theCharacters.toString(), thePropertyType ));
                         }
+                    } else if( temp instanceof ExternalizedRegex ) {
+                        theRegex = (ExternalizedRegex) temp;
+                        theRegex.setDefaultValue( theCharacters.toString() );
                     } else {
                         error( theErrorPrefix + "unexpected type: " + temp );
                     }
@@ -1012,8 +1021,13 @@ public class MyHandler
                     theStack.push( PointDataType.theDefault );
                     break;
                 case XmlModelTokens.STRING_DATATYPE_TOKEN:
+                    theRegex      = (ExternalizedRegex)      theStack.pop();
                     theAttributes = (ExternalizedAttributes) theStack.pop();
-                    theStack.push( StringDataType.theDefault );
+                    if( theRegex != null ) {
+                        theStack.push( theRegex.getAsStringDataType() );
+                    } else {
+                        theStack.push( StringDataType.create() );
+                    }
                     break;
                 case XmlModelTokens.TIME_PERIOD_DATATYPE_TOKEN:
                     theAttributes = (ExternalizedAttributes) theStack.pop();
@@ -1028,9 +1042,13 @@ public class MyHandler
                     theRoleType.setMultiplicity( createMultiplicityValueFrom( theCharacters ));
                     break;
                 case XmlModelTokens.ENUM_TOKEN:
-                    theEnum          = (ExternalizedEnum)  theStack.pop();
+                    theEnum          = (ExternalizedEnum) theStack.pop();
                     theCollection    = toArrayList( theStack.peek() );
                     theCollection.add( theEnum );
+                    break;
+                case XmlModelTokens.REGEX_TOKEN:
+                    theRegex         = (ExternalizedRegex) theStack.peek();
+                    theRegex.setRegexString( theCharacters.toString() );
                     break;
                 case XmlModelTokens.DECLARES_METHOD_TOKEN:
                     theEntityType   = (ExternalizedEntityType) theStack.peek();
@@ -1060,7 +1078,7 @@ public class MyHandler
      * @return the same Object, cast 
      */
     @SuppressWarnings("unchecked")
-    private static final ArrayList<Object> toArrayList(
+    private static ArrayList<Object> toArrayList(
             Object o )
     {
         return (ArrayList<Object>) o;

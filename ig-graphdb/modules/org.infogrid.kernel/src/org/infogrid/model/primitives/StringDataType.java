@@ -16,6 +16,9 @@ package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
 import java.text.ParseException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import org.infogrid.util.StringHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
@@ -35,7 +38,9 @@ public final class StringDataType
     /**
       * This is the default instance of this class.
       */
-    public static final StringDataType theDefault = new StringDataType();
+    public static final StringDataType theDefault = new StringDataType(
+            null,
+            StringValue.create( "" ) );
 
     /**
      * Factory method. Always returns the same instance.
@@ -48,11 +53,57 @@ public final class StringDataType
     }
 
     /**
-      * Private constructor, there is no reason to instatiate this more than once.
-      */
-    private StringDataType()
+     * Factory method.
+     *
+     * @param defaultValue the default value when this DataType is instantiated
+     * @return the StringDataType
+     */
+    public static StringDataType create(
+            StringValue defaultValue )
+    {
+        return new StringDataType( null, defaultValue );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param regex a regular expression that values need to conform to, if any
+     * @param defaultValue the default value when this DataType is instantiated
+     * @return the StringDataType
+     */
+    public static StringDataType create(
+            Pattern     regex,
+            StringValue defaultValue )
+    {
+        if( regex == null ) {
+            if( defaultValue == null || defaultValue.equals( theDefault.getDefaultValue() )) {
+                return theDefault;
+            }
+        } else if( defaultValue == null ) {
+            throw new IllegalArgumentException( "Must provide defaultValue if Pattern is given" );
+        } else {
+            Matcher m = regex.matcher( defaultValue.value() );
+            if( !m.matches()) {
+                throw new IllegalArgumentException( "Given defaultValue \"" + defaultValue.value() + "\" does not match StringDataType's regex \"" + regex.toString() + "\".");
+            }
+        }
+        return new StringDataType( regex, defaultValue );
+    }
+
+    /**
+     * Private constructor, use factory method.
+     *
+     * @param regex a regular expression that values need to conform to, if any
+     * @param defaultValue the default value when this DataType is instantiated
+     */
+    private StringDataType(
+            Pattern     regex,
+            StringValue defaultValue )
     {
         super( null );
+
+        theRegex        = regex;
+        theDefaultValue = defaultValue;
     }
 
     /**
@@ -65,10 +116,23 @@ public final class StringDataType
     public boolean equals(
             Object other )
     {
-        if( other instanceof StringDataType ) {
-            return true;
+        if( !( other instanceof StringDataType )) {
+            return false;
         }
-        return false;
+
+        StringDataType realOther = (StringDataType) other;
+        if( theRegex != null ) {
+            if( !theRegex.equals( realOther.theRegex )) {
+                return false;
+            }
+        } else if( realOther.theRegex != null ) {
+            return false;
+        }
+        if( theDefaultValue != null ) {
+            return theDefaultValue.equals( realOther.theDefaultValue );
+        } else {
+            return realOther.theDefaultValue == null;
+        }
     }
 
     /**
@@ -79,22 +143,72 @@ public final class StringDataType
     @Override
     public int hashCode()
     {
-        return StringDataType.class.hashCode();
+        int ret = 0;
+        if( theRegex != null ) {
+            ret ^= theRegex.hashCode();
+        }
+        if( theDefaultValue != null ) {
+            ret ^= theDefaultValue.hashCode();
+        }
+        return ret;
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof StringValue ) {
-            return true;
+        StringValue realValue = (StringValue) value; // may throw
+        if( theRegex == null ) {
+            return 0;
         }
-        return false;
+        Matcher m = theRegex.matcher( realValue.value() );
+        if( m.matches()) {
+            return 0;
+        }
+        return Integer.MAX_VALUE;
+    }
+
+    /**
+      * Determine whether a domain check shall be performed on
+      * assignments. Default to false.
+      *
+      * @return if true, a domain check shall be performed prior to performing assignments
+      */
+    @Override
+    public boolean getPerformDomainCheck()
+    {
+        return theRegex != null;
+    }
+
+    /**
+      * Return a boolean expression in the Java language that uses
+      * varName as an argument and that evaluates whether the content
+      * of variable varName is assignable to a value of this data type.
+      *
+      * This is used primarily for code-generation purposes.
+      * FIXME add support for units
+      *
+      * @param varName the name of the variable containing the value
+      * @return the boolean expression
+      */
+    @Override
+    public String getJavaDomainCheckExpression(
+            String varName )
+    {
+        if( theRegex == null ) {
+            return "true";
+        }
+        return "( java.util.Pattern.matches( " + varName + ", \"" + theRegex.toString() + "\" )";
     }
 
     /**
@@ -150,7 +264,29 @@ public final class StringDataType
     {
         final String className = getClass().getName();
 
-        return className + DEFAULT_STRING;
+        if( this == theDefault ) {
+            return className + DEFAULT_STRING;
+        } else {
+            StringBuilder ret = new StringBuilder( className );
+            ret.append( CREATE_STRING );
+
+            if( theRegex != null ) {
+                ret.append( "java.util.regex.Pattern.compile( \"" );
+                ret.append( StringHelper.stringToJavaString( theRegex.toString() ));
+                ret.append( "\" )" );
+            } else {
+                ret.append( NULL_STRING );
+            }
+            ret.append( COMMA_STRING );
+            if( theDefaultValue != null ) {
+                ret.append( theDefaultValue.getJavaConstructorString( classLoaderVar , null ));
+            } else {
+                ret.append( NULL_STRING );
+            }
+
+            ret.append( CLOSE_PARENTHESIS_STRING );
+            return ret.toString();
+        }
     }
 
     /**
@@ -167,13 +303,26 @@ public final class StringDataType
         throws
             StringifierException
     {
-        return rep.formatEntry(
-                StringValue.class,
-                DEFAULT_ENTRY,
-                pars,
-                this,
-                PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
-                theSupertype );
+        String ret;
+        if( theRegex != null ) {
+            ret = rep.formatEntry(
+                    StringValue.class,
+                    REGEX_ENTRY,
+                    pars,
+                    this,
+                    PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                    theRegex.toString(),
+                    theSupertype );
+        } else {
+            ret = rep.formatEntry(
+                    StringValue.class,
+                    DEFAULT_ENTRY,
+                    pars,
+                    this,
+                    PropertyValue.toStringRepresentationOrNull( theDefaultValue, rep, pars ), // presumably shorter, but we don't know
+                    theSupertype );
+        }
+        return ret;
     }
 
     /**
@@ -205,6 +354,10 @@ public final class StringDataType
                 default:
                     throw new PropertyValueParsingException( this, representation, s );
             }
+            int conforms = conforms( ret );
+            if( conforms != 0 ) {
+                throw new PropertyValueParsingException( this, representation, s, new DoesNotMatchRegexException( ret, this ));
+            }
 
             return ret;
 
@@ -220,7 +373,17 @@ public final class StringDataType
     }
 
     /**
-     * The default value.
+     * The default value for this instance of StringDataType.
      */
-    private static final StringValue theDefaultValue = StringValue.create( "" );
+    private final StringValue theDefaultValue;
+
+    /**
+     * The regular expression that a StringValue needs to conform to, if any.
+     */
+    private Pattern theRegex;
+
+    /**
+     * The entry in the resource files for a StringDataType with a regular expression, prefixed by the StringRepresentation's prefix.
+     */
+    public static final String REGEX_ENTRY = "RegexType";
 }

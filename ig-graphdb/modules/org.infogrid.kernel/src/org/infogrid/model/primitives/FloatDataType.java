@@ -65,7 +65,7 @@ public class FloatDataType
       * @param superType the DataType that we refine, if any
       * @return the created FloatDataType
       */
-    public static final FloatDataType create(
+    public static FloatDataType create(
             FloatValue min,
             FloatValue max,
             DataType   superType )
@@ -85,7 +85,7 @@ public class FloatDataType
       * @param superType the DataType that we refine, if any
       * @return the created FloatDataType
       */
-    public static final FloatDataType create(
+    public static FloatDataType create(
             FloatValue min,
             FloatValue max,
             UnitFamily u,
@@ -214,21 +214,28 @@ public class FloatDataType
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof FloatValue ) {
-            FloatValue realValue = (FloatValue) value;
-            
-            boolean ret = theMin.value() <= realValue.value() && realValue.value() <= theMax.value();
-            return ret;
+        FloatValue realValue = (FloatValue) value; // may throw
+
+        if( theMin.theValue > realValue.value() ) {
+            return -1;
         }
-        return false;
+        if( theMax.theValue < realValue.value() ) {
+            return +1;
+        }
+        return 0;
     }
 
     /**

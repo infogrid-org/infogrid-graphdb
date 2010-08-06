@@ -79,18 +79,22 @@ public final class BooleanDataType
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof BooleanValue ) {
-            return true;
-        }
-        return false;
+        BooleanValue realValue = (BooleanValue) value; // may throw
+
+        return 0;
     }
 
     /**

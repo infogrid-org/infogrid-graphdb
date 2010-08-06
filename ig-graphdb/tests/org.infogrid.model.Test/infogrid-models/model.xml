@@ -264,6 +264,17 @@
                 </datatype>
                 <isoptional/>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalStringRegexDataType">
+                <name>OptionalStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>127.0.0.1</defaultvalue>
+                    </StringDataType>
+                </datatype>
+                <isoptional/>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/OptionalProperties_OptionalTimePeriodDataType">
                 <name>OptionalTimePeriodDataType</name>
                 <datatype>
@@ -411,6 +422,17 @@
                 </datatype>
                 <defaultvalue>DEFAULT</defaultvalue>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/OptionalProperties_MandatoryStringRegexDataType">
+                <name>MandatoryStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>12.34.56.78</defaultvalue>
+                    </StringDataType>
+                </datatype>
+                <defaultvalue>127.0.0.1</defaultvalue>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/MandatoryProperties_MandatoryTimePeriodDataType">
                 <name>MandatoryTimePeriodDataType</name>
                 <datatype>
@@ -556,6 +578,17 @@
                 </datatype>
                 <isoptional/>
             </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalStringRegexDataType">
+                <name>OptionalStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>127.0.0.1</defaultvalue>
+                    </StringDataType>
+                </datatype>
+                <isoptional/>
+            </propertytype>
             <propertytype ID="org.infogrid.model.Test/AllProperties_OptionalTimePeriodDataType">
                 <name>OptionalTimePeriodDataType</name>
                 <datatype>
@@ -696,6 +729,17 @@
                     <StringDataType/>
                 </datatype>
                 <defaultvalue>DEFAULT</defaultvalue>
+            </propertytype>
+            <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryStringRegexDataType">
+                <name>MandatoryStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>12.34.56.78</defaultvalue>
+                    </StringDataType>
+                </datatype>
+                <defaultvalue>127.0.0.1</defaultvalue>
             </propertytype>
             <propertytype ID="org.infogrid.model.Test/AllProperties_MandatoryTimePeriodDataType">
                 <name>MandatoryTimePeriodDataType</name>
@@ -904,6 +948,21 @@
                 <name>OptionalStringDataType</name>
                 <datatype>
                     <StringDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/OptionalStringRegex">
+            <name>OptionalStringRegex</name>
+            <propertytype ID="org.infogrid.model.Test/OptionalString_OptionalStringRegexDataType">
+                <name>OptionalStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>127.0.0.1</defaultvalue>
+                    </StringDataType>
                 </datatype>
                 <isoptional/>
             </propertytype>
@@ -1118,6 +1177,21 @@
                     <StringDataType/>
                 </datatype>
                 <defaultvalue>DEFAULT</defaultvalue>
+            </propertytype>
+        </entitytype>
+
+        <entitytype ID="org.infogrid.model.Test/MandatoryStringRegex">
+            <name>MandatoryStringRegex</name>
+            <propertytype ID="org.infogrid.model.Test/MandatoryStringRegex_MandatoryStringRegexDataType">
+                <name>MandatoryStringRegexDataType</name>
+                <userdescription>IP address xxx.xxx.xxx.xxx</userdescription>
+                <datatype>
+                    <StringDataType>
+                        <regex>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}</regex>
+                        <defaultvalue>12.34.56.78</defaultvalue>
+                    </StringDataType>
+                </datatype>
+                <defaultvalue>127.0.0.1</defaultvalue>
             </propertytype>
         </entitytype>
 

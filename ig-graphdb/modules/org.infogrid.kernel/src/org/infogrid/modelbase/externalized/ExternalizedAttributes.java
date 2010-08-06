@@ -8,16 +8,15 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.xml.sax.Attributes;
-
 import java.util.HashMap;
 import java.util.Iterator;
+import org.xml.sax.Attributes;
 
 /**
  * This contains a list of XML node attributes. We can't store the XML Attributes object directly,
@@ -26,7 +25,7 @@ import java.util.Iterator;
 public class ExternalizedAttributes
 {
     /**
-      * Constructr.
+      * Constructor.
       *
       * @param raw theAttributes object from which we take our content
       */

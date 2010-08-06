@@ -118,7 +118,7 @@ public final class BlobDataType
     private static final String packageName;
     static{
         String className = BlobDataType.class.getName();
-        packageName      = className.substring( 0, className.lastIndexOf( "." ) ).replace( '.', '/' );
+        packageName      = className.substring( 0, className.lastIndexOf( '.' ) ).replace( '.', '/' );
     }
 
     /**
@@ -549,27 +549,29 @@ public final class BlobDataType
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof BlobValue ) {
-            BlobValue realValue = (BlobValue) value;
+        BlobValue realValue = (BlobValue) value;
 
-            String mime = realValue.getMimeType();
-            
-            for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
-                if( theMimeTypeRegexes[i].matcher( mime ).matches() ) {
-                    return true;
-                }
+        String mime = realValue.getMimeType();
+
+        for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+            if( theMimeTypeRegexes[i].matcher( mime ).matches() ) {
+                return 0;
             }
-            return false;
         }
-        return false;
+        return Integer.MAX_VALUE;
     }
 
     /**

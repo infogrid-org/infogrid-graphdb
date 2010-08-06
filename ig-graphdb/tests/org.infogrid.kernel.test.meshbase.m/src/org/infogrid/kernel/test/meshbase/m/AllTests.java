@@ -51,6 +51,7 @@ public abstract class AllTests
                 new TestSpec( MeshBaseTest15.class ),
                 new TestSpec( MeshBaseTest16.class ),
                 new TestSpec( MeshBaseTest17.class ),
+                new TestSpec( MeshBaseTest18.class ),
 
                 new TestSpec( GarbageCollectionTest1.class ),
 

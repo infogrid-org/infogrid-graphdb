@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,8 +18,7 @@ import org.infogrid.util.AbstractLocalizedRuntimeException;
 import org.infogrid.util.ResourceHelper;
 
 /**
- * Indicates that a PropertyValue was illegal, e.g. a MultiplicityValue where the lower bound was higher
- * than the higher bound.
+ * Indicates that a PropertyValue was illegal.
  */
 public abstract class InvalidPropertyValueException
         extends

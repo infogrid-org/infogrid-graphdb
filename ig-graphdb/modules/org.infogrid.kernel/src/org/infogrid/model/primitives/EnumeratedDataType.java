@@ -40,7 +40,7 @@ public class EnumeratedDataType
     /**
       * Default instance.
       */
-    public static EnumeratedDataType theDefault = new EnumeratedDataType();
+    public static final EnumeratedDataType theDefault = new EnumeratedDataType();
 
     /**
      * Factory method.
@@ -205,25 +205,27 @@ public class EnumeratedDataType
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof EnumeratedValue ) {
-            EnumeratedValue realValue = (EnumeratedValue) value;
+        EnumeratedValue realValue = (EnumeratedValue) value; // may throw
 
-            for( int i=0 ; i<theDomain.length ; ++i ) {
-                if( realValue.equals( (Object) theDomain[i].value() )) { // EnumeratedValue compared to String is okay
-                    return true;
-                }
+        for( int i=0 ; i<theDomain.length ; ++i ) {
+            if( realValue.equals( (Object) theDomain[i].value() )) { // EnumeratedValue compared to String is okay
+                return 0;
             }
-            return false;
         }
-        return false;
+        return Integer.MAX_VALUE;
     }
 
     /**

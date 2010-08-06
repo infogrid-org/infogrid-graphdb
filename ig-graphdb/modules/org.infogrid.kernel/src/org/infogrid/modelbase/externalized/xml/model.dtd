@@ -819,11 +819,15 @@
 <!--
     Specifies the StringDataType.
 
-    There are no contained elements.
+    Its contained elements are:
+        regex:                      optional    a regular expression that StringValues must conform to.
 
     There are no attributes.
   -->
-<!ELEMENT StringDataType EMPTY>
+<!ELEMENT StringDataType (
+    regex?,
+    defaultvalue
+)>
 
 <!--
     Specifies the TimePeriodDataType.
@@ -857,6 +861,17 @@
     name,
     username*,
     userdescription*
+)>
+
+<!--
+    The regular expression for a StringDataType.
+
+    Contains the regular expression as text.
+
+    There are no attributes.
+  -->
+<!ELEMENT regex (
+    #PCDATA
 )>
 
 <!--

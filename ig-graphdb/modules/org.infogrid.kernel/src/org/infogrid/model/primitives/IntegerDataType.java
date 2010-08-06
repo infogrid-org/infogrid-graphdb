@@ -16,6 +16,7 @@ package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
 import java.text.ParseException;
+import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -201,21 +202,28 @@ public class IntegerDataType
     }
 
     /**
-     * Determine whether this PropertyValue conforms to this DataType.
+     * Determine whether this PropertyValue conforms to the constraints of this instance of DataType.
      *
      * @param value the candidate PropertyValue
-     * @return true if the candidate PropertyValue conforms to this type
+     * @return 0 if the candidate PropertyValue conforms to this type. Non-zero values depend
+     *         on the DataType; generally constructed by analogy with the return value of strcmp.
+     * @throws ClassCastException if this PropertyValue has the wrong type (e.g.
+     *         the PropertyValue is a StringValue, and the DataType an IntegerDataType)
      */
-    public boolean conforms(
+    public int conforms(
             PropertyValue value )
+        throws
+            ClassCastException
     {
-        if( value instanceof IntegerValue ) {
-            IntegerValue realValue = (IntegerValue) value;
-            
-            boolean ret = theMin.theValue <= realValue.value() && realValue.value() <= theMax.theValue;
-            return ret;
+        IntegerValue realValue = (IntegerValue) value; // may throw
+
+        if( theMin.theValue > realValue.value() ) {
+            return -1;
         }
-        return false;
+        if( theMax.theValue < realValue.value() ) {
+            return +1;
+        }
+        return 0;
     }
 
     /**
@@ -461,6 +469,13 @@ public class IntegerDataType
 
                 default:
                     throw new PropertyValueParsingException( this, representation, s );
+            }
+
+            int conforms = conforms( ret );
+            if( conforms > 0 ) {
+                throw new PropertyValueParsingException( this, representation, s, new IntegerValueTooLargeException( ret, this ));
+            } else if( conforms < 0 ) {
+                throw new PropertyValueParsingException( this, representation, s, new IntegerValueTooSmallException( ret, this ));
             }
 
             return ret;

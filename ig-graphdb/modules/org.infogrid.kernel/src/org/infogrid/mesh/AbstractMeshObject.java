@@ -467,8 +467,14 @@ public abstract class AbstractMeshObject
                 if( !thePropertyTypes[i].getIsOptional().value() ) {
                     throw new IllegalPropertyValueException( this, thePropertyTypes[i], newValues[i] );
                 }
-            } else if( !type.conforms( newValues[i] )) {            
-                throw new IllegalPropertyValueException( this, thePropertyTypes[i], newValues[i] );
+            } else {
+                try {
+                    if( type.conforms( newValues[i] ) != 0 ) {
+                        throw new IllegalPropertyValueException( this, thePropertyTypes[i], newValues[i] );
+                    }
+                } catch( ClassCastException ex ) {
+                    throw new IllegalPropertyValueException( this, thePropertyTypes[i], newValues[i] );
+                }
             }
         }
 

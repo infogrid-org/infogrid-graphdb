@@ -22,6 +22,12 @@ import java.util.HashMap;
 abstract class XmlModelTokens
 {
     /**
+     * Private no-op constructor to keep this private.
+     */
+    private XmlModelTokens()
+    {}
+
+    /**
      * This is the public URL at which we find the model DTD.
      */
     public static final String PUBLIC_MODEL_DTD_URL = "http://infogrid.org/dtds/model.dtd";
@@ -80,7 +86,7 @@ abstract class XmlModelTokens
      * @param keyword the keyword for which to add the token
      * @param token the token for this keyword
      */
-    private static final void addToTable(
+    private static void addToTable(
             String keyword,
             int    token )
     {
@@ -167,9 +173,10 @@ abstract class XmlModelTokens
 
     protected static final int MULTIPLICITY_VALUE_TOKEN                      = 63;
     protected static final int ENUM_TOKEN                                    = 64;
+    protected static final int REGEX_TOKEN                                   = 65;
 
-    protected static final int DECLARES_METHOD_TOKEN                         = 65;
-    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 66;
+    protected static final int DECLARES_METHOD_TOKEN                         = 66;
+    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 67;
 
     /**
      * The table to map integers into strings.
@@ -251,6 +258,7 @@ abstract class XmlModelTokens
 
         addToTable( "MultiplicityValue",        MULTIPLICITY_VALUE_TOKEN );
         addToTable( "enum",                     ENUM_TOKEN );
+        addToTable( "regex",                    REGEX_TOKEN );
         
         addToTable( "declaresMethod",           DECLARES_METHOD_TOKEN );
         addToTable( "implementsMethod",         IMPLEMENTS_METHOD_TOKEN );
