@@ -8,27 +8,27 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.transaction;
 
-import org.infogrid.util.AbstractLocalizedRuntimeException;
+import org.infogrid.util.AbstractDelegatingLocalizedRuntimeException;
 
 /**
  * Thrown if a problem occurred during the execution of a TransactionAction.
  */
 public abstract class TransactionActionException
     extends
-        AbstractLocalizedRuntimeException
+        AbstractDelegatingLocalizedRuntimeException
 {
     /**
      * Constructor, for subclasses defined in this file only.
      */
     private TransactionActionException()
     {
-        super();
+        super( null );
     }
 
     /**
@@ -42,16 +42,6 @@ public abstract class TransactionActionException
             Throwable cause )
     {
         super( message, cause );
-    }
-
-    /**
-     * Obtain resource parameters for the internationalization.
-     *
-     * @return the resource parameters
-     */
-    public Object [] getLocalizationParameters()
-    {
-        return null;
     }
 
     /**
