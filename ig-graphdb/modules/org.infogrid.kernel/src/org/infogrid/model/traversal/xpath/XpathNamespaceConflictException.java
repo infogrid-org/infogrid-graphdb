@@ -30,7 +30,6 @@ public class XpathNamespaceConflictException
     /**
      * Constructor.
      *
-     * @param terms the terms that were given
      * @param prefix the prefix
      * @param oldValue the old value
      * @param newValue the new value
