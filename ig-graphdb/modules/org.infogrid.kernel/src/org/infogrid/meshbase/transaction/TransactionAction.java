@@ -70,15 +70,24 @@ public abstract class TransactionAction<T>
     }
 
     /**
+     * Set the current Transaction, or reset the current Transaction to null.
+     *
+     * @param tx the current Transaction
+     */
+    public void setTransaction(
+            Transaction currentTx )
+    {
+        tx = currentTx;
+    }
+
+    /**
      * Execute the action. This will be invoked within valid Transaction
      * boundaries.
      *
-     * @param tx the Transaction within which the code is invoked
      * @return a return object, if any
      * @throws Throwable this declaration makes it easy to implement this method
      */
-    public abstract T execute(
-            Transaction tx )
+    public abstract T execute()
         throws
             Throwable;
 
@@ -104,4 +113,9 @@ public abstract class TransactionAction<T>
      * This is held here to make writing code in anonymous subclasses less verbose.
      */
     protected MeshObjectIdentifierFactory idFact;
+
+    /**
+     * The current Transaction.
+     */
+    protected Transaction tx;
 }

@@ -195,8 +195,7 @@ public abstract class AbstractModelChangeTest
         final MeshBaseLifecycleManager    life   = mb.getMeshBaseLifecycleManager();
 
         mb.executeNow( new TransactionAction<Void>() {
-            public Void execute(
-                    Transaction tx )
+            public Void execute()
                 throws
                     Throwable
             {

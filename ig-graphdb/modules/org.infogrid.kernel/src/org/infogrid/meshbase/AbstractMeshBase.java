@@ -470,7 +470,7 @@ public abstract class AbstractMeshBase
              IsDeadException
     {
         if( log.isTraceEnabled() ) {
-            log.traceMethodCallEntry( this, "die" );
+            log.traceMethodCallEntry( this, "die", isPermanent );
         }
 
         // let current transaction finish for no more than 5 seconds
@@ -911,7 +911,9 @@ public abstract class AbstractMeshBase
             try {
                 tx = txFactory.obtainFor( null, null );
 
-                ret = act.execute( tx );
+                act.setTransaction( tx );
+                ret = act.execute();
+                act.setTransaction( null );
 
                 tx.commitTransaction();
                 tx = null;
@@ -963,6 +965,7 @@ public abstract class AbstractMeshBase
                 }
 
             } finally {
+                act.setTransaction( null );
                 if( tx != null ) {
                     tx.rollbackTransaction( thrown );
                 }
