@@ -19,7 +19,7 @@
     Top-level element of a Model XML file. It has no attributes, and must contain one subjectarea.
   -->
 <!ELEMENT model (
-    subjectarea+
+    subjectarea
 )>
 
 <!--
