@@ -96,6 +96,8 @@ public class DefaultAMeshObjectIdentifierFactory
         throws
             ParseException
     {
+        checkRawId( raw );
+
         // on this level, everything is opaque
         return DefaultAMeshObjectIdentifier.create( this, raw, raw );
     }
