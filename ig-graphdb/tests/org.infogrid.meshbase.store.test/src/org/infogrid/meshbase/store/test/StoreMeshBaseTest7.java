@@ -43,9 +43,6 @@ public class StoreMeshBaseTest7
 
         theSqlStore.initializeHard();
 
-        RecordingStoreListener listener = new RecordingStoreListener();
-        theSqlStore.addDirectStoreListener( listener );
-
         //
 
         log.info( "Creating MeshBase" );
