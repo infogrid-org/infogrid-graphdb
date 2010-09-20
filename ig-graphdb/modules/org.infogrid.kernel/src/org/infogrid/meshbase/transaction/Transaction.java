@@ -15,6 +15,7 @@
 package org.infogrid.meshbase.transaction;
 
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.security.PropertyReadOnlyException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.CursorIterator;
@@ -139,6 +140,7 @@ public abstract class Transaction
 
         // go backwards in the change set
         CursorIterator<Change> iter = ChangeSet.createCopy( theChangeSet ).iterator();
+        iter.moveToAfterLast();
         while( iter.hasPrevious() ) {
             Change current = iter.previous();
 
@@ -146,8 +148,10 @@ public abstract class Transaction
                 current.unapplyFrom( theTransactable );
 
             } catch( CannotUnapplyChangeException ex ) {
-                log.error( ex );
-                // that's the best we can do
+                if( !( ex.getCause() instanceof PropertyReadOnlyException )) {
+                    log.error( ex );
+                    // that's the best we can do
+                }
 
             } catch( TransactionException ex ) {
                 log.error( ex );

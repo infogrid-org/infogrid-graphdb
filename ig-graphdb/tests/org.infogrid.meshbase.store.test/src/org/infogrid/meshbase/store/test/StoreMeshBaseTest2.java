@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -22,10 +22,7 @@ import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.EntityType;
-import org.infogrid.model.primitives.EnumeratedDataType;
 import org.infogrid.model.primitives.EnumeratedValue;
-import org.infogrid.model.primitives.PropertyType;
-import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.util.logging.Log;
@@ -47,15 +44,7 @@ public class StoreMeshBaseTest2
         throws
             Exception
     {
-//        EntityType typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-//        EntityType typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", null, "B" );
         EntityType [] abctypes = { TestSubjectArea.AA, TestSubjectArea.B };
-//
-//        RelationshipType typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "R" );
-//
-//        PropertyType ptX  = theModelBase.findPropertyType( "org.infogrid.model.Test", null, "A",  "X" );
-//        PropertyType ptXX = theModelBase.findPropertyType( "org.infogrid.model.Test", null, "A",  "XX" );
-//        PropertyType ptZ  = theModelBase.findPropertyType( "org.infogrid.model.Test", null, "B",  "Z" );
 
         //
         

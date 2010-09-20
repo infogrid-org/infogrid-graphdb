@@ -63,7 +63,6 @@ public class StoreMeshBaseTest6
                 rootContext );
 
         MeshBaseLifecycleManager life = mb.getMeshBaseLifecycleManager();
-        long                     now  = System.currentTimeMillis();
 
         //
         
@@ -185,7 +184,7 @@ public class StoreMeshBaseTest6
     }
 
     // Our Logger
-    private static Log log = Log.getLogInstance( StoreMeshBaseTest6.class );
+    private static final Log log = Log.getLogInstance( StoreMeshBaseTest6.class );
     
     /**
      * Test data.
@@ -285,7 +284,7 @@ public class StoreMeshBaseTest6
          * @param tTimePeriod the TimePeriodValue
          * @param tTimeStamp the TimeStampValue
          */
-        public DataSet(
+        DataSet(
                 String            identifier,
                 BlobValue         tBlobAny,
                 BlobValue         tBlobImage,

@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
@@ -15,19 +15,18 @@
 package org.infogrid.meshbase.store.test;
 
 import org.infogrid.mesh.MeshObject;
-import org.infogrid.mesh.MeshObjectIdentifier;
-import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
+import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.store.StoreMeshBase;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.Test.TestSubjectArea;
-import org.infogrid.model.primitives.RoleType;
+import org.infogrid.model.primitives.FloatValue;
 import org.infogrid.util.logging.Log;
 
 /**
- * Reproduces a StoreMeshBase integrity problem found 2007-06-22.
+ * Rollback transaction does not leave stuff in the Store.
  */
-public class StoreMeshBaseTest5
+public class StoreMeshBaseTest7
         extends
             AbstractStoreMeshBaseTest
 {
@@ -40,49 +39,44 @@ public class StoreMeshBaseTest5
         throws
             Exception
     {
+        log.info( "Deleting old database and creating new database" );
+
         theSqlStore.initializeHard();
 
+        RecordingStoreListener listener = new RecordingStoreListener();
+        theSqlStore.addDirectStoreListener( listener );
+
+        //
+
+        log.info( "Creating MeshBase" );
+
         StoreMeshBase mb = StoreMeshBase.create(
-                theMeshBaseIdentifierFactory.fromExternalForm( "mb" ),
+                theMeshBaseIdentifierFactory.fromExternalForm( "MeshBase" ),
                 theModelBase,
                 null,
                 theSqlStore,
                 rootContext );
 
-        MeshBaseLifecycleManager life = mb.getMeshBaseLifecycleManager();
+        checkEquals( theSqlStore.size(), 1, "Wrong number of entries in Store" );
 
         //
-        
-        log.info( "Creating a few objects" );
-        
+
+        MeshBaseLifecycleManager    life   = mb.getMeshBaseLifecycleManager();
+        MeshObjectIdentifierFactory idfact = mb.getMeshObjectIdentifierFactory();
+
+        log.info( "Creating Transaction and rolling it back" );
+
         Transaction tx = mb.createTransactionNow();
-        
-        MeshObjectIdentifier extName = mb.getMeshObjectIdentifierFactory().fromExternalForm( "wsItEtOFGML7KyXCQ0slH6w+Jc9Tw5tY9+kc0TTlz8U=" );
-        MeshObject obj = life.createMeshObject( extName, TestSubjectArea.AA );
-        
-        mb.getHomeObject().relateAndBless( TestSubjectArea.ARANY.getDestination(), obj );
-        
-        tx.commitTransaction();
+
+        MeshObject obj1 = life.createMeshObject( idfact.fromExternalForm( "obj1" ));
+        MeshObject obj2 = life.createMeshObject( idfact.fromExternalForm( "obj2" ), TestSubjectArea.AA );
+        obj2.setPropertyValue( TestSubjectArea.AA_Y, FloatValue.create( 1.2f ));
+
+        tx.rollbackTransaction( null );
 
         //
-        
-        log.info( "collecting garbage" );
-        
-        tx = null;
-        obj = null;
-        
-        collectGarbage();
-        
-        //
-        
-        log.info( "checking everything's still there" );
-        
-        MeshObjectSet objs = mb.getHomeObject().traverseToNeighborMeshObjects();
-        checkEquals( objs.size(), 1, "wrong number neighbors found" );
 
-        RoleType [] rts = mb.getHomeObject().getRoleTypes( objs.getSingleMember() );
-        checkEquals( rts.length, 1, "Wrong number of roles" );
-        checkEquals( rts[0], TestSubjectArea.ARANY.getDestination(), "Wrong role" );
+        checkEquals( theSqlStore.size(), 1, "Wrong number of entries in Store after rolled-back Transaction" );
     }
 
     /**
@@ -93,15 +87,15 @@ public class StoreMeshBaseTest5
     public static void main(
             String [] args )
     {
-        StoreMeshBaseTest5 test = null;
+        StoreMeshBaseTest7 test = null;
         try {
             if( args.length > 0 ) {
-                System.err.println( "Synopsis: <no argument>" );
+                System.err.println( "Synopsis: <none>" );
                 System.err.println( "aborting ..." );
                 System.exit( 1 );
             }
 
-            test = new StoreMeshBaseTest5( args );
+            test = new StoreMeshBaseTest7( args );
             test.run();
 
         } catch( Throwable ex ) {
@@ -125,14 +119,14 @@ public class StoreMeshBaseTest5
      * @param args command-line arguments
      * @throws Exception anything can go wrong in a test
      */
-    public StoreMeshBaseTest5(
+    public StoreMeshBaseTest7(
             String [] args )
         throws
             Exception
     {
-        super( StoreMeshBaseTest5.class  );
+        super( StoreMeshBaseTest7.class );
     }
 
     // Our Logger
-    private static Log log = Log.getLogInstance( StoreMeshBaseTest5.class);
+    private static Log log = Log.getLogInstance( StoreMeshBaseTest7.class );
 }

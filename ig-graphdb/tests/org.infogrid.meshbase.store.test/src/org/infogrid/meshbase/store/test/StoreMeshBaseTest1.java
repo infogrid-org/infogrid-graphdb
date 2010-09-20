@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -22,13 +22,9 @@ import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.StringValue;
-import org.infogrid.store.Store;
-import org.infogrid.store.StoreListener;
-import org.infogrid.store.StoreValue;
 import org.infogrid.util.logging.Log;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 /**
  * Test that we do the right number of writes and reads.
@@ -55,7 +51,7 @@ public class StoreMeshBaseTest1
 
         theSqlStore.initializeHard();
         
-        MyListener listener = new MyListener();
+        RecordingStoreListener listener = new RecordingStoreListener();
         theSqlStore.addDirectStoreListener( listener );
 
         //
@@ -201,113 +197,5 @@ public class StoreMeshBaseTest1
     // Our Logger
     private static Log log = Log.getLogInstance( StoreMeshBaseTest1.class );
     
-    /**
-     * Test listener.
-     */
-    class MyListener
-            implements
-                StoreListener
-    {
-        /**
-         * A put operation was performed. This indicates either a
-         * <code>Store.put</code> or a <code>Store.putOrUpdate</code> operation
-         * in which an actual <code>put</code> was performed.
-         *
-         * @param store the Store that emitted this event
-         * @param value the StoreValue that was put
-         */
-        public void putPerformed(
-                Store      store,
-                StoreValue value )
-        {
-            thePuts.add( value.getKey() );
-        }
 
-        /**
-         * An update operation was performed. This indicates either a
-         * <code>Store.update</code> or a <code>Store.putOrUpdate</code> operation
-         * in which an actual <code>update</code> was performed.
-         *
-         * @param store the Store that emitted this event
-         * @param value the StoreValue that was updated
-         */
-        public void updatePerformed(
-                Store      store,
-                StoreValue value )
-        {
-            theUpdates.add( value.getKey() );
-        }
-
-        /**
-         * A get operation was performed.
-         *
-         * @param store the Store that emitted this event
-         * @param value the StoreValue that was obtained
-         */
-        public void getPerformed(
-                Store      store,
-                StoreValue value )
-        {            
-            theGets.add( value.getKey() );
-        }                
-
-        /**
-         * A get operation was attempted but not value could be found.
-         *
-         * @param store the Store that emitted this event
-         * @param key the key that was attempted
-         */
-        public void getFailed(
-                Store  store,
-                String key )
-        {
-            theFailedGets.add( key );
-        }
-
-        /**
-         * A delete operation was performed.
-         *
-         * @param store the Store that emitted this event
-         * @param key the key with which the data element was stored
-         */
-        public void deletePerformed(
-                Store  store,
-                String key )
-        {
-            theDeletes.add( key );
-        }
-
-        /**
-         * A delete-all operation was performed.
-         *
-         * @param store the Store that emitted this event
-         * @param prefix if given, indicates the prefix of all keys that were deleted. If null, indicates &quot;all&quot;.
-         */
-        public void deleteAllPerformed(
-                Store  store,
-                String prefix )
-        {
-            theAllDeletes.add( prefix );
-        }
-
-        /**
-         * Reset the listener.
-         */
-        public void reset()
-        {
-            thePuts.clear();
-            theUpdates.clear();
-            theGets.clear();
-            theFailedGets.clear();
-            theDeletes.clear();
-            theAllDeletes.clear();
-        }
-
-        protected ArrayList<String> thePuts       = new ArrayList<String>();
-        protected ArrayList<String> theUpdates    = new ArrayList<String>();
-        protected ArrayList<String> theGets       = new ArrayList<String>();
-        protected ArrayList<String> theFailedGets = new ArrayList<String>();
-        protected ArrayList<String> theDeletes    = new ArrayList<String>();
-        protected ArrayList<String> theAllDeletes = new ArrayList<String>();
-    }
 }
