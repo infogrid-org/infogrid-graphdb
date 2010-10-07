@@ -21,6 +21,7 @@ import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
+import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.event.AbstractExternalizablePropertyChangeEvent;
 import org.infogrid.util.event.PropertyUnresolvedException;
 
@@ -389,13 +390,13 @@ public class MeshObjectPropertyChangeEvent
         }
         MeshObjectPropertyChangeEvent realOther = (MeshObjectPropertyChangeEvent) other;
 
-        if( !getSourceIdentifier().equals( realOther.getSourceIdentifier() )) {
+        if( !ArrayHelper.equals( getSourceIdentifier(), realOther.getSourceIdentifier() )) {
             return false;
         }
-        if( !getPropertyIdentifier().equals( realOther.getPropertyIdentifier())) {
+        if( !ArrayHelper.equals( getPropertyIdentifier(), realOther.getPropertyIdentifier())) {
             return false;
         }
-        if( !getNewValueIdentifier().equals( realOther.getNewValueIdentifier())) {
+        if( !ArrayHelper.equals( getNewValueIdentifier(), realOther.getNewValueIdentifier())) {
             return false;
         }
         if( getTimeEventOccurred() != realOther.getTimeEventOccurred() ) {
