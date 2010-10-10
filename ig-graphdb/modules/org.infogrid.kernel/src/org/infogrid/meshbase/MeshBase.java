@@ -150,11 +150,10 @@ public interface MeshBase
      * 
      * @param identifiers the identifiers of the MeshObjects that shall be found
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
-     * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found. This Exception
-     *         inherits from PartialResultException, and carries the partial results that were available
+     * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found
      */
     public abstract MeshObject [] findMeshObjectsByIdentifierOrThrow(
-            MeshObjectIdentifier[] identifiers )
+            MeshObjectIdentifier [] identifiers )
         throws
             MeshObjectsNotFoundException;
 
