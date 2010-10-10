@@ -8,21 +8,25 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase;
 
-import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
+import org.infogrid.util.AbstractLocalizedException;
+import org.infogrid.util.logging.CanBeDumped;
+import org.infogrid.util.logging.Dumper;
 
 /**
  * Thrown if one or more MeshObjects could not be found.
  */
 public class MeshObjectsNotFoundException
         extends
-            MeshObjectAccessException
+            AbstractLocalizedException
+        implements
+            CanBeDumped
 {
     private static final long serialVersionUID = 1L; // helps with serialization
 
@@ -36,7 +40,7 @@ public class MeshObjectsNotFoundException
             MeshBase             mb,
             MeshObjectIdentifier identifier )
     {
-        this( mb, null, new MeshObjectIdentifier[] { identifier } );
+        this( mb, new MeshObjectIdentifier[] { identifier } );
     }
 
     /**
@@ -49,9 +53,95 @@ public class MeshObjectsNotFoundException
      */
     public MeshObjectsNotFoundException(
             MeshBase                mb,
-            MeshObject []           partialResult,
             MeshObjectIdentifier [] identifiers )
     {
-        super( mb, mb.getIdentifier(), partialResult, identifiers, null );
+        theMeshBase             = mb;
+        theMeshBaseIdentifier   = mb.getIdentifier();
+        theAttemptedIdentifiers = identifiers;
     }
+
+    /**
+     * Determine the identifiers of the MeshObjects that could not be found.
+     *
+     * @return the identifiers
+     */
+    public MeshObjectIdentifier [] getMeshObjectIdentifiers()
+    {
+        return theAttemptedIdentifiers;
+    }
+
+    /**
+     * Allow subclasses to override which key to use in the Resource file for the string representation.
+     *
+     * @return the key
+     */
+    @Override
+    protected String findStringRepresentationParameter()
+    {
+        if( theAttemptedIdentifiers.length == 1 ) {
+            return SINGULAR_STRING_REPRESENTATION_KEY;
+        } else {
+            return PLURAL_STRING_REPRESENTATION_KEY;
+        }
+
+    }
+    /**
+     * Obtain the parameters with which the internationalized string
+     * will be parameterized.
+     *
+     * @return the parameters with which the internationalized string will be parameterized
+     */
+    @Override
+    public Object [] getLocalizationParameters()
+    {
+        return new Object[] {
+                theMeshBase,
+                theMeshBaseIdentifier,
+                theAttemptedIdentifiers
+        };
+    }
+
+    /**
+     * Dump this object.
+     *
+     * @param d the Dumper to dump to
+     */
+    public void dump(
+            Dumper d )
+    {
+        d.dump( this,
+                new String [] {
+                    "mb",
+                    "attempted"
+                },
+                new Object[] {
+                    theMeshBaseIdentifier,
+                    theAttemptedIdentifiers
+                });
+    }
+
+    /**
+     * The MeshBase in which this Exception occurred.
+     */
+    protected transient MeshBase theMeshBase;
+
+    /**
+     * The identifier of the MeshBase in which this Exception occurred.
+     */
+    protected MeshBaseIdentifier theMeshBaseIdentifier;
+
+    /**
+     * The identifiers of the MeshObjects that were attempted to be accessed.
+     */
+    protected MeshObjectIdentifier [] theAttemptedIdentifiers;
+
+    /**
+     * Key into the ResourceHelper that helps with stringifying the singular case.
+     */
+    public static final String SINGULAR_STRING_REPRESENTATION_KEY = "SingularString";
+
+    /**
+     * Key into the ResourceHelper that helps with stringifying the plural case.
+     */
+    public static final String PLURAL_STRING_REPRESENTATION_KEY = "PluralString";
 }

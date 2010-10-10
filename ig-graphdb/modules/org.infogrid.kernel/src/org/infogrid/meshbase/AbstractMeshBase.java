@@ -44,6 +44,7 @@ import org.infogrid.model.primitives.RoleType;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.util.AbstractFactory;
 import org.infogrid.util.AbstractLiveDeadObject;
+import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.CachingMap;
 import org.infogrid.util.CannotFindHasIdentifierException;
 import org.infogrid.util.Factory;
@@ -333,31 +334,33 @@ public abstract class AbstractMeshBase
      * 
      * @param identifiers the identifiers of the MeshObjects that shall be found
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
-     * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found. This Exception
-     *         inherits from PartialResultException, and carries the partial results that were available
+     * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found
      */
     public MeshObject [] findMeshObjectsByIdentifierOrThrow(
-            MeshObjectIdentifier[] identifiers )
+            MeshObjectIdentifier [] identifiers )
         throws
             MeshObjectsNotFoundException
     {
-        MeshObject [] ret   = new MeshObject[ identifiers.length ];
-        int           count = 0;
+        MeshObject []           ret      = new MeshObject[ identifiers.length ];
+        MeshObjectIdentifier [] notFound = null; // allocated when needed
+        int                     count    = 0;
         
         for( int i=0 ; i<identifiers.length ; ++i ) {
             ret[i] = findMeshObjectByIdentifier( identifiers[i] );
             if( ret[i] == null ) {
-                ++count;
+                if( notFound == null ) {
+                    notFound = new MeshObjectIdentifier[ identifiers.length ];
+                }
+                notFound[ count++ ] = identifiers[i];
             }
         }
         if( count == 0 ) {
             return ret;
         }
-        MeshObjectIdentifier [] notFound = new MeshObjectIdentifier[ count ];
-        for( int i=identifiers.length-1 ; i>=0 ; --i ) {
-            notFound[--count] = identifiers[i];
+        if( count < notFound.length ) {
+            notFound = ArrayHelper.copyIntoNewArray( notFound, 0, count, MeshObjectIdentifier.class );
         }
-        throw new MeshObjectsNotFoundException( this, ret, notFound );
+        throw new MeshObjectsNotFoundException( this, notFound );
     }
 
     /**

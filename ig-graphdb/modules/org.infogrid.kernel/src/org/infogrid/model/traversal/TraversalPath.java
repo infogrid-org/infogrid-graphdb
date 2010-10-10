@@ -375,22 +375,8 @@ public class TraversalPath
 
         TraversalPath current = this;
         for( int i=0 ; i<ret.length ; ++i ) {
-            try {
-                ret[i]  = current.getFirstMeshObject();
-                current = current.getNextSegment();
-
-            } catch( MeshObjectsNotFoundException ex ) {
-                if( notFound == null ) {
-                    notFound = new ArrayList<MeshObjectIdentifier>();
-                }
-                notFound.add( current.getFirstMeshObjectIdentifier() );
-            }
-        }
-        if( notFound != null ) {
-            throw new MeshObjectsNotFoundException(
-                    theMeshBase,
-                    ret, // partialResult
-                    ArrayHelper.copyIntoNewArray( notFound, MeshObjectIdentifier.class ));
+            ret[i]  = current.getFirstMeshObject(); // may throw
+            current = current.getNextSegment();
         }
         return ret;
     }
