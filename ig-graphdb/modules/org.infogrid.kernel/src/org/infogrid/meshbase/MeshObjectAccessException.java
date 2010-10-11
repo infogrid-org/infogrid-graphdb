@@ -24,12 +24,16 @@ import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 
 /**
- * Thrown if something went wrong when trying to access a MeshObject. The underlying
- * cause may indicate what went wrong. This Exception inherits from PartialResultException,
+ * Thrown if something went wrong when trying to access one or more MeshObjects using
+ * {@link MeshBase#accessLocally}.
+ *
+ * This Exception inherits from PartialResultException,
  * which means that if we attempt to access N MeshObjects, we may have been successful
  * for some of them. To determine which were successful, this Exception carries both
  * an array of identifiers of the MeshObjects that were attempted to be accessed, and an
  * array with MeshObjects that constitutes the result, in the same sequence.
+ * Similarly, it can carry an exception for each of the attempted identifiers, in the
+ * same sequence, to indicate what went wrong for a particular MeshObject.
  * Because redirection is a possibility, some of the MeshObjects that were found
  * may have different MeshObjectIdentifiers than the ones that were specified.
  */
@@ -46,36 +50,80 @@ public class MeshObjectAccessException
      * Constructor.
      *
      * @param mb the MeshBase in which the Exception occurred
-     * @param mbIdentifier the MeshBaseIdentifier in which the Exception occurred
-     * @param result a partial result, available at the time the Exception occurred
-     * @param failedIdentifiers the MeshObjectIdentifiers 
-     * @param causes the underlying causes for the Exception, in the same order as the failedIdentifiers
+     * @param attemptedIdentifiers the MeshObjectIdentifiers that were attempted to be accessed
+     * @param results a partial result, available at the time the Exception occurred
+     * @param seeOthers MeshObjectIdentifiers of the MeshObjects to be accessed instead (aka redirect)
+     * @param causes the underlying causes for the Exception, in the same order as the attemptedIdentifiers
      */
     public MeshObjectAccessException(
             MeshBase                mb,
-            MeshBaseIdentifier      mbIdentifier,
-            MeshObject []           result,
             MeshObjectIdentifier [] attemptedIdentifiers,
+            MeshObject []           results,
+            MeshObjectIdentifier [] seeOthers,
             Throwable []            causes )
     {
-        this( mb, mbIdentifier, result, attemptedIdentifiers, causes, null );
+        this( mb, mb.getIdentifier(), attemptedIdentifiers, results, seeOthers, causes, null );
     }
 
     /**
      * Constructor.
      *
      * @param mb the MeshBase in which the Exception occurred
-     * @param mbIdentifier the MeshBaseIdentifier in which the Exception occurred
-     * @param result a partial result, available at the time the Exception occurred
-     * @param failedIdentifiers the MeshObjectIdentifiers
-     * @param causes the underlying causes for the Exception, in the same order as the failedIdentifiers
-     * @param cause the cause
+     * @param attemptedIdentifiers the MeshObjectIdentifiers that were attempted to be accessed
+     * @param results a partial result, available at the time the Exception occurred
+     * @param seeOthers MeshObjectIdentifiers of the MeshObjects to be accessed instead (aka redirect)
+     * @param causes the underlying causes for the Exception, in the same order as the attemptedIdentifiers
+     * @param cause the underlying cause for this Exception, if there is one unrelated to the individual causes
+     */
+    public MeshObjectAccessException(
+            MeshBase                mb,
+            MeshObjectIdentifier [] attemptedIdentifiers,
+            MeshObject []           results,
+            MeshObjectIdentifier [] seeOthers,
+            Throwable []            causes,
+            Throwable               cause )
+    {
+        this( mb, mb.getIdentifier(), attemptedIdentifiers, results, seeOthers, causes, cause );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param mb the MeshBase in which the Exception occurred
+     * @param mbIdentifier the MeshBaseIdentifier of the MeshBase in which the Exception occurred
+     * @param attemptedIdentifiers the MeshObjectIdentifiers that were attempted to be accessed
+     * @param results a partial result, available at the time the Exception occurred
+     * @param seeOthers MeshObjectIdentifiers of the MeshObjects to be accessed instead (aka redirect)
+     * @param causes the underlying causes for the Exception, in the same order as the attemptedIdentifiers
      */
     public MeshObjectAccessException(
             MeshBase                mb,
             MeshBaseIdentifier      mbIdentifier,
-            MeshObject []           result,
             MeshObjectIdentifier [] attemptedIdentifiers,
+            MeshObject []           results,
+            MeshObjectIdentifier [] seeOthers,
+            Throwable []            causes )
+    {
+        this( mb, mbIdentifier, attemptedIdentifiers, results, seeOthers, causes, null );
+    }
+
+    /**
+     * Constructor.
+     *
+     * @param mb the MeshBase in which the Exception occurred
+     * @param mbIdentifier the MeshBaseIdentifier of the MeshBase in which the Exception occurred
+     * @param attemptedIdentifiers the MeshObjectIdentifiers that were attempted to be accessed
+     * @param results a partial result, available at the time the Exception occurred
+     * @param seeOthers MeshObjectIdentifiers of the MeshObjects to be accessed instead (aka redirect)
+     * @param causes the underlying causes for the Exception, in the same order as the attemptedIdentifiers
+     * @param cause the underlying cause for this Exception, if there is one unrelated to the individual causes
+     */
+    public MeshObjectAccessException(
+            MeshBase                mb,
+            MeshBaseIdentifier      mbIdentifier,
+            MeshObjectIdentifier [] attemptedIdentifiers,
+            MeshObject []           results,
+            MeshObjectIdentifier [] seeOthers,
             Throwable []            causes,
             Throwable               cause )
     {
@@ -84,7 +132,8 @@ public class MeshObjectAccessException
         theMeshBase             = mb;
         theMeshBaseIdentifier   = mbIdentifier;
         theAttemptedIdentifiers = attemptedIdentifiers;
-        theResult               = result;
+        theResults              = results;
+        theSeeOthers            = seeOthers;
         theCauses               = causes;
 
         theNumberFoundWhereExpected = 0;
@@ -92,12 +141,12 @@ public class MeshObjectAccessException
         theNumberCauses             = 0;
 
         for( int i=0 ; i<theAttemptedIdentifiers.length ; ++i ) {
-            if( theResult[i] != null ) {
-                if( theResult[i].getIdentifier().equals( theAttemptedIdentifiers[i] )) {
-                    ++theNumberFoundWhereExpected;
-                } else {
-                    ++theNumberFoundSomewhereElse;
-                }
+            if( theResults[i] != null ) {
+                ++theNumberFoundWhereExpected;
+
+            } else if( theSeeOthers[i] != null ) {
+                ++theNumberFoundSomewhereElse;
+
             } else if( theCauses[i] != null ) {
                 ++theNumberCauses;
             }
@@ -105,8 +154,8 @@ public class MeshObjectAccessException
         if( theNumberFoundWhereExpected + theNumberFoundSomewhereElse + theNumberCauses == 0) {
             throw new IllegalArgumentException( "This Exception must not be thrown unless at least something was found or Exceptions can be reported" );
         }
-        if( theAttemptedIdentifiers.length != theResult.length ) {
-            throw new IllegalArgumentException( "Inconsistent invocation: " + theAttemptedIdentifiers.length + " vs. " + theResult.length );
+        if( theAttemptedIdentifiers.length != theResults.length ) {
+            throw new IllegalArgumentException( "Inconsistent invocation: " + theAttemptedIdentifiers.length + " vs. " + theResults.length );
         }
         if( theAttemptedIdentifiers.length != theCauses.length ) {
             throw new IllegalArgumentException( "Inconsistent invocation: " + theAttemptedIdentifiers.length + " vs. " + theCauses.length );
@@ -121,6 +170,16 @@ public class MeshObjectAccessException
     public MeshBase getMeshBase()
     {
         return theMeshBase;
+    }
+
+    /**
+     * Obtain the identifier of the MeshBase in which the Exception occurred.
+     *
+     * @return the identifier of the MeshBase in which the Exception occurred
+     */
+    public MeshBaseIdentifier getMeshBaseIdentifier()
+    {
+        return theMeshBaseIdentifier;
     }
 
     /**
@@ -155,7 +214,54 @@ public class MeshObjectAccessException
      */
     public MeshObject [] getBestEffortResult()
     {
-        return theResult;
+        return theResults;
+    }
+
+    /**
+     * Obtain the see others, if any. (aka redirects)
+     *
+     * @return the see others, if any.
+     */
+    public MeshObjectIdentifier [] getSeeOther()
+    {
+        return theSeeOthers;
+    }
+
+    /**
+     * Obtain the see other for a given MeshObjectIdentifier.
+     *
+     * @param key the MeshObjectIdentifier
+     * @return the redirect value, if any
+     */
+    public MeshObjectIdentifier getSeeOtherFor(
+            MeshObjectIdentifier key )
+    {
+        for( int i=0 ; i<theAttemptedIdentifiers.length ; ++i ) {
+            if( key.equals( theAttemptedIdentifiers[i] )) {
+                return theSeeOthers[i];
+            }
+        }
+        throw new IllegalArgumentException( "Unknown key: " + key.toExternalForm() );
+    }
+
+    /**
+     * Obtain the attempted MeshObjectIdentifiers.
+     *
+     * @return the MeshObjectIdentifiers
+     */
+    public MeshObjectIdentifier [] getAttemptedMeshObjectIdentifiers()
+    {
+        return theAttemptedIdentifiers;
+    }
+
+    /**
+     * Obtain the causes, if any.
+     *
+     * @return the causes, if any
+     */
+    public Throwable [] getCauses()
+    {
+        return theCauses;
     }
 
     /**
@@ -231,17 +337,15 @@ public class MeshObjectAccessException
     @Override
     public Object [] getLocalizationParameters()
     {
+        ArrayList<MeshObjectIdentifier> foundIdentifiers         = new ArrayList<MeshObjectIdentifier>( theAttemptedIdentifiers.length );
         ArrayList<MeshObjectIdentifier> notFoundIdentifiers      = new ArrayList<MeshObjectIdentifier>( theAttemptedIdentifiers.length );
         ArrayList<MeshObjectIdentifier> somewhereElseIdentifiers = new ArrayList<MeshObjectIdentifier>( theAttemptedIdentifiers.length );
-        ArrayList<MeshObjectIdentifier> foundIdentifiers         = new ArrayList<MeshObjectIdentifier>( theAttemptedIdentifiers.length );
 
         for( int i=0 ; i<theAttemptedIdentifiers.length ; ++i ) {
-            if( theResult[i] != null ) {
-                if( theResult[i].getIdentifier().equals( theAttemptedIdentifiers[i] )) {
-                    foundIdentifiers.add( theAttemptedIdentifiers[i] );
-                } else {
-                    somewhereElseIdentifiers.add( theAttemptedIdentifiers[i] );
-                }
+            if( theResults[i] != null ) {
+                foundIdentifiers.add( theAttemptedIdentifiers[i] );
+            } else if( theSeeOthers[i] != null ) {
+                somewhereElseIdentifiers.add( theAttemptedIdentifiers[i] );
             } else {
                 notFoundIdentifiers.add( theAttemptedIdentifiers[i] );
             }
@@ -249,10 +353,13 @@ public class MeshObjectAccessException
 
         return new Object[] {
                 theAttemptedIdentifiers,
-                ArrayHelper.copyIntoNewArray( notFoundIdentifiers,      MeshObjectIdentifier.class ),
-                ArrayHelper.copyIntoNewArray( somewhereElseIdentifiers, MeshObjectIdentifier.class ),
+                theResults,
+                theSeeOthers,
+                theCauses,
                 ArrayHelper.copyIntoNewArray( foundIdentifiers,         MeshObjectIdentifier.class ),
-                theResult
+                ArrayHelper.copyIntoNewArray( somewhereElseIdentifiers, MeshObjectIdentifier.class ),
+                ArrayHelper.copyIntoNewArray( notFoundIdentifiers,      MeshObjectIdentifier.class ),
+                getCause()
         };
     }
 
@@ -267,14 +374,19 @@ public class MeshObjectAccessException
     protected MeshBaseIdentifier theMeshBaseIdentifier;
 
     /**
-     * The result.
-     */
-    protected transient MeshObject [] theResult;
-
-    /**
      * The identifiers of the MeshObjects that were attempted to be accessed.
      */
     protected MeshObjectIdentifier [] theAttemptedIdentifiers;
+
+    /**
+     * The result of the access, in the same sequence as theAttemptedIdentifiers.
+     */
+    protected transient MeshObject [] theResults;
+
+    /**
+     * Alternate MeshObjectIdentifiers where the MeshObjects can be found.
+     */
+    protected MeshObjectIdentifier [] theSeeOthers;
 
     /**
      * The number of MeshObjects that were found with the MeshObjectIdentifiers that were expected.
