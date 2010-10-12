@@ -151,7 +151,7 @@ public class MeshObjectAccessException
                 ++theNumberCauses;
             }
         }
-        if( theNumberFoundWhereExpected + theNumberFoundSomewhereElse + theNumberCauses == 0) {
+        if( theNumberFoundWhereExpected + theNumberFoundSomewhereElse + theNumberCauses == 0 && cause == null ) {
             throw new IllegalArgumentException( "This Exception must not be thrown unless at least something was found or Exceptions can be reported" );
         }
         if( theAttemptedIdentifiers.length != theResults.length ) {
