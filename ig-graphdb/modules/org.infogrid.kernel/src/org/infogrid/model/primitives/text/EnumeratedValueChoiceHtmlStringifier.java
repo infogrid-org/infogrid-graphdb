@@ -83,7 +83,7 @@ public class EnumeratedValueChoiceHtmlStringifier
             ret.append( " value=\"" ).append( name );
 
             if( arg == values[i] ) {
-                ret.append( "\" selected=\"true" );
+                ret.append( "\" selected=\"selected" );
             }
             ret.append( "\">" );
             ret.append( userVisible );
