@@ -351,16 +351,29 @@ public class MeshObjectAccessException
             }
         }
 
-        return new Object[] {
-                theAttemptedIdentifiers,
-                theResults,
-                theSeeOthers,
-                theCauses,
-                ArrayHelper.copyIntoNewArray( foundIdentifiers,         MeshObjectIdentifier.class ),
-                ArrayHelper.copyIntoNewArray( somewhereElseIdentifiers, MeshObjectIdentifier.class ),
-                ArrayHelper.copyIntoNewArray( notFoundIdentifiers,      MeshObjectIdentifier.class ),
-                getCause()
-        };
+        if( theAttemptedIdentifiers.length == 1 ) {
+            return new Object[] {
+                    theAttemptedIdentifiers[0],
+                    theResults,
+                    theSeeOthers,
+                    theCauses,
+                    foundIdentifiers.isEmpty()         ? null :         foundIdentifiers.get( 0 ),
+                    somewhereElseIdentifiers.isEmpty() ? null : somewhereElseIdentifiers.get( 0 ),
+                    notFoundIdentifiers.isEmpty()      ? null :      notFoundIdentifiers.get( 0 ),
+                    getCause()
+            };
+        } else {
+            return new Object[] {
+                    theAttemptedIdentifiers,
+                    theResults,
+                    theSeeOthers,
+                    theCauses,
+                    ArrayHelper.copyIntoNewArray( foundIdentifiers,         MeshObjectIdentifier.class ),
+                    ArrayHelper.copyIntoNewArray( somewhereElseIdentifiers, MeshObjectIdentifier.class ),
+                    ArrayHelper.copyIntoNewArray( notFoundIdentifiers,      MeshObjectIdentifier.class ),
+                    getCause()
+            };
+        }
     }
 
     /**
