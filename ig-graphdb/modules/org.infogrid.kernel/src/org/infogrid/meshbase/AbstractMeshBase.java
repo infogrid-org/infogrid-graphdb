@@ -14,6 +14,7 @@
 
 package org.infogrid.meshbase;
 
+import org.infogrid.meshbase.sweeper.Sweeper;
 import java.beans.PropertyChangeListener;
 import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.MeshObject;
@@ -278,7 +279,7 @@ public abstract class AbstractMeshBase
 
         Sweeper s = theSweeper;
         if( ret != null && s != null ) {
-            ret = s.potentiallyFilter( ret );
+            ret = s.getSweepPolicy().potentiallyFilter( ret );
         }
         return ret;
     }

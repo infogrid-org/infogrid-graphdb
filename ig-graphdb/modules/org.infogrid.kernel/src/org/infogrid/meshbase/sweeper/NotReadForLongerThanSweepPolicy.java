@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,12 +17,12 @@ package org.infogrid.meshbase.sweeper;
 import org.infogrid.mesh.MeshObject;
 
 /**
- * A Sweeper that sweeps those MeshObjects that have not been read for long
+ * A SweepPolicy that sweeps those MeshObjects that have not been read for long
  * than a configurable duration.
  */
-public class NotReadForLongerThanSweeper
+public class NotReadForLongerThanSweepPolicy
         extends
-            AbstractSweeper
+            AbstractSweepPolicy
 {
     /**
      * Factory method.
@@ -30,10 +30,10 @@ public class NotReadForLongerThanSweeper
      * @param duration the duration, in milliseconds
      * @return the created NotReadForMoreThanSweeper
      */
-    public static NotReadForLongerThanSweeper create(
+    public static NotReadForLongerThanSweepPolicy create(
             long duration )
     {
-        return new NotReadForLongerThanSweeper( duration );
+        return new NotReadForLongerThanSweepPolicy( duration );
     }
 
     /**
@@ -41,7 +41,7 @@ public class NotReadForLongerThanSweeper
      *
      * @param duration the duration, in milliseconds
      */
-    protected NotReadForLongerThanSweeper(
+    protected NotReadForLongerThanSweepPolicy(
             long duration )
     {
         theDuration = duration;

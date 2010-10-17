@@ -16,17 +16,18 @@ package org.infogrid.kernel.test.meshbase.m;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
-import org.infogrid.meshbase.MeshBase;
+import org.infogrid.meshbase.IterableMeshBase;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
-import org.infogrid.meshbase.Sweeper;
+import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.m.MMeshBase;
-import org.infogrid.meshbase.sweeper.NotReadForLongerThanSweeper;
+import org.infogrid.meshbase.sweeper.DefaultIterableSweeper;
+import org.infogrid.meshbase.sweeper.NotReadForLongerThanSweepPolicy;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.util.logging.Log;
 
 /**
- * Tests the NotReadForLongerThanSweeper.
+ * Tests the NotReadForLongerThanSweepPolicy.
  */
 public class SweeperTest1
         extends
@@ -43,14 +44,14 @@ public class SweeperTest1
     {
         log.info( "Creating MeshBase" );
 
-        MeshBase theMeshBase = MMeshBase.create(
+        IterableMeshBase theMeshBase = MMeshBase.create(
                 theMeshBaseIdentifierFactory.fromExternalForm( "MeshBase"),
                 theModelBase,
                 null,
                 rootContext );
         MeshBaseLifecycleManager life = theMeshBase.getMeshBaseLifecycleManager();
 
-        Sweeper theSweeper = NotReadForLongerThanSweeper.create( 1000L );
+        Sweeper theSweeper = DefaultIterableSweeper.create( theMeshBase, NotReadForLongerThanSweepPolicy.create( 1000L ));
         theMeshBase.setSweeper( theSweeper );
         
         //

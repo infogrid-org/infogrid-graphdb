@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,15 +17,16 @@ package org.infogrid.meshbase.store.test;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
-import org.infogrid.meshbase.Sweeper;
-import org.infogrid.meshbase.store.StoreMeshBase;
-import org.infogrid.meshbase.sweeper.NotReadForLongerThanSweeper;
+import org.infogrid.meshbase.store.IterableStoreMeshBase;
+import org.infogrid.meshbase.sweeper.Sweeper;
+import org.infogrid.meshbase.sweeper.DefaultIterableSweeper;
+import org.infogrid.meshbase.sweeper.NotReadForLongerThanSweepPolicy;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.util.logging.Log;
 
 /**
- * Tests the NotReadForLongerThanSweeper.
+ * Tests the NotReadForLongerThanSweepPolicy.
  */
 public class StoreSweeperTest1
         extends
@@ -42,14 +43,14 @@ public class StoreSweeperTest1
     {
         theSqlStore.initializeHard();
 
-        StoreMeshBase theMeshBase  = StoreMeshBase.create(
+        IterableStoreMeshBase theMeshBase  = IterableStoreMeshBase.create(
                 theMeshBaseIdentifierFactory.fromExternalForm( "meshBase" ),
                 theModelBase,
                 null,
                 theSqlStore,
                 rootContext );
 
-        Sweeper theSweeper = NotReadForLongerThanSweeper.create( 1000L );
+        Sweeper theSweeper = DefaultIterableSweeper.create( theMeshBase, NotReadForLongerThanSweepPolicy.create( 1000L ));
         theMeshBase.setSweeper( theSweeper );
 
         MeshBaseLifecycleManager life = theMeshBase.getMeshBaseLifecycleManager();

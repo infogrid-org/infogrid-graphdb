@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,8 +17,6 @@ package org.infogrid.meshbase;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.util.CursorIterable;
 import org.infogrid.util.CursorIterator;
-
-import java.util.concurrent.ScheduledExecutorService;
 
 /**
  * A MeshBase that supports iterating over the MeshObjects it contains.
@@ -61,33 +59,4 @@ public interface IterableMeshBase
      * @return the IterableMeshBaseDifferencer
      */
     public abstract IterableMeshBaseDifferencer getDifferencer();
-
-    /**
-     * Continually sweep this IterableMeshBase in the background, according to
-     * the configured Sweeper.
-     *
-     * @param scheduleVia the ScheduledExecutorService to use for scheduling
-     * @throws NullPointerException thrown if no Sweeper has been set
-     */
-    public void startBackgroundSweeping(
-            ScheduledExecutorService scheduleVia )
-        throws
-            NullPointerException;
-    
-    /**
-     * Stop the background sweeping.
-     */
-    public void stopBackgroundSweeping();
-    
-    /**
-     * Perform a sweep on every single MeshObject in this InterableMeshBase.
-     * This may take a long time; using background sweeping is almost always
-     * a better alternative.
-     */
-    public void sweepAllNow();
-
-    /**
-     * Invoked by the SweepStep, schedule the next SweepStep.
-     */
-    public void scheduleSweepStep();
 }

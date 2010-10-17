@@ -5,23 +5,22 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
-package org.infogrid.meshbase;
+package org.infogrid.meshbase.sweeper;
 
 import org.infogrid.mesh.MeshObject;
 
 /**
- * Responsible for sweeping the content of a MeshBase according to its
- * own preferences. For examples, a Sweeper may decide to remove all
- * MeshObjects that have not been read in one year.
+ * Defines the policy for sweeping the content of a MeshBase. For examples,
+ * a SweepPolicy may be to delete all MeshObjects that have not been read in one year.
  */
-public interface Sweeper
+public interface SweepPolicy
 {
     /**
      * Determine whether this candidate MeshObject should be swept, according
@@ -32,7 +31,7 @@ public interface Sweeper
      */
     public boolean shouldBeDeleted(
             MeshObject candidate );
-    
+
     /**
      * Enable a MeshBase to filter this candidate MeshObject. If the filter lets
      * pass the MeshObject, this MeshObject will returned to a MeshBase client.

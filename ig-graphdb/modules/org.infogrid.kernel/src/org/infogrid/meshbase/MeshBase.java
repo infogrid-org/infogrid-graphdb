@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -21,6 +21,7 @@ import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.meshbase.security.AccessManager;
+import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.transaction.MeshObjectLifecycleListener;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.meshbase.transaction.TransactionActiveAlreadyException;

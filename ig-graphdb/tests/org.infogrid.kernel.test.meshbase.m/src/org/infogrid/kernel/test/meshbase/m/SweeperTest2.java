@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,11 +16,12 @@ package org.infogrid.kernel.test.meshbase.m;
 
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
-import org.infogrid.meshbase.MeshBase;
+import org.infogrid.meshbase.IterableMeshBase;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
-import org.infogrid.meshbase.Sweeper;
+import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.m.MMeshBase;
-import org.infogrid.meshbase.sweeper.ExpiresSweeper;
+import org.infogrid.meshbase.sweeper.DefaultIterableSweeper;
+import org.infogrid.meshbase.sweeper.ExpiresSweepPolicy;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.util.logging.Log;
 
@@ -40,11 +41,11 @@ public class SweeperTest2
         throws
             Exception
     {
-        MeshBase  theMeshBase  = MMeshBase.create( theMeshBaseIdentifierFactory.fromExternalForm( "MeshBase"), theModelBase, null, rootContext );
+        IterableMeshBase theMeshBase = MMeshBase.create( theMeshBaseIdentifierFactory.fromExternalForm( "MeshBase"), theModelBase, null, rootContext );
 
         MeshBaseLifecycleManager life = theMeshBase.getMeshBaseLifecycleManager();
 
-        Sweeper theSweeper = ExpiresSweeper.create();
+        Sweeper theSweeper = DefaultIterableSweeper.create( theMeshBase, ExpiresSweepPolicy.create());
         theMeshBase.setSweeper( theSweeper );
 
         //

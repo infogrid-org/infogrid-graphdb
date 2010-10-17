@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,27 +17,27 @@ package org.infogrid.meshbase.sweeper;
 import org.infogrid.mesh.MeshObject;
 
 /**
- * Default Sweeper that sweeps all MeshObjects that have exceeded their expires
+ * Default SweepPolicy that sweeps all MeshObjects that have exceeded their expires
  * property.
  */
-public class ExpiresSweeper
+public class ExpiresSweepPolicy
         extends
-            AbstractSweeper
+            AbstractSweepPolicy
 {
     /**
      * Factory method.
      * 
-     * @return the created ExpiresSweeper
+     * @return the created ExpiresSweepPolicy
      */
-    public static ExpiresSweeper create()
+    public static ExpiresSweepPolicy create()
     {
-        return new ExpiresSweeper();
+        return new ExpiresSweepPolicy();
     }
 
     /**
      * Constructor.
      */
-    protected ExpiresSweeper()
+    protected ExpiresSweepPolicy()
     {
         // no op
     }

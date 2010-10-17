@@ -18,25 +18,23 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
-import org.infogrid.meshbase.Sweeper;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.meshbase.transaction.TransactionException;
-
 import org.infogrid.util.logging.Log;
 
 /**
- * Factors out common behaviors of Sweepers.
+ * Factors out common behaviors of SweepPolicies.
  */
-public abstract class AbstractSweeper
+public abstract class AbstractSweepPolicy
         implements
-            Sweeper
+            SweepPolicy
 {
-    private static final Log log = Log.getLogInstance( AbstractSweeper.class ); // our own, private logger
+    private static final Log log = Log.getLogInstance( AbstractSweepPolicy.class ); // our own, private logger
 
     /**
      * Constructor.
      */
-    protected AbstractSweeper()
+    protected AbstractSweepPolicy()
     {
         // noop
     }
