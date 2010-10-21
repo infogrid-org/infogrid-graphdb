@@ -319,11 +319,17 @@ public class MeshObjectAccessException
                 new String [] {
                     "mb",
                     "attempted",
+                    "results (identifiers)",
+                    "seeOthers",
+                    "causes",
                     "cause"
                 },
                 new Object[] {
                     theMeshBaseIdentifier,
                     theAttemptedIdentifiers,
+                    ArrayHelper.identifiersOf( theResults ),
+                    theSeeOthers,
+                    theCauses,
                     getCause()
                 });
     }
