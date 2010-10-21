@@ -71,7 +71,7 @@ public interface Sweeper
     public void sweepAllNow();
 
     /**
-     * Invoked by the SweepStep, schedule the next SweepStep.
+     * Perform a sweep on the next lot in this IterableMeshBase.
      */
-    public void scheduleSweepStep();
+    public void sweepNextLot();
 }

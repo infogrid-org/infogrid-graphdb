@@ -15,8 +15,11 @@
 package org.infogrid.meshbase.sweeper;
 
 import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.IterableMeshBase;
+import org.infogrid.util.CursorIterator;
+import org.infogrid.util.ResourceHelper;
 
 /**
  * Default implementation of Sweeper for IterableMeshBases.
@@ -36,7 +39,12 @@ public class DefaultIterableSweeper
             IterableMeshBase         mb,
             SweepPolicy              policy )
     {
-        return new DefaultIterableSweeper( mb, policy, null );
+        return new DefaultIterableSweeper(
+                mb,
+                policy,
+                null,
+                DEFAULT_LOTSIZE,
+                DEFAULT_WAITBETWEENLOTS );
     }
 
     /**
@@ -52,7 +60,37 @@ public class DefaultIterableSweeper
             SweepPolicy              policy,
             ScheduledExecutorService scheduler )
     {
-        return new DefaultIterableSweeper( mb, policy, scheduler );
+        return new DefaultIterableSweeper(
+                mb,
+                policy,
+                scheduler,
+                DEFAULT_LOTSIZE,
+                DEFAULT_WAITBETWEENLOTS );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param mb the IterableMeshBase on which this Sweeper works
+     * @param policy the SweepPolicy to use
+     * @param scheduler the scheduler to use, if any
+     * @param lotSize the number of MeshObjects to consider at a time
+     * @param waitBetweenLots the time, in milliseconds, between examining subsequent lots
+     * @return the created DefaultIterableSweeper
+     */
+    public static DefaultIterableSweeper create(
+            IterableMeshBase         mb,
+            SweepPolicy              policy,
+            ScheduledExecutorService scheduler,
+            int                      lotSize,
+            long                     waitBetweenLots )
+    {
+        return new DefaultIterableSweeper(
+                mb,
+                policy,
+                scheduler,
+                lotSize,
+                waitBetweenLots );
     }
 
     /**
@@ -60,15 +98,22 @@ public class DefaultIterableSweeper
      *
      * @param mb the IterableMeshBase on which this Sweeper works
      * @param policy the SweepPolicy to use
+     * @param scheduler the scheduler to use, if any
+     * @param lotSize the number of MeshObjects to consider at a time
+     * @param waitBetweenLots the time, in milliseconds, between examining subsequent lots
      */
     protected DefaultIterableSweeper(
             IterableMeshBase         mb,
             SweepPolicy              policy,
-            ScheduledExecutorService scheduler )
+            ScheduledExecutorService scheduler,
+            int                      lotSize,
+            long                     waitBetweenLots )
     {
-        theMeshBase  = mb;
-        thePolicy    = policy;
-        theScheduler = scheduler;
+        theMeshBase        = mb;
+        thePolicy          = policy;
+        theScheduler       = scheduler;
+        theLotSize         = lotSize;
+        theWaitBetweenLots = waitBetweenLots;
     }
 
     /**
@@ -124,7 +169,7 @@ public class DefaultIterableSweeper
      */
     public void stopBackgroundSweeping()
     {
-        IterableSweepStep nextStep = theNextSweepStep;
+        SweepStep nextStep = theNextSweepStep;
         if( nextStep == null ) {
             return;
         }
@@ -135,28 +180,77 @@ public class DefaultIterableSweeper
     }
 
     /**
-     * Perform a sweep on every single MeshObject in this InterableMeshBase.
+     * Perform a sweep on every single MeshObject in this IterableMeshBase.
      * This may take a long time; using background sweeping is almost always
      * a better alternative.
      */
     public synchronized void sweepAllNow()
     {
-        for( MeshObject candidate : theMeshBase ) {
-            thePolicy.potentiallyDelete( candidate );
+        boolean doReschedule = cancelSweepStep();
+
+        theIterator = theMeshBase.iterator(); // reset
+        while( theIterator.hasNext() ) {
+            sweepObject( theIterator.next() );
+        }
+
+        if( doReschedule ) {
+            scheduleSweepStep();
         }
     }
 
     /**
-     * Invoked by the IterableSweepStep, schedule the next IterableSweepStep.
+     * Perform a sweep on the next lot in this IterableMeshBase.
      */
-    public void scheduleSweepStep()
+    public void sweepNextLot()
     {
-        if( theNextSweepStep != null ) {
-            theNextSweepStep = theNextSweepStep.nextStep();
-        } else {
-            theNextSweepStep = IterableSweepStep.create( this );
+        boolean doReschedule = cancelSweepStep();
+
+        if( theIterator == null ) {
+            theIterator = theMeshBase.iterator();
         }
-        theNextSweepStep.scheduleVia( theScheduler );
+        for( int i=0 ; i<theLotSize && theIterator.hasNext() ; ++i ) {
+            sweepObject( theIterator.next() );
+        }
+
+        if( doReschedule ) {
+            scheduleSweepStep();
+        }
+    }
+
+    /**
+     * Perform a sweep on this MeshObject. This method
+     * may be overridden by subclasses.
+     */
+    protected void sweepObject(
+            MeshObject current )
+    {
+        thePolicy.potentiallyDelete( current );
+    }
+
+    /**
+     * Cancel the next SweepStep, if there is one.
+     *
+     * @return true if there was one.
+     */
+    boolean cancelSweepStep()
+    {
+        SweepStep step = theNextSweepStep;
+        if( step != null ) {
+            step.cancel();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * Schedule the next SweepStep.
+     */
+    void scheduleSweepStep()
+    {
+        theNextSweepStep = new SweepStep( this );
+
+        theScheduler.schedule( theNextSweepStep, theWaitBetweenLots, TimeUnit.MILLISECONDS );
     }
 
     /**
@@ -175,7 +269,37 @@ public class DefaultIterableSweeper
     protected ScheduledExecutorService theScheduler;
 
     /**
+     * The number of MeshObjects to consider at a time.
+     */
+    protected int theLotSize;
+
+    /**
+     * The time, in milliseconds, between examining subsequent lots.
+     */
+    protected long theWaitBetweenLots;
+
+    /**
+     * The iterator capturing the current location of the Sweeper in the IterableMeshBase.
+     */
+    protected CursorIterator<MeshObject> theIterator = null;
+
+    /**
      * The next background Sweep task, if any.
      */
-    IterableSweepStep theNextSweepStep;
+    SweepStep theNextSweepStep;
+
+    /**
+     * The ResourceHelper.
+     */
+    private static final ResourceHelper theResourceHelper = ResourceHelper.getInstance( DefaultIterableSweeper.class );
+
+    /**
+     * The default number of MeshObjects to consider at a time.
+     */
+    protected static final int DEFAULT_LOTSIZE = theResourceHelper.getResourceIntegerOrDefault( "DefaultLotsize", 100 );
+
+    /**
+     * The default time, in milliseconds, between examining subsequent lots.
+     */
+    protected static final long DEFAULT_WAITBETWEENLOTS = theResourceHelper.getResourceLongOrDefault( "DefaultWaitBetweenLots", 10000L );
 }
