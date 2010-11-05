@@ -890,7 +890,7 @@ public class MyHandler
                         }
                     } else if( temp instanceof ExternalizedRegex ) {
                         theRegex = (ExternalizedRegex) temp;
-                        theRegex.setDefaultValue( theCharacters.toString() );
+                        theRegex.setDefaultValue( theCharacters != null ? theCharacters.toString() : "" );
                     } else {
                         error( theErrorPrefix + "unexpected type: " + temp );
                     }
