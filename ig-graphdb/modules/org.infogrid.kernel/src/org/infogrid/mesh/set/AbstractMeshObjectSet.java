@@ -233,6 +233,26 @@ public abstract class AbstractMeshObjectSet
     }
 
     /**
+     * Determine whether this set has the same content as another set.
+     *
+     * @param other the MeshObjectSet to compare to
+     */
+    public boolean hasSameContent(
+            MeshObjectSet other )
+    {
+        if( getSize() != other.getSize() ) {
+            return false;
+        }
+        // given that's the same size, if we can find each object, we are in business
+        for( MeshObject current : this ) {
+            if( !other.contains( current )) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
      * Determine whether this set contains a MeshObject with this identifier.
      * 
      * @param identifier the identifier of the MeshObject to look for
