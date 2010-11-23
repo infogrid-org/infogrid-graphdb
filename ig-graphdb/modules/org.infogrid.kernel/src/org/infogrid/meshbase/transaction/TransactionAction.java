@@ -72,7 +72,7 @@ public abstract class TransactionAction<T>
     /**
      * Set the current Transaction, or reset the current Transaction to null.
      *
-     * @param tx the current Transaction
+     * @param currentTx the current Transaction
      */
     public void setTransaction(
             Transaction currentTx )

@@ -48,8 +48,6 @@ public class MeshObjectsNotFoundException
      * 
      * @param mb the MeshBase that threw this Exception
      * @param identifiers the identifiers of the MeshObjects some of which were not found
-     * @param partialResult the subset of MeshObjects that were found, in the same sequence and position as identifiers.
-     *        MeshObjects that were not found are null in this array.
      */
     public MeshObjectsNotFoundException(
             MeshBase                mb,
