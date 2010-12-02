@@ -14,6 +14,7 @@
 
 package org.infogrid.meshbase.transaction;
 
+import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.security.PropertyReadOnlyException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
@@ -148,7 +149,11 @@ public abstract class Transaction
                 current.unapplyFrom( theTransactable );
 
             } catch( CannotUnapplyChangeException ex ) {
-                if( !( ex.getCause() instanceof PropertyReadOnlyException )) {
+                Throwable cause = ex.getCause();
+
+                if(    !( cause instanceof PropertyReadOnlyException )
+                    && !( cause instanceof IllegalPropertyValueException ))
+                {
                     log.error( ex );
                     // that's the best we can do
                 }
