@@ -15,6 +15,7 @@
 package org.infogrid.meshbase.sweeper;
 
 import java.util.concurrent.ScheduledExecutorService;
+import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
 
 /**
@@ -74,4 +75,11 @@ public interface Sweeper
      * Perform a sweep on the next lot in this IterableMeshBase.
      */
     public void sweepNextLot();
+
+    /**
+     * Perform a sweep on this MeshObject. This method
+     * may be overridden by subclasses.
+     */
+    public void sweepObject(
+            MeshObject current );
 }

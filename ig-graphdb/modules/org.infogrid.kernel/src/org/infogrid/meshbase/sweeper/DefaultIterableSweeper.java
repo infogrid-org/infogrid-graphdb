@@ -221,7 +221,7 @@ public class DefaultIterableSweeper
      * Perform a sweep on this MeshObject. This method
      * may be overridden by subclasses.
      */
-    protected void sweepObject(
+    public void sweepObject(
             MeshObject current )
     {
         thePolicy.potentiallyDelete( current );
