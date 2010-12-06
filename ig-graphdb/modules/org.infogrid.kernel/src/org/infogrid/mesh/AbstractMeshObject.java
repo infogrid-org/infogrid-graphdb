@@ -1596,12 +1596,10 @@ public abstract class AbstractMeshObject
      * and thus is defined down here, not higher up in the inheritance hierarchy.
      * 
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
-     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
     public abstract void delete()
         throws
-            TransactionException,
-            NotPermittedException;
+            TransactionException;
 
     /**
      * Add a PropertyChangeListener.

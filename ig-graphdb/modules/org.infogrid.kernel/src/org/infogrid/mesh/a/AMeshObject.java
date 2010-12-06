@@ -1306,74 +1306,6 @@ public class AMeshObject
         return ret;
     }
 
-//    /**
-//     * Internal helper to obtain all Roles that this MeshObject currently participates in.
-//     *
-//     * @param mb the MeshBase
-//     * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
-//     *        if false, only this MeshObject will be used as the start
-//     * @return the Roles that this MeshObject currently participates in.
-//     */
-//    protected Role [] _getAllRoles(
-//            MeshBase mb,
-//            boolean  considerEquivalents )
-//    {
-//        MeshObject [] starts;
-//        if( considerEquivalents ) {
-//            starts = getEquivalents().getMeshObjects();
-//        } else {
-//            starts = new MeshObject[] { this };
-//        }
-//
-//        AMeshObjectNeighborManager nMgr = getNeighborManager();
-//
-//        MeshObjectIdentifier [][] otherSides = createMeshObjectIdentifierArrayArray( starts.length );
-//        RoleType [][][]           roleTypes  = new RoleType[ starts.length ][][];
-//
-//        int n=0;
-//        for( int s=0 ; s<starts.length ; ++s ) {
-//            AMeshObject current = (AMeshObject) starts[s];
-//            synchronized( current ) {
-//                otherSides[s] = nMgr.getNeighborIdentifiers( current );
-//                roleTypes[s]  = nMgr.getRoleTypes( current );
-//            }
-//            if( roleTypes[s] != null ) {
-//                for( int i=0 ; i<roleTypes[s].length ; ++i ) {
-//                    if( roleTypes[s][i] != null ) {
-//                        n += roleTypes[s][i].length;
-//                    }
-//                }
-//            }
-//        }
-//
-//        if( n == 0 ) {
-//            return new Role[0];
-//        }
-//
-//        Role [] ret = new Role[ n ];
-//        int     max = 0;
-//
-//        for( int s=0 ; s<starts.length ; ++s ) {
-//            if( roleTypes[s] == null ) {
-//                continue;
-//            }
-//            AMeshObject current = (AMeshObject) starts[s];
-//
-//            MeshObject [] realOtherSides = findRelatedMeshObjects( mb, otherSides[s] );
-//
-//            for( int i=0 ; i<roleTypes[s].length ; ++i ) {
-//                if( roleTypes[s][i] != null ) {
-//                    for( int j=0 ; j<roleTypes[s][i].length ; ++j ) {
-//                        ret[ max++ ] = new Role( roleTypes[s][i][j], realOtherSides[i] );
-//                    }
-//                }
-//            }
-//        }
-//
-//        return ret;
-//    }
-
-
     /**
      * Obtain the RoleTypes that this MeshObject currently participates in with the
      * specified other MeshObject.
@@ -1707,12 +1639,10 @@ public class AMeshObject
      * and thus is defined down here, not higher up in the inheritance hierarchy.
      * 
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
-     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
     public void delete()
         throws
-            TransactionException,
-            NotPermittedException
+            TransactionException
     {
         EntityType [] types = getTypes();
 
@@ -1731,14 +1661,12 @@ public class AMeshObject
      * @param isMaster true if this is the master replica
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
-     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
     protected void internalDelete(
             boolean isMaster,
             long    timeUpdated )
         throws
-            TransactionException,
-            NotPermittedException
+            TransactionException
     {
         if( theMeshBase == null ) {
             // this is a loop, do nothing
