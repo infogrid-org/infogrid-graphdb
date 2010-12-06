@@ -17,6 +17,7 @@ package org.infogrid.mesh.a;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.CannotRelateToItselfException;
 import org.infogrid.mesh.EntityNotBlessedException;
@@ -1644,11 +1645,13 @@ public class AMeshObject
         throws
             TransactionException
     {
-        EntityType [] types = getTypes();
+        if( theMeshTypes != null ) {
+            Set<EntityType> keySet = theMeshTypes.keySet();
 
-        for( int i=0 ; i<types.length ; ++i ) {
-            TypeInitializer init = createTypeInitializer( types[i] );
-            init.cascadingDelete();
+            for( EntityType current : keySet ) {
+                TypeInitializer init = createTypeInitializer( current );
+                init.cascadingDelete();
+            }
         }
 
         internalDelete( true, 0L );

@@ -14,13 +14,13 @@
 
 package org.infogrid.mesh;
 
+import java.lang.reflect.Method;
+import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
+import org.infogrid.util.IsDeadException;
 
-import org.infogrid.meshbase.transaction.TransactionException;
-
-import java.lang.reflect.Method;
 
 /**
  * Subclassable helper class to initialize a MeshObject when it is blessed with
@@ -105,6 +105,9 @@ public class TypeInitializer
 
         } catch( NoSuchMethodException ex ) {
             // do nothing
+        } catch( IsDeadException ex ) {
+            // do nothing
+            // this can happen when NetMeshObjects are killed
         } catch( Exception ex ) {
             AbstractMeshObject.log.error( ex );
         }
