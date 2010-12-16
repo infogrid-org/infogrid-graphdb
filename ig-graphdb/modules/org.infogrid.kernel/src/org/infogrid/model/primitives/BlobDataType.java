@@ -321,7 +321,7 @@ public final class BlobDataType
         if( value == null ) {
             throw new IllegalArgumentException( "null value" );
         }
-        if( value == null ) {
+        if( mimeType == null ) {
             throw new IllegalArgumentException( "null mimeType" );
         }
         if( !isAllowedMimeType( mimeType )) {
@@ -884,7 +884,11 @@ public final class BlobDataType
 
             switch( found.length ) {
                 case 4:
-                    ret = createBlobValue( (String) found[3], mimeType );
+                    if( mimeType != null ) {
+                        ret = createBlobValue( (String) found[3], mimeType );
+                    } else {
+                        ret = createBlobValue( (String) found[3], getDefaultMimeType() );
+                    }
                     break;
 
                 default:
