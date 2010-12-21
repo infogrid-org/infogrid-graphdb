@@ -64,6 +64,10 @@ public class CodeGeneratorRunException
         } else {
             buf.append( "null" );
         }
+        Throwable cause = getCause();
+        if( cause != null ) {
+            buf.append( "\nCause: " ).append( cause.getMessage() );
+        }
         return buf.toString();
     }
 
