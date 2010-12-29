@@ -105,6 +105,7 @@ public final class ColorValue
             int b,
             int a )
     {
+        @SuppressWarnings("PointlessBitwiseExpression")
         ColorValue ret = new ColorValue(
                   (( a & 0xFF ) << 24 )
                 | (( r & 0xFF ) << 16 )
@@ -197,6 +198,7 @@ public final class ColorValue
       *
       * @return value of the blue component
       */
+    @SuppressWarnings("PointlessBitwiseExpression")
     public int getBlue()
     {
         return ( theValue >> 0 ) & 0xFF;
@@ -343,9 +345,15 @@ public final class ColorValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         return rep.formatEntry(
@@ -354,11 +362,12 @@ public final class ColorValue
                 pars,
         /* 0 */ this,
         /* 1 */ editVar,
-        /* 2 */ getRed(),
-        /* 3 */ getGreen(),
-        /* 4 */ getBlue(),
-        /* 5 */ getAlpha(),
-        /* 6 */ getRGB() );
+        /* 2 */ editIndex,
+        /* 3 */ getRed(),
+        /* 4 */ getGreen(),
+        /* 5 */ getBlue(),
+        /* 6 */ getAlpha(),
+        /* 7 */ getRGB() );
     }
 
     /**

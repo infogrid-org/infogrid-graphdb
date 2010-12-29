@@ -237,9 +237,15 @@ public final class EnumeratedValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         return rep.formatEntry(
@@ -248,9 +254,10 @@ public final class EnumeratedValue
                 pars,
         /* 0 */ this,
         /* 1 */ editVar,
-        /* 2 */ theValue,
-        /* 3 */ getUserVisibleName()        != null ? getUserVisibleName().value()        : null,
-        /* 4 */ getUserVisibleDescription() != null ? getUserVisibleDescription().value() : null );
+        /* 2 */ editIndex,
+        /* 3 */ theValue,
+        /* 4 */ getUserVisibleName()        != null ? getUserVisibleName().value()        : null,
+        /* 5 */ getUserVisibleDescription() != null ? getUserVisibleDescription().value() : null );
     }
 
     /**

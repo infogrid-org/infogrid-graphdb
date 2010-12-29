@@ -206,10 +206,10 @@ public final class ExtentDataType
 
             ExtentValue ret;
             switch( found.length ) {
-                case 4:
+                case 5:
                     ret = ExtentValue.create(
-                            ((Number) found[2]).doubleValue(),
-                            ((Number) found[3]).doubleValue() );
+                            ((Number) found[3]).doubleValue(),
+                            ((Number) found[4]).doubleValue() );
                     break;
 
                 default:

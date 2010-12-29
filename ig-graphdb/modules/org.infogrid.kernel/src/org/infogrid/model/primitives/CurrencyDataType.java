@@ -197,6 +197,7 @@ public class CurrencyDataType
             CurrencyValue ret;
             switch( found.length ) {
                 case 1:
+                case 2:
                     ret = (CurrencyValue) found[0];
                     break;
 

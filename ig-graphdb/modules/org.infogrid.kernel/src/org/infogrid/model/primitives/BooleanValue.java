@@ -207,9 +207,15 @@ public final class BooleanValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         String s;
@@ -224,7 +230,8 @@ public final class BooleanValue
                 s,
                 pars,
         /* 0 */ this,
-        /* 1 */ editVar );
+        /* 1 */ editVar,
+        /* 2 */ editIndex );
     }
 
     /**

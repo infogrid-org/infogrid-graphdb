@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -45,8 +45,8 @@ public class InvalidMultiplicityException
     public Object [] getLocalizationParameters()
     {
         return new Object[] {
-            theMin != MultiplicityValue.N ? String.valueOf( theMin ) : "*",
-            theMax != MultiplicityValue.N ? String.valueOf( theMax ) : "*",
+            theMin != MultiplicityValue.N ? String.valueOf( theMin ) : MultiplicityValue.N_SYMBOL,
+            theMax != MultiplicityValue.N ? String.valueOf( theMax ) : MultiplicityValue.N_SYMBOL,
         };
     }
     

@@ -264,11 +264,17 @@ public abstract class BlobValue
         throws
             StringifierException
     {
-        String       editVar = null;
-        PropertyType type    = null;
+        String       editVar   = null;
+        Integer      editIndex = null;
+        PropertyType type      = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            type    = (PropertyType) pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+            type      = (PropertyType) pars.get( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         BlobDataType dataType = type != null ? (BlobDataType) type.getDataType() : null;
@@ -298,9 +304,10 @@ public abstract class BlobValue
                         pars,
                 /* 0 */ this,
                 /* 1 */ editVar,
-                /* 2 */ theMimeType,
-                /* 3 */ getAsString(),
-                /* 4 */ dataType );
+                /* 2 */ editIndex,
+                /* 3 */ theMimeType,
+                /* 4 */ getAsString(),
+                /* 5 */ dataType );
 
             } else {
                 // case #1.b
@@ -310,9 +317,10 @@ public abstract class BlobValue
                         pars,
                 /* 0 */ this,
                 /* 1 */ editVar,
-                /* 2 */ theMimeType,
-                /* 3 */ getAsString(),
-                /* 4 */ dataType );
+                /* 2 */ editIndex,
+                /* 3 */ theMimeType,
+                /* 4 */ getAsString(),
+                /* 5 */ dataType );
             }
 
         } else if( dataType != null && !dataType.supportsTextMimeType() && dataType.supportsBinaryMimeType() ) {
@@ -323,9 +331,10 @@ public abstract class BlobValue
                     pars,
             /* 0 */ this,
             /* 1 */ editVar,
-            /* 2 */ theMimeType,
-            /* 3 */ value(),
-            /* 4 */ dataType );
+            /* 2 */ editIndex,
+            /* 3 */ theMimeType,
+            /* 4 */ value(),
+            /* 5 */ dataType );
 
         } else {
             // case #3 and #4
@@ -337,9 +346,10 @@ public abstract class BlobValue
                         pars,
                 /* 0 */ this,
                 /* 1 */ editVar,
-                /* 2 */ theMimeType,
-                /* 3 */ getAsString(),
-                /* 4 */ dataType );
+                /* 2 */ editIndex,
+                /* 3 */ theMimeType,
+                /* 4 */ getAsString(),
+                /* 5 */ dataType );
 
             } else if( hasTextMimeType() ) {
                 // case #3.b
@@ -349,9 +359,10 @@ public abstract class BlobValue
                         pars,
                 /* 0 */ this,
                 /* 1 */ editVar,
-                /* 2 */ theMimeType,
-                /* 3 */ getAsString(),
-                /* 4 */ dataType );
+                /* 2 */ editIndex,
+                /* 3 */ theMimeType,
+                /* 4 */ getAsString(),
+                /* 5 */ dataType );
 
             } else {
                 // case #3.c
@@ -361,9 +372,10 @@ public abstract class BlobValue
                         pars,
                 /* 0 */ this,
                 /* 1 */ editVar,
-                /* 2 */ theMimeType,
-                /* 3 */ value(),
-                /* 4 */ dataType );
+                /* 2 */ editIndex,
+                /* 3 */ theMimeType,
+                /* 4 */ value(),
+                /* 5 */ dataType );
             }
         }
         return ret;
@@ -593,7 +605,7 @@ public abstract class BlobValue
             sb.append( getAsString() );
             sb.append( "\"" );
 
-            sb.append( "[" + getMimeType() + "]" );
+            sb.append( "[" ).append( getMimeType()).append( "]" );
             return new String( sb );
         }
 

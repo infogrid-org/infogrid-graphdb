@@ -459,15 +459,10 @@ public class FloatDataType
             Object [] found = representation.parseEntry( FloatValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             FloatValue ret;
-            // /* 0 */ this,
-            // /* 1 */ editVar,
-            // /* 2 */ theValue,
-            // /* 3 */ theUnit
-
             switch( found.length ) {
-                case 3:
                 case 4:
-                    ret = FloatValue.create( (Number) found[2] );
+                case 5:
+                    ret = FloatValue.create( (Number) found[3] );
                     break;
 
                 default:

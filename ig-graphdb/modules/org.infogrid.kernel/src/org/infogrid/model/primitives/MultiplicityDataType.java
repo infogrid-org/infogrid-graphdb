@@ -203,25 +203,26 @@ public class MultiplicityDataType
             switch( found.length ) {
                 case 1:
                 case 2:
+                case 3:
                     ret = (MultiplicityValue) found[0];
                     break;
 
-                case 4:
-                    min = ( (Number)found[2] ).intValue();
-                    max = ( (Number)found[3] ).intValue();
+                case 5:
+                    min = ( (Number)found[3] ).intValue();
+                    max = ( (Number)found[4] ).intValue();
                     ret = MultiplicityValue.create( min, max );
                     break;
 
-                case 6:
-                    if( MultiplicityValue.N_SYMBOL.equals( found[4] )) {
+                case 7:
+                    if( MultiplicityValue.N_SYMBOL.equals( found[5] )) {
                         min = MultiplicityValue.N;
                     } else {
-                        min = Integer.parseInt( (String)found[4] );
+                        min = Integer.parseInt( (String)found[5] );
                     }
-                    if( MultiplicityValue.N_SYMBOL.equals( found[5] )) {
+                    if( MultiplicityValue.N_SYMBOL.equals( found[6] )) {
                         max = MultiplicityValue.N;
                     } else {
-                        max = Integer.parseInt( (String)found[5] );
+                        max = Integer.parseInt( (String)found[6] );
                     }
                     ret = MultiplicityValue.create( min, max );
                     break;

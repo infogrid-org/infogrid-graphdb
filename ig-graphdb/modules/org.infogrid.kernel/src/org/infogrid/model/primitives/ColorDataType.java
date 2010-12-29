@@ -200,20 +200,20 @@ public final class ColorDataType
             ColorValue ret;
 
             switch( found.length ) {
-                case 5:
-                    ret = ColorValue.create(
-                            ((Long) found[2]).intValue(),
-                            ((Long) found[3]).intValue(),
-                            ((Long) found[4]).intValue() );
-                    break;
-
                 case 6:
-                case 7:
                     ret = ColorValue.create(
-                            ((Long) found[2]).intValue(),
                             ((Long) found[3]).intValue(),
                             ((Long) found[4]).intValue(),
-                            found[7] != null ? ((Long) found[5]).intValue() : 255 );
+                            ((Long) found[5]).intValue() );
+                    break;
+
+                case 7:
+                case 8:
+                    ret = ColorValue.create(
+                            ((Long) found[3]).intValue(),
+                            ((Long) found[4]).intValue(),
+                            ((Long) found[5]).intValue(),
+                            found[8] != null ? ((Long) found[6]).intValue() : 255 );
                     break;
 
                 default:

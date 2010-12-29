@@ -238,9 +238,15 @@ public final class MultiplicityValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         return rep.formatEntry(
@@ -249,10 +255,11 @@ public final class MultiplicityValue
                 pars,
         /* 0 */ this,
         /* 1 */ editVar,
-        /* 2 */ minimum,
-        /* 3 */ maximum,
-        /* 4 */ ( minimum == N ) ? N_SYMBOL : String.valueOf( minimum ),
-        /* 5 */ ( maximum == N ) ? N_SYMBOL : String.valueOf( maximum ));
+        /* 2 */ editIndex,
+        /* 3 */ minimum,
+        /* 4 */ maximum,
+        /* 5 */ ( minimum == N ) ? N_SYMBOL : String.valueOf( minimum ),
+        /* 6 */ ( maximum == N ) ? N_SYMBOL : String.valueOf( maximum ));
     }
 
     /**

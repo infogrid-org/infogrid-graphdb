@@ -881,13 +881,12 @@ public final class BlobDataType
             Object [] found = representation.parseEntry( BlobValue.class, "String", s, this );
 
             BlobValue ret;
-
             switch( found.length ) {
-                case 4:
+                case 5:
                     if( mimeType != null ) {
-                        ret = createBlobValue( (String) found[3], mimeType );
+                        ret = createBlobValue( (String) found[4], mimeType );
                     } else {
-                        ret = createBlobValue( (String) found[3], getDefaultMimeType() );
+                        ret = createBlobValue( (String) found[4], getDefaultMimeType() );
                     }
                     break;
 

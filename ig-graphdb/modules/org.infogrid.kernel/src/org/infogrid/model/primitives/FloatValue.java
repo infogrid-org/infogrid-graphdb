@@ -406,9 +406,15 @@ public final class FloatValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         return rep.formatEntry(
@@ -417,8 +423,9 @@ public final class FloatValue
                 pars,
         /* 0 */ this,
         /* 1 */ editVar,
-        /* 2 */ theValue,
-        /* 3 */ theUnit );
+        /* 2 */ editIndex,
+        /* 3 */ theValue,
+        /* 4 */ theUnit );
     }
 
     /**

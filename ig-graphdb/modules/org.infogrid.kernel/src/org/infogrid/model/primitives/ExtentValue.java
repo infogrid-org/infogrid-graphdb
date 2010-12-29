@@ -229,9 +229,15 @@ public final class ExtentValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         return rep.formatEntry(
@@ -240,8 +246,9 @@ public final class ExtentValue
                 pars,
         /* 0 */ this,
         /* 1 */ editVar,
-        /* 2 */ theWidth,
-        /* 3 */ theHeight );
+        /* 2 */ editIndex,
+        /* 3 */ theWidth,
+        /* 4 */ theHeight );
     }
 
     /**

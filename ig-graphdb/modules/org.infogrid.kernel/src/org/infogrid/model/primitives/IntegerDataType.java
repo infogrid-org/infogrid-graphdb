@@ -460,11 +460,10 @@ public class IntegerDataType
             Object [] found = representation.parseEntry( IntegerValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
 
             IntegerValue ret;
-
             switch( found.length ) {
-                case 3:
                 case 4:
-                    ret = IntegerValue.create( (Number) found[2] );
+                case 5:
+                    ret = IntegerValue.create( (Number) found[3] );
                     break;
 
                 default:

@@ -473,9 +473,15 @@ public final class TimeStampValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         Object tz;
@@ -503,19 +509,19 @@ public final class TimeStampValue
                 getClass(),
                 StringRepresentation.DEFAULT_ENTRY,
                 pars,
-        /* 0 */ this,
-        /* 1 */ editVar,
-        /* 2 */ year,
-        /* 3 */ month,
-        /* 4 */ day,
-        /* 5 */ hour,
-        /* 6 */ min,
-        /* 7 */ sec,
-        /* 8 */ (int) sec,
-        /* 9 */ millis,
-        /* 10 */ ((TimeZone)tz).getID(),
-        /* 11 */ ((TimeZone)tz).getDisplayName() );
-
+       /*  0 */ this,
+       /*  1 */ editVar,
+       /*  2 */ editIndex,
+       /*  3 */ year,
+       /*  4 */ month,
+       /*  5 */ day,
+       /*  6 */ hour,
+       /*  7 */ min,
+       /*  8 */ sec,
+       /*  9 */ (int) sec,
+       /* 10 */ millis,
+       /* 11 */ ((TimeZone)tz).getID(),
+       /* 12 */ ((TimeZone)tz).getDisplayName() );
     }
 
     /**

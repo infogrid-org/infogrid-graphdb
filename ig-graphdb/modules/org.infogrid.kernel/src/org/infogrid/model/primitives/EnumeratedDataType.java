@@ -530,15 +530,15 @@ public class EnumeratedDataType
             EnumeratedValue ret;
 
             switch( found.length ) {
-                case 3:
                 case 4:
                 case 5:
+                case 6:
                     if( found[0] != null ) {
                         ret = (EnumeratedValue) found[0];
-                    } else if( found[2] != null ) {
-                        ret = select( (String) found[2] );
                     } else if( found[3] != null ) {
-                        ret = selectByUserVisibleName( (String) found[3] );
+                        ret = select( (String) found[3] );
+                    } else if( found[4] != null ) {
+                        ret = selectByUserVisibleName( (String) found[4] );
                     } else {
                         throw new PropertyValueParsingException( this, representation, s );
                     }

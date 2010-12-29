@@ -347,8 +347,8 @@ public final class StringDataType
 
             StringValue ret;
             switch( found.length ) {
-                case 3:
-                    ret = StringValue.create( (String) found[2] );
+                case 4:
+                    ret = StringValue.create( (String) found[3] );
                     break;
 
                 default:

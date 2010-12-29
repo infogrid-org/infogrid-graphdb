@@ -382,9 +382,15 @@ public final class TimePeriodValue
         throws
             StringifierException
     {
-        String editVar = null;
+        String  editVar   = null;
+        Integer editIndex = null;
+
         if( pars != null ) {
-            editVar = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        }
+        if( editIndex == null ) {
+            editIndex = 1;
         }
 
         int millis = ((int) ( theSecond * 1000 )) % 1000;
@@ -393,16 +399,17 @@ public final class TimePeriodValue
                 getClass(),
                 StringRepresentation.DEFAULT_ENTRY,
                 pars,
-        /* 0 */ this,
-        /* 1 */ editVar,
-        /* 2 */ theYear,
-        /* 3 */ theMonth,
-        /* 4 */ theDay,
-        /* 5 */ theHour,
-        /* 6 */ theMinute,
-        /* 7 */ theSecond,
-        /* 8 */ (int) theSecond,
-        /* 9 */ millis );
+       /*  0 */ this,
+       /*  1 */ editVar,
+       /*  2 */ editIndex,
+       /*  3 */ theYear,
+       /*  4 */ theMonth,
+       /*  5 */ theDay,
+       /*  6 */ theHour,
+       /*  7 */ theMinute,
+       /*  8 */ theSecond,
+       /*  9 */ (int) theSecond,
+       /* 10 */ millis );
     }
     
     /**
