@@ -8,19 +8,23 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.model.primitives;
 
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.util.IsDeadException;
+import org.infogrid.util.logging.Log;
 
 /**
  * Collection of utility methods for MeshTypes.
  */
 public abstract class MeshTypeUtils
 {
+    private static final Log log = Log.getLogInstance( MeshTypeUtils.class ); // our own, private logger
+
     /**
      * Private constructor, this class cannot be instantiated.
      */
@@ -61,11 +65,16 @@ public abstract class MeshTypeUtils
         if( obj == null ) {
             return null;
         }
-        MeshType           [] types = obj.getTypes();
-        MeshTypeIdentifier [] ret = new MeshTypeIdentifier[ types.length ];
-        for( int i=0 ; i<ret.length ; ++i ) {
-            ret[i] = types[i].getIdentifier();
+        try {
+            MeshType           [] types = obj.getTypes();
+            MeshTypeIdentifier [] ret = new MeshTypeIdentifier[ types.length ];
+            for( int i=0 ; i<ret.length ; ++i ) {
+                ret[i] = types[i].getIdentifier();
+            }
+            return ret;
+        } catch( IsDeadException ex ) {
+            log.warn( ex );
         }
-        return ret;
+        return null;
     }
 }
