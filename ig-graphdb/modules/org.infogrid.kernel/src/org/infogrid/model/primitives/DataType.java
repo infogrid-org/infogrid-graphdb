@@ -258,8 +258,13 @@ public abstract class DataType
         Integer editIndex  = null;
         Boolean allowNull  = null;
 
-        PropertyValue currentValue = owningMeshObject.getPropertyValue( propertyType );
         PropertyValue defaultValue = propertyType.getDefaultValue();
+        PropertyValue currentValue;
+        if( owningMeshObject != null ) {
+            currentValue = owningMeshObject.getPropertyValue( propertyType );
+        } else {
+            currentValue = defaultValue;
+        }
 
         if( pars != null ) {
             if( currentValue == null && owningMeshObject != null ) {
@@ -295,6 +300,9 @@ public abstract class DataType
 
         if( defaultValue == null ) {
             defaultValue = getDefaultValue(); // the DataType's default, rather than the PropertyType's (which is null)
+        }
+        if( owningMeshObject == null && currentValue == null ) {
+            currentValue = defaultValue; // defaultValue is non-null here
         }
         StringRepresentation           jsRep    = StringRepresentationDirectorySingleton.getSingleton().get( StringRepresentationDirectory.TEXT_JAVASCRIPT_NAME );
         StringRepresentationParameters realPars = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );

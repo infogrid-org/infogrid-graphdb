@@ -884,9 +884,9 @@ public class MyHandler
                     if( temp instanceof ExternalizedPropertyType ) {
                         thePropertyType = (ExternalizedPropertyType) temp;
                         if( theAttributes.getValue( XmlModelTokens.CODE_KEYWORD ) != null ) {
-                            thePropertyType.setDefaultValueCode( StringValue.create( theCharacters.toString() ));
+                            thePropertyType.setDefaultValueCode( StringValue.create( theCharacters != null ? theCharacters.toString() : "" ));
                         } else {
-                            thePropertyType.setDefaultValue( constructDefaultValue( theCharacters.toString(), thePropertyType ));
+                            thePropertyType.setDefaultValue( constructDefaultValue( theCharacters != null ? theCharacters.toString() : "", thePropertyType ));
                         }
                     } else if( temp instanceof ExternalizedRegex ) {
                         theRegex = (ExternalizedRegex) temp;
@@ -1023,10 +1023,13 @@ public class MyHandler
                 case XmlModelTokens.STRING_DATATYPE_TOKEN:
                     theRegex      = (ExternalizedRegex)      theStack.pop();
                     theAttributes = (ExternalizedAttributes) theStack.pop();
-                    if( theRegex != null ) {
+                    if( theRegex.getRegexString() != null ) {
+                        if( theAttributes.getValue( XmlModelTokens.TYPEFIELD_KEYWORD ) != null ) {
+                            error( theErrorPrefix + "must not specify regex and typefield simultaneously" );
+                        }
                         theStack.push( theRegex.getAsStringDataType() );
                     } else {
-                        theStack.push( StringDataType.create() );
+                        theStack.push( determineDataType( StringDataType.class, theAttributes, XmlModelTokens.TYPEFIELD_KEYWORD, StringDataType.theDefault ));
                     }
                     break;
                 case XmlModelTokens.TIME_PERIOD_DATATYPE_TOKEN:

@@ -18,6 +18,7 @@ import java.io.ObjectStreamException;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.StringHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -36,11 +37,65 @@ public final class StringDataType
     private static final long serialVersionUID = 1L; // helps with serialization
 
     /**
-      * This is the default instance of this class.
-      */
-    public static final StringDataType theDefault = new StringDataType(
+     * The ResourceHelper to use. Note it is StringValue's, not ours.
+     */
+    private static final ResourceHelper theStringValueResourceHelper = ResourceHelper.getInstance( StringValue.class );
+
+    /**
+     * This is the default instance of this class. Any String, including the empty String, is allowed.
+     */
+    public static final StringDataType theDefault = new StringDataType( // do not use factory method for this instance
             null,
-            StringValue.create( "" ) );
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DefaultStringValue", "" )));
+
+    /**
+     * Any String that does not just consist of white space is allowed.
+     */
+    public static final StringDataType theNonEmptyType = StringDataType.create(
+            Pattern.compile( ".*\\S.*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "NonEmptyStringValue", "untitled" )));
+
+    /**
+     * Any String at least four characters long.
+     */
+    public static final StringDataType theString4PlusType = StringDataType.create(
+            Pattern.compile( "\\S.{2,}\\S" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "String4PlusStringValue", "untitled" )));
+
+    /**
+     * Any HTTP or HTTPS URL.
+     */
+    public static final StringDataType theHttpHttpsUrlType = StringDataType.create(
+            Pattern.compile( "https?://[a-z0-9.\\-]+[.][a-z]{2,4}/\\S*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
+
+    /**
+     * Any numeric IP address.
+     */
+    public static final StringDataType theIpAddressType = StringDataType.create(
+            Pattern.compile( "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpAddressStringValue", "127.0.0.1" )));
+
+    /**
+     * Any DNS host name.
+     */
+    public static final StringDataType theDnsHostNameType = StringDataType.create(
+            Pattern.compile( "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DnsHostNameStringValue", "example.com" )));
+
+    /**
+     * Any identifier that would be valid for Java.
+     */
+    public static final StringDataType theJavaIdentifierType = StringDataType.create(
+            Pattern.compile( "[a-zA-Z_][a-zA-Z_0-9]*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "JavaIdentifierStringValue", "untitled" )));
+
+    /**
+     * Any identifier that would be valid for a module.
+     */
+    public static final StringDataType theModuleIdentifierType = StringDataType.create(
+            Pattern.compile( "[a-zA-Z][a-zA-Z_\\-0-9]*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "ModuleIdentifierStringValue", "untitled" )));
 
     /**
      * Factory method. Always returns the same instance.
@@ -356,7 +411,7 @@ public final class StringDataType
             }
             int conforms = conforms( ret );
             if( conforms != 0 ) {
-                throw new PropertyValueParsingException( this, representation, s, new DoesNotMatchRegexException( ret, this ));
+                throw new PropertyValueParsingException( this, representation, s, theRegex.pattern(), new DoesNotMatchRegexException( ret, this ));
             }
 
             return ret;
