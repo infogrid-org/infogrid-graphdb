@@ -70,6 +70,14 @@ public final class StringDataType
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
 
     /**
+     * Any e-mail address.
+     * From http://www.regular-expressions.info/email.html.
+     */
+    public static final StringDataType theEmailAddressType = StringDataType.create(
+            Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )));
+
+    /**
      * Any numeric IP address.
      */
     public static final StringDataType theIpAddressType = StringDataType.create(
