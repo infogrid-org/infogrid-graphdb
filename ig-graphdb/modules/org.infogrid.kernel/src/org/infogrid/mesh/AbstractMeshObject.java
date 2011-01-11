@@ -1569,11 +1569,13 @@ public abstract class AbstractMeshObject
     {
         if( other instanceof MeshObject ) {
             MeshObject realOther = (MeshObject) other;
-            if( theIdentifier.equals( realOther.getIdentifier() ) ) {
+            if( theIdentifier.equals( realOther.getIdentifier() )) {
                 return true;
-//            } else if( getIdentifier().equals( realOther.getIdentifier() ) ) {
-//                return true;
-// WHy is this here?
+            }
+        } else if( other instanceof TypedMeshObjectFacade ) {
+            TypedMeshObjectFacade realOther = (TypedMeshObjectFacade) other;
+            if( theIdentifier.equals(  realOther.getIdentifier() )) {
+                return true;
             }
         }
         return false;
