@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -167,6 +167,16 @@ public final class StringDataType
 
         theRegex        = regex;
         theDefaultValue = defaultValue;
+    }
+
+    /**
+     * Obtain the regular expression that values need to conform to, if any.
+     *
+     * @return the regular expression (if any)
+     */
+    public Pattern getRegex()
+    {
+        return theRegex;
     }
 
     /**

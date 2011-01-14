@@ -15,10 +15,14 @@
 package org.infogrid.model.primitives;
 
 import org.infogrid.util.AbstractLocalizedException;
+import org.infogrid.util.LocalizedException;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
+import org.infogrid.util.text.StringifierException;
 
 /**
  * Thrown if parsing the String representation of a PropertyValue was unsuccessful.
+ * This Exception delegates to the cause if there is one and it can be localized.
  */
 public class PropertyValueParsingException
         extends
@@ -103,6 +107,22 @@ public class PropertyValueParsingException
     }
     
     /**
+     * Obtain localized message, per JDK 1.5.
+     *
+     * @return localized message
+     */
+    @Override
+    public String getLocalizedMessage()
+    {
+        Throwable cause = getCause();
+        if( cause instanceof LocalizedException ) {
+            return ((LocalizedException)cause).getLocalizedMessage();
+        } else {
+            return super.getLocalizedMessage();
+        }
+    }
+
+    /**
      * Obtain resource parameters for the internationalization.
      *
      * @return the resource parameters
@@ -164,6 +184,77 @@ public class PropertyValueParsingException
     public String getFormatString()
     {
         return theFormatString;
+    }
+
+    /**
+     * Obtain a String representation of this instance that can be shown to the user.
+     *
+     * @param rep the StringRepresentation
+     * @param pars collects parameters that may influence the String representation
+     * @return String representation
+     * @throws StringifierException thrown if there was a problem when attempting to stringify
+     */
+    @Override
+    public String toStringRepresentation(
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
+        throws
+            StringifierException
+    {
+        Throwable cause = getCause();
+        if( cause instanceof LocalizedException ) {
+            return ((LocalizedException)cause).toStringRepresentation( rep, pars );
+        } else {
+            return super.toStringRepresentation( rep, pars );
+        }
+    }
+
+    /**
+     * Obtain the start part of a String representation of this object that acts
+     * as a link/hyperlink and can be shown to the user.
+     *
+     * @param rep the StringRepresentation
+     * @param pars collects parameters that may influence the String representation
+     * @return String representation
+     * @throws StringifierException thrown if there was a problem when attempting to stringify
+     */
+    @Override
+    public String toStringRepresentationLinkStart(
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
+        throws
+            StringifierException
+    {
+        Throwable cause = getCause();
+        if( cause instanceof LocalizedException ) {
+            return ((LocalizedException)cause).toStringRepresentationLinkStart( rep, pars );
+        } else {
+            return super.toStringRepresentationLinkStart( rep, pars );
+        }
+    }
+
+    /**
+     * Obtain the end part of a String representation of this object that acts
+     * as a link/hyperlink and can be shown to the user.
+     *
+     * @param rep the StringRepresentation
+     * @param pars collects parameters that may influence the String representation
+     * @return String representation
+     * @throws StringifierException thrown if there was a problem when attempting to stringify
+     */
+    @Override
+    public String toStringRepresentationLinkEnd(
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
+        throws
+            StringifierException
+    {
+        Throwable cause = getCause();
+        if( cause instanceof LocalizedException ) {
+            return ((LocalizedException)cause).toStringRepresentationLinkEnd( rep, pars );
+        } else {
+            return super.toStringRepresentationLinkEnd( rep, pars );
+        }
     }
 
     /**

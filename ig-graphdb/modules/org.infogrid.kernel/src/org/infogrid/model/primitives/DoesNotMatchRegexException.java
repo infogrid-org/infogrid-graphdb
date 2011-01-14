@@ -8,11 +8,13 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.model.primitives;
+
+import java.util.regex.Pattern;
 
 /**
  * Thrown if a StringValue did not match the regular expression required by its StringDataType.
@@ -65,7 +67,9 @@ public class DoesNotMatchRegexException
     @Override
     public Object [] getLocalizationParameters()
     {
-        return new Object[] { theType, theValue };
+        Pattern regex = ((StringDataType)theType).getRegex();
+
+        return new Object[] { theType, regex != null ? regex.toString() : null, theValue };
     }
 
     /**
