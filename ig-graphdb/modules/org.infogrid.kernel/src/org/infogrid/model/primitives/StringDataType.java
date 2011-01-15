@@ -78,11 +78,18 @@ public final class StringDataType
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )));
 
     /**
-     * Any numeric IP address.
+     * Any numeric IPv4 address.
      */
     public static final StringDataType theIpAddressType = StringDataType.create(
             Pattern.compile( "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" ),
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpAddressStringValue", "127.0.0.1" )));
+
+    /**
+     * Any numeric IPv6 address.
+     */
+    public static final StringDataType theIpV6AddressType = StringDataType.create(
+            Pattern.compile( "[0-9a-zA-Z:\\.]+" ), // FIXME: This should be done more precisely
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpV6AddressStringValue", "::1" )));
 
     /**
      * Any DNS host name.
