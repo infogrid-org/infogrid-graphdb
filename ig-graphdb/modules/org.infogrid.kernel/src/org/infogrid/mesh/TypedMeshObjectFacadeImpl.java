@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -102,7 +102,7 @@ public abstract class TypedMeshObjectFacadeImpl
      *
      * @return the MeshBase that contains this MeshObject.
      */
-    public final MeshBase getMeshBase()
+    public final MeshBase get_MeshBase()
     {
         return the_Delegate.getMeshBase();
     }
@@ -466,7 +466,7 @@ public abstract class TypedMeshObjectFacadeImpl
      * 
      * @return the RoleTypes that this MeshObject currently participates in.
      */
-    public final RoleType [] getRoleTypes()
+    public final RoleType [] get_RoleTypes()
     {
         return the_Delegate.getRoleTypes();
     }
@@ -481,7 +481,7 @@ public abstract class TypedMeshObjectFacadeImpl
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
-    public final RoleType [] getRoleTypes(
+    public final RoleType [] get_RoleTypes(
             boolean considerEquivalents )
     {
         return the_Delegate.getRoleTypes( considerEquivalents );
@@ -492,7 +492,7 @@ public abstract class TypedMeshObjectFacadeImpl
      *
      * @return the Roles that this MeshObject currently participates in.
      */
-    public final Role [] getRoles()
+    public final Role [] get_Roles()
     {
         return the_Delegate.getRoles();
     }
@@ -506,7 +506,7 @@ public abstract class TypedMeshObjectFacadeImpl
      *        if false, only this MeshObject will be used as the start
      * @return the Roles that this MeshObject currently participates in.
      */
-    public final Role [] getRoles(
+    public final Role [] get_Roles(
             boolean considerEquivalents )
     {
         return the_Delegate.getRoles( considerEquivalents );
@@ -520,7 +520,7 @@ public abstract class TypedMeshObjectFacadeImpl
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
      */
-    public final RoleType [] getRoleTypes(
+    public final RoleType [] get_RoleTypes(
             TypedMeshObjectFacade otherObject )
         throws
             NotRelatedException
@@ -540,7 +540,7 @@ public abstract class TypedMeshObjectFacadeImpl
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
      */
-    public final RoleType [] getRoleTypes(
+    public final RoleType [] get_RoleTypes(
             TypedMeshObjectFacade otherObject,
             boolean               considerEquivalents )
         throws
@@ -575,7 +575,7 @@ public abstract class TypedMeshObjectFacadeImpl
      *
      * @return the set of MeshObjects that are equivalent
      */
-    public final MeshObjectSet getEquivalents()
+    public final MeshObjectSet get_Equivalents()
     {
         return the_Delegate.getEquivalents();
     }

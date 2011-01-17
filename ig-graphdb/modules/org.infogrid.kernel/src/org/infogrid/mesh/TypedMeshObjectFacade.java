@@ -67,7 +67,7 @@ public interface TypedMeshObjectFacade
      *
      * @return the MeshBase that contains this MeshObject.
      */
-    public abstract MeshBase getMeshBase();
+    public abstract MeshBase get_MeshBase();
 
     /**
      * Obtain the time of creation of this MeshObject. This is immutable for the
@@ -368,7 +368,7 @@ public interface TypedMeshObjectFacade
      *
      * @return the RoleTypes that this MeshObject currently participates in.
      */
-    public abstract RoleType [] getRoleTypes();
+    public abstract RoleType [] get_RoleTypes();
 
     /**
      * Obtain the RoleTypes that this MeshObject currently participates in. This will return only one
@@ -380,7 +380,7 @@ public interface TypedMeshObjectFacade
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
-    public abstract RoleType [] getRoleTypes(
+    public abstract RoleType [] get_RoleTypes(
             boolean considerEquivalents );
 
     /**
@@ -388,7 +388,7 @@ public interface TypedMeshObjectFacade
      *
      * @return the Roles that this MeshObject currently participates in.
      */
-    public abstract Role [] getRoles();
+    public abstract Role [] get_Roles();
 
     /**
      * Obtain the Roles that this MeshObject currently participates in.
@@ -399,7 +399,7 @@ public interface TypedMeshObjectFacade
      *        if false, only this MeshObject will be used as the start
      * @return the Roles that this MeshObject currently participates in.
      */
-    public abstract Role [] getRoles(
+    public abstract Role [] get_Roles(
             boolean considerEquivalents );
 
     /**
@@ -410,7 +410,7 @@ public interface TypedMeshObjectFacade
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
      */
-    public abstract RoleType [] getRoleTypes(
+    public abstract RoleType [] get_RoleTypes(
             TypedMeshObjectFacade otherObject )
         throws
             NotRelatedException;
@@ -427,7 +427,7 @@ public interface TypedMeshObjectFacade
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
      */
-    public abstract RoleType [] getRoleTypes(
+    public abstract RoleType [] get_RoleTypes(
             TypedMeshObjectFacade otherObject,
             boolean               considerEquivalents )
         throws
@@ -456,7 +456,7 @@ public interface TypedMeshObjectFacade
      *
      * @return the set of MeshObjects that are equivalent
      */
-    public abstract MeshObjectSet getEquivalents();
+    public abstract MeshObjectSet get_Equivalents();
 
     /**
      * Remove this MeshObject as an equivalent from the set of equivalents. If this MeshObject
