@@ -63,10 +63,24 @@ public final class StringDataType
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "String4PlusStringValue", "untitled" )));
 
     /**
+     * Any HTTP URL.
+     */
+    public static final StringDataType theHttpUrlType = StringDataType.create(
+            Pattern.compile( "http://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
+
+    /**
+     * Any HTTPS URL.
+     */
+    public static final StringDataType theHttpsUrlType = StringDataType.create(
+            Pattern.compile( "https://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "https://example.com/" )));
+
+    /**
      * Any HTTP or HTTPS URL.
      */
     public static final StringDataType theHttpHttpsUrlType = StringDataType.create(
-            Pattern.compile( "https?://[a-z0-9.\\-]+[.][a-z]{2,4}/\\S*" ),
+            Pattern.compile( "https?://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
 
     /**
@@ -74,8 +88,15 @@ public final class StringDataType
      * From http://www.regular-expressions.info/email.html.
      */
     public static final StringDataType theEmailAddressType = StringDataType.create(
-            Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}", Pattern.CASE_INSENSITIVE ),
+            Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}", Pattern.CASE_INSENSITIVE ),
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )));
+
+    /**
+     * Any "acct" address.
+     */
+    public static final StringDataType theAcctAddressType = StringDataType.create(
+            Pattern.compile( "acct:" + theEmailAddressType.getRegex().toString(), Pattern.CASE_INSENSITIVE ), // same as for e-mail, with prefix
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "AcctAddressStringValue", "acct:example@example.com" )));
 
     /**
      * Any numeric IPv4 address.
