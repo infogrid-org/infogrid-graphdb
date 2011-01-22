@@ -576,7 +576,7 @@ public class PropertyValueXmlEncoder
         } else if( TIME_STAMP_TAG.equals( qName )) {
             if( thePropertyValue == null ) {
                 try {
-                    thePropertyValue = TimeStampValue.create( theCharacters.toString().trim() );
+                    thePropertyValue = TimeStampValue.createFromRfc3339( theCharacters.toString().trim() );
                 } catch( ParseException ex ) {
                     throw new SAXException( "Invalid RFC 3339 time stamp", ex );
                 }

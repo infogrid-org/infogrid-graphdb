@@ -18,7 +18,7 @@ import java.io.ObjectStreamException;
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.TimeZone;
-import org.infogrid.util.Rfc3339Util;
+import org.infogrid.util.DateTimeUtil;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
@@ -215,7 +215,7 @@ public final class TimeStampDataType
             if( found.length == 11 ) {
                 tz = TimeZone.getTimeZone( (String) found[10] );
             } else {
-                tz = Rfc3339Util.UTC;
+                tz = DateTimeUtil.UTC;
             }
 
             Calendar cal = Calendar.getInstance( tz );

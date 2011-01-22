@@ -211,8 +211,8 @@ public class SerializerTest1
 //            new TestCase(
 //                    EnumeratedDataType.theDefault,
 //                    new EnumeratedValue[] {
-//                        EnumeratedValue.create( null, "a", null, null ),
-//                        EnumeratedValue.create( null, "abcdefgh ijklmnopqrstuv wxyz ABCDEF GHIJKLM NOPQRST UVWXYZ 1234 5678 9 0", null, null )                
+//                        EnumeratedValue.createFromRfc3339( null, "a", null, null ),
+//                        EnumeratedValue.createFromRfc3339( null, "abcdefgh ijklmnopqrstuv wxyz ABCDEF GHIJKLM NOPQRST UVWXYZ 1234 5678 9 0", null, null )
 //                    } )
 // Took out the testing of the DataType pointer from the EnumeratedValue. FIXME?
             new EnumeratedTestCase(
@@ -289,11 +289,11 @@ public class SerializerTest1
                          FloatValue.create(  -1./Float.MAX_VALUE ),
                          FloatValue.create(   1./Float.MIN_VALUE ),
                          FloatValue.create(  -1./Float.MIN_VALUE )
-                         // FIXME FloatValue.create(   0., Unit.theMeterUnit ),
-                         // FIXME FloatValue.create(   1., Unit.theMileUnit ),
-                         // FIXME FloatValue.create(  -1., Unit.theGramUnit ),
-                         // FIXME FloatValue.create(  10., Unit.theMicroampereUnit ),
-                         // FIXME FloatValue.create( -10., Unit.theGigabyteUnit ),
+                         // FIXME FloatValue.createFromRfc3339(   0., Unit.theMeterUnit ),
+                         // FIXME FloatValue.createFromRfc3339(   1., Unit.theMileUnit ),
+                         // FIXME FloatValue.createFromRfc3339(  -1., Unit.theGramUnit ),
+                         // FIXME FloatValue.createFromRfc3339(  10., Unit.theMicroampereUnit ),
+                         // FIXME FloatValue.createFromRfc3339( -10., Unit.theGigabyteUnit ),
                     } ),
         new TestCase(
                 FloatDataType.thePositiveDefault,
@@ -303,9 +303,9 @@ public class SerializerTest1
                      FloatValue.create(  10. ),
                      FloatValue.create(  Float.MAX_VALUE ),
                      FloatValue.create(   1./Float.MAX_VALUE ),
-                     // FIXME FloatValue.create(   0., Unit.theMeterUnit ),
-                     // FIXME FloatValue.create(   1., Unit.theMileUnit ),
-                     // FIXME FloatValue.create(  10., Unit.theMicroampereUnit ),
+                     // FIXME FloatValue.createFromRfc3339(   0., Unit.theMeterUnit ),
+                     // FIXME FloatValue.createFromRfc3339(   1., Unit.theMileUnit ),
+                     // FIXME FloatValue.createFromRfc3339(  10., Unit.theMicroampereUnit ),
                 } )
     };
 

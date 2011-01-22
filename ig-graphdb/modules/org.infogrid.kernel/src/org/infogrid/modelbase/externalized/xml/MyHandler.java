@@ -1369,7 +1369,7 @@ public class MyHandler
 
         } else if( type instanceof TimeStampDataType ) {
             try {
-                ret = TimeStampValue.create( raw );
+                ret = TimeStampValue.createFromRfc3339( raw );
                 
             } catch( ParseException ex ) {
                 throw new NumberFormatException( "Error when attempting parse TimeStampValue '" + raw + "'" );
@@ -1570,7 +1570,7 @@ public class MyHandler
         }
 
         // for projected property, we need to do two passes:
-        // 1) create, without InputPropertySpecifications,
+        // 1) createFromRfc3339, without InputPropertySpecifications,
         // 2) set InputPropertySpecifications
         // Otherwise we cannot deal with inevitable forward references. We do #1 here, and #2 after
         // the RelationshipTypes are instantiated

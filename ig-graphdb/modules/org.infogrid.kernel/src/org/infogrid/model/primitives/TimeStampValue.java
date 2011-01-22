@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
-import org.infogrid.util.Rfc3339Util;
+import org.infogrid.util.DateTimeUtil;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -52,7 +52,7 @@ public final class TimeStampValue
             int   minute,
             float second )
     {
-        Calendar cal = Calendar.getInstance( Rfc3339Util.UTC );
+        Calendar cal = Calendar.getInstance( DateTimeUtil.UTC );
         int      sec = (int) second;
 
         cal.set(
@@ -150,7 +150,7 @@ public final class TimeStampValue
      * @return the created TimeStampValue
      * @throws ParseException thrown if a syntax error occurred
      */
-    public static TimeStampValue create(
+    public static TimeStampValue createFromRfc3339(
             String rfc3339String )
         throws
             ParseException
@@ -158,7 +158,7 @@ public final class TimeStampValue
         if( rfc3339String == null ) {
             throw new IllegalArgumentException( "null value" );
         }
-        Date d = Rfc3339Util.rfc3339ToDate( rfc3339String );
+        Date d = DateTimeUtil.rfc3339ToDate( rfc3339String );
         return new TimeStampValue( d.getTime() );
     }
 
@@ -169,7 +169,7 @@ public final class TimeStampValue
      * @return the created TimeStampValue, or null
      * @throws ParseException thrown if a syntax error occurred
      */
-    public static TimeStampValue createOrNull(
+    public static TimeStampValue createFromRfc3339OrNull(
             String rfc3339String )
         throws
             ParseException
@@ -178,7 +178,45 @@ public final class TimeStampValue
             return null;
         }
 
-        return create( rfc3339String );
+        return createFromRfc3339( rfc3339String );
+    }
+
+    /**
+     * Factory method.
+     *
+     * @param w3cString value as a W3C String
+     * @return the created TimeStampValue
+     * @throws ParseException thrown if a syntax error occurred
+     */
+    public static TimeStampValue createFromW3c(
+            String w3cString )
+        throws
+            ParseException
+    {
+        if( w3cString == null ) {
+            throw new IllegalArgumentException( "null value" );
+        }
+        Date d = DateTimeUtil.w3cToDate( w3cString );
+        return new TimeStampValue( d.getTime() );
+    }
+
+    /**
+     * Factory method, or return null if the argument is null.
+     *
+     * @param rfc3339String value as a W3C String
+     * @return the created TimeStampValue, or null
+     * @throws ParseException thrown if a syntax error occurred
+     */
+    public static TimeStampValue createFromW3cOrNull(
+            String w3cString )
+        throws
+            ParseException
+    {
+        if( w3cString == null ) {
+            return null;
+        }
+
+        return createFromW3c( w3cString );
     }
 
     /**
@@ -232,7 +270,7 @@ public final class TimeStampValue
             TimeZone tz )
     {
         if( tz == null ) {
-            tz = Rfc3339Util.UTC;
+            tz = DateTimeUtil.UTC;
         }
         Calendar cal = Calendar.getInstance( tz );
         cal.setTimeInMillis( theValue );
@@ -247,7 +285,7 @@ public final class TimeStampValue
      */
     public String getAsRfc3339String()
     {
-        return Rfc3339Util.dateToRfc3339( getAsDate() );
+        return DateTimeUtil.dateToRfc3339( getAsDate() );
     }
 
     /**
@@ -491,7 +529,7 @@ public final class TimeStampValue
             tz = null;
         }
         if( tz == null ) {
-            tz = Rfc3339Util.UTC;
+            tz = DateTimeUtil.UTC;
         }
         
         Calendar cal = getAsCalendar( (TimeZone) tz );
