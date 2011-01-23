@@ -88,7 +88,7 @@ public final class StringDataType
      * From http://www.regular-expressions.info/email.html.
      */
     public static final StringDataType theEmailAddressType = StringDataType.create(
-            Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,}", Pattern.CASE_INSENSITIVE ),
+            Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]*[A-Z]", Pattern.CASE_INSENSITIVE ),
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )));
 
     /**
