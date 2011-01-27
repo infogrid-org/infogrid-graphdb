@@ -203,7 +203,7 @@ public final class TimeStampValue
     /**
      * Factory method, or return null if the argument is null.
      *
-     * @param rfc3339String value as a W3C String
+     * @param w3cString value as a W3C String
      * @return the created TimeStampValue, or null
      * @throws ParseException thrown if a syntax error occurred
      */
