@@ -84,7 +84,7 @@ public abstract class AbstractStoreMeshBaseEntryMapper
         throws
             ParseException
     {
-        MeshObjectIdentifier ret = theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( key );
+        MeshObjectIdentifier ret = theMeshBase.getMeshObjectIdentifierFactory().guessFromExternalForm( key );
         return ret;
     }
 

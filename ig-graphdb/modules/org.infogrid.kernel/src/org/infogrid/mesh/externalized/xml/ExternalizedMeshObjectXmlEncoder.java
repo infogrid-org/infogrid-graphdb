@@ -372,7 +372,7 @@ public class ExternalizedMeshObjectXmlEncoder
             if( identifier != null ) {
                 try {
                     theMeshObjectBeingParsed.setIdentifier(
-                            theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( XmlUtils.descape( identifier )));
+                            theMeshBase.getMeshObjectIdentifierFactory().guessFromExternalForm( XmlUtils.descape( identifier )));
                 } catch( ParseException ex ) {
                     error( ex );
                 }
@@ -407,7 +407,7 @@ public class ExternalizedMeshObjectXmlEncoder
                 try {
                     theHasTypesBeingParsed = createRelationship(
                             theMeshObjectBeingParsed.getIdentifier(),
-                            theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( XmlUtils.descape( identifier )),
+                            theMeshBase.getMeshObjectIdentifierFactory().guessFromExternalForm( XmlUtils.descape( identifier )),
                             updated );
                 } catch( ParseException ex ) {
                     error( ex );
@@ -500,7 +500,7 @@ public class ExternalizedMeshObjectXmlEncoder
             if( theCharacters != null ) {
                 try {
                     theMeshObjectBeingParsed.addEquivalent(
-                            theMeshBase.getMeshObjectIdentifierFactory().fromExternalForm( theCharacters.toString() ));
+                            theMeshBase.getMeshObjectIdentifierFactory().guessFromExternalForm( theCharacters.toString() ));
                 } catch( ParseException ex ) {
                     error( ex );
                 }
