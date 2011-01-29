@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -33,7 +33,7 @@ public abstract class AclUtils
     {}
     
     /**
-     * Evaluatate whether a MeshObject has access of a certain type to another MeshObject.
+     * Evaluate whether a MeshObject has access of a certain type to another MeshObject.
      *
      * @param accessor the MeshObject wanting to access the accessed, if any
      * @param roleType the RoleType that indicates the type of access
