@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -155,11 +155,11 @@ public abstract class AbstractStoreMeshBaseEntryMapper
      */
     public MeshObject decodeValue(
             MeshObjectIdentifier key,
-            StoreValue          value )
+            StoreValue           value )
         throws
             StoreValueDecodingException
     {
-        String encodingId = new String( value.getEncodingId() );
+        String encodingId = value.getEncodingId();
 
         ExternalizedMeshObjectEncoder encoder = getEncoderFor( encodingId );
         if( encoder == null ) {
@@ -167,12 +167,7 @@ public abstract class AbstractStoreMeshBaseEntryMapper
             return null;
         }
 
-        long timeCreated     = value.getTimeCreated();
-        long timeUpdated     = value.getTimeUpdated();
-        long timeRead        = value.getTimeRead();
-        long timeExpires     = value.getTimeExpires();
-        InputStream stream   = value.getDataAsStream();
-        int  length          = value.getData().length;
+        InputStream stream = value.getDataAsStream();
         
         try {
             ExternalizedMeshObject externalized = encoder.decodeExternalizedMeshObject(
