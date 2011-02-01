@@ -8,18 +8,17 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.externalized;
 
+import java.util.ArrayList;
 import org.infogrid.mesh.MeshObjectIdentifier;
-
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.PropertyValue;
-
-import java.util.ArrayList;
+import org.infogrid.util.logging.Dumper;
 
 /**
  * A temporary buffer for a to-be-deserialized MeshObject.
@@ -251,6 +250,41 @@ public class ParserFriendlyExternalizedMeshObject
     }
 
     /**
+     * Dump this object.
+     *
+     * @param d the Dumper to dump to
+     */
+    public void dump(
+            Dumper d )
+    {
+        d.dump( this,
+                new String[] {
+                    "theIdentifier",
+                    "theMeshTypes",
+                    "thePropertyTypes",
+                    "thePropertyValues",
+                    "theTimeCreated",
+                    "theTimeUpdated",
+                    "theTimeRead",
+                    "theTimeExpires",
+                    "theRelationships",
+                    "theEquivalents"
+                },
+                new Object[] {
+                    theIdentifier,
+                    theMeshTypes,
+                    thePropertyTypes,
+                    thePropertyValues,
+                    theTimeCreated,
+                    theTimeUpdated,
+                    theTimeRead,
+                    theTimeExpires,
+                    theRelationships,
+                    theEquivalents
+                });
+    }
+
+    /**
      * The MeshTypeIdentifiers of the MeshTypes.
      */
     protected ArrayList<MeshTypeIdentifier> theMeshTypes = new ArrayList<MeshTypeIdentifier>();
@@ -281,7 +315,8 @@ public class ParserFriendlyExternalizedMeshObject
     protected PropertyValue theCurrentPropertyValue;
 
     /**
-     * Represents something thas has types, i.e. as a MeshType or a relationship.
+     * Represents something that has types, i.e. as a MeshType or a relationship.
+     * Note that XprisoMessageXmlEncoder may instantiate this directly, so it can't be abstract.
      */
     public static class HasTypes
     {
@@ -359,6 +394,7 @@ public class ParserFriendlyExternalizedMeshObject
 
     /**
      * Represents something that has RoleTypes, i.e. a relationship.
+     * Note that XprisoMessageXmlEncoder may instantiate this directly, so it can't be abstract.
      */
     public static class HasRoleTypes
             extends
@@ -391,6 +427,27 @@ public class ParserFriendlyExternalizedMeshObject
             return theNeighborIdentifier;
         }
         
+        /**
+         * Dump this object.
+         *
+         * @param d the Dumper to dump to
+         */
+        public void dump(
+                Dumper d )
+        {
+            d.dump( this,
+                    new String[] {
+                        "theIdentifier",
+                        "theTypes",
+                        "theNeighborIdentifier"
+                    },
+                    new Object[] {
+                        theIdentifier,
+                        theTypes,
+                        theNeighborIdentifier
+                    });
+        }
+
         /**
          * The MeshObjectIdentifier of the MeshObject on the other side.
          */
@@ -470,6 +527,25 @@ public class ParserFriendlyExternalizedMeshObject
         public long getTimeUpdated()
         {
             return theTimeUpdated;
+        }
+
+        /**
+         * Dump this object.
+         *
+         * @param d the Dumper to dump to
+         */
+        public void dump(
+                Dumper d )
+        {
+            d.dump( this,
+                    new String[] {
+                        "theIdentifier",
+                        "thePropertyTypeName"
+                    },
+                    new Object[] {
+                        theIdentifier,
+                        thePropertyTypeName
+                    });
         }
 
         /**

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -203,6 +203,17 @@ public class MeshBaseIdentifier
     {
         String canonical = getCanonicalForm();
         return canonical.hashCode();
+    }
+
+    /**
+     * Convert to printable String format.
+     *
+     * @return String format
+     */
+    @Override
+    public String toString()
+    {
+        return super.toString() + "{ " + getCanonicalForm() + " }";
     }
     
     /**

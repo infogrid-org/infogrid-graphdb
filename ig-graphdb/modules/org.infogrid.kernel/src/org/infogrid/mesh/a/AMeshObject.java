@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -1086,7 +1086,9 @@ public class AMeshObject
                     checkPermittedTraversal( type, current.getIdentifier(), current );
                     almostRet2[ index++ ] = current;
                 } catch( NotPermittedException ex ) {
-                    log.info( ex );
+                    log.info( this, current, ex );
+                } catch( Throwable t ) {
+                    log.error( this, current, t );
                 }
             }
             if( index < almostRet2.length ) {

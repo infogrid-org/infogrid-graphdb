@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -429,7 +429,7 @@ public class AMeshBaseLifecycleManager
                 }
 
             } catch( Exception ex ) {
-                log.warn( ex );
+                log.warn( "Exception when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed, ex );
             }
         }
 
