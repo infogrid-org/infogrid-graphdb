@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -237,7 +237,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         try {
             Identifier found;
             if( HOME_OBJECT_STRING.equals( realRawString )) {
-                found = realFactory.fromExternalForm( null );
+                found = realFactory.fromExternalForm( "" );
             } else if( theProcessColloquial ) {
                 found = realFactory.guessFromExternalForm( realRawString );
             } else {
