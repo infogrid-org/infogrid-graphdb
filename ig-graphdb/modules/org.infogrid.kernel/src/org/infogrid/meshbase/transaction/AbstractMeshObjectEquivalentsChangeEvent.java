@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -61,12 +61,12 @@ public abstract class AbstractMeshObjectEquivalentsChangeEvent
                 sourceIdentifier,
                 MeshObject._MESH_OBJECT_EQUIVALENTS_PROPERTY,
                 MeshObject._MESH_OBJECT_EQUIVALENTS_PROPERTY,
-                oldValues,
-                oldValueIdentifiers,
-                deltaValues,
-                deltaValueIdentifiers,
-                newValues,
-                newValueIdentifiers,
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldValueIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaValueIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newValueIdentifiers ),
                 timeEventOccurred );
         
         theResolver = resolver;

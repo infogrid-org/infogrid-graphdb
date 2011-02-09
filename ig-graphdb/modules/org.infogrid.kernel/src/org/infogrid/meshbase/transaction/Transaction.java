@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -143,24 +143,29 @@ public abstract class Transaction
         CursorIterator<Change> iter = ChangeSet.createCopy( theChangeSet ).iterator();
         iter.moveToAfterLast();
         while( iter.hasPrevious() ) {
-            Change current = iter.previous();
+            Change current  = iter.previous();
+            Change inverted = current.inverse();
 
-            try {
-                current.unapplyFrom( theTransactable );
+            if( inverted != null ) {
+                try {
+                    inverted.applyTo( theTransactable );
 
-            } catch( CannotUnapplyChangeException ex ) {
-                Throwable cause = ex.getCause();
+                } catch( CannotApplyChangeException ex ) {
+                    Throwable cause = ex.getCause();
 
-                if(    !( cause instanceof PropertyReadOnlyException )
-                    && !( cause instanceof IllegalPropertyValueException ))
-                {
+                    if(    !( cause instanceof PropertyReadOnlyException )
+                        && !( cause instanceof IllegalPropertyValueException ))
+                    {
+                        log.error( ex );
+                        // that's the best we can do
+                    }
+
+                } catch( TransactionException ex ) {
                     log.error( ex );
                     // that's the best we can do
                 }
-
-            } catch( TransactionException ex ) {
-                log.error( ex );
-                // that's the best we can do
+            } else {
+                log.error( "Could not invert change", current );
             }
         }
 

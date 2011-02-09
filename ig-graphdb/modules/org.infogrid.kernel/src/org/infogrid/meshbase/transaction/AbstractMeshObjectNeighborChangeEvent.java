@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -75,14 +75,14 @@ public abstract class AbstractMeshObjectNeighborChangeEvent
     {
         super(  meshObject,
                 meshObjectIdentifier,
-                roleTypes,
-                roleTypeIdentifiers,
-                oldNeighbors,
-                oldNeighborIdentifiers,
-                deltaNeighbors,
-                deltaNeighborIdentifiers,
-                newNeighbors,
-                newNeighborIdentifiers,
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( roleTypes ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( roleTypeIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldNeighbors ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldNeighborIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaNeighbors ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaNeighborIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newNeighbors ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newNeighborIdentifiers ),
                 timeEventOccurred );
         
         theResolver = resolver;
@@ -250,6 +250,26 @@ public abstract class AbstractMeshObjectNeighborChangeEvent
             ret[i] = theResolver.findMeshObjectByIdentifier( vid[i] );
         }
         return ret;
+    }
+
+    /**
+     * Helper method to make sure we don't pass arrays into constructors that have null values.
+     *
+     * @param array the array
+     * @return the array
+     * @throws NullPointerException thrown if a non-null array has a null member
+     */
+    public static <T> T [] checkNoNullArrayMembers(
+            T [] array )
+    {
+        if( array != null ) {
+            for( int i=0 ; i<array.length ; ++i ) {
+                if( array[i] == null ) {
+                    throw new NullPointerException( "Member " + i + " in array is null" );
+                }
+            }
+        }
+        return array;
     }
 
     /**

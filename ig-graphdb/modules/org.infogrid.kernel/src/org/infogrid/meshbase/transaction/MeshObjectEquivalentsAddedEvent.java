@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -19,7 +19,6 @@ import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.MeshObjectUtils;
 import org.infogrid.mesh.EquivalentAlreadyException;
 import org.infogrid.meshbase.MeshBase;
-
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
 
@@ -197,49 +196,18 @@ public class MeshObjectEquivalentsAddedEvent
     }
     
     /**
-     * <p>Assuming that this Change was applied to a MeshObject in this MeshBase before,
-     *    unapply (undo) this Change.
-     * <p>This method will attempt to create a Transaction if none is present on the
-     * current Thread.</p>
+     * <p>Create a Change that undoes this Change.</p>
      *
-     * @param base the MeshBase in which to unapply the Change
-     * @return the MeshObject to which the Change was unapplied
-     * @throws CannotUnapplyChangeException thrown if the Change could not be unapplied
-     * @throws TransactionException thrown if a Transaction didn't exist on this Thread and
-     *         could not be created
+     * @return the inverse Change, or null if no inverse Change could be constructed.
      */
-    public MeshObject unapplyFrom(
-            MeshBase base )
-        throws
-            CannotUnapplyChangeException,
-            TransactionException
+    public MeshObjectEquivalentsRemovedEvent inverse()
     {
-        setResolver( base );
-
-        Transaction tx = null;
-
-        try {
-            tx = base.createTransactionNowIfNeeded();
-
-            MeshObject    otherObject = getSource();
-            MeshObject [] equivalents = getDeltaValue();
-
-            for( MeshObject current : equivalents ) {
-                current.removeAsEquivalent();
-            }
-            return otherObject;
-
-        } catch( TransactionException ex ) {
-            throw ex;
-
-        } catch( Throwable ex ) {
-            throw new CannotUnapplyChangeException.ExceptionOccurred( base, ex );
-
-        } finally {
-            if( tx != null ) {
-                tx.commitTransaction();
-            }
-        }
+        return new MeshObjectEquivalentsRemovedEvent(
+                getSource(),
+                getNewValue(),
+                getDeltaValue(),
+                getOldValue(),
+                getTimeEventOccurred() );
     }
 
     /**

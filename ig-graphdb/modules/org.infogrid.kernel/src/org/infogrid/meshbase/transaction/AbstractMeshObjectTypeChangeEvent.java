@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -40,11 +40,11 @@ public abstract class AbstractMeshObjectTypeChangeEvent
      *
      * @param source the MeshObject that is the source of the event
      * @param sourceIdentifier the identifier representing the source MeshObject of the event
-     * @param oldValue the old set of EntityTypes, prior to the event
+     * @param oldValues the old set of EntityTypes, prior to the event
      * @param oldValueIdentifiers the identifiers representing the old set of EntityTypes, prior to the event
-     * @param deltaValue the EntityTypes that changed
+     * @param deltaValues the EntityTypes that changed
      * @param deltaValueIdentifiers the identifiers of the EntityTypes that changed
-     * @param newValue the new set of EntityTypes, after the event
+     * @param newValues the new set of EntityTypes, after the event
      * @param newValueIdentifiers the identifiers representing the new set of EntityTypes, after the event
      * @param timeEventOccurred the time at which the event occurred, in <code>System.currentTimeMillis</code> format
      * @param resolver the MeshBase against which the MeshObjectIdentifiers are currently resolved, if any
@@ -52,11 +52,11 @@ public abstract class AbstractMeshObjectTypeChangeEvent
     protected AbstractMeshObjectTypeChangeEvent(
             MeshObject           source,
             MeshObjectIdentifier sourceIdentifier,
-            EntityType []        oldValue,
+            EntityType []        oldValues,
             MeshTypeIdentifier[] oldValueIdentifiers,
-            EntityType []        deltaValue,
+            EntityType []        deltaValues,
             MeshTypeIdentifier[] deltaValueIdentifiers,
-            EntityType []        newValue,
+            EntityType []        newValues,
             MeshTypeIdentifier[] newValueIdentifiers,
             long                 timeEventOccurred,
             MeshBase             resolver )
@@ -65,12 +65,12 @@ public abstract class AbstractMeshObjectTypeChangeEvent
                 sourceIdentifier,
                 MeshObject._MESH_OBJECT_TYPES_PROPERTY,
                 MeshObject._MESH_OBJECT_TYPES_PROPERTY,
-                oldValue,
-                oldValueIdentifiers,
-                deltaValue,
-                deltaValueIdentifiers,
-                newValue,
-                newValueIdentifiers,
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( oldValueIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( deltaValueIdentifiers ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newValues ),
+                AbstractMeshObjectNeighborChangeEvent.checkNoNullArrayMembers( newValueIdentifiers ),
                 timeEventOccurred );
 
         theResolver = resolver;

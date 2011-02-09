@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -211,58 +211,19 @@ public class MeshObjectNeighborRemovedEvent
     }
     
     /**
-     * <p>Assuming that this Change was applied to a MeshObject in this MeshBase before,
-     *    unapply (undo) this Change.
-     * <p>This method will attempt to create a Transaction if none is present on the
-     * current Thread.</p>
+     * <p>Create a Change that undoes this Change.</p>
      *
-     * @param base the MeshBase in which to unapply the Change
-     * @return the MeshObject to which the Change was unapplied
-     * @throws CannotUnapplyChangeException thrown if the Change could not be unapplied
-     * @throws TransactionException thrown if a Transaction didn't exist on this Thread and
-     *         could not be created
+     * @return the inverse Change, or null if no inverse Change could be constructed.
      */
-    public MeshObject unapplyFrom(
-            MeshBase base )
-        throws
-            CannotUnapplyChangeException,
-            TransactionException
+    public MeshObjectNeighborAddedEvent inverse()
     {
-        setResolver( base );
-
-        Transaction tx = null;
-
-        MeshObject    otherObject; // declaring this out here makes debugging much easier
-        MeshObject [] relatedOtherObjects;
-        RoleType []   roleTypes;
-
-        try {
-            tx = base.createTransactionNowIfNeeded();
-
-            otherObject         = getSource();
-            relatedOtherObjects = getDeltaValue();
-            roleTypes           = getProperty();
-
-            for( int i=0 ; i<relatedOtherObjects.length ; ++i ) {
-                if( roleTypes != null && roleTypes.length > 0 ) {
-                    otherObject.relateAndBless( roleTypes, relatedOtherObjects[i] );
-                } else {
-                    otherObject.relate( relatedOtherObjects[i] );
-                }
-            }
-            return otherObject;
-
-        } catch( TransactionException ex ) {
-            throw ex;
-
-        } catch( Throwable ex ) {
-            throw new CannotUnapplyChangeException.ExceptionOccurred( base, ex );
-
-        } finally {
-            if( tx != null ) {
-                tx.commitTransaction();
-            }
-        }
+        return new MeshObjectNeighborAddedEvent(
+                getSource(),
+                getProperty(),
+                getNewValue(),
+                getDeltaValue()[0], // let's hope this is right
+                getOldValue(),
+                getTimeEventOccurred() );
     }
 
     /**
