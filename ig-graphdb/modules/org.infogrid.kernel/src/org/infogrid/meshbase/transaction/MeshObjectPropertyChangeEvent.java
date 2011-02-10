@@ -196,6 +196,25 @@ public class MeshObjectPropertyChangeEvent
     }
 
     /**
+     * Determine whether another MeshObjectPropertyChangeEvent affects the same
+     * Property (i.e. same MeshObject, same PropertyType) as this one.
+     * 
+     * @param candidate the candidate MeshObjectPropertyChangeEvent
+     * @return true if the candidate affects the same Property as this
+     */
+    public boolean affectsSamePropertyAs(
+            MeshObjectPropertyChangeEvent candidate )
+    {
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier() )) {
+            return false;
+        }
+        if( !getPropertyIdentifier().equals( candidate.getPropertyIdentifier() )) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * <p>Apply this Change to a MeshObject in this MeshBase. This method
      *    is intended to make it easy to reproduce Changes that were made in
      *    one MeshBase to MeshObjects in another MeshBase.</p>
@@ -262,6 +281,52 @@ public class MeshObjectPropertyChangeEvent
                 getNewValue(),
                 getOldValue(),
                 getTimeEventOccurred() );
+    }
+
+    /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        if( !( candidate instanceof MeshObjectPropertyChangeEvent )) {
+            return false;
+        }
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier())) {
+            return false;
+        }
+        MeshObjectPropertyChangeEvent realCandidate = (MeshObjectPropertyChangeEvent) candidate;
+
+        if( !getPropertyIdentifier().equals( realCandidate.getPropertyIdentifier())) {
+            return false;
+        }
+
+        Object one = getOldValue();
+        Object two = realCandidate.getNewValue();
+
+        if( one == null ) {
+            if( two != null ) {
+                return false;
+            }
+        } else if( !one.equals( two )) {
+            return false;
+        }
+
+        one = getNewValue();
+        two = realCandidate.getOldValue();
+
+        if( one == null ) {
+            if( two != null ) {
+                return false;
+            }
+        } else if( !one.equals( two )) {
+            return false;
+        }
+
+        return true;
     }
 
     /**

@@ -211,6 +211,18 @@ public class MeshObjectEquivalentsAddedEvent
     }
 
     /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        return false; // FIXME
+    }
+
+    /**
      * Determine equality.
      *
      * @param other the Object to compare with

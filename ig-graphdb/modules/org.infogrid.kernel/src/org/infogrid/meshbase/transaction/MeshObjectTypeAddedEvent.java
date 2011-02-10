@@ -181,6 +181,30 @@ public class MeshObjectTypeAddedEvent
     }
 
     /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        if( !( candidate instanceof MeshObjectTypeRemovedEvent )) {
+            return false;
+        }
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier())) {
+            return false;
+        }
+        MeshObjectTypeRemovedEvent realCandidate = (MeshObjectTypeRemovedEvent) candidate;
+
+        if( !ArrayHelper.hasSameContentOutOfOrder( getDeltaValueIdentifier(), realCandidate.getDeltaValueIdentifier(), true )) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Determine equality.
      *
      * @param other the Object to compare with

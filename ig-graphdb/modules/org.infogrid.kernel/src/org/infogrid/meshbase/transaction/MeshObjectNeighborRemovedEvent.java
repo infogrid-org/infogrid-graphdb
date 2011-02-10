@@ -18,7 +18,6 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.MeshObjectUtils;
 import org.infogrid.meshbase.MeshBase;
-import org.infogrid.model.primitives.RoleType;
 import org.infogrid.util.ArrayHelper;
 
 /**
@@ -224,6 +223,27 @@ public class MeshObjectNeighborRemovedEvent
                 getDeltaValue()[0], // let's hope this is right
                 getOldValue(),
                 getTimeEventOccurred() );
+    }
+
+    /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        if( !( candidate instanceof MeshObjectNeighborAddedEvent )) {
+            return false;
+        }
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier())) {
+            return false;
+        }
+        if( !getDeltaValueIdentifier().equals( candidate.getDeltaValueIdentifier())) {
+            return false;
+        }
+        return true;
     }
 
     /**

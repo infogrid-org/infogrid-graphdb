@@ -91,4 +91,13 @@ public interface Change<S,SID,V,VID>
      * @return the inverse Change, or null if no inverse Change could be constructed.
      */
     public abstract Change inverse();
+
+    /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public abstract boolean isInverse(
+            Change candidate );
 }

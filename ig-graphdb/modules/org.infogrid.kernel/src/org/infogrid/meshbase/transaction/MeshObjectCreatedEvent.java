@@ -270,6 +270,24 @@ public class MeshObjectCreatedEvent
     }
 
     /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        if( !( candidate instanceof MeshObjectDeletedEvent )) {
+            return false;
+        }
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Clear cached objects to force a re-resolve.
      */
     @Override

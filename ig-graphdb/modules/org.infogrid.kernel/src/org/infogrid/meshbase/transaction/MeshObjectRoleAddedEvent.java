@@ -249,6 +249,32 @@ public class MeshObjectRoleAddedEvent
     }
 
     /**
+     * Determine whether a given Change is the inverse of this Change.
+     *
+     * @param candidate the candidate Change
+     * @return true if the candidate Change is the inverse of this Change
+     */
+    public boolean isInverse(
+            Change candidate )
+    {
+        if( !( candidate instanceof MeshObjectRoleRemovedEvent )) {
+            return false;
+        }
+        if( !getAffectedMeshObjectIdentifier().equals( candidate.getAffectedMeshObjectIdentifier())) {
+            return false;
+        }
+        if( !getDeltaValueIdentifier().equals( candidate.getDeltaValueIdentifier())) {
+            return false;
+        }
+        MeshObjectRoleRemovedEvent realCandidate = (MeshObjectRoleRemovedEvent) candidate;
+
+        if( !getNeighborMeshObjectIdentifier().equals( realCandidate.getNeighborMeshObjectIdentifier())) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
      * Determine equality.
      *
      * @param other the Object to compare with

@@ -19,6 +19,7 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.AbstractMeshObjectRoleChangeEvent;
 import org.infogrid.meshbase.transaction.CannotApplyChangeException;
+import org.infogrid.meshbase.transaction.Change;
 import org.infogrid.meshbase.transaction.MeshObjectRoleAddedEvent;
 import org.infogrid.meshbase.transaction.MeshObjectRoleRemovedEvent;
 import org.infogrid.meshbase.transaction.TransactionException;
@@ -186,6 +187,28 @@ public abstract class TraversalPathDelegatedRoleChangeEvent
         }
 
         /**
+         * Determine whether a given Change is the inverse of this Change.
+         *
+         * @param candidate the candidate Change
+         * @return true if the candidate Change is the inverse of this Change
+         */
+        public boolean isInverse(
+                Change candidate )
+        {
+            if( !( candidate instanceof Removed )) {
+                return false;
+            }
+            Removed realCandidate = (Removed) candidate;
+            if( !thePath.equals( realCandidate.thePath )) {
+                return false;
+            }
+            if( !theOriginalEvent.isInverse( realCandidate.theOriginalEvent )) {
+                return false;
+            }
+            return true;
+        }
+
+        /**
          * Determine equality.
          * 
          * @param other the Object to compare with
@@ -273,6 +296,28 @@ public abstract class TraversalPathDelegatedRoleChangeEvent
             return new Added(
                     thePath,
                     ((MeshObjectRoleRemovedEvent)theOriginalEvent).inverse() );
+        }
+
+        /**
+         * Determine whether a given Change is the inverse of this Change.
+         *
+         * @param candidate the candidate Change
+         * @return true if the candidate Change is the inverse of this Change
+         */
+        public boolean isInverse(
+                Change candidate )
+        {
+            if( !( candidate instanceof Added )) {
+                return false;
+            }
+            Added realCandidate = (Added) candidate;
+            if( !thePath.equals( realCandidate.thePath )) {
+                return false;
+            }
+            if( !theOriginalEvent.isInverse( realCandidate.theOriginalEvent )) {
+                return false;
+            }
+            return true;
         }
 
         /**
