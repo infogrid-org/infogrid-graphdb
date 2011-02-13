@@ -390,10 +390,8 @@ public class XpathTraversalTranslator
             buf.append( realToConvert.getFilterType().getName().value() );
             buf.append( PARENTHESIS_CLOSE );
 
-        } else if( toConvert instanceof ByRelatedMeshObjectSelector ) {
-            // FIXME
         } else {
-            log.error( "Unknown type", toConvert );
+            throw new IllegalArgumentException( "Cannot serialize " + toConvert );
         }
     }
 

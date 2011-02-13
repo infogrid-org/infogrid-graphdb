@@ -81,7 +81,25 @@ public class TraversalTest1
         TraversalSpecification [] selectiveTestData = new TraversalSpecification[] {
                 SelectiveTraversalSpecification.create(
                         TestSubjectArea.AR1A.getSource(),
-                        ByTypeMeshObjectSelector.create( TestSubjectArea.A ))
+                        ByTypeMeshObjectSelector.create( TestSubjectArea.A )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.AA_Y, StringValue.create( "abc" ), PropertyComparisonOperator.GREATER )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.B_Z, TestSubjectArea.B_Z_type_VALUE1, PropertyComparisonOperator.SMALLER )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.AA_Y, IntegerValue.create( 5 ), PropertyComparisonOperator.EQUAL )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.AA_Y, FloatValue.create( -5.1 ), PropertyComparisonOperator.NON_EQUAL )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.AA_Y, CurrencyValue.create( 2, 4, "USD" ), PropertyComparisonOperator.GREATER_OR_EQUALS )),
+//                SelectiveTraversalSpecification.create(
+//                        TestSubjectArea.AR1A.getSource(),
+//                        ByPropertyValueSelector.create( TestSubjectArea.AA_Y, FloatValue.create( 5.0 ), PropertyComparisonOperator.SMALLER_OR_EQUALS )),
         };
 
         //
