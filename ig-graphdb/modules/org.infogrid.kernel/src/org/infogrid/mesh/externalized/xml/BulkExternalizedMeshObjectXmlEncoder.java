@@ -71,7 +71,9 @@ public class BulkExternalizedMeshObjectXmlEncoder
         theMeshBase = mb;
 
         try {
-            theParser.parse( inStream, this );
+            synchronized( theParser ) {
+                theParser.parse( inStream, this );
+            }
         
             Collection<ParserFriendlyExternalizedMeshObject> parsed = getParsedExternalizedMeshObjects();
             return parsed.iterator();

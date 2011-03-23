@@ -67,12 +67,6 @@ public class PropertyValueXmlEncoder
      */
     public PropertyValueXmlEncoder()
     {
-        try {
-            theParser = theSaxParserFactory.newSAXParser();
-
-        } catch( Throwable t ) {
-            log.error( t );
-        }
     }
 
     /**
@@ -255,7 +249,9 @@ public class PropertyValueXmlEncoder
             IOException
     {
         try {
-            theParser.parse( contentAsStream, this );
+            synchronized( theParser ) {
+                theParser.parse( contentAsStream, this );
+            }
             return thePropertyValue;
 
         } catch( SAXException ex ) {
@@ -741,14 +737,31 @@ public class PropertyValueXmlEncoder
     }
 
     /**
+     * Helper method to catch exception when creating a SAX parser.
+     *
+     * @return the SAXParser
+     */
+    static SAXParser createSaxParser()
+    {
+        try {
+            return theSaxParserFactory.newSAXParser();
+
+        } catch( Throwable t ) {
+            log.error( t );
+
+            return null;
+        }
+    }
+
+    /**
      * The character encoding that we are using.
      */
     public static final String ENCODING = "UTF-8";
 
     /**
-     * Our SAX parser.
+     * Our SAX parser. All calls to it must be synchronized to it.
      */
-    protected SAXParser theParser;
+    protected final SAXParser theParser = createSaxParser();
     
     /**
      * The error message prefix in case we need it.

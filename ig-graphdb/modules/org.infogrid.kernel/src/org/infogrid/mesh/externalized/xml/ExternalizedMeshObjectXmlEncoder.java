@@ -331,7 +331,9 @@ public class ExternalizedMeshObjectXmlEncoder
         theMeshBase = mb;
         
         try {
-            theParser.parse( contentAsStream, this );
+            synchronized( theParser ) {
+                theParser.parse( contentAsStream, this );
+            }
             return theMeshObjectBeingParsed;
 
         } catch( SAXException ex ) {
