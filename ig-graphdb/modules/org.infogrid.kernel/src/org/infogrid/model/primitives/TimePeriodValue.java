@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -372,7 +372,7 @@ public final class TimePeriodValue
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
@@ -382,13 +382,9 @@ public final class TimePeriodValue
         throws
             StringifierException
     {
-        String  editVar   = null;
-        Integer editIndex = null;
+        String  editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+        Integer editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
 
-        if( pars != null ) {
-            editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-            editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
-        }
         if( editIndex == null ) {
             editIndex = 1;
         }

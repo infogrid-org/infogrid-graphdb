@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -30,7 +30,9 @@ import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.traversal.BreadthFirstSupertypeIterator;
 import org.infogrid.util.UniqueIterator;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.SimpleStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
 /**
@@ -237,6 +239,8 @@ public class ImplementationGenerator
         throws
             StringifierException
     {
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
+
         // JavaDoc comment
         outStream.println( "/**" );
         outStream.println( "  * <p>Java implementation class for EntityType " + theMeshType.getIdentifier().toExternalForm() + ".</p>" );
@@ -249,15 +253,15 @@ public class ImplementationGenerator
         outStream.println( "  * <table>" );
         outStream.println(
                   "  *  <tr><td>Identifier:</td><td><tt>"
-                + theMeshType.getIdentifier().toStringRepresentation( theCommentsRepresentation, null )
+                + theMeshType.getIdentifier().toStringRepresentation( theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( theMeshType.getName(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getName(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>IsAbstract:</td><td>"
-                + PropertyValue.toStringRepresentationOrNull( theMeshType.getIsAbstract(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getIsAbstract(), theCommentsRepresentation, pars )
                 + "</td></tr>" );
         generateL10Map(
                 theMeshType.getUserVisibleNameMap(),
@@ -349,21 +353,21 @@ public class ImplementationGenerator
             StringValue   defaultValueCode = pts[i].getDefaultValueCode();
 
             if( defaultValue != null ) {
-                propTypesString.append(  "                    " + propertyTypeName.toUpperCase() );
+                propTypesString.append(  "                    " ).append( propertyTypeName.toUpperCase() );
                 propTypesString.append( ",\n" );
                 
-                propValuesString.append( "                    " + defaultValue.getJavaConstructorString(
+                propValuesString.append( "                    " ).append( defaultValue.getJavaConstructorString(
                         getClassPrefix() + theMeshTypeName + ".class.getClassLoader()",
-                        propertyTypeName.toUpperCase() + "_type" ) );
+                        propertyTypeName.toUpperCase() + "_type" ));
                 propValuesString.append( ",\n" );
             }
             // this should (?) be "else if" but because they are mutually exclusive, we can
             // do this, which helps with debugging in case they are not indeed mutually exclusive ;-)
             if( defaultValueCode != null ) {
-                propTypesString.append(  "                    " + propertyTypeName.toUpperCase() );
+                propTypesString.append( "                    " ).append(  propertyTypeName.toUpperCase());
                 propTypesString.append( ",\n" );
                 
-                propValuesString.append( "                    " + defaultValueCode.getAsString() );
+                propValuesString.append( "                    " ).append( defaultValueCode.getAsString());
                 propValuesString.append( ",\n" );
             }
         }

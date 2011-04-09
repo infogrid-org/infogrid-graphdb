@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -31,7 +31,9 @@ import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.SimpleStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
 /**
@@ -84,6 +86,7 @@ public class InterfaceGenerator
         log.info( "Generating Interface for " + saName + " " + theMeshType );
 
         PrintWriter outStream = getCodePrintWriterFor( theMeshType );
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
 
         outStream.println( legalNotice );
         outStream.println( "//" );
@@ -120,11 +123,11 @@ public class InterfaceGenerator
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( theMeshType.getName(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getName(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         outStream.println(
                   "  *  <tr><td>IsAbstract:</td><td>"
-                + PropertyValue.toStringRepresentationOrNull( theMeshType.getIsAbstract(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( theMeshType.getIsAbstract(), theCommentsRepresentation, pars )
                 + "</td></tr>" );
         generateL10Map(
                 theMeshType.getUserVisibleNameMap(),
@@ -396,6 +399,8 @@ public class InterfaceGenerator
         outStream.println( "    public static final SubjectArea _SA = ModelBaseSingleton.findSubjectArea( \"" + packageName + "\" );" );
         outStream.println();
 
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
+
         for( CollectableMeshType type : theSa.getCollectableMeshTypes() ) {
             if( !type.getDoGenerateInterfaceCode().value() ) {
                 continue;
@@ -406,7 +411,7 @@ public class InterfaceGenerator
             
             if( type.getUserVisibleDescription() != null ) {
                 outStream.println( "    /**" );
-                outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( type.getUserVisibleDescription(), theCommentsRepresentation, null ));
+                outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( type.getUserVisibleDescription(), theCommentsRepresentation, pars ));
                 outStream.println( "      */" );
             }
 
@@ -426,7 +431,7 @@ public class InterfaceGenerator
                     outStream.println();
                     if( propType.getUserVisibleDescription() != null ) {
                         outStream.println( "    /**" );
-                        outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( propType.getUserVisibleDescription(), theCommentsRepresentation, null ));
+                        outStream.println( "      * " + PropertyValue.toStringRepresentationOrNull( propType.getUserVisibleDescription(), theCommentsRepresentation, pars ));
                         outStream.println( "      */" );
                     }
                     outStream.println( "    public static final PropertyType " + upperName + "_" + upperPropName + " = " + packageName + getInterfaceSubPackageName() + "." + name + "." + propName.toUpperCase() + ";" );
@@ -482,8 +487,10 @@ public class InterfaceGenerator
         w.println( "  <title>Documentation for " + theSubjectArea.getIdentifier().toExternalForm() + "</title>" );
         w.println( " </head>" );
         w.println( " <body>" );
-        
-        w.println( PropertyValue.toStringRepresentationOrNull( theSubjectArea.getUserVisibleDescription(), theCommentsRepresentation, null ));
+
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
+
+        w.println( PropertyValue.toStringRepresentationOrNull( theSubjectArea.getUserVisibleDescription(), theCommentsRepresentation, pars ));
 
         w.println( " </body>" );
         w.println( "</html>" );

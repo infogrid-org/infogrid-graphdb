@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -1403,7 +1403,7 @@ public abstract class AbstractMeshBase
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
@@ -1413,10 +1413,7 @@ public abstract class AbstractMeshBase
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase = true;
-        if( pars != null ) {
-            isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
-        }
+        boolean isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
 
         String key;
         if( isDefaultMeshBase ) {
@@ -1439,7 +1436,7 @@ public abstract class AbstractMeshBase
      * as a link/hyperlink and can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param pars the parameters to use
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
@@ -1449,19 +1446,11 @@ public abstract class AbstractMeshBase
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase  = true;
-        String contextPath         = null;
-        String additionalArguments = null;
-        String target              = null;
-        String title               = null;
-
-        if( pars != null ) {
-            isDefaultMeshBase   = equals( pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
-            contextPath         = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
-            target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
-            title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
-            additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
-        }
+        boolean isDefaultMeshBase   = equals( pars.get(  MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+        String  contextPath         = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
+        String  target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
+        String  title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
+        String  additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
 
         String key;
         if( isDefaultMeshBase ) {

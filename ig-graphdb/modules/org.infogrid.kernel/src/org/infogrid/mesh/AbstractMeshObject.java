@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -1524,23 +1524,24 @@ public abstract class AbstractMeshObject
 
     /**
      * Determine whether this MeshObject's relationship to the other MeshObject is blessed
-     * with a given RoleType.
+     * with a given RoleType. Also returns false if the two MeshObjects are not related.
      *
      * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to
      * @param neighbor the other MeshObject
-     * @return true if this MeshObject's relationship to the other MeshObject is blessed with the given RoleType
-     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     * @return true if this MeshObject has a relationship to the other MeshObject  and it is blessed with the given RoleType
      */
     public final boolean isRelated(
             RoleType   thisEnd,
             MeshObject neighbor )
-        throws
-            NotRelatedException
     {
-        RoleType [] allRoleTypes = getRoleTypes( neighbor );
-        if( ArrayHelper.isIn( thisEnd, allRoleTypes, false )) {
-            return true;
-        } else {
+        try {
+            RoleType [] allRoleTypes = getRoleTypes( neighbor );
+            if( ArrayHelper.isIn( thisEnd, allRoleTypes, false )) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch( NotRelatedException ex ) {
             return false;
         }
     }

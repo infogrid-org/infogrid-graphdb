@@ -98,7 +98,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
      *
      * @param soFar the String so far, if any
      * @param arg the Object to format, or null
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return the formatted String
      */
     @Override

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -29,7 +29,9 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.SimpleStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
 
 /**
@@ -148,27 +150,29 @@ public abstract class AbstractGenerator
         throws
             StringifierException
     {
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
+
         w.println( "      * <table>" );
         w.println( "      *  <tr><td>Identifier:</td><td><tt>"
                 + thePropertyType.getIdentifier().toExternalForm()
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>Name:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getName(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getName(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>DataType:</td><td><tt>"
-                + thePropertyType.getDataType().toStringRepresentation( theCommentsRepresentation, null )
+                + thePropertyType.getDataType().toStringRepresentation( theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>DefaultValue:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getDefaultValue(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getDefaultValue(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>IsOptional:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsOptional(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsOptional(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>IsReadOnly:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsReadOnly(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getIsReadOnly(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         w.println( "      *  <tr><td>SequenceNumber:</td><td><tt>"
-                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getSequenceNumber(), theCommentsRepresentation, null )
+                + PropertyValue.toStringRepresentationOrNull( thePropertyType.getSequenceNumber(), theCommentsRepresentation, pars )
                 + "</tt></td></tr>" );
         generateL10Map(
                 thePropertyType.getUserVisibleNameMap(),
@@ -331,10 +335,11 @@ public abstract class AbstractGenerator
         if( theMap.isEmpty() && theMap.getDefault() == null ) {
             return;
         }
+        StringRepresentationParameters pars = SimpleStringRepresentationParameters.create();
         try {
             w.print( prefix );
             w.print( "<table><tr><td>default locale:</td><td>" );
-            w.print( PropertyValue.toStringRepresentationOrNull( theMap.getDefault(), theCommentsRepresentation, null ));
+            w.print( PropertyValue.toStringRepresentationOrNull( theMap.getDefault(), theCommentsRepresentation, pars ));
             w.print( "</td></tr>" );
             Iterator<String> theIter = theMap.keyIterator();
             while( theIter.hasNext() ) {
@@ -342,7 +347,7 @@ public abstract class AbstractGenerator
                 w.print( "<tr><td>" );
                 w.print( key );
                 w.print( "</td><td>" );
-                w.print( PropertyValue.toStringRepresentationOrNull( theMap.getExact( key ), theCommentsRepresentation, null ));
+                w.print( PropertyValue.toStringRepresentationOrNull( theMap.getExact( key ), theCommentsRepresentation, pars ));
                 w.print( "</td></tr>" );
             }
             w.print( "</table>" );
@@ -393,7 +398,7 @@ public abstract class AbstractGenerator
             + "// \n"
             + "// For more information about InfoGrid go to http://infogrid.org/\n"
             + "//\n"
-            + "// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst\n"
+            + "// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst\n"
             + "// All rights reserved.\n"
             + "//\n";
 

@@ -84,7 +84,7 @@ public class MeshBaseIdentifier
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
@@ -146,7 +146,7 @@ public class MeshBaseIdentifier
      * as a link/hyperlink and can be shown to the user.
      * 
      * @param rep the StringRepresentation
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
@@ -156,11 +156,7 @@ public class MeshBaseIdentifier
         throws
             StringifierException
     {
-        String contextPath         = null;
-
-        if( pars != null ) {
-            contextPath = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
-        }
+        String contextPath = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
 
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype

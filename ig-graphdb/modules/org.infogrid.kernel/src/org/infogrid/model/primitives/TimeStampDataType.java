@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -162,7 +162,7 @@ public final class TimeStampDataType
      * Obtain a String representation of this instance that can be shown to the user.
      *
      * @param rep the StringRepresentation
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
@@ -250,7 +250,9 @@ public final class TimeStampDataType
                             ((Number) found[6]).intValue(),    // hour
                             ((Number) found[7]).intValue(),    // minute
                             ((Number) found[9]).intValue());   // second
-                    cal.set(  Calendar.MILLISECOND , ((Number) found[10] ).intValue() );
+                    if( found[10] != null ) {
+                        cal.set(  Calendar.MILLISECOND, ((Number) found[10] ).intValue() );
+                    }
                     break;
             }
 

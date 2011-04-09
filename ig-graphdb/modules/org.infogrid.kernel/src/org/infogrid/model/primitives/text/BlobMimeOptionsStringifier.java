@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -126,7 +126,7 @@ public class BlobMimeOptionsStringifier
      *
      * @param soFar the String so far, if any
      * @param arg the Object to format, or null
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return the formatted String
      */
     public String format(
@@ -135,13 +135,9 @@ public class BlobMimeOptionsStringifier
             StringRepresentationParameters pars )
     {
         String selectedMime;
-        if( pars != null ) {
-            BlobValue selected = (BlobValue) pars.get( CURRENT_VALUE );
-            if( selected != null ) {
-                selectedMime = selected.getMimeType();
-            } else {
-                selectedMime = null;
-            }
+        BlobValue selected = (BlobValue) pars.get( CURRENT_VALUE );
+        if( selected != null ) {
+            selectedMime = selected.getMimeType();
         } else {
             selectedMime = null;
         }
@@ -183,7 +179,7 @@ public class BlobMimeOptionsStringifier
      *
      * @param soFar the String so far, if any
      * @param arg the Object to format, or null
-     * @param pars collects parameters that may influence the String representation
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @return the formatted String
      * @throws ClassCastException thrown if this Stringifier could not format the provided Object
      *         because the provided Object was not of a type supported by this Stringifier
