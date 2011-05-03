@@ -22,6 +22,7 @@ import org.infogrid.mesh.TypedMeshObjectFacade;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
 import org.infogrid.mesh.externalized.ParserFriendlyExternalizedMeshObjectFactory;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.mesh.set.MeshObjectSet;
 
 import org.infogrid.model.primitives.EntityType;
 
@@ -324,6 +325,28 @@ public interface MeshBaseLifecycleManager
      */
     public abstract void deleteMeshObjects(
             MeshObject [] theObjects )
+        throws
+            TransactionException,
+            NotPermittedException;
+
+    /**
+     * <p>Semantically delete all MeshObjects in a MeshObjectSet at the same time.</p>
+     *
+     * <p>This call is a "semantic delete", which means that an existing
+     * MeshObject will go away in all its replicas. Due to time lag, the MeshObject
+     * may still exist in certain replicas in other places for a while, but
+     * the request to deleteMeshObjects all objects is in the queue and will get there
+     * eventually.</p>
+     *
+     * <p>This call either succeeds or fails in total: if one or more of the specified MeshObject cannot be
+     *    deleted for some reason, none of the other MeshObjects will be deleted either.</p>
+     *
+     * @param theSet the set of MeshObjects to be semantically deleted
+     * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
+     */
+    public abstract void deleteMeshObjects(
+            MeshObjectSet theSet )
         throws
             TransactionException,
             NotPermittedException;
