@@ -63,6 +63,16 @@ public interface MeshObjectIdentifierFactory
     public abstract MeshObjectIdentifier createMeshObjectIdentifier();
 
     /**
+     * Create a unique MeshObjectIdentifier of a certain length for a MeshObject that can be used to create a MeshObject
+     * with the associated MeshBaseLifecycleManager.
+     *
+     * @param length the desired length of the MeshObjectIdentifier
+     * @return the created Identifier
+     */
+    public abstract MeshObjectIdentifier createMeshObjectIdentifier(
+            int length );
+
+    /**
      * Recreate a MeshObjectIdentifier from an external form.
      *
      * @param raw the external form

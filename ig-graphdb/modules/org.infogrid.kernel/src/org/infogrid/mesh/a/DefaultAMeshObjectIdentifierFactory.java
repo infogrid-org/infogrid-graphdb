@@ -19,8 +19,8 @@ import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.AbstractMeshObjectIdentifierFactory;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.StringTooShortParseException;
+import org.infogrid.util.UniqueStringGenerator;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * Default implementation of MeshObjectIdentifierFactory for the A implementation.
@@ -36,16 +36,34 @@ public class DefaultAMeshObjectIdentifierFactory
      */
     public static DefaultAMeshObjectIdentifierFactory create()
     {
-        DefaultAMeshObjectIdentifierFactory ret = new DefaultAMeshObjectIdentifierFactory();
+        UniqueStringGenerator generator = UniqueStringGenerator.create( DEFAULT_ID_LENGTH );
+
+        DefaultAMeshObjectIdentifierFactory ret = new DefaultAMeshObjectIdentifierFactory( generator );
+        return ret;
+    }
+
+    /**
+     * Factory method, specify the UniqueStringGenerator to use for automatic identifier generation.
+     *
+     * @param generator the UniqueStringGenerator to use
+     * @return the created DefaultAMeshObjectIdentifierFactory
+     */
+    public static DefaultAMeshObjectIdentifierFactory create(
+            UniqueStringGenerator generator )
+    {
+        DefaultAMeshObjectIdentifierFactory ret = new DefaultAMeshObjectIdentifierFactory( generator );
         return ret;
     }
 
     /**
      * Constructor.
+     *
+     * @param generator the UniqueStringGenerator to use
      */
-    protected DefaultAMeshObjectIdentifierFactory()
+    protected DefaultAMeshObjectIdentifierFactory(
+            UniqueStringGenerator generator )
     {
-        // no op
+        super( generator );
     }
 
     /**
@@ -150,5 +168,10 @@ public class DefaultAMeshObjectIdentifierFactory
      * The minimum length for a local id.
      */
     public final static int MINIMUM_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "MinimumIdLength", 4 );
+
+    /**
+     * The default length for an automatically generated id.
+     */
+    public final static int DEFAULT_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "DefaultIdLength", 64 );
 
 }

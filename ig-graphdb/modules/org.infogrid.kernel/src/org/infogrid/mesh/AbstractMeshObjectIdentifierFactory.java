@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -31,9 +31,13 @@ public abstract class AbstractMeshObjectIdentifierFactory
 
     /**
      * Constructor.
+     *
+     * @param generator the UniqueStringGenerator to use
      */
-    protected AbstractMeshObjectIdentifierFactory()
+    protected AbstractMeshObjectIdentifierFactory(
+            UniqueStringGenerator generator )
     {
+        theUniqueStringGenerator = generator;
     }
 
     /**
@@ -76,7 +80,30 @@ public abstract class AbstractMeshObjectIdentifierFactory
      */
     public MeshObjectIdentifier createMeshObjectIdentifier()
     {
-        String id = theDelegate.createUniqueToken();
+        String id = theUniqueStringGenerator.createUniqueToken();
+
+        try {
+            MeshObjectIdentifier ret = fromExternalForm( id.toString() );
+
+            return ret;
+
+        } catch( ParseException ex ) {
+            log.error( ex );
+            return null;
+        }
+    }
+
+    /**
+     * Create a unique MeshObjectIdentifier of a certain length for a MeshObject that can be used to create a MeshObject
+     * with the associated MeshBaseLifecycleManager.
+     *
+     * @param length the desired length of the MeshObjectIdentifier
+     * @return the created Identifier
+     */
+    public MeshObjectIdentifier createMeshObjectIdentifier(
+            int length )
+    {
+        String id = theUniqueStringGenerator.createUniqueToken( length );
 
         try {
             MeshObjectIdentifier ret = fromExternalForm( id.toString() );
@@ -95,7 +122,7 @@ public abstract class AbstractMeshObjectIdentifierFactory
     protected MeshBase theMeshBase;
 
     /**
-     * The internally used UniqueTokenCreator.
+     * The generator of unique Strings.
      */
-    protected static UniqueStringGenerator theDelegate = UniqueStringGenerator.create( 64 );
+    protected UniqueStringGenerator theUniqueStringGenerator;
 }
