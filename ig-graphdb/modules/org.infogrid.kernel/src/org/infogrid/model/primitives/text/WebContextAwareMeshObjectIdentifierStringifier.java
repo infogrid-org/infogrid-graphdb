@@ -21,9 +21,7 @@ import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.util.Identifier;
-import org.infogrid.util.IdentifierFactory;
 import org.infogrid.util.OneElementIterator;
-import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.ZeroElementCursorIterator;
 import org.infogrid.util.text.IdentifierStringifier;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -130,9 +128,6 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         String ext = realIdentifier.toLocalExternalForm( contextPath, theAssembleAsPartOfLongerId );
 
-        if( ext == null || ext.length() == 0 ) {
-            ext = HOME_OBJECT_STRING;
-        }
         ext = potentiallyShorten( ext, pars );
         ext = escape( ext );
 
@@ -186,7 +181,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         Identifier found;
         try {
-            if( HOME_OBJECT_STRING.equals( rawString )) {
+            if( rawString.length() == 0 ) {
                 found = realFactory.fromExternalForm( null );
             } else if( theProcessColloquial ) {
                 found = realFactory.guessFromExternalForm( realRawString );
@@ -236,7 +231,7 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         try {
             Identifier found;
-            if( HOME_OBJECT_STRING.equals( realRawString )) {
+            if( realRawString.length() == 0 ) {
                 found = realFactory.fromExternalForm( "" );
             } else if( theProcessColloquial ) {
                 found = realFactory.guessFromExternalForm( realRawString );
@@ -274,10 +269,4 @@ public class WebContextAwareMeshObjectIdentifierStringifier
      * If true, escape.
      */
     protected boolean theAssembleAsPartOfLongerId;
-
-    /**
-     * String representing the home object.
-     */
-    public static final String HOME_OBJECT_STRING
-            = ResourceHelper.getInstance( WebContextAwareMeshObjectIdentifierStringifier.class ).getResourceStringOrDefault( "HomeObjectString", "<HOME>" );
 }

@@ -50,6 +50,7 @@ import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.util.ArrayHelper;
+import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
@@ -1086,9 +1087,9 @@ public class AMeshObject
                     checkPermittedTraversal( type, current.getIdentifier(), current );
                     almostRet2[ index++ ] = current;
                 } catch( NotPermittedException ex ) {
-                    log.info( this, current, ex );
+                    log.info( this, current, index, ex );
                 } catch( Throwable t ) {
-                    log.error( this, current, t );
+                    log.error( this, current, index, t );
                 }
             }
             if( index < almostRet2.length ) {
@@ -1947,6 +1948,15 @@ public class AMeshObject
             /* 1 */ getMeshBase(),
             /* 2 */ userVisible );
 
+        } else if( isHomeObject() ) {
+            ret = rep.formatEntry(
+                    getClass(), // dispatch to the right subtype
+                    StringRepresentation.DEFAULT_ENTRY,
+                    pars,
+            /* 0 */ this,
+            /* 1 */ getMeshBase(),
+            /* 2 */ HOME_OBJECT_STRING );
+
         } else {
             ret = theIdentifier.toStringRepresentation( rep, pars );
         }
@@ -2127,6 +2137,12 @@ public class AMeshObject
      * side.
      */
     protected MeshObjectIdentifier [] theEquivalenceSetPointers;
+
+    /**
+     * String representing the home object if no other UserVisibleString could be found.
+     */
+    public static final String HOME_OBJECT_STRING
+            = ResourceHelper.getInstance( AMeshObject.class ).getResourceStringOrDefault( "HomeObjectString", "<HOME>" );
 
     /**
      * Entry in the resource files, prefixed by the StringRepresentation's prefix.
