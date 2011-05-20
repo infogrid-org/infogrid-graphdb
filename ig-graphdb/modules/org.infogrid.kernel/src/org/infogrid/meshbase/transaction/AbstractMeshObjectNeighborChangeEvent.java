@@ -241,6 +241,9 @@ public abstract class AbstractMeshObjectNeighborChangeEvent
     protected MeshObject [] resolveValue(
             MeshObjectIdentifier [] vid )
     {
+        if( vid == null ) {
+            return null;
+        }
         if( theResolver == null ) {
             throw new ValueUnresolvedException( this, vid );
         }
