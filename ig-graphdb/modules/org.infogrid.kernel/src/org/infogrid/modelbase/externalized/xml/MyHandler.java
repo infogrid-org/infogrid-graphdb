@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -41,8 +41,8 @@ import org.infogrid.model.primitives.FloatDataType;
 import org.infogrid.model.primitives.FloatValue;
 import org.infogrid.model.primitives.IntegerDataType;
 import org.infogrid.model.primitives.IntegerValue;
-import org.infogrid.model.primitives.L10Map;
-import org.infogrid.model.primitives.L10MapImpl;
+import org.infogrid.model.primitives.L10PropertyValueMap;
+import org.infogrid.model.primitives.L10PropertyValueMapImpl;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MultiplicityDataType;
 import org.infogrid.model.primitives.MultiplicityValue;
@@ -177,7 +177,6 @@ public class MyHandler
             ExternalizedPropertyType           thePropertyType;
             ExternalizedPropertyTypeGroup      thePropertyTypeGroup;
             ExternalizedProjectedPropertyType  theProjectedPropertyType;
-            ExternalizedEnum                   theEnum;
 
             Object temp;
 
@@ -433,6 +432,9 @@ public class MyHandler
                     break;
                 case XmlModelTokens.REGEX_TOKEN:
                     // noop
+                    break;
+                case XmlModelTokens.REGEX_ERROR_TOKEN:
+                    theStack.push( new ExternalizedAttributes( attrs ));
                     break;
                 case XmlModelTokens.DECLARES_METHOD_TOKEN:
                     // noop
@@ -985,14 +987,14 @@ public class MyHandler
                     theAttributes = (ExternalizedAttributes) theStack.pop();
                     if( !theCollection.isEmpty() ) {
                         String [] domain           = new String[ theCollection.size() ];
-                        L10Map [] userNames        = new L10Map[ domain.length ];
-                        L10Map [] userDescriptions = new L10Map[ domain.length ];
+                        L10PropertyValueMap [] userNames        = new L10PropertyValueMap[ domain.length ];
+                        L10PropertyValueMap [] userDescriptions = new L10PropertyValueMap[ domain.length ];
 
                         for( int i=0 ; i<domain.length ; ++i ) {
                             theEnum = (ExternalizedEnum) theCollection.get( i );
                             domain[i]           = theEnum.getValue();
-                            userNames[i]        = L10MapImpl.create( theEnum.getUserNames(),        StringValue.create( theEnum.getValue() ) );
-                            userDescriptions[i] = L10MapImpl.create( theEnum.getUserDescriptions(), null );
+                            userNames[i]        = L10PropertyValueMapImpl.create( theEnum.getUserNames(),        StringValue.create( theEnum.getValue() ) );
+                            userDescriptions[i] = L10PropertyValueMapImpl.create( theEnum.getUserDescriptions(), null );
                         }
                         theDataType = EnumeratedDataType.create( domain, userNames, userDescriptions, EnumeratedDataType.theDefault );
                     } else {
@@ -1052,6 +1054,11 @@ public class MyHandler
                 case XmlModelTokens.REGEX_TOKEN:
                     theRegex         = (ExternalizedRegex) theStack.peek();
                     theRegex.setRegexString( theCharacters.toString() );
+                    break;
+                case XmlModelTokens.REGEX_ERROR_TOKEN:
+                    theAttributes = (ExternalizedAttributes) theStack.pop();
+                    theRegex      = (ExternalizedRegex) theStack.peek();
+                    theRegex.addRegexErrorString( theAttributes.getValue(  XmlModelTokens.LOCALE_KEYWORD ), theCharacters.toString() );
                     break;
                 case XmlModelTokens.DECLARES_METHOD_TOKEN:
                     theEntityType   = (ExternalizedEntityType) theStack.peek();
@@ -2149,12 +2156,12 @@ public class MyHandler
      * @param theType the data type of the PropertyType
      * @return appropriate L10Map
      */
-    protected L10Map userTableToL10Map(
+    protected L10PropertyValueMap userTableToL10Map(
             Map<String,PropertyValue> theMap,
             PropertyValue             defaultValue,
             DataType                  theType )
     {
-        return L10MapImpl.create( theMap, defaultValue );
+        return L10PropertyValueMapImpl.create( theMap, defaultValue );
     }
 
     /**

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,7 +18,7 @@ import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.L10MapImpl;
+import org.infogrid.model.primitives.L10PropertyValueMapImpl;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.StringDataType;
@@ -29,6 +29,7 @@ import org.infogrid.modelbase.MeshTypeLifecycleManager;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.module.ModuleRequirement;
+import org.infogrid.util.L10MapImpl;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -59,7 +60,7 @@ public class ModelBaseTest3
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "Test.Sa/sa"),
                 StringValue.create( "TestSa" ),
                 StringValue.create( "12354" ),
-                L10MapImpl.create( StringValue.create( "Test SA" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Test SA" ) ),
                 null,
                 new SubjectArea[0],
                 new ModuleRequirement[0],
@@ -71,7 +72,7 @@ public class ModelBaseTest3
         EntityType a = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/A" ),
                 StringValue.create( "A" ),
-                L10MapImpl.create( StringValue.create( "This is a" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is a" ) ),
                 null,
                 null,
                 sa,
@@ -91,7 +92,7 @@ public class ModelBaseTest3
         PropertyType a_name = life.createPropertyType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/A_Name" ),
                 StringValue.create( "Name" ),
-                L10MapImpl.create( StringValue.create( "This is a name" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is a name" ) ),
                 null,
                 a,
                 sa,
@@ -110,7 +111,7 @@ public class ModelBaseTest3
         EntityType b = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/B" ),
                 StringValue.create( "B" ),
-                L10MapImpl.create( StringValue.create( "This is b name" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is b name" ) ),
                 null,
                 null,
                 sa,
@@ -130,7 +131,7 @@ public class ModelBaseTest3
         PropertyType b_name = life.createOverridingPropertyType(
                 new PropertyType[] { a_name },
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/B_Name" ),
-                L10MapImpl.create( StringValue.create( "This is b name" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is b name" ) ),
                 b,
                 sa,
                 StringDataType.theDefault,
@@ -147,7 +148,7 @@ public class ModelBaseTest3
         EntityType c = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/C" ),
                 StringValue.create( "C" ),
-                L10MapImpl.create( StringValue.create( "This is c" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is c" ) ),
                 null,
                 null,
                 sa,
@@ -184,7 +185,7 @@ public class ModelBaseTest3
         EntityType d = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/D" ),
                 StringValue.create( "D" ),
-                L10MapImpl.create( StringValue.create( "This is d" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is d" ) ),
                 null,
                 null,
                 sa,
@@ -207,7 +208,7 @@ public class ModelBaseTest3
         EntityType e = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/E" ),
                 StringValue.create( "E" ),
-                L10MapImpl.create( StringValue.create( "This is e" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is e" ) ),
                 null,
                 null,
                 sa,
@@ -227,7 +228,7 @@ public class ModelBaseTest3
         PropertyType e_name = life.createOverridingPropertyType(
                 new PropertyType[] { a_name },
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/E_Name" ),
-                L10MapImpl.create( StringValue.create( "This is e name" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is e name" ) ),
                 e,
                 sa,
                 StringDataType.theDefault,
@@ -246,7 +247,7 @@ public class ModelBaseTest3
             EntityType f = life.createEntityType(
                     theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/F" ),
                     StringValue.create( "F" ),
-                    L10MapImpl.create( StringValue.create( "This is f" ) ),
+                    L10PropertyValueMapImpl.create( StringValue.create( "This is f" ) ),
                     null,
                     null,
                     sa,
@@ -273,7 +274,7 @@ public class ModelBaseTest3
             EntityType g = life.createEntityType(
                     theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/G" ),
                     StringValue.create( "G" ),
-                    L10MapImpl.create( StringValue.create( "This is g" ) ),
+                    L10PropertyValueMapImpl.create( StringValue.create( "This is g" ) ),
                     null,
                     null,
                     sa,
@@ -298,7 +299,7 @@ public class ModelBaseTest3
         EntityType h = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/H" ),
                 StringValue.create( "H" ),
-                L10MapImpl.create( StringValue.create( "This is h" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is h" ) ),
                 null,
                 null,
                 sa,
@@ -335,7 +336,7 @@ public class ModelBaseTest3
         EntityType i = life.createEntityType(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "pre.fix/I" ),
                 StringValue.create( "I" ),
-                L10MapImpl.create( StringValue.create( "This is i" ) ),
+                L10PropertyValueMapImpl.create( StringValue.create( "This is i" ) ),
                 null,
                 null,
                 sa,

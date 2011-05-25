@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -24,7 +24,7 @@ import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.BlobDataType;
 import org.infogrid.model.primitives.CollectableMeshType;
 import org.infogrid.model.primitives.EntityType;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.ProjectedPropertyType;
@@ -800,7 +800,7 @@ public class ModelLoaderGenerator
      * @return String representation
      */
     protected String getValueString(
-            L10Map val )
+            L10PropertyValueMap val )
     {
         if( val == null ) {
             return "null";

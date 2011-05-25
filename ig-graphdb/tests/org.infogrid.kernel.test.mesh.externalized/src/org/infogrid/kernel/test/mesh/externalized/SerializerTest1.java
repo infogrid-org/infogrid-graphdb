@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -34,7 +34,7 @@ import org.infogrid.model.primitives.FloatDataType;
 import org.infogrid.model.primitives.FloatValue;
 import org.infogrid.model.primitives.IntegerDataType;
 import org.infogrid.model.primitives.IntegerValue;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MultiplicityDataType;
 import org.infogrid.model.primitives.MultiplicityValue;
 import org.infogrid.model.primitives.PointDataType;
@@ -220,7 +220,7 @@ public class SerializerTest1
                             new String[] {
                                     "a",
                                     "abcdefgh ijklmnopqrstuv wxyz ABCDEF GHIJKLM NOPQRST UVWXYZ 1234 5678 9 0" },
-                            new L10Map[] {
+                            new L10PropertyValueMap[] {
                                     null,
                                     null },
                             null,

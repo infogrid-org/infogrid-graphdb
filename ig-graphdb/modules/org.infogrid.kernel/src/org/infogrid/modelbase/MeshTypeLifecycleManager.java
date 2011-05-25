@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -20,7 +20,7 @@ import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.DataType;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MultiplicityValue;
 import org.infogrid.model.primitives.PropertyType;
@@ -32,6 +32,7 @@ import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.traversal.TraversalToPropertySpecification;
 import org.infogrid.module.ModuleRequirement;
+import org.infogrid.util.L10Map;
 
 /**
   * <p>A life cycle manager for MeshTypes created and stored in a ModelBase.</p>
@@ -65,8 +66,8 @@ public interface MeshTypeLifecycleManager
     public EntityType createEntityType(
             MeshTypeIdentifier      identifier,
             StringValue             theName,
-            L10Map                  theUserNames,
-            L10Map                  theUserDescriptions,
+            L10PropertyValueMap     theUserNames,
+            L10PropertyValueMap     theUserDescriptions,
             BlobValue               theIcon,
             SubjectArea             theSubjectArea,
             AttributableMeshType [] supertypes,
@@ -108,22 +109,22 @@ public interface MeshTypeLifecycleManager
      * @return the newly created RelationshipType
      */
     public RelationshipType createRelationshipType(
-            MeshTypeIdentifier identifier,
-            StringValue        theName, // full name
-            L10Map             theUserNames,
-            L10Map             theUserDescriptions,
-            SubjectArea        theSubjectArea,
-            MultiplicityValue  sourceMultiplicity,
-            MultiplicityValue  destinationMultiplicity,
-            EntityType         source,
-            EntityType         destination,
-            RoleType []        sourceSuperRoleTypes,
-            RoleType []        destinationSuperRoleTypes,
-            String []          sourceRoleConstraintClasses,
-            String []          destinationRoleConstraintClasses,
-            BooleanValue       isAbstract,
-            BooleanValue       doGenerateInterfaceCode,
-            BooleanValue       doGenerateImplementationCode );
+            MeshTypeIdentifier  identifier,
+            StringValue         theName, // full name
+            L10PropertyValueMap theUserNames,
+            L10PropertyValueMap theUserDescriptions,
+            SubjectArea         theSubjectArea,
+            MultiplicityValue   sourceMultiplicity,
+            MultiplicityValue   destinationMultiplicity,
+            EntityType          source,
+            EntityType          destination,
+            RoleType []         sourceSuperRoleTypes,
+            RoleType []         destinationSuperRoleTypes,
+            String []           sourceRoleConstraintClasses,
+            String []           destinationRoleConstraintClasses,
+            BooleanValue        isAbstract,
+            BooleanValue        doGenerateInterfaceCode,
+            BooleanValue        doGenerateImplementationCode );
 
     /**
      * Create a binary RelationshipType. This is a convenience method for those RelationshipTypes that
@@ -155,8 +156,8 @@ public interface MeshTypeLifecycleManager
     public RelationshipType createRelationshipType(
             MeshTypeIdentifier        identifier,
             StringValue               theName, // full name
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea               theSubjectArea,
             MultiplicityValue         sourceMultiplicity,
             MultiplicityValue         destinationMultiplicity,
@@ -192,8 +193,8 @@ public interface MeshTypeLifecycleManager
     public RelationshipType createRelationshipType(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea               theSubjectArea,
             MultiplicityValue         sourceDestMultiplicity,
             EntityType                sourceDest,
@@ -226,8 +227,8 @@ public interface MeshTypeLifecycleManager
     public RelationshipType createRelationshipType(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea               theSubjectArea,
             MultiplicityValue         sourceDestMultiplicity,
             EntityType                sourceDest,
@@ -259,21 +260,21 @@ public interface MeshTypeLifecycleManager
      * @return the newly created PropertyType
      */
     public PropertyType createPropertyType(
-            MeshTypeIdentifier         identifier,
-            StringValue                theName,
-            L10Map                     theUserNames,
-            L10Map                     theUserDescriptions,
-            AttributableMeshType       theParent,
-            SubjectArea                theSubjectArea,
-            DataType                   theDataType,
-            PropertyValue              theDefaultValue,
-            StringValue                theDefaultValueCode,
-            String []                  theLocalPropertyTypeGuardClassNames,
-            BooleanValue               isOptional,
-            BooleanValue               isReadOnly,
-            BooleanValue               doGenerateInterfaceCode,
-            BooleanValue               doGenerateImplementationCode,
-            FloatValue                 theSequenceNumber );
+            MeshTypeIdentifier        identifier,
+            StringValue               theName,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
+            AttributableMeshType      theParent,
+            SubjectArea               theSubjectArea,
+            DataType                  theDataType,
+            PropertyValue             theDefaultValue,
+            StringValue               theDefaultValueCode,
+            String []                 theLocalPropertyTypeGuardClassNames,
+            BooleanValue              isOptional,
+            BooleanValue              isReadOnly,
+            BooleanValue              doGenerateInterfaceCode,
+            BooleanValue              doGenerateImplementationCode,
+            FloatValue                theSequenceNumber );
 
     /**
      * Create a PropertyType that overrides another PropertyType or set of PropertyTypes.
@@ -298,19 +299,19 @@ public interface MeshTypeLifecycleManager
      * @throws InheritanceConflictException thrown if the overridden PropertyType are wrong
      */
     public PropertyType createOverridingPropertyType(
-            PropertyType []            toOverride,
-            MeshTypeIdentifier         overriddenIdentifier,
-            L10Map                     theUserDescriptions,
-            AttributableMeshType       theParent,
-            SubjectArea                theSubjectArea,
-            DataType                   theDataType,
-            PropertyValue              theDefaultValue,
-            StringValue                theDefaultValueCode,
-            String []                  theLocalPropertyTypeGuardClassNames,
-            BooleanValue               isOptional,
-            BooleanValue               isReadOnly,
-            BooleanValue               doGenerateInterfaceCode,
-            BooleanValue               doGenerateImplementationCode )
+            PropertyType []           toOverride,
+            MeshTypeIdentifier        overriddenIdentifier,
+            L10PropertyValueMap       theUserDescriptions,
+            AttributableMeshType      theParent,
+            SubjectArea               theSubjectArea,
+            DataType                  theDataType,
+            PropertyValue             theDefaultValue,
+            StringValue               theDefaultValueCode,
+            String []                 theLocalPropertyTypeGuardClassNames,
+            BooleanValue              isOptional,
+            BooleanValue              isReadOnly,
+            BooleanValue              doGenerateInterfaceCode,
+            BooleanValue              doGenerateImplementationCode )
         throws
             InheritanceConflictException;
 
@@ -341,20 +342,20 @@ public interface MeshTypeLifecycleManager
      * @return the newly created ProjectedPropertyType
      */
     public ProjectedPropertyTypePatcher createProjectedPropertyType(
-            MeshTypeIdentifier                               identifier,
-            StringValue                                      theName,
-            L10Map                                           theUserNames,
-            L10Map                                           theUserDescriptions,
-            AttributableMeshType                             theParent,
-            SubjectArea                                      theSubjectArea,
-            DataType                                         theDataType,
-            PropertyValue                                    theDefaultValue,     // used only to initialize with something meaningful
-            StringValue                                      theDefaultValueCode, // used only to initialize with something meaningful
-            TraversalToPropertySpecification []              theInputProperties,
-            StringValue                                      theProjectionCode,
-            BooleanValue                                     doGenerateInterfaceCode,
-            BooleanValue                                     doGenerateImplementationCode,
-            FloatValue                                       theSequenceNumber );
+            MeshTypeIdentifier                  identifier,
+            StringValue                         theName,
+            L10PropertyValueMap                 theUserNames,
+            L10PropertyValueMap                 theUserDescriptions,
+            AttributableMeshType                theParent,
+            SubjectArea                         theSubjectArea,
+            DataType                            theDataType,
+            PropertyValue                       theDefaultValue,     // used only to initialize with something meaningful
+            StringValue                         theDefaultValueCode, // used only to initialize with something meaningful
+            TraversalToPropertySpecification [] theInputProperties,
+            StringValue                         theProjectionCode,
+            BooleanValue                        doGenerateInterfaceCode,
+            BooleanValue                        doGenerateImplementationCode,
+            FloatValue                          theSequenceNumber );
 
     /**
      * Create a ProjectedPropertyType that overrides another PropertyType or set of PropertyTypes.
@@ -387,7 +388,7 @@ public interface MeshTypeLifecycleManager
     public ProjectedPropertyTypePatcher createOverridingProjectedPropertyType(
             PropertyType []                     toOverride,
             MeshTypeIdentifier                  overriddenIdentifier,
-            L10Map                              theUserDescriptions,
+            L10PropertyValueMap                 theUserDescriptions,
             AttributableMeshType                theParent,
             SubjectArea                         theSubjectArea,
             DataType                            theDataType,
@@ -419,8 +420,8 @@ public interface MeshTypeLifecycleManager
     public PropertyTypeGroup createPropertyTypeGroup(
             MeshTypeIdentifier   identifier,
             StringValue          theName,
-            L10Map               theUserNames,
-            L10Map               theUserDescriptions,
+            L10PropertyValueMap  theUserNames,
+            L10PropertyValueMap  theUserDescriptions,
             AttributableMeshType theParent,
             SubjectArea          theSubjectArea,
             PropertyType []      theMembers,
@@ -447,8 +448,8 @@ public interface MeshTypeLifecycleManager
             MeshTypeIdentifier        identifier,
             StringValue               theName,
             StringValue               theVersion,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea []            theSubjectAreaDependencies,
             ModuleRequirement []      theModuleRequirements,
             ClassLoader               theClassLoader,

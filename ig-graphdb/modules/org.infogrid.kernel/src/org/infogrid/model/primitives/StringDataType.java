@@ -14,6 +14,7 @@
 
 package org.infogrid.model.primitives;
 
+import org.infogrid.util.L10Map;
 import java.io.ObjectStreamException;
 import java.text.ParseException;
 import java.util.regex.Matcher;
@@ -46,42 +47,48 @@ public final class StringDataType
      */
     public static final StringDataType theDefault = new StringDataType( // do not use factory method for this instance
             null,
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DefaultStringValue", "" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DefaultStringValue", "" )),
+            null );
 
     /**
      * Any String that does not just consist of white space is allowed.
      */
     public static final StringDataType theNonEmptyType = StringDataType.create(
             Pattern.compile( ".*\\S.*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "NonEmptyStringValue", "untitled" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "NonEmptyStringValue", "untitled" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "NonEmptyStringValueError", null ));
 
     /**
      * Any String at least four characters long.
      */
     public static final StringDataType theString4PlusType = StringDataType.create(
             Pattern.compile( "\\S.{2,}\\S" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "String4PlusStringValue", "untitled" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "String4PlusStringValue", "untitled" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "String4PlusStringValueError", null ));
 
     /**
      * Any HTTP URL.
      */
     public static final StringDataType theHttpUrlType = StringDataType.create(
             Pattern.compile( "http://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpStringValue", "http://example.com/" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpStringValueError", null ));
 
     /**
      * Any HTTPS URL.
      */
     public static final StringDataType theHttpsUrlType = StringDataType.create(
             Pattern.compile( "https://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "https://example.com/" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpsStringValue", "https://example.com/" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpsStringValueError", null ));
 
     /**
      * Any HTTP or HTTPS URL.
      */
     public static final StringDataType theHttpHttpsUrlType = StringDataType.create(
             Pattern.compile( "https?://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpHttpsStringValueError", null ));
 
     /**
      * Any e-mail address.
@@ -89,49 +96,64 @@ public final class StringDataType
      */
     public static final StringDataType theEmailAddressType = StringDataType.create(
             Pattern.compile( "[A-Z0-9._%+-]+@[A-Z0-9.-]*[A-Z]", Pattern.CASE_INSENSITIVE ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "EmailAddressStringValue", "example@example.com" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "EmailAddressStringValueError", null ));
 
     /**
      * Any "acct" address.
      */
     public static final StringDataType theAcctAddressType = StringDataType.create(
             Pattern.compile( "acct:" + theEmailAddressType.getRegex().toString(), Pattern.CASE_INSENSITIVE ), // same as for e-mail, with prefix
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "AcctAddressStringValue", "acct:example@example.com" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "AcctAddressStringValue", "acct:example@example.com" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "AcctAddressStringValueError", null ));
 
     /**
      * Any numeric IPv4 address.
      */
     public static final StringDataType theIpAddressType = StringDataType.create(
             Pattern.compile( "((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpAddressStringValue", "127.0.0.1" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpAddressStringValue", "127.0.0.1" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "IpAddressStringValueError", null ));
 
     /**
      * Any numeric IPv6 address.
      */
     public static final StringDataType theIpV6AddressType = StringDataType.create(
             Pattern.compile( "[0-9a-zA-Z:\\.]+" ), // FIXME: This should be done more precisely
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpV6AddressStringValue", "::1" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "IpV6AddressStringValue", "::1" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "IpV6AddressStringValueError", null ));
 
     /**
      * Any DNS host name.
      */
     public static final StringDataType theDnsHostNameType = StringDataType.create(
             Pattern.compile( "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DnsHostNameStringValue", "example.com" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "DnsHostNameStringValue", "example.com" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "DnsHostNameStringValueError", null ));
 
     /**
      * Any identifier that would be valid for Java.
      */
     public static final StringDataType theJavaIdentifierType = StringDataType.create(
             Pattern.compile( "[a-zA-Z_][a-zA-Z_0-9]*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "JavaIdentifierStringValue", "untitled" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "JavaIdentifierStringValue", "untitled" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "JavaIdentifierStringValueError", null ));
+
+    /**
+     * Any identified that would be valid fully-qualified class name for Java.
+     */
+    public static final StringDataType theJavaFqdClassNameIdentifierType = StringDataType.create(
+            Pattern.compile( "([a-zA-Z_][a-zA-Z_0-9]*\\.)+[a-zA-Z_][a-zA-Z_0-9]*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "JavaFqdClassNameIdentifierStringValue", "java.lang.Void" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "JavaFqdClassNameIdentifierStringValueError", null ));
 
     /**
      * Any identifier that would be valid for a module.
      */
     public static final StringDataType theModuleIdentifierType = StringDataType.create(
             Pattern.compile( "[a-zA-Z][a-zA-Z_\\-0-9]*" ),
-            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "ModuleIdentifierStringValue", "untitled" )));
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "ModuleIdentifierStringValue", "untitled" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "ModuleIdentifierStringValueError", null ));
 
     /**
      * Factory method. Always returns the same instance.
@@ -152,7 +174,7 @@ public final class StringDataType
     public static StringDataType create(
             StringValue defaultValue )
     {
-        return new StringDataType( null, defaultValue );
+        return new StringDataType( null, defaultValue, null );
     }
 
     /**
@@ -160,11 +182,13 @@ public final class StringDataType
      *
      * @param regex a regular expression that values need to conform to, if any
      * @param defaultValue the default value when this DataType is instantiated
+     * @param regexErrorMessages localized error messages if the regular expression has been violated.
      * @return the StringDataType
      */
     public static StringDataType create(
-            Pattern     regex,
-            StringValue defaultValue )
+            Pattern        regex,
+            StringValue    defaultValue,
+            L10Map<String> regexErrorMessages )
     {
         if( regex == null ) {
             if( defaultValue == null || defaultValue.equals( theDefault.getDefaultValue() )) {
@@ -178,7 +202,7 @@ public final class StringDataType
                 throw new IllegalArgumentException( "Given defaultValue \"" + defaultValue.value() + "\" does not match StringDataType's regex \"" + regex.toString() + "\".");
             }
         }
-        return new StringDataType( regex, defaultValue );
+        return new StringDataType( regex, defaultValue, regexErrorMessages );
     }
 
     /**
@@ -186,15 +210,18 @@ public final class StringDataType
      *
      * @param regex a regular expression that values need to conform to, if any
      * @param defaultValue the default value when this DataType is instantiated
+     * @param regexErrorMessages localized error messages if the regular expression has been violated.
      */
     private StringDataType(
-            Pattern     regex,
-            StringValue defaultValue )
+            Pattern        regex,
+            StringValue    defaultValue,
+            L10Map<String> regexErrorMessages )
     {
         super( null );
 
-        theRegex        = regex;
-        theDefaultValue = defaultValue;
+        theRegex              = regex;
+        theDefaultValue       = defaultValue;
+        theRegexErrorMessages = regexErrorMessages;
     }
 
     /**
@@ -380,7 +407,13 @@ public final class StringDataType
             }
             ret.append( COMMA_STRING );
             if( theDefaultValue != null ) {
-                ret.append( theDefaultValue.getJavaConstructorString( classLoaderVar , null ));
+                ret.append( theDefaultValue.getJavaConstructorString( classLoaderVar, null ));
+            } else {
+                ret.append( NULL_STRING );
+            }
+            ret.append( COMMA_STRING );
+            if( theRegexErrorMessages != null ) {
+                ret.append( theRegexErrorMessages.getJavaConstructorString( classLoaderVar, null ));
             } else {
                 ret.append( NULL_STRING );
             }
@@ -457,7 +490,7 @@ public final class StringDataType
             }
             int conforms = conforms( ret );
             if( conforms != 0 ) {
-                throw new PropertyValueParsingException( this, representation, s, theRegex.pattern(), new DoesNotMatchRegexException( ret, this ));
+                throw new PropertyValueParsingException( this, representation, s, null, new DoesNotMatchRegexException( ret, this ));
             }
 
             return ret;
@@ -474,6 +507,22 @@ public final class StringDataType
     }
 
     /**
+     * Obtain an error message suitable to be printed when the regular expression was violated.
+     *
+     * @param ionvalidValue the value that violated the regular expression
+     * @return the error message
+     */
+    String getRegexViolatedMessage(
+            StringValue invalidValue )
+    {
+        if( theRegexErrorMessages != null ) {
+            return theRegexErrorMessages.getDefault();
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * The default value for this instance of StringDataType.
      */
     private final StringValue theDefaultValue;
@@ -482,6 +531,11 @@ public final class StringDataType
      * The regular expression that a StringValue needs to conform to, if any.
      */
     private Pattern theRegex;
+
+    /**
+     * The internationalized map of error messages if the regular expression was violated.
+     */
+    private L10Map<String> theRegexErrorMessages;
 
     /**
      * The entry in the resource files for a StringDataType with a regular expression, prefixed by the StringRepresentation's prefix.

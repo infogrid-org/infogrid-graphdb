@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -52,7 +52,7 @@ public interface MeshType
      *
      * @return the localized map of user-visible names
      */
-    public L10Map getUserVisibleNameMap();
+    public L10PropertyValueMap getUserVisibleNameMap();
 
     /**
      * Obtain a localized, user-visible description text for this MeshType in the current locale.
@@ -66,7 +66,7 @@ public interface MeshType
      *
      * @return the localized map of user-visible descriptions
      */
-    public L10Map getUserVisibleDescriptionMap();
+    public L10PropertyValueMap getUserVisibleDescriptionMap();
 
     /**
      * Obtain the value of the Icon property.

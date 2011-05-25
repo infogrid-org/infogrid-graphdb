@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -174,9 +174,10 @@ abstract class XmlModelTokens
     protected static final int MULTIPLICITY_VALUE_TOKEN                      = 63;
     protected static final int ENUM_TOKEN                                    = 64;
     protected static final int REGEX_TOKEN                                   = 65;
+    protected static final int REGEX_ERROR_TOKEN                             = 66;
 
-    protected static final int DECLARES_METHOD_TOKEN                         = 66;
-    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 67;
+    protected static final int DECLARES_METHOD_TOKEN                         = 67;
+    protected static final int IMPLEMENTS_METHOD_TOKEN                       = 68;
 
     /**
      * The table to map integers into strings.
@@ -259,6 +260,7 @@ abstract class XmlModelTokens
         addToTable( "MultiplicityValue",        MULTIPLICITY_VALUE_TOKEN );
         addToTable( "enum",                     ENUM_TOKEN );
         addToTable( "regex",                    REGEX_TOKEN );
+        addToTable( "regexerror",               REGEX_ERROR_TOKEN );
         
         addToTable( "declaresMethod",           DECLARES_METHOD_TOKEN );
         addToTable( "implementsMethod",         IMPLEMENTS_METHOD_TOKEN );

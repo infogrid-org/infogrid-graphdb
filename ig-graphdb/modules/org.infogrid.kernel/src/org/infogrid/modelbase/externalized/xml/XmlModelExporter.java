@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -43,7 +43,7 @@ import org.infogrid.model.primitives.FloatDataType;
 import org.infogrid.model.primitives.FloatValue;
 import org.infogrid.model.primitives.IntegerDataType;
 import org.infogrid.model.primitives.IntegerValue;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.MultiplicityDataType;
 import org.infogrid.model.primitives.MultiplicityValue;
@@ -71,6 +71,7 @@ import org.infogrid.modelbase.ModelBase;
 import org.infogrid.module.ModuleRequirement;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.Identifier;
+import org.infogrid.util.L10Map;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -989,7 +990,7 @@ public class XmlModelExporter
         throws
             IOException
     {
-        L10Map theMap = mo.getUserVisibleNameMap();
+        L10PropertyValueMap theMap = mo.getUserVisibleNameMap();
 
         if( theMap != null ) {
             PropertyValue v = theMap.getDefault();
@@ -1040,7 +1041,7 @@ public class XmlModelExporter
         throws
             IOException
     {
-        L10Map theMap = mo.getUserVisibleDescriptionMap();
+        L10PropertyValueMap theMap = mo.getUserVisibleDescriptionMap();
 
         if( theMap != null ) {
             PropertyValue v = theMap.getDefault();

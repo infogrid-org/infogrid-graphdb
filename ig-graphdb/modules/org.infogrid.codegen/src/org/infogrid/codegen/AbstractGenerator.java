@@ -23,7 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import org.infogrid.model.primitives.CollectableMeshType;
 import org.infogrid.model.primitives.EntityType;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
@@ -324,10 +324,10 @@ public abstract class AbstractGenerator
      * @param w the PrintWriter to write to
      */
     protected final void generateL10Map(
-            L10Map      theMap,
-            String      prefix,
-            String      postfix,
-            PrintWriter w )
+            L10PropertyValueMap theMap,
+            String              prefix,
+            String              postfix,
+            PrintWriter         w )
     {
         if( theMap == null ) {
             return;

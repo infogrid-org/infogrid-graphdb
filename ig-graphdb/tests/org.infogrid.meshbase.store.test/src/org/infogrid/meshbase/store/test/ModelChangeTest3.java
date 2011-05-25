@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -19,7 +19,7 @@ import org.infogrid.meshbase.store.IterableStoreMeshBase;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.L10MapImpl;
+import org.infogrid.model.primitives.L10PropertyValueMapImpl;
 import org.infogrid.model.primitives.MultiplicityValue;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.RelationshipType;
@@ -75,7 +75,7 @@ public class ModelChangeTest3
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model" ),
                 StringValue.create( "org.infogrid.meshbase.store.test.model" ),
                 null,
-                L10MapImpl.create( StringValue.create( "test.model") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "test.model") ),
                 null, null, null, null,
                 BooleanValue.TRUE,
                 BooleanValue.TRUE );
@@ -83,7 +83,7 @@ public class ModelChangeTest3
         final EntityType ent1 = typeLife.createEntityType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Ent1" ),
                 StringValue.create( "Ent1" ),
-                L10MapImpl.create( StringValue.create( "Ent1") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Ent1") ),
                 null, null,
                 sa,
                 null, null, null, null, null, null, null,
@@ -96,7 +96,7 @@ public class ModelChangeTest3
         final PropertyType ent1_prop1 = typeLife.createPropertyType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Ent1_Prop1" ),
                 StringValue.create( "Ent1_Prop1" ),
-                L10MapImpl.create( StringValue.create( "Ent1_Prop1") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Ent1_Prop1") ),
                 null,
                 ent1,
                 sa,
@@ -111,7 +111,7 @@ public class ModelChangeTest3
         final EntityType ent2 = typeLife.createEntityType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Ent2" ),
                 StringValue.create( "Ent2" ),
-                L10MapImpl.create( StringValue.create( "Ent2") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Ent2") ),
                 null, null,
                 sa,
                 new EntityType[] { ent1 },
@@ -125,7 +125,7 @@ public class ModelChangeTest3
         final EntityType ent3 = typeLife.createEntityType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Ent3" ),
                 StringValue.create( "Ent3" ),
-                L10MapImpl.create( StringValue.create( "Ent3") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Ent3") ),
                 null, null,
                 sa,
                 new EntityType[] { ent2 },
@@ -139,7 +139,7 @@ public class ModelChangeTest3
         final EntityType ent4 = typeLife.createEntityType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Ent4" ),
                 StringValue.create( "Ent4" ),
-                L10MapImpl.create( StringValue.create( "Ent4") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Ent4") ),
                 null, null,
                 sa,
                 null, null, null, null, null, null, null,
@@ -152,7 +152,7 @@ public class ModelChangeTest3
         final RelationshipType rel3_4 = typeLife.createRelationshipType(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model/Rel3_4" ),
                 StringValue.create( "Rel3_4" ),
-                L10MapImpl.create( StringValue.create( "Rel3_4") ),
+                L10PropertyValueMapImpl.create( StringValue.create( "Rel3_4") ),
                 null,
                 sa,
                 MultiplicityValue.ZERO_N,

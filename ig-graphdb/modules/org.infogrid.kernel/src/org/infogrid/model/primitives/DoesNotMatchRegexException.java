@@ -15,6 +15,9 @@
 package org.infogrid.model.primitives;
 
 import java.util.regex.Pattern;
+import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
+import org.infogrid.util.text.StringifierException;
 
 /**
  * Thrown if a StringValue did not match the regular expression required by its StringDataType.
@@ -67,9 +70,35 @@ public class DoesNotMatchRegexException
     @Override
     public Object [] getLocalizationParameters()
     {
-        Pattern regex = ((StringDataType)theType).getRegex();
+        StringDataType realType     = (StringDataType)theType;
+        Pattern        regex        = realType.getRegex();
 
         return new Object[] { theType, regex != null ? regex.toString() : null, theValue };
+    }
+
+    /**
+     * Obtain a String representation of this instance that can be shown to the user.
+     *
+     * @param rep the StringRepresentation
+     * @param pars collects parameters that may influence the String representation. Always provided.
+     * @return String representation
+     * @throws StringifierException thrown if there was a problem when attempting to stringify
+     */
+    @Override
+    public String toStringRepresentation(
+            StringRepresentation           rep,
+            StringRepresentationParameters pars )
+        throws
+            StringifierException
+    {
+        StringDataType realType     = (StringDataType)theType;
+        String         errorMessage = realType.getRegexViolatedMessage( theValue );
+        
+        if( errorMessage != null ) {
+            return errorMessage;
+        } else {
+            return super.toStringRepresentation( rep, pars );
+        }
     }
 
     /**

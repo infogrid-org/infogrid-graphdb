@@ -8,20 +8,19 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.model.primitives.m;
 
+import java.util.Locale;
 import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.BooleanValue;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.StringValue;
-
-import java.util.Locale;
 import org.infogrid.util.Identifier;
 
 /**
@@ -114,7 +113,7 @@ public abstract class MMeshType
      * @see #getUserVisibleNameMap
      */
     public final void setUserVisibleNameMap(
-            L10Map newValue )
+            L10PropertyValueMap newValue )
     {
         theUserNameMap = newValue;
     }
@@ -125,7 +124,7 @@ public abstract class MMeshType
      * @return the localized map of user-visible names
      * @see #setUserVisibleNameMap
      */
-    public final L10Map getUserVisibleNameMap()
+    public final L10PropertyValueMap getUserVisibleNameMap()
     {
         return theUserNameMap;
     }
@@ -152,7 +151,7 @@ public abstract class MMeshType
      * @see #getUserVisibleDescriptionMap
      */
     public final void setUserVisibleDescriptionMap(
-            L10Map newValue )
+            L10PropertyValueMap newValue )
     {
         theUserDescriptionMap = newValue;
     }
@@ -163,7 +162,7 @@ public abstract class MMeshType
      * @return the localized map of user-visible descriptions
      * @see #setUserVisibleDescriptionMap
      */
-    public final L10Map getUserVisibleDescriptionMap()
+    public final L10PropertyValueMap getUserVisibleDescriptionMap()
     {
         return theUserDescriptionMap;
     }
@@ -332,10 +331,10 @@ public abstract class MMeshType
     /**
      * The map of localized user names.
      */
-    private L10Map theUserNameMap;
+    private L10PropertyValueMap theUserNameMap;
 
     /**
      * The map of localized user descriptions.
      */
-    private L10Map theUserDescriptionMap;
+    private L10PropertyValueMap theUserDescriptionMap;
 };
