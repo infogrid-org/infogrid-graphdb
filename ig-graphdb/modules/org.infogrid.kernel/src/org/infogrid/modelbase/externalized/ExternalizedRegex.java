@@ -8,16 +8,17 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-
 import java.util.regex.Pattern;
 import org.infogrid.model.primitives.StringDataType;
 import org.infogrid.model.primitives.StringValue;
+import org.infogrid.util.L10MapImpl;
+import org.infogrid.util.L10StringMapImpl;
 
 /**
  * This is data wanting to become a regular expression, during reading.
@@ -67,6 +68,26 @@ public class ExternalizedRegex
     }
 
     /**
+     * Add an error message in a particular locale.
+     *
+     * @param newLocale the locale
+     * @param newValue the new error message
+     */
+    public void addRegexErrorString(
+            String newLocale,
+            String newValue )
+    {
+        if( theErrorMessages == null ) {
+            theErrorMessages = L10StringMapImpl.create( null );
+        }
+        if( newLocale == null || newLocale.length() == 0 ) {
+            theErrorMessages.setDefault( newValue );
+        } else {
+            theErrorMessages.put( newLocale, newValue );
+        }
+    }
+
+    /**
      * Get property as a Pattern.
      *
      * @return the Pattern
@@ -113,7 +134,7 @@ public class ExternalizedRegex
             Pattern p = Pattern.compile( thePattern );
 
             if( theDefaultValue != null ) {
-                ret = StringDataType.create( p, StringValue.create( theDefaultValue ));
+                ret = StringDataType.create( p, StringValue.create( theDefaultValue ), theErrorMessages );
             } else {
                 throw new IllegalArgumentException( "Cannot create a StringDataType that has a regex but no default value" );
             }
@@ -127,7 +148,12 @@ public class ExternalizedRegex
     protected String thePattern = null;
 
     /**
-     * The default thePattern.
+     * The default value.
      */
     protected String theDefaultValue;
+
+    /**
+     * Error messages, by locale.
+     */
+    protected L10MapImpl<String> theErrorMessages;
 }

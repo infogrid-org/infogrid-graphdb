@@ -52,10 +52,10 @@ public class EnumeratedDataType
      * @return the created EnumeratedDataType
      */
     public static EnumeratedDataType create(
-            String [] domain,
-            L10Map [] userNameMap,
-            L10Map [] userDescriptionMap,
-            DataType  superType )
+            String []              domain,
+            L10PropertyValueMap [] userNameMap,
+            L10PropertyValueMap [] userDescriptionMap,
+            DataType               superType )
     {
         return new EnumeratedDataType( domain, userNameMap, userDescriptionMap, superType );
     }
@@ -69,10 +69,10 @@ public class EnumeratedDataType
      * @param superType the DataType that we refine, if any
      */
     private EnumeratedDataType(
-            String [] domain,
-            L10Map [] userNameMap,
-            L10Map [] userDescriptionMap,
-            DataType  superType )
+            String []              domain,
+            L10PropertyValueMap [] userNameMap,
+            L10PropertyValueMap [] userDescriptionMap,
+            DataType               superType )
     {
         super( superType );
 
@@ -87,8 +87,8 @@ public class EnumeratedDataType
         }
         theDomain = new EnumeratedValue[ domain.length ];
         for( int i=0 ; i<domain.length ; ++i ) {
-            L10Map nameMap        = userNameMap[i]; // may not be null
-            L10Map descriptionMap = userDescriptionMap != null ? userDescriptionMap[i] : null;
+            L10PropertyValueMap nameMap        = userNameMap[i]; // may not be null
+            L10PropertyValueMap descriptionMap = userDescriptionMap != null ? userDescriptionMap[i] : null;
 
             theDomain[i] = EnumeratedValue.create( this, domain[i], nameMap, descriptionMap );
         }
@@ -412,7 +412,7 @@ public class EnumeratedDataType
                     ret.append( COMMA_STRING );
                 }
             }
-            ret.append( " }, new " ).append( L10Map.class.getName() ).append( "[] { " );
+            ret.append( " }, new " ).append( L10PropertyValueMap.class.getName() ).append( "[] { " );
             for( int i=0 ; i<theDomain.length ; ++i ) {
                 if( theDomain[i].getUserVisibleNameMap() != null ) {
                     ret.append( theDomain[i].getUserVisibleNameMap().getJavaConstructorString(
@@ -425,7 +425,7 @@ public class EnumeratedDataType
                     ret.append( COMMA_STRING );
                 }
             }
-            ret.append( " }, new " ).append( L10Map.class.getName() ).append( "[] { " );
+            ret.append( " }, new " ).append( L10PropertyValueMap.class.getName() ).append( "[] { " );
             for( int i=0 ; i<theDomain.length ; ++i ) {
                 if( theDomain[i].getUserVisibleDescriptionMap() != null ) {
                     ret.append( theDomain[i].getUserVisibleDescriptionMap().getJavaConstructorString(

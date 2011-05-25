@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -21,7 +21,7 @@ import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.DataType;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.L10Map;
+import org.infogrid.model.primitives.L10PropertyValueMap;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MultiplicityValue;
@@ -81,8 +81,8 @@ public class LoaderMeshTypeLifecycleManager
     public EntityType createEntityType(
             MeshTypeIdentifier      identifier,
             StringValue             theName,
-            L10Map                  theUserNames,
-            L10Map                  theUserDescriptions,
+            L10PropertyValueMap     theUserNames,
+            L10PropertyValueMap     theUserDescriptions,
             BlobValue               theIcon,
             SubjectArea             theSubjectArea,
             AttributableMeshType [] supertypes,
@@ -147,22 +147,22 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created RelationshipType
      */
     public RelationshipType createRelationshipType(
-            MeshTypeIdentifier identifier,
-            StringValue        theName, // full name
-            L10Map             theUserNames,
-            L10Map             theUserDescriptions,
-            SubjectArea        theSubjectArea,
-            MultiplicityValue  sourceMultiplicity,
-            MultiplicityValue  destinationMultiplicity,
-            EntityType         source,
-            EntityType         destination,
-            RoleType []        sourceSuperRoleTypes,
-            RoleType []        destinationSuperRoleTypes,
-            String []          sourceRoleConstraintClassNames,
-            String []          destinationRoleConstraintClassNames,
-            BooleanValue       isAbstract,
-            BooleanValue       doGenerateInterfaceCode,
-            BooleanValue       doGenerateImplementationCode )
+            MeshTypeIdentifier  identifier,
+            StringValue         theName, // full name
+            L10PropertyValueMap theUserNames,
+            L10PropertyValueMap theUserDescriptions,
+            SubjectArea         theSubjectArea,
+            MultiplicityValue   sourceMultiplicity,
+            MultiplicityValue   destinationMultiplicity,
+            EntityType          source,
+            EntityType          destination,
+            RoleType []         sourceSuperRoleTypes,
+            RoleType []         destinationSuperRoleTypes,
+            String []           sourceRoleConstraintClassNames,
+            String []           destinationRoleConstraintClassNames,
+            BooleanValue        isAbstract,
+            BooleanValue        doGenerateInterfaceCode,
+            BooleanValue        doGenerateImplementationCode )
     {
         RelationshipType ret = theDelegate.createRelationshipType(
                 identifier,
@@ -213,22 +213,22 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created RelationshipType
      */
     public RelationshipType createRelationshipType(
-            MeshTypeIdentifier identifier,
-            StringValue        theName, // full name
-            L10Map             theUserNames,
-            L10Map             theUserDescriptions,
-            SubjectArea        theSubjectArea,
-            MultiplicityValue  sourceMultiplicity,
-            MultiplicityValue  destinationMultiplicity,
-            EntityType         source,
-            EntityType         destination,
-            RoleType           sourceSuperRoleType,
-            RoleType           destinationSuperRoleType,
-            String []          sourceRoleConstraintClassNames,
-            String []          destinationRoleConstraintClassNames,
-            BooleanValue       isAbstract,
-            BooleanValue       doGenerateInterfaceCode,
-            BooleanValue       doGenerateImplementationCode )
+            MeshTypeIdentifier  identifier,
+            StringValue         theName, // full name
+            L10PropertyValueMap theUserNames,
+            L10PropertyValueMap theUserDescriptions,
+            SubjectArea         theSubjectArea,
+            MultiplicityValue   sourceMultiplicity,
+            MultiplicityValue   destinationMultiplicity,
+            EntityType          source,
+            EntityType          destination,
+            RoleType            sourceSuperRoleType,
+            RoleType            destinationSuperRoleType,
+            String []           sourceRoleConstraintClassNames,
+            String []           destinationRoleConstraintClassNames,
+            BooleanValue        isAbstract,
+            BooleanValue        doGenerateInterfaceCode,
+            BooleanValue        doGenerateImplementationCode )
     {
         RelationshipType ret = theDelegate.createRelationshipType(
                 identifier,
@@ -273,8 +273,8 @@ public class LoaderMeshTypeLifecycleManager
     public RelationshipType createRelationshipType(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea               theSubjectArea,
             MultiplicityValue         sourceDestMultiplicity,
             EntityType                sourceDest,
@@ -324,8 +324,8 @@ public class LoaderMeshTypeLifecycleManager
     public RelationshipType createRelationshipType(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea               theSubjectArea,
             MultiplicityValue         sourceDestMultiplicity,
             EntityType                sourceDest,
@@ -374,21 +374,21 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created PropertyType
      */
     public PropertyType createPropertyType(
-            MeshTypeIdentifier         identifier,
-            StringValue                theName,
-            L10Map                     theUserNames,
-            L10Map                     theUserDescriptions,
-            AttributableMeshType       theParent,
-            SubjectArea                theSubjectArea,
-            DataType                   theDataType,
-            PropertyValue              theDefaultValue,
-            StringValue                theDefaultValueCode,
-            String []                  theLocalPropertyTypeGuardClassNames,
-            BooleanValue               isOptional,
-            BooleanValue               isReadOnly,
-            BooleanValue               doGenerateInterfaceCode,
-            BooleanValue               doGenerateImplementationCode,
-            FloatValue                 theSequenceNumber )
+            MeshTypeIdentifier        identifier,
+            StringValue               theName,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
+            AttributableMeshType      theParent,
+            SubjectArea               theSubjectArea,
+            DataType                  theDataType,
+            PropertyValue             theDefaultValue,
+            StringValue               theDefaultValueCode,
+            String []                 theLocalPropertyTypeGuardClassNames,
+            BooleanValue              isOptional,
+            BooleanValue              isReadOnly,
+            BooleanValue              doGenerateInterfaceCode,
+            BooleanValue              doGenerateImplementationCode,
+            FloatValue                theSequenceNumber )
     {
         PropertyType ret = theDelegate.createPropertyType(
                 identifier,
@@ -433,19 +433,19 @@ public class LoaderMeshTypeLifecycleManager
      * @throws InheritanceConflictException thrown if the overridden PropertyType are wrong
      */
     public PropertyType createOverridingPropertyType(
-            PropertyType []            toOverride,
-            MeshTypeIdentifier         overriddenIdentifier,
-            L10Map                     theUserDescriptions,
-            AttributableMeshType       theParent,
-            SubjectArea                theSubjectArea,
-            DataType                   theDataType,
-            PropertyValue              theDefaultValue,
-            StringValue                theDefaultValueCode,
-            String []                  theLocalPropertyTypeGuardClassNames,
-            BooleanValue               isOptional,
-            BooleanValue               isReadOnly,
-            BooleanValue               doGenerateInterfaceCode,
-            BooleanValue               doGenerateImplementationCode )
+            PropertyType []           toOverride,
+            MeshTypeIdentifier        overriddenIdentifier,
+            L10PropertyValueMap       theUserDescriptions,
+            AttributableMeshType      theParent,
+            SubjectArea               theSubjectArea,
+            DataType                  theDataType,
+            PropertyValue             theDefaultValue,
+            StringValue               theDefaultValueCode,
+            String []                 theLocalPropertyTypeGuardClassNames,
+            BooleanValue              isOptional,
+            BooleanValue              isReadOnly,
+            BooleanValue              doGenerateInterfaceCode,
+            BooleanValue              doGenerateImplementationCode )
         throws
             InheritanceConflictException
     {
@@ -494,20 +494,20 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created ProjectedPropertyType
      */
     public ProjectedPropertyTypePatcher createProjectedPropertyType(
-            MeshTypeIdentifier                               identifier,
-            StringValue                                      theName,
-            L10Map                                           theUserNames,
-            L10Map                                           theUserDescriptions,
-            AttributableMeshType                             theParent,
-            SubjectArea                                      theSubjectArea,
-            DataType                                         theDataType,
-            PropertyValue                                    theDefaultValue,     // used only to initialize with something meaningful
-            StringValue                                      theDefaultValueCode, // used only to initialize with something meaningful
-            TraversalToPropertySpecification []              theInputProperties,
-            StringValue                                      theProjectionCode,
-            BooleanValue                                     doGenerateInterfaceCode,
-            BooleanValue                                     doGenerateImplementationCode,
-            FloatValue                                       theSequenceNumber )
+            MeshTypeIdentifier                  identifier,
+            StringValue                         theName,
+            L10PropertyValueMap                 theUserNames,
+            L10PropertyValueMap                 theUserDescriptions,
+            AttributableMeshType                theParent,
+            SubjectArea                         theSubjectArea,
+            DataType                            theDataType,
+            PropertyValue                       theDefaultValue,     // used only to initialize with something meaningful
+            StringValue                         theDefaultValueCode, // used only to initialize with something meaningful
+            TraversalToPropertySpecification [] theInputProperties,
+            StringValue                         theProjectionCode,
+            BooleanValue                        doGenerateInterfaceCode,
+            BooleanValue                        doGenerateImplementationCode,
+            FloatValue                          theSequenceNumber )
     {
         ProjectedPropertyTypePatcher ret = theDelegate.createProjectedPropertyType(
                 identifier,
@@ -555,18 +555,18 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created ProjectedPropertyType
      */
     public ProjectedPropertyTypePatcher createOverridingProjectedPropertyType(
-            PropertyType []                                  toOverride,
-            MeshTypeIdentifier                               overriddenIdentifier,
-            L10Map                                           theUserDescriptions,
-            AttributableMeshType                             theParent,
-            SubjectArea                                      theSubjectArea,
-            DataType                                         theDataType,
-            PropertyValue                                    theDefaultValue,     // used only to initialize with something meaningful
-            StringValue                                      theDefaultValueCode, // used only to instantiate with something meaningful
-            TraversalToPropertySpecification []              theInputProperties,
-            StringValue                                      theProjectionCode,
-            BooleanValue                                     doGenerateInterfaceCode,
-            BooleanValue                                     doGenerateImplementationCode )
+            PropertyType []                     toOverride,
+            MeshTypeIdentifier                  overriddenIdentifier,
+            L10PropertyValueMap                 theUserDescriptions,
+            AttributableMeshType                theParent,
+            SubjectArea                         theSubjectArea,
+            DataType                            theDataType,
+            PropertyValue                       theDefaultValue,     // used only to initialize with something meaningful
+            StringValue                         theDefaultValueCode, // used only to instantiate with something meaningful
+            TraversalToPropertySpecification [] theInputProperties,
+            StringValue                         theProjectionCode,
+            BooleanValue                        doGenerateInterfaceCode,
+            BooleanValue                        doGenerateImplementationCode )
         throws
             InheritanceConflictException
     {
@@ -604,16 +604,16 @@ public class LoaderMeshTypeLifecycleManager
      * @return the newly created PropertyTypeGroup
      */
     public PropertyTypeGroup createPropertyTypeGroup(
-            MeshTypeIdentifier         identifier,
-            StringValue                theName,
-            L10Map                     theUserNames,
-            L10Map                     theUserDescriptions,
-            AttributableMeshType       theParent,
-            SubjectArea                theSubjectArea,
-            PropertyType []            theMembers,
-            BooleanValue               doGenerateInterfaceCode,
-            BooleanValue               doGenerateImplementationCode,
-            FloatValue                 theSequenceNumber )
+            MeshTypeIdentifier        identifier,
+            StringValue               theName,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
+            AttributableMeshType      theParent,
+            SubjectArea               theSubjectArea,
+            PropertyType []           theMembers,
+            BooleanValue              doGenerateInterfaceCode,
+            BooleanValue              doGenerateImplementationCode,
+            FloatValue                theSequenceNumber )
     {
         PropertyTypeGroup ret = theDelegate.createPropertyTypeGroup(
                 identifier,
@@ -649,8 +649,8 @@ public class LoaderMeshTypeLifecycleManager
             MeshTypeIdentifier        identifier,
             StringValue               theName,
             StringValue               theVersion,
-            L10Map                    theUserNames,
-            L10Map                    theUserDescriptions,
+            L10PropertyValueMap       theUserNames,
+            L10PropertyValueMap       theUserDescriptions,
             SubjectArea []            theSubjectAreaDependencies,
             ModuleRequirement []      theModuleRequirements,
             ClassLoader               theClassLoader,

@@ -15,7 +15,6 @@
 package org.infogrid.model.primitives;
 
 import java.util.Locale;
-import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringifierException;
@@ -44,8 +43,8 @@ public final class EnumeratedValue
     public static EnumeratedValue create(
             EnumeratedDataType type,
             String             value,
-            L10Map             userNameMap,
-            L10Map             userDescriptionMap )
+            L10PropertyValueMap userNameMap,
+            L10PropertyValueMap userDescriptionMap )
     {
         if( value == null ) {
             throw new IllegalArgumentException( "null value" );
@@ -62,10 +61,10 @@ public final class EnumeratedValue
       * @param userDescriptionMap user-visible, internalizationalized descriptions for this value
       */
     private EnumeratedValue(
-            EnumeratedDataType type,
-            String             value,
-            L10Map             userNameMap,
-            L10Map             userDescriptionMap )
+            EnumeratedDataType  type,
+            String              value,
+            L10PropertyValueMap userNameMap,
+            L10PropertyValueMap userDescriptionMap )
     {
         this.theDataType           = type;
         this.theValue              = value;
@@ -114,7 +113,7 @@ public final class EnumeratedValue
      *
      * @return map of user-visible, internationalized representations of this value
      */
-    public L10Map getUserVisibleNameMap()
+    public L10PropertyValueMap getUserVisibleNameMap()
     {
         return theUserNameMap;
     }
@@ -137,7 +136,7 @@ public final class EnumeratedValue
      *
      * @return map of user-visible, internationalized descriptions of this value
      */
-    public L10Map getUserVisibleDescriptionMap()
+    public L10PropertyValueMap getUserVisibleDescriptionMap()
     {
         return theUserDescriptionMap;
     }
@@ -279,10 +278,10 @@ public final class EnumeratedValue
     /**
      * The user name localization map.
      */
-    protected L10Map theUserNameMap;
+    protected L10PropertyValueMap theUserNameMap;
 
     /**
      * The user description localization map.
      */
-    protected L10Map theUserDescriptionMap;
+    protected L10PropertyValueMap theUserDescriptionMap;
 }
