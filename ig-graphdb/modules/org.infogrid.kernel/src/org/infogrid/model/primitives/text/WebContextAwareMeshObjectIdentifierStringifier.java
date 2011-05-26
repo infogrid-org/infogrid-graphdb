@@ -17,6 +17,7 @@ package org.infogrid.model.primitives.text;
 import java.text.ParseException;
 import java.util.Iterator;
 import org.infogrid.mesh.MeshObjectIdentifier;
+import org.infogrid.mesh.a.AMeshObject;
 import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
@@ -128,6 +129,10 @@ public class WebContextAwareMeshObjectIdentifierStringifier
 
         String ext = realIdentifier.toLocalExternalForm( contextPath, theAssembleAsPartOfLongerId );
 
+        if( ext.length() == 0 ) {
+            ext = AMeshObject.HOME_OBJECT_STRING; // FIXME, this looks like a hack
+        }
+
         ext = potentiallyShorten( ext, pars );
         ext = escape( ext );
 
@@ -182,7 +187,9 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         Identifier found;
         try {
             if( rawString.length() == 0 ) {
-                found = realFactory.fromExternalForm( null );
+                found = null;
+            } else if( realRawString.equals( AMeshObject.HOME_OBJECT_STRING )) {
+                found = realFactory.getHomeMeshObjectIdentifier(); // FIXME this looks like a hack
             } else if( theProcessColloquial ) {
                 found = realFactory.guessFromExternalForm( realRawString );
             } else {
@@ -232,15 +239,21 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         try {
             Identifier found;
             if( realRawString.length() == 0 ) {
-                found = realFactory.fromExternalForm( "" );
+                found = null;
+            } else if( realRawString.equals( AMeshObject.HOME_OBJECT_STRING )) {
+                found = realFactory.getHomeMeshObjectIdentifier(); // FIXME this looks like a hack
             } else if( theProcessColloquial ) {
                 found = realFactory.guessFromExternalForm( realRawString );
             } else {
                 found = realFactory.fromExternalForm( realRawString );
             }
 
-            return OneElementIterator.<StringifierParsingChoice<Identifier>>create(
-                    new StringifierValueParsingChoice<Identifier>( startIndex, endIndex, found ));
+            if( found != null ) {
+                return OneElementIterator.<StringifierParsingChoice<Identifier>>create(
+                        new StringifierValueParsingChoice<Identifier>( startIndex, endIndex, found ));
+            } else {
+                return ZeroElementCursorIterator.create();
+            }
 
         } catch( ParseException ex ) {
             return ZeroElementCursorIterator.create();
