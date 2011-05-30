@@ -219,17 +219,32 @@ public class CurrencyDataType
     }
 
     /**
-     * Given a Unit as a String, find the pre-defined constant.
+     * Given a Unit as an ISO code, find the pre-defined constant.
      *
-     * @param s the String
+     * @param s the ISO code
      * @return the constant, or null if not found
      */
-    public static Unit findUnitFor(
+    public static Unit findUnitForCode(
             String s )
     {
         s = s.toUpperCase();
         for( int i=0 ; i<ALL_CURRENCIES.length ; ++i ) {
             if( s.equals( ALL_CURRENCIES[i].theCode )) {
+                return ALL_CURRENCIES[i];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Given a Unit as a symbol, find the pre-defined constant.
+     *
+     */
+    public static Unit findUnitForSymbol(
+            String s )
+    {
+        for( int i=0 ; i<ALL_CURRENCIES.length ; ++i ) {
+            if( s.equals( ALL_CURRENCIES[i].theSymbol )) {
                 return ALL_CURRENCIES[i];
             }
         }
@@ -250,7 +265,21 @@ public class CurrencyDataType
         private Unit(
                 String code )
         {
-            this( code, 2 );
+            this( code, null, 2 );
+        }
+
+        /**
+         * Private constructor, for use of this class only. Most currencies have
+         * @param symbol the commonly used symbol for this Unit
+         * two decimal places for the fraction, so this is what this constructor does.
+         *
+         * @param code the ISO code for this Unit
+         */
+        private Unit(
+                String code,
+                String symbol )
+        {
+            this( code, symbol, 2 );
         }
 
         /**
@@ -263,7 +292,23 @@ public class CurrencyDataType
                 String code,
                 int    fractionPlaces )
         {
+            this( code, null, fractionPlaces );
+        }
+
+        /**
+         * Private constructor, for use of this class only.
+         *
+         * @param code the ISO code for this Unit
+         * @param symbol the commonly used symbol for this Unit
+         * @param fractionPlaces the number of decimal places for the fraction
+         */
+        private Unit(
+                String code,
+                String symbol,
+                int    fractionPlaces )
+        {
             theCode           = code;
+            theSymbol         = symbol;
             theFractionPlaces = fractionPlaces;
         }
 
@@ -275,6 +320,16 @@ public class CurrencyDataType
         public String getIsoCode()
         {
             return theCode;
+        }
+
+        /**
+         * Obtain the commonly used symbol for this unit.
+         *
+         * @return the symbol
+         */
+        public String getSymbol()
+        {
+            return theSymbol;
         }
 
         /**
@@ -299,6 +354,11 @@ public class CurrencyDataType
                 int  fraction )
         {
             StringBuilder buf = new StringBuilder();
+
+            if( theSymbol != null ) {
+                buf.append( theSymbol );
+            }
+
             if( whole > 0 ) {
                 buf.append( whole );
             } else {
@@ -312,8 +372,10 @@ public class CurrencyDataType
                 }
                 buf.append( tmp );
             }
-            buf.append( ' ' );
-            buf.append( theCode );
+            if( theSymbol == null ) {
+                buf.append( ' ' );
+                buf.append( theCode );
+            }
             return buf.toString();
         }
 
@@ -355,9 +417,25 @@ public class CurrencyDataType
         }
 
         /**
+         * Convert to String form, for debugging.
+         *
+         * @return String form
+         */
+        @Override
+        public String toString()
+        {
+            return "Currency unit " + theCode;
+        }
+
+        /**
          * The ISO code for this Unit.
          */
         protected String theCode;
+
+        /**
+         * The commonly used symbol for this Unit.
+         */
+        protected String theSymbol;
 
         /**
          * The number of decimal places for the fraction.
@@ -415,7 +493,7 @@ public class CurrencyDataType
     public static final Unit EGP = new Unit( "EGP" );
     public static final Unit ERN = new Unit( "ERN" );
     public static final Unit ETB = new Unit( "ETB" );
-    public static final Unit EUR = new Unit( "EUR" );
+    public static final Unit EUR = new Unit( "EUR", "\u20AC" );
     public static final Unit FJD = new Unit( "FJD" );
     public static final Unit FKP = new Unit( "FKP" );
     public static final Unit GBP = new Unit( "GBP" );
@@ -515,7 +593,7 @@ public class CurrencyDataType
     public static final Unit TZS = new Unit( "TZS" );
     public static final Unit UAH = new Unit( "UAH" );
     public static final Unit UGX = new Unit( "UGX", 0 );
-    public static final Unit USD = new Unit( "USD" );
+    public static final Unit USD = new Unit( "USD", "$" );
     public static final Unit USN = new Unit( "USN" );
     public static final Unit USS = new Unit( "USS" );
     public static final Unit UYU = new Unit( "UYU" );

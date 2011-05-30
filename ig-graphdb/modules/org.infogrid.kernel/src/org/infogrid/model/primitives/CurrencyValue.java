@@ -58,7 +58,7 @@ public final class CurrencyValue
             int    fractions,
             String u )
     {
-        return new CurrencyValue( wholes, fractions, CurrencyDataType.findUnitFor( u ));
+        return new CurrencyValue( wholes, fractions, CurrencyDataType.findUnitForCode( u ));
     }
 
     /**
@@ -70,25 +70,60 @@ public final class CurrencyValue
     public static CurrencyValue parseCurrencyValue(
             String s )
     {
-        Matcher m = AS_STRING.matcher( s );
-        if( !m.matches() ) {
-            throw new IllegalArgumentException( "Cannot parse CurrencyValue: " + s );
-        }
-        String wholes   = m.group( 2 );
-        String fraction = m.group( 4 );
+        // We have two possible representations;
 
-        if( fraction == null || fraction.length() == 0 ) {
-            fraction = m.group( 5 );
-        }
-        String                unit = m.group( 6 );
-        CurrencyDataType.Unit u    = CurrencyDataType.findUnitFor( unit );
+        String wholes;
+        String fraction;
+        String symbol;
+        String code;
 
-        if( u == null ) {
-            throw new IllegalArgumentException( "Cannot find a currency unit called " + unit );
+        Matcher m = AS_STRING_ISO.matcher( s );
+        if( m.matches() ) {
+            wholes   = m.group( 2 );
+            fraction = m.group( 4 );
+
+            if( fraction == null || fraction.length() == 0 ) {
+                fraction = m.group( 5 );
+            }
+            code   = m.group( 6 );
+            symbol = null;
+
+        } else {
+            m = AS_STRING_SYMBOL.matcher( s );
+            if( m.matches() ) {
+                symbol   = m.group( 1 );
+                wholes   = m.group( 3 );
+                fraction = m.group( 5 );
+
+                if( fraction == null || fraction.length() == 0 ) {
+                    fraction = m.group( 6 );
+                }
+                code = null;
+
+            } else {
+                throw new IllegalArgumentException( "Cannot parse CurrencyValue: " + s );
+            }
         }
+
+        CurrencyDataType.Unit u;
+        
+        if( code != null ) {
+            u = CurrencyDataType.findUnitForCode( code );
+            if( u == null ) {
+                throw new IllegalArgumentException( "Cannot find a currency unit with ISO code " + code );
+            }
+
+        } else {
+            u = CurrencyDataType.findUnitForSymbol( symbol );
+            if( u == null ) {
+                throw new IllegalArgumentException( "Cannot find a currency unit with symbol " + symbol );
+            }
+        }
+
+
         if( fraction != null ) {
             if( fraction.length() > u.getFractionPlaces() ) {
-                throw new IllegalArgumentException( "Too many decimal places for " + unit + ": " + fraction.length() );
+                throw new IllegalArgumentException( "Too many decimal places for " + u + ": " + fraction.length() );
             }
             for( int i=fraction.length() ; i<u.getFractionPlaces() ; ++i ) {
                 fraction += "0";
@@ -380,7 +415,12 @@ public final class CurrencyValue
     protected CurrencyDataType.Unit theUnit;
 
     /**
-     * Pattern that expresses our String representation.
+     * Pattern that expresses our String representation with a trailing ISO code.
      */
-    public static final Pattern AS_STRING = Pattern.compile( "^\\s*((\\d+)(\\.(\\d*))?|\\.(\\d+))\\s*([A-Za-z]{3})\\s*$" );
+    public static final Pattern AS_STRING_ISO = Pattern.compile( "^\\s*((\\d+)(\\.(\\d*))?|\\.(\\d+))\\s*([A-Za-z]{3})\\s*$" );
+
+    /**
+     * Pattern that expresses our String representation with a leading currency symbol.
+     */
+    public static final Pattern AS_STRING_SYMBOL = Pattern.compile( "^\\s*([^\\s\\d]+)\\s*((\\d+)(\\.(\\d*))?|\\.(\\d+))\\s*$" );
 }

@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -72,7 +72,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         plainMap.put(     "mimelist",         BlobMimeOptionsStringifier.create( null,       null,                             ",",  null,        " (selected)" ));
         // editPlain:  same as plain
         // html:       same as plain
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
@@ -81,7 +81,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // not plain
         // editPlain:  same as plain
         editHtmlMap.put(  "mimeoptions",      BlobMimeOptionsStringifier.create( "<option>", "<option selected=\"selected\">", "\n", "</option>", "</option>" ));
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
@@ -92,6 +92,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         plainMap.put(     "currency",         CurrencyValueStringifier.create() );
         // editPlain:  same as plain
         htmlMap.put(      "currency",         HtmlifyingDelegatingStringifier.create( CurrencyValueStringifier.create()));
+        editHtmlMap.put(  "currency",         HtmlifyingDelegatingStringifier.create( CurrencyValueStringifier.create()));
         // editHtml:   same as html
         // url:        same as plain
         // java:       same as plain
@@ -103,7 +104,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         plainMap.put(     "enum",             EnumeratedValueStringifier.create( true ) );
         // editPlain:  same as plain
         htmlMap.put(      "enum",             HtmlifyingDelegatingStringifier.create( EnumeratedValueStringifier.create( true ) ));
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         urlMap.put(       "enum",             EnumeratedValueStringifier.create( false ) );
         javaMap.put(      "enum",             EnumeratedValueStringifier.create( false ) );
         // javascript: same as java
@@ -136,7 +137,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         plainMap.put(     "idInWebContext",   WebContextAwareMeshObjectIdentifierStringifier.create( true ) );
         // editPlain:  same as plain
         htmlMap.put(      "idInWebContext",   HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( true ) ));
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
@@ -147,7 +148,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         plainMap.put(     "shortId",          WebContextAwareMeshObjectIdentifierStringifier.create( false ) );
         // editPlain:  same as plain
         htmlMap.put(      "shortId",          HtmlifyingDelegatingStringifier.create( WebContextAwareMeshObjectIdentifierStringifier.create( false ) ));
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
@@ -157,7 +158,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
 
         plainMap.put(     "type",             DataTypeStringifier.create() );
         // editPlain:  same as plain
-        // editHtml:   same as html
+        // editHtml:   same as editPlain
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
