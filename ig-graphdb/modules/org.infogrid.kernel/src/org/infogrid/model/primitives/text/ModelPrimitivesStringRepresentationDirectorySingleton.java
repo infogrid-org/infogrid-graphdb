@@ -97,7 +97,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // url:        same as plain
         // java:       same as plain
         // javascript: same as java
-        // javadoc:    same as java
+        javadocMap.put(   "currency",         HtmlifyingDelegatingStringifier.create( CurrencyValueStringifier.create()));
 
     // enum
 
