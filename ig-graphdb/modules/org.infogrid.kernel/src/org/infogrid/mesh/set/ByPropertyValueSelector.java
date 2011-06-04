@@ -27,8 +27,8 @@ import org.infogrid.util.logging.Log;
  * of whose Properties is compared to a constant.
  */
 public class ByPropertyValueSelector
-        implements
-            MeshObjectSelector
+        extends
+            AbstractMeshObjectSelector
 {
     private static final Log log = Log.getLogInstance( ByPropertyValueSelector.class ); // our own, private logger
 

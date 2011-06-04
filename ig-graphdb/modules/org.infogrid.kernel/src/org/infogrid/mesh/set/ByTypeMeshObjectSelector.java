@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,8 +23,8 @@ import org.infogrid.model.primitives.EntityType;
  * a certain type (or subtype).
  */
 public class ByTypeMeshObjectSelector
-        implements
-            MeshObjectSelector
+        extends
+            AbstractMeshObjectSelector
 {
     /**
      * Factory method.
