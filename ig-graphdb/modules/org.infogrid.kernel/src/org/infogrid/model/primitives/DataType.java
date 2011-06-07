@@ -323,7 +323,9 @@ public abstract class DataType
                     "CurrentMeshObjectString",
                     realPars,
                     editVar,
-                    owningMeshObject );
+                    owningMeshObject,
+                    owningMeshObject.getIdentifier() );
+
         } else {
             owningMeshObjectString = "";
         }
