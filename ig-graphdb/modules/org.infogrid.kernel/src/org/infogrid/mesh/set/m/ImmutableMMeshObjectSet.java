@@ -8,23 +8,20 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set.m;
 
+import java.util.ArrayList;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.set.ImmutableMeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSet;
-
+import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.traversal.TraversalSpecification;
-
 import org.infogrid.util.ArrayHelper;
-
-import java.util.ArrayList;
-import org.infogrid.mesh.set.MeshObjectSetFactory;
 
 /**
   * A simple implementation of an immutable MeshObjectSet that keeps its content in

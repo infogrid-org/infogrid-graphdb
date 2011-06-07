@@ -293,6 +293,19 @@ public abstract class AbstractMeshObjectSet
     }
 
     /**
+     * Create a subset of this set by providing a MeshObjectSelector that will select the MeshObjects
+     * to be selected for the subset. This method will return all matches in this set.
+     *
+     * @param selector the criteria for selection
+     * @param subset of this set
+     */
+    public MeshObjectSet subset(
+            MeshObjectSelector selector )
+    {
+        return theFactory.createImmutableMeshObjectSet( this, selector );
+    }
+
+    /**
      * Determine whether this set is empty.
      *
      * @return if true, the set is empty
