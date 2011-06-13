@@ -85,6 +85,10 @@ public abstract class AclUtils
         MeshObjectSet owners = potentialOwned.traverse( AclbasedSubjectArea.MESHOBJECT_HASOWNER_MESHOBJECT.getSource(), false );
             // it's important that we don't consider equivalents here
         
+        if( potentialOwner == potentialOwned && owners.isEmpty() ) {
+            return true; // MeshObjects without related owners own themselves
+        }
+
         if( owners.contains( potentialOwner )) {
             return true;
         } else {
