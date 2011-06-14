@@ -292,7 +292,7 @@ public abstract class DataType
         }
 
         String entry;
-        if( currentValue != null ) {
+        if( currentValue != null || !allowNull ) {
             entry = "Value";
         } else {
             entry = "Null";
