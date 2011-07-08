@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,6 +18,8 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.ArrayHelper;
+import org.infogrid.util.IsDeadException;
+import org.infogrid.util.logging.Log;
 
 /**
  * Factors out common behaviors of many MeshObjectSetFactories.
@@ -26,6 +28,8 @@ public abstract class AbstractMeshObjectSetFactory
         implements
             MeshObjectSetFactory
 {
+    private static final Log log = Log.getLogInstance( AbstractMeshObjectSetFactory.class ); // our own, private logger
+
     /**
      * Constructor for subclasses only.
      * 
@@ -85,8 +89,14 @@ public abstract class AbstractMeshObjectSetFactory
             content = ArrayHelper.createArray( theComponentClass, inputContent.length );
             int count = 0;
             for( int i=0 ; i<inputContent.length ; ++i ) {
-                if( selector.accepts( inputContent[i] )) {
-                    content[ count++ ] = inputContent[i];
+                try {
+                    if( selector.accepts( inputContent[i] )) {
+                        content[ count++ ] = inputContent[i];
+                    }
+                } catch( IsDeadException ex ) {
+                    if( log.isDebugEnabled() ) {
+                        log.debug( ex );
+                    }
                 }
             }
             if( count < content.length ) {
