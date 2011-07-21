@@ -36,7 +36,7 @@ public class DefaultAMeshObjectIdentifierFactory
      */
     public static DefaultAMeshObjectIdentifierFactory create()
     {
-        UniqueStringGenerator generator = UniqueStringGenerator.create( DEFAULT_ID_LENGTH );
+        UniqueStringGenerator generator = UniqueStringGenerator.create( DEFAULT_ALLOWED_CHARS, DEFAULT_ID_LENGTH );
 
         DefaultAMeshObjectIdentifierFactory ret = new DefaultAMeshObjectIdentifierFactory( generator );
         return ret;
@@ -174,4 +174,10 @@ public class DefaultAMeshObjectIdentifierFactory
      */
     public final static int DEFAULT_ID_LENGTH = theResourceHelper.getResourceIntegerOrDefault( "DefaultIdLength", 64 );
 
+    /**
+     * The characters that are allowed in the token.
+     */
+    public static final char [] DEFAULT_ALLOWED_CHARS = theResourceHelper.getResourceStringOrDefault(
+            "DefaultAllowedChars",
+            "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-_" ).toCharArray();
 }
