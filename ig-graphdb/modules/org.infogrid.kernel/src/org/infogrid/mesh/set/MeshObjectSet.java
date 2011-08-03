@@ -175,7 +175,7 @@ public interface MeshObjectSet
      * to be selected for the subset. This method will return all matches in this set.
      *
      * @param selector the criteria for selection
-     * @param subset of this set
+     * @return subset of this set
      */
     public abstract MeshObjectSet subset(
             MeshObjectSelector selector );
