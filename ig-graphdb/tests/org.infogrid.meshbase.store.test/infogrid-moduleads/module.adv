@@ -31,6 +31,5 @@
   <requires name="org.infogrid.model.Test"/>
   <requires name="org.infogrid.util"/>
   <requires name="org.infogrid.testharness"/>
-  <requires name="org.infogrid.vendors.com.mysql.jdbc"/>
  </dependencies>
 </standardmodule>
