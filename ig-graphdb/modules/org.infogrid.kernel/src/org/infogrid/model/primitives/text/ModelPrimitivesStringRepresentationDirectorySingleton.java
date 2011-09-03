@@ -57,6 +57,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         StringRepresentation java       = theSingleton.get( TEXT_JAVA_NAME );
         StringRepresentation javadoc    = theSingleton.get( TEXT_JAVADOC_NAME );
         StringRepresentation javascript = theSingleton.get( TEXT_JAVASCRIPT_NAME );
+        StringRepresentation json       = theSingleton.get(  TEXT_JSON_NAME );
 
         Map<String,Stringifier<? extends Object>> plainMap      = plain.getLocalStringifierMap();
         Map<String,Stringifier<? extends Object>> editPlainMap  = editPlain.getLocalStringifierMap();
@@ -66,6 +67,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         Map<String,Stringifier<? extends Object>> javaMap       = java.getLocalStringifierMap();
         Map<String,Stringifier<? extends Object>> javadocMap    = javadoc.getLocalStringifierMap();
         Map<String,Stringifier<? extends Object>> javascriptMap = javascript.getLocalStringifierMap();
+        Map<String,Stringifier<? extends Object>> jsonMap       = json.getLocalStringifierMap();
 
     // blob
 
@@ -77,6 +79,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
         // not plain
         // editPlain:  same as plain
@@ -86,6 +89,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // currency
         
@@ -98,6 +102,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         javadocMap.put(   "currency",         HtmlifyingDelegatingStringifier.create( CurrencyValueStringifier.create()));
+        // json:       same as javascript
 
     // enum
 
@@ -109,6 +114,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         javaMap.put(      "enum",             EnumeratedValueStringifier.create( false ) );
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // enumdomain -- render the domain of an EnumeratedDataType
 
@@ -120,6 +126,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         javaMap.put(      "enumdomain",       EnumeratedDataTypeDomainStringifier.create( EnumeratedValueStringifier.create( false ), ", " ));
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // enumchoice -- render the domain of an EnumeratedValue, with the given EnumeratedValue being selected
         
@@ -131,6 +138,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // identifiers in a URL
 
@@ -142,6 +150,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // short identifiers
 
@@ -153,6 +162,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // DataType
 
@@ -163,6 +173,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         // java:       same as plain
         // javascript: same as java
         // javadoc:    same as java
+        // json:       same as javascript
 
     // PropertyValue raw
 
@@ -174,6 +185,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         javaMap.put(      "pv",               JavaPropertyValueStringifier.create());
         javascriptMap.put("pv",               PropertyValueStringifier.create( javascript ) );
         javadocMap.put(   "pv",               PropertyValueStringifier.create( javadoc ) );
+        jsonMap.put(      "pv",               PropertyValueStringifier.create( json ) );
     }
 
     /**
