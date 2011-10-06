@@ -599,7 +599,11 @@ public final class BlobDataType
     public boolean supportsTextMimeType()
     {
         for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
-            if( theMimeTypeRegexes[i].toString().startsWith( "\\Qtext/" )) {
+            String regex = theMimeTypeRegexes[i].toString();
+            if( regex.equals( ".*" )) {
+                return true;
+            }
+            if( regex.startsWith( "\\Qtext/" )) {
                 return true;
             }
         }
@@ -614,7 +618,11 @@ public final class BlobDataType
     public boolean supportsBinaryMimeType()
     {
         for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
-            if( !theMimeTypeRegexes[i].toString().startsWith( "\\Qtext/" )) {
+            String regex = theMimeTypeRegexes[i].toString();
+            if( regex.equals( ".*" )) {
+                return true;
+            }
+            if( !regex.startsWith( "\\Qtext/" )) {
                 return true;
             }
         }
