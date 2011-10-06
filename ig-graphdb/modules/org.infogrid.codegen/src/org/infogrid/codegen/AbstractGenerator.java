@@ -206,9 +206,7 @@ public abstract class AbstractGenerator
             theFile.getParentFile().mkdirs();
         }
 
-        FileOutputStream theFileStream = new FileOutputStream( theFile );
-
-        return new PrintWriter( theFileStream );
+        return new PrintWriter( theFile, "UTF8" );
     }
 
     /**
