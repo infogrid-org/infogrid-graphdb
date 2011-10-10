@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -240,4 +240,100 @@ public class DefaultMeshObjectSorter
 
             },
             DefaultMeshObjectSorter.class.getName() + ".BY_REVERSE_USER_VISIBLE_STRING" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's timeCreated pseudo-property.
+     */
+    public static final DefaultMeshObjectSorter BY_TIME_CREATED = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        long valueOne = o1.getTimeCreated();
+                        long valueTwo = o2.getTimeCreated();
+
+                        if( valueOne < valueTwo ) {
+                            return -1;
+                        } else if( valueOne == valueTwo ) {
+                            return 0;
+                        } else {
+                            return +1;
+                        }
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_TIME_CREATED" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's timeCreated pseudo-property in reverse order.
+     */
+    public static final DefaultMeshObjectSorter BY_REVERSE_TIME_CREATED = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        long valueOne = o1.getTimeCreated();
+                        long valueTwo = o2.getTimeCreated();
+
+                        if( valueOne < valueTwo ) {
+                            return +1;
+                        } else if( valueOne == valueTwo ) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_REVERSE_TIME_CREATED" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's timeUpdated pseudo-property.
+     */
+    public static final DefaultMeshObjectSorter BY_TIME_UPDATED = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        long valueOne = o1.getTimeUpdated();
+                        long valueTwo = o2.getTimeUpdated();
+
+                        if( valueOne < valueTwo ) {
+                            return -1;
+                        } else if( valueOne == valueTwo ) {
+                            return 0;
+                        } else {
+                            return +1;
+                        }
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_TIME_UPDATED" );
+
+    /**
+     * Default instance of this class that sorts by the MeshObject's timeUpdated pseudo-property in reverse order.
+     */
+    public static final DefaultMeshObjectSorter BY_REVERSE_TIME_UPDATED = new DefaultMeshObjectSorter(
+            new Comparator<MeshObject>() {
+                    public int compare(
+                            MeshObject o1,
+                            MeshObject o2 )
+                    {
+                        long valueOne = o1.getTimeUpdated();
+                        long valueTwo = o2.getTimeUpdated();
+
+                        if( valueOne < valueTwo ) {
+                            return +1;
+                        } else if( valueOne == valueTwo ) {
+                            return 0;
+                        } else {
+                            return -1;
+                        }
+                    }
+
+            },
+            DefaultMeshObjectSorter.class.getName() + ".BY_REVERSE_TIME_UPDATED" );
 }
