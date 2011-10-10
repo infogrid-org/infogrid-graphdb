@@ -108,6 +108,14 @@ public final class StringDataType
             theStringValueResourceHelper.getResourceL10MapOrDefault( "AcctAddressStringValueError", null ));
 
     /**
+     * A sender address, e.g. "Mr. John Doe &lt;john.doe@example.com&gt;"
+     */
+    public static final StringDataType theSenderAddressType = StringDataType.create(
+            Pattern.compile( "(?:(\\S[^<]*)<)?([A-Z0-9._%+-]+@[A-Z0-9.-]*[A-Z])>?", Pattern.CASE_INSENSITIVE ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "SenderAddressStringValue", "Mr. John Doe <john.doe@example.com>" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "SenderAddressStringValueError", null ));
+
+    /**
      * Any numeric IPv4 address.
      */
     public static final StringDataType theIpAddressType = StringDataType.create(

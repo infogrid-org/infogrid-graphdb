@@ -95,7 +95,8 @@ public class DoesNotMatchRegexException
         String         errorMessage = realType.getRegexViolatedMessage( theValue );
         
         if( errorMessage != null ) {
-            return errorMessage;
+            return rep.formatEntry( getClass(), "DelegatedMessage", pars, errorMessage );
+
         } else {
             return super.toStringRepresentation( rep, pars );
         }
