@@ -1,0 +1,97 @@
+/* Defines the color scheme for this app. */
+
+body {
+    background: white;
+}
+
+#canvas-app-row > div.canvas-main {
+    height: 80px;
+}
+
+/* Defines the layout of the application, taking the master styles into account in master.css */
+
+h1 {
+    margin: 10px 0;
+}
+div.canvas-main {
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+#canvas-top-row {
+    margin: 0;
+    padding: 0;
+    text-align: right;
+}
+#canvas-top-row > div.canvas-main {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#canvas-app-row {
+    margin: 0;
+    padding: 0;
+}
+#canvas-app-row > div.canvas-main {
+    height: 80px;
+}
+
+#canvas-app-row > div.canvas-main > h1 {
+    font-size: 2em;
+    font-weight: bold;
+    border: 0;
+    margin: 0;
+    padding: 20px 0 0 0;
+}
+
+#canvas-bottom > div.canvas-main {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 10px;
+    border-style: dotted;
+    border-width: 1px 0 0 0;
+}
+
+div.viewlet {
+    border: 2px solid;
+    padding: 10px 10px 10px 20px;
+    clear: right;
+}
+
+div.slide-in-button {
+    float: right;
+    padding: 4px;
+    font-style: italic;
+    line-height: 12px;
+}
+
+div.errors {
+    width: 90%;
+    margin: 10px auto;
+    padding: 10px;
+    border: 1px solid;
+}
+div.errors .stacktrace {
+    font-size: 12px;
+    overflow-x: scroll;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+a img, img {
+    border: 0;
+}
+
+td.top {
+    vertical-align: top;
+}
+td.bottom {
+    vertical-align: bottom;
+}
+
+.footnote {
+    font-size: 9px;
+}

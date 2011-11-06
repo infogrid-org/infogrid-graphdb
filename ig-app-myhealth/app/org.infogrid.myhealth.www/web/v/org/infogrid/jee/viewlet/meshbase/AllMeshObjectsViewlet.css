@@ -1,0 +1,83 @@
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > h1 {
+    text-align: center;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > table.set > thead > tr > * {
+    border-width: 1px;
+    border-style: solid;
+    padding: 5px;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > table.set > tbody > tr > td {
+    border-style: solid;
+    border-width: 0 1px;
+    padding: 5px;
+    vertical-align: top;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > table.set > tbody > tr.last > td {
+    border-bottom-width: 1px;
+}
+
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet table.audit .label {
+    text-align: right;
+    font-weight: bold;
+    padding-right: 8px;
+}
+
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighbors,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.types {
+    clear: right;
+    margin: 0 10px 0 0;
+    padding: 0;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighbors > li,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.types > li {
+    clear: right;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighbors > li > p,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.types > li > p {
+    margin: 0;
+    padding: 5px;
+    border: 1px dotted;
+}
+
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighborRoleTypes,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.properties {
+    margin: 0 0 0 20px;
+    padding: 0;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighborRoleTypes > li,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.properties > li {
+    clear: right;
+    margin: 0;
+    padding: 0;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.neighborRoleTypes > li > p,
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.properties > li > p {
+    margin: 0;
+    padding: 5px;
+    border: 0;
+}
+
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav {
+    min-height: 35px;
+    font-size: 0.8em;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.left {
+    float: left;
+    margin: 3px 10px 0 10px;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.right {
+    float: right;
+    margin: 5px 10px 0 10px;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.middle {
+    text-align: center;
+    margin: 15px 0;
+}
+div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.middle div.middle-item {
+    display: inline;
+    margin-left: 10px;
+    margin-right: 10px;
+}

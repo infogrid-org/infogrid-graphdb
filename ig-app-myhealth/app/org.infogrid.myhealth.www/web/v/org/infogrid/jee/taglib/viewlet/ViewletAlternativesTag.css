@@ -1,0 +1,35 @@
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag {
+    float: right;
+    padding: 5px;
+    margin: 0 0 5px 5px;
+    border-style: solid;
+    border-width: 0px;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag.expanded {
+    border-width: 1px;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag > h3 {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    font-size: inherit;
+    text-align: center;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag.expanded > h3 {
+    font-weight: bold;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag > ul {
+    margin: 0;
+    padding: 0 0 0 15px;
+    display: none;
+    visibility: hidden;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag.expanded > ul {
+    display: block;
+    visibility: visible;
+}
+div.org-infogrid-jee-taglib-viewlet-ViewletAlternativesTag > ul > li {
+    margin: 0;
+    padding: 0;
+}
+

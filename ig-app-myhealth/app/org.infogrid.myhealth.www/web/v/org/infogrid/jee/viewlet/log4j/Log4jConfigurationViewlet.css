@@ -1,0 +1,15 @@
+div.org-infogrid-jee-viewlet-log4j-Log4jConfigurationViewlet table.log4j {
+    width: auto;
+    margin: 10px auto;
+}
+div.org-infogrid-jee-viewlet-log4j-Log4jConfigurationViewlet table.log4j > thead > * > th {
+    padding: 8px;
+}
+div.org-infogrid-jee-viewlet-log4j-Log4jConfigurationViewlet table.log4j > * > * > td {
+    border: #f0f0f0 solid 1px;
+}
+div.org-infogrid-jee-viewlet-log4j-Log4jConfigurationViewlet table.log4j td.value {
+    text-align: center;
+}
+
+

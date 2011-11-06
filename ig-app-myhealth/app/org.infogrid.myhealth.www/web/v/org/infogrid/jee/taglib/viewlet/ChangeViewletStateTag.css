@@ -1,0 +1,15 @@
+div.org-infogrid-jee-taglib-viewlet-ChangeViewletStateTag {
+    float: right;
+    padding: 5px;
+    margin: 0 0 5px 5px;
+}
+div.org-infogrid-jee-taglib-viewlet-ChangeViewletStateTag ul {
+    margin: 0;
+    padding: 0;
+}
+div.org-infogrid-jee-taglib-viewlet-ChangeViewletStateTag li {
+    display: inline;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
