@@ -4,12 +4,6 @@ body {
     background: #dadada;
 }
 
-h1 {
-    border-color: rgb(0,80,144);
-}
-h2 {
-    color: rgb(0,80,144);
-}
 textarea {
     border-color: #808080;
 }
@@ -23,16 +17,9 @@ div.canvas-main {
 }
 
 #canvas-app-row > div.canvas-main {
-    height: 80px;
     background: #f0f0f0;
     background-image: url(../../images/white-shift-vertical-long.png);
-    border-color: rgb(0,80,144);
-    border-style: solid;
-    border-width: 4px 0 2px 0;
-}
-#canvas-app-row > div.canvas-main > h1 > a,
-#canvas-app-row > div.canvas-main > h1 > a:visited {
-    color: rgb(0,80,144);
+    border-bottom: 1px solid #808080;
 }
 
 #canvas-bottom > div.canvas-main {
@@ -64,7 +51,6 @@ button.cancel {
 div.viewlet-state {
     background-color: white;
     background-image: url(../../../../../../s/images/white-shift-vertical-short.png);
-    border-color: rgb(0,80,144);
 }
 
 dt {
@@ -84,7 +70,7 @@ dt.selected * {
 
 div.org-infogrid-jee-taglib-candy-OverlayTag {
     background: #ffffff;
-    border: 3px solid rgb(0,80,144);
+    border: 1px solid #000;
 }
 div#org-infogrid-jee-taglib-candy-OverlayTagCanvas {
     background: #808080;
@@ -100,10 +86,6 @@ div.org-infogrid-jee-viewlet-propertysheet-PropertySheetViewlet > table > thead 
     border: #808080 1px solid;
     background-image: url(../../images/white-shift-vertical-short.png);
     background-repeat: repeat-x;
-}
-div.org-infogrid-jee-viewlet-propertysheet-PropertySheetViewlet > table > * > tr > .type,
-div.org-infogrid-jee-viewlet-propertysheet-PropertySheetViewlet > table > tbody > tr > th.entityType {
-    background: rgb(239,239,255);
 }
 div.org-infogrid-jee-viewlet-propertysheet-PropertySheetViewlet > table > * > tr > td,
 div.org-infogrid-jee-viewlet-propertysheet-PropertySheetViewlet > table > * > tr > td > div.audit {
@@ -143,7 +125,6 @@ div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > table.set > tbody 
     border-color: #d0d0d0 !important;
 }
 div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > table.set > thead > tr > * {
-    border-color: #d0d0d0 #d0d0d0 rgb(0,80,144) #d0d0d0;
     background: url(../../../../../../s/images/white-shift-vertical-short.png) top repeat-x;
 }
 
@@ -152,10 +133,6 @@ div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.amo tr.amotitle
 div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.amo table.property tr.propertytitle {
     background: #e0e0e0;
 }
-div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet tr.satitle > td {
-    border-top-color: rgb(0,80,144) !important;
-}
-
 
 div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet tr.satitle > td,
 div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet tr.sacontent > td {
@@ -169,7 +146,6 @@ div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.amo tr.amotitle
 div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.sa tr.satitle span.label,
 div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.property tr.propertytitle span.label {
     font-weight: bold;
-    color: rgb(0,80,144);
 }
 
 div.org-infogrid-jee-viewlet-wikiobject-WikiObjectEditViewlet div.content {
@@ -188,6 +164,3 @@ table.dialog-buttons {
     border-top-color: #808080;
 }
 
-div.org-infogrid-jee-viewlet-modelbase-AllMeshTypesViewlet table.roletypes {
-    border-color: rgb(0,80,144);
-}

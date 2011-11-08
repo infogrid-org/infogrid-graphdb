@@ -21,9 +21,8 @@
   <div id="canvas-top">
    <div id="canvas-app-row">
     <div class="canvas-main">
-     <a class="infogrid" href="http://infogrid.org/"><img src="${CONTEXT}/s/images/infogrid-medium.png" alt="[InfoGrid logo]" /></a>
-     <a href="${CONTEXT}/"><img id="app-logo" src="${CONTEXT}/s/images/meshworld.png" alt="[Logo]" /></a>
-     <h1><a href="${CONTEXT}/">The Unnamed App</a></h1>
+     <a href="${CONTEXT}/"><img id="app-logo" src="${CONTEXT}/s/images/myhealth.png" alt="[Logo]" /></a>
+     <h2>... time to take control</h2>
     </div>
    </div>
   </div>

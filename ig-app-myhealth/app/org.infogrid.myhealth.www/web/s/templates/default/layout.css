@@ -126,16 +126,13 @@ div.footnote > p {
     margin: 0;
     padding: 0;
 }
-#canvas-app-row > div.canvas-main {
-    height: 80px;
-}
 
-#canvas-app-row > div.canvas-main > h1 {
-    font-size: 2em;
+#canvas-app-row > div.canvas-main > h2 {
+    font-size: 1em;
     font-weight: bold;
     border: 0;
     margin: 0;
-    padding: 20px 0 0 0;
+    padding: 34px 0 0 150px;
 }
 
 img#app-logo {
