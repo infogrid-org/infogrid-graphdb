@@ -6,20 +6,35 @@
 <model>
     <subjectarea ID="org.infogrid.model.MyHealth">
         <name>org.infogrid.model.MyHealth</name>
-<!-- CHANGE THIS?
+
         <username>org.infogrid.model.MyHealth Subject Area</username>
         <userdescription>org.infogrid.model.MyHealth Subject Area</userdescription>
--->
-<!-- INSERT YOUR MODEL HERE, e.g.:
 
-        <entitytype ID="org.infogrid.model.MyHealth/Foo">
-            <name>Foo</name>
-            <username>My Foo type</username>
-            <userdescription>All Foos are blessed with this</userdescription>
-            <propertytype ID="org.infogrid.model.MyHealth/Foo_Bar">
-                <name>Bar</name>
-                <username>My Bar property of Foo</username>
-                <userdescription>Captures the Bar property of Foo objects</userdescription>
+        <entitytype ID="org.infogrid.model.MyHealth/PersonCollection">
+            <name>PersonCollection</name>
+            <username>People</username>
+            <userdescription>Any collection of people</userdescription>
+        </entitytype>
+        
+        <entitytype ID="org.infogrid.model.MyHealth/Person">
+            <name>Person</name>
+            <username>Person</username>
+            <userdescription>Any human</userdescription>
+
+            <propertytype ID="org.infogrid.model.MyHealth/Person_FirstName">
+                <name>FirstName</name>
+                <username>First name</username>
+                <userdescription>First name of the Person</userdescription>
+                <datatype>
+                    <StringDataType/>
+                </datatype>
+                <isoptional/>
+            </propertytype>
+
+            <propertytype ID="org.infogrid.model.MyHealth/Person_LastName">
+                <name>LastName</name>
+                <username>Last name</username>
+                <userdescription>Last name of the Person</userdescription>
                 <datatype>
                     <StringDataType/>
                 </datatype>
@@ -27,16 +42,16 @@
             </propertytype>
         </entitytype>
 
-        <relationshiptype ID="org.infogrid.model.MyHealth/Argl_Likes_Brgl">
-            <name>Argl_Likes_Brgl</name>
-            <username>Likes</username>
-            <userdescription>Relates those Argls to those Brgls that like each other.</userdescription>
+        <relationshiptype ID="org.infogrid.model.MyHealth/PersonCollection_Collect_Person">
+            <name>PersonCollection_Collect_Person</name>
+            <username>collects</username>
+            <userdescription>Allows people to be grouped into groups.</userdescription>
             <src>
-              <e>org.infogrid.model.MyHealth/Argl</e>
+              <e>org.infogrid.model.MyHealth/PersonCollection</e>
               <MultiplicityValue>0:N</MultiplicityValue>
             </src>
             <dest>
-              <e>org.infogrid.model.MyHealth/Brgl</e>
+              <e>org.infogrid.model.MyHealth/Person</e>
               <MultiplicityValue>0:N</MultiplicityValue>
             </dest>
         </relationshiptype>

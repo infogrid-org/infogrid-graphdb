@@ -69,6 +69,10 @@
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
                 <library dirs="200">
+                    <file>${reference.org_infogrid_model_MyHealth.jar}</file>
+                    <path-in-war>WEB-INF/lib</path-in-war>
+                </library>
+                <library dirs="200">
                     <file>${reference.org_infogrid_model_Tagging.jar}</file>
                     <path-in-war>WEB-INF/lib</path-in-war>
                 </library>
@@ -227,6 +231,14 @@
             </reference>
             <reference>
                 <foreign-project>org_infogrid_model_Common</foreign-project>
+                <artifact-type>jar</artifact-type>
+                <script>build.xml</script>
+                <target>jar</target>
+                <clean-target>clean</clean-target>
+                <id>jar</id>
+            </reference>
+            <reference>
+                <foreign-project>org_infogrid_model_MyHealth</foreign-project>
                 <artifact-type>jar</artifact-type>
                 <script>build.xml</script>
                 <target>jar</target>

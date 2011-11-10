@@ -22,9 +22,13 @@ import org.infogrid.jee.rest.defaultapp.store.AbstractStoreRestfulAppInitializat
 import org.infogrid.jee.templates.defaultapp.AppInitializationException;
 import org.infogrid.jee.viewlet.DefaultJeeMeshObjectsToViewFactory;
 import org.infogrid.jee.viewlet.JeeMeshObjectsToViewFactory;
+import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBaseNameServer;
+import org.infogrid.meshbase.transaction.TransactionAction;
+import org.infogrid.model.MyHealth.MyHealthSubjectArea;
 import org.infogrid.model.traversal.TraversalTranslator;
 import org.infogrid.model.traversal.xpath.XpathTraversalTranslator;
 import org.infogrid.store.m.MStore;
@@ -137,4 +141,28 @@ public class AppInitializationFilter
                 rootContext );
         rootContext.addContextObject( toViewFact );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void populateMeshBase(
+            SaneRequest incomingRequest,
+            MeshBase    mb )
+    {
+        mb.executeAsap( new TransactionAction<Void>() {
+                public Void execute() throws Throwable
+                {
+                    MeshObjectIdentifier userCollectionId = idFact.fromExternalForm( USER_COLLECTION_ID );
+                    MeshObject           userCollection   = mb.accessLocally( userCollectionId );
+
+                    if( userCollection == null ) {
+                        life.createMeshObject( userCollectionId, MyHealthSubjectArea.PERSONCOLLECTION );
+                    }
+                    return null;
+                }
+        } );
+    }
+
+    public static final String USER_COLLECTION_ID = "users";
 }
