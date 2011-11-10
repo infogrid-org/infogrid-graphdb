@@ -36,5 +36,6 @@
   <requires name="org.infogrid.jee.viewlet.log4j"/>
   <requires name="org.infogrid.jee.viewlet.module"/>
   <requires name="org.infogrid.util"/>
+  <requires name="org.infogrid.model.MyHealth"/>
  </dependencies>
 </standardmodule>
