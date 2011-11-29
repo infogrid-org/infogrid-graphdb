@@ -71,36 +71,13 @@ public class MainViewletFactory
         
         MeshObject subject = toView.getSubject();
         if( subject.getMeshBase().getHomeObject() == subject ) {
-            ret.add( AllMeshObjectsViewlet.choice(     realToView, ViewletFactoryChoice.GOOD_MATCH_QUALITY ));
-            ret.add( AllMeshTypesViewlet.choice(       realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
-            ret.add( Log4jConfigurationViewlet.choice( realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
-            ret.add( ModuleDirectoryViewlet.choice(    realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
-            ret.add( BulkLoaderViewlet.choice(         realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
-            ret.add( BulkExporterViewlet.choice(         realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
+            ret.add( DefaultJspViewlet.choice(     realToView, "org.infogrid.myhealth.viewlet.patients.PatientsCollectionViewlet", ViewletFactoryChoice.PERFECT_MATCH_QUALITY ));
+            ret.add( AllMeshObjectsViewlet.choice( realToView, ViewletFactoryChoice.GOOD_MATCH_QUALITY ));
+            ret.add( AllMeshTypesViewlet.choice(   realToView, ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
         }
-        if( subject.isBlessedBy( WikiSubjectArea.WIKIOBJECT )) {
-            ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.wikiobject.WikiObjectDisplayViewlet", ViewletFactoryChoice.GOOD_MATCH_QUALITY ));
-            ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.wikiobject.WikiObjectEditViewlet",    ViewletFactoryChoice.GOOD_MATCH_QUALITY+1.0f ));
-        }
-        for( PropertyType type : subject.getAllPropertyTypes()) {
-            if( type.getDataType() instanceof BlobDataType ) {
-                try {
-                    BlobValue value = (BlobValue) subject.getPropertyValue( type );
-                    if( value != null && BlobDataType.theJdkSupportedBitmapType.isAllowedMimeType( value.getMimeType() )) {
-                        ret.add( BlobViewlet.choice( realToView, ViewletFactoryChoice.BAD_MATCH_QUALITY ));
-                        break;
-                    }
-                } catch( IllegalPropertyTypeException ex ) {
-                    log.error( ex );
-                } catch( NotPermittedException ex ) {
-                    // ignore: then we'll do without this Viewlet
-                }
-            }
-        }
-        ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.graphtree.GraphTreeViewlet",         ViewletFactoryChoice.BAD_MATCH_QUALITY ));
-        ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.propertysheet.PropertySheetViewlet", ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
-        ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.objectset.ObjectSetViewlet",         ViewletFactoryChoice.BAD_MATCH_QUALITY ));
 
+        ret.add( DefaultJspViewlet.choice( realToView, "org.infogrid.jee.viewlet.propertysheet.PropertySheetViewlet", ViewletFactoryChoice.AVERAGE_MATCH_QUALITY ));
+        
         return ArrayHelper.copyIntoNewArray( ret, ViewletFactoryChoice.class );
     }
 }

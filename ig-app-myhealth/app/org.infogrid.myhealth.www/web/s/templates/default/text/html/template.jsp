@@ -11,6 +11,10 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
  <head>
   <tmpl:inline sectionName="html-title"/>
+  <link rel="stylesheet" href="${CONTEXT}/v/org/infogrid/jee/taglib/candy/OverlayTag.css" type="text/css" />
+  <script src="${CONTEXT}/v/org/infogrid/jee/taglib/candy/OverlayTag.js" type="text/javascript"></script>
+  <link rel="stylesheet" href="${CONTEXT}/v/org/infogrid/jee/taglib/mesh/PropertyTag.css" />
+  <script src="${CONTEXT}/v/org/infogrid/jee/taglib/mesh/PropertyTag.js" type="text/javascript"></script>
   <link rel="stylesheet" href="${CONTEXT}/s/templates/default/master.css" type="text/css" />
   <link rel="stylesheet" href="${CONTEXT}/s/templates/default/layout.css" type="text/css" />
   <link rel="stylesheet" href="${CONTEXT}/s/templates/default/color.css"  type="text/css" />

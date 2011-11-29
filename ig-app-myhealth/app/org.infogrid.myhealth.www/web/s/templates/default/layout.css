@@ -200,3 +200,25 @@ a.built-on-infogrid {
     float: right;
     margin-top: -8px;
 }
+
+div.toolbar {
+    float: right;
+    margin-left: 15px;
+    padding: 2px;
+    font-weight: normal;
+}
+div.toolbar > ul {
+    margin: 0;
+    padding: 0;
+    height: 18px;
+}
+div.toolbar > ul > li {
+    display: inline;
+    list-style-type: none;
+    padding: 3px;
+}
+div.toolbar > ul > li > img,
+div.toolbar > ul > li > a > img {
+    position: relative;
+    top: 1px;
+}
