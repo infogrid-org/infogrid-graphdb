@@ -42,8 +42,8 @@
             </propertytype>
         </entitytype>
 
-        <relationshiptype ID="org.infogrid.model.MyHealth/PersonCollection_Collect_Person">
-            <name>PersonCollection_Collect_Person</name>
+        <relationshiptype ID="org.infogrid.model.MyHealth/PersonCollection_Collects_Person">
+            <name>PersonCollection_Collects_Person</name>
             <username>collects</username>
             <userdescription>Allows people to be grouped into groups.</userdescription>
             <src>
