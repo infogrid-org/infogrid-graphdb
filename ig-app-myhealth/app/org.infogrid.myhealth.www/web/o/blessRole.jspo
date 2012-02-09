@@ -1,0 +1,37 @@
+<%@    page contentType="text/html"
+ %><%@ taglib prefix="candy" uri="/v/org/infogrid/jee/taglib/candy/candy.tld"
+ %><%@ taglib prefix="logic" uri="/v/org/infogrid/jee/taglib/logic/logic.tld"
+ %><%@ taglib prefix="mesh"  uri="/v/org/infogrid/jee/taglib/mesh/mesh.tld"
+ %><%@ taglib prefix="set"   uri="/v/org/infogrid/jee/taglib/mesh/set/set.tld"
+ %><%@ taglib prefix="u"     uri="/v/org/infogrid/jee/taglib/util/util.tld"
+ %><%@ taglib prefix="v"     uri="/v/org/infogrid/jee/taglib/viewlet/viewlet.tld"
+ %><%@ taglib prefix="tmpl"  uri="/v/org/infogrid/jee/taglib/templates/templates.tld"
+ %><%@ taglib prefix="c"     uri="http://java.sun.com/jsp/jstl/core"
+ %>
+
+<u:jspo>
+ <u:jspoParam name="from" type="org.infogrid.mesh.MeshObject"/>
+ <u:jspoParam name="to"   type="org.infogrid.mesh.MeshObject"/>
+
+ <h2>Bless role between two MeshObjects</h2>
+ <table>
+  <tr>
+   <td class="label">MeshObject:</td>
+   <td>
+    <input class="subject" name="shell.from" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="from" stringRepresentation="HttpShell"/>" />
+   </td>
+  </tr>
+  <tr>
+   <td class="label">RoleType:</td>
+   <td>
+    <mesh:relationshipBlessableBy startObjectName="from" neighborName="to"/>
+   </td>
+  </tr>
+  <tr>
+   <td class="label">Neighbor:</td>
+   <td>
+    <input class="object" name="shell.to" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell"/>" />
+   </td>
+  </tr>
+ </table>
+</u:jspo>

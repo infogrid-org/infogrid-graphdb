@@ -1,0 +1,31 @@
+<%@    page contentType="text/html"
+ %><%@ taglib prefix="candy" uri="/v/org/infogrid/jee/taglib/candy/candy.tld"
+ %><%@ taglib prefix="logic" uri="/v/org/infogrid/jee/taglib/logic/logic.tld"
+ %><%@ taglib prefix="mesh"  uri="/v/org/infogrid/jee/taglib/mesh/mesh.tld"
+ %><%@ taglib prefix="set"   uri="/v/org/infogrid/jee/taglib/mesh/set/set.tld"
+ %><%@ taglib prefix="u"     uri="/v/org/infogrid/jee/taglib/util/util.tld"
+ %><%@ taglib prefix="v"     uri="/v/org/infogrid/jee/taglib/viewlet/viewlet.tld"
+ %><%@ taglib prefix="tmpl"  uri="/v/org/infogrid/jee/taglib/templates/templates.tld"
+ %><%@ taglib prefix="c"     uri="http://java.sun.com/jsp/jstl/core"
+ %>
+
+<u:jspo>
+ <u:jspoParam name="toUnbless" type="org.infogrid.mesh.MeshObject"/>
+ <u:jspoParam name="type"      type="org.infogrid.model.primitives.EntityType"/>
+
+ <h2>Do you really want to unbless this MeshObject?</h2>
+ <table>
+  <tr>
+   <td class="label">MeshObject:</td>
+   <td>
+    <input class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toUnbless" stringRepresentation="HttpShell" />" />
+   </td>
+  </tr>
+  <tr>
+   <td class="label">Type:</td>
+   <td>
+    <input class="subjecttype" name="shell.subject.unbless" size="32" value="<mesh:meshTypeId meshTypeName="type" stringRepresentation="HttpShell" />" />
+   </td>
+  </tr>
+ </table>
+</u:jspo>

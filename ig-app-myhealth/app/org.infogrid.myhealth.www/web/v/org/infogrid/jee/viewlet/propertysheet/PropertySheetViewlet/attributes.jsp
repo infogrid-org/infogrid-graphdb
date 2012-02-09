@@ -11,9 +11,14 @@
   <thead>
    <tr>
     <th class="type">
-     <v:ifState viewletState="edit">
-      <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-bless', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />' } )" title="Bless this MeshObject"><img src="${CONTEXT}/s/images/medal_bronze_add.png" alt="Add type"/></a></div>
-     </v:ifState>
+     <v:notIfState viewletState="edit">
+      <div class="slide-in-button">
+       <u:callJspo page="/o/bless.jspo" action="${Viewlet.postUrl}" linkTitle="Bless this MeshObject" submitLabel="Bless">
+        <u:callJspoParam name="toBless" value="${Subject}"/>
+        <img src="${CONTEXT}/s/images/medal_bronze_add.png" alt="Bless" />
+       </u:callJspo>
+      </div>
+     </v:notIfState>
      Type
     </th>
     <th>Property</th>
@@ -24,9 +29,15 @@
    <mesh:blessedByIterate meshObjectName="Subject" blessedByLoopVar="blessedBy">
     <tr>
      <th class="entityType" colspan="3">
-      <v:ifState viewletState="edit">
-       <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-unbless', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />', 'shell.subject.unbless' : '<mesh:meshTypeId meshTypeName="blessedBy" stringRepresentation="Plain" filter="true" />' } )" title="Unbless this MeshObject"><img src="${CONTEXT}/s/images/medal_bronze_delete.png" alt="Delete"/></a></div>
-      </v:ifState>
+      <v:notIfState viewletState="edit">
+       <div class="slide-in-button">
+        <u:callJspo page="/o/unbless.jspo" action="${Viewlet.postUrl}" linkTitle="Unbless this MeshObject" submitLabel="Unbless">
+         <u:callJspoParam name="toUnbless" value="${Subject}"/>
+         <u:callJspoParam name="type"      value="${blessedBy}"/>
+         <img src="${CONTEXT}/s/images/medal_bronze_delete.png" alt="Unbless" />
+        </u:callJspo>
+       </div>
+      </v:notIfState>
       <mesh:type meshTypeName="blessedBy"/> <mesh:meshTypeId meshTypeName="blessedBy"/>
      </th>
     </tr>

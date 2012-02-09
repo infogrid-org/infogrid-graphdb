@@ -62,7 +62,7 @@ div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet ul.properties > li >
 
 div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav {
     min-height: 35px;
-    font-size: 0.8em;
+    font-size: 0.7em;
 }
 div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.left {
     float: left;
@@ -70,7 +70,7 @@ div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.left
 }
 div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.right {
     float: right;
-    margin: 5px 10px 0 10px;
+    margin: 3px 10px 0 10px;
 }
 div.org-infogrid-jee-viewlet-meshbase-AllMeshObjectsViewlet > div.nav > div.middle {
     text-align: center;

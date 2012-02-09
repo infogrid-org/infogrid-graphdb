@@ -11,9 +11,14 @@
    <tr>
     <th class="role">Roles</th>
     <th class="neighbor">
-     <v:ifState viewletState="edit">
-      <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-relate', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />' } )" title="Add a neighbor"><img src="${CONTEXT}/s/images/link_add.png" alt="Add neighbor"/></a></div>
-     </v:ifState>
+     <v:notIfState viewletState="edit">
+      <div class="slide-in-button">
+       <u:callJspo page="/o/relate.jspo" action="${Viewlet.postUrl}" linkTitle="Add a neighbor" submitLabel="Relate">
+        <u:callJspoParam name="from" value="${Subject}"/>
+        <img src="${CONTEXT}/s/images/link_add.png" alt="Add a neighbor" />
+       </u:callJspo>
+      </div>
+     </v:notIfState>
      Neighbor
     </th>
    </tr>
@@ -22,24 +27,43 @@
    <mesh:neighborIterate meshObjectName="Subject" neighborLoopVar="neighbor">
     <tr>
      <td class="role">
-      <v:ifState viewletState="edit">
-       <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-blessRole', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />', 'shell.object' : '<mesh:meshObjectId meshObjectName="neighbor" stringRepresentation="Plain" filter="true" />' } )" title="Add a role"><img src="${CONTEXT}/s/images/medal_silver_add.png" alt="Add role"/></a></div>
-      </v:ifState>
+      <v:notIfState viewletState="edit">
+       <div class="slide-in-button">
+        <u:callJspo page="/o/blessRole.jspo" action="${Viewlet.postUrl}" linkTitle="Add a role" submitLabel="Add role">
+         <u:callJspoParam name="from" value="${Subject}"/>
+         <u:callJspoParam name="to"   value="${neighbor}"/>
+         <img src="${CONTEXT}/s/images/medal_silver_add.png" alt="Add a role" />
+        </u:callJspo>
+       </div>
+      </v:notIfState>
       <ul>
        <mesh:roleIterate startObjectName="Subject" destinationObjectName="neighbor" roleTypeLoopVar="roleType">
         <li>
-         <v:ifState viewletState="edit">
-          <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-unblessRole', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />', 'shell.object' : '<mesh:meshObjectId meshObjectName="neighbor" stringRepresentation="Plain" filter="true" />', 'shell.subject.to.object.unblessRole' : '<mesh:meshTypeId meshTypeName="roleType" stringRepresentation="Plain" filter="true" />' } )" title="Remove a role"><img src="${CONTEXT}/s/images/medal_silver_delete.png" alt="Delete a role"/></a></div>
-         </v:ifState>
+         <v:notIfState viewletState="edit">
+          <div class="slide-in-button">
+           <u:callJspo page="/o/unblessRole.jspo" action="${Viewlet.postUrl}" linkTitle="Delete a role" submitLabel="Delete role">
+            <u:callJspoParam name="from" value="${Subject}"/>
+            <u:callJspoParam name="to"   value="${neighbor}"/>
+            <u:callJspoParam name="role" value="${roleType}"/>
+            <img src="${CONTEXT}/s/images/medal_silver_delete.png" alt="Delete a role" />
+           </u:callJspo>
+          </div>
+         </v:notIfState>
          <mesh:type meshTypeName="roleType" filter="false"/>
         </li>
        </mesh:roleIterate>
       </ul>
      </td>
      <td class="neighbor">
-      <v:ifState viewletState="edit">
-       <div class="slide-in-button"><a href="javascript:overlay_show( 'org-infogrid-jee-shell-http-HttpShellVerb-unrelate', { 'shell.subject' : '<mesh:meshObjectId meshObjectName="Subject" stringRepresentation="Plain" filter="true" />', 'shell.object' : '<mesh:meshObjectId meshObjectName="neighbor" stringRepresentation="Plain" filter="true" />' } )" title="Remove a neighbor"><img src="${CONTEXT}/s/images/link_delete.png" alt="Delete neighbor"/></a></div>
-      </v:ifState>
+      <v:notIfState viewletState="edit">
+       <div class="slide-in-button">
+        <u:callJspo page="/o/unrelate.jspo" action="${Viewlet.postUrl}" linkTitle="Unrelate from neighbor" submitLabel="Unrelate">
+         <u:callJspoParam name="from" value="${Subject}"/>
+         <u:callJspoParam name="to"   value="${neighbor}"/>
+         <img src="${CONTEXT}/s/images/link_delete.png" alt="Unrelate from neighbor" />
+        </u:callJspo>
+       </div>
+      </v:notIfState>
       <mesh:meshObjectLink meshObjectName="neighbor"><mesh:meshObjectId meshObjectName="neighbor" stringRepresentation="Plain" filter="true" maxLength="35" /></mesh:meshObjectLink>
      </td>
     </tr>

@@ -153,5 +153,4 @@
    </c:forEach>
   </tbody>
  </table>
- <%@ include file="/v/org/infogrid/jee/shell/http/HttpShellVerb.jsp" %>
 </v:viewlet>

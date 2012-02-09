@@ -21,10 +21,17 @@ div.org-infogrid-jee-taglib-candy-OverlayTag {
     padding: 25px;
     display: none;
     visibility: hidden;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    text-align: left;
 }
-div.org-infogrid-jee-taglib-candy-OverlayTag  > * {
+div.org-infogrid-jee-taglib-candy-OverlayTag > * {
     width: 100%;
 }
 div.org-infogrid-jee-taglib-candy-OverlayTag h2 {
     margin-top: 0;
+    text-align: left;
+    font-size: 16px;
 }
