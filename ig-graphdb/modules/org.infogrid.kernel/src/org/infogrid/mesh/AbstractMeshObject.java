@@ -1507,6 +1507,22 @@ public abstract class AbstractMeshObject
     }
 
     /**
+     * Obtain the RoleTypes that this MeshObject currently participates in with the
+     * MeshObject with the specified MeshObjectIdentifier.
+     *
+     * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
+     * @return the RoleTypes that this MeshObject currently participates in.
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     */
+    public RoleType [] getRoleTypes(
+            MeshObjectIdentifier neighborIdentifier )
+        throws
+            NotRelatedException
+    {
+        return getRoleTypes( neighborIdentifier, true );
+    }
+
+    /**
      * Obtain the MeshTypeIdentifiers of the RoleTypes that this MeshObject plays with a
      * given neighbor MeshObject identified by its MeshObjectIdentifier.
      *
@@ -1536,6 +1552,30 @@ public abstract class AbstractMeshObject
     {
         try {
             RoleType [] allRoleTypes = getRoleTypes( neighbor );
+            if( ArrayHelper.isIn( thisEnd, allRoleTypes, false )) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch( NotRelatedException ex ) {
+            return false;
+        }
+    }
+
+    /**
+     * Determine whether this MeshObject is related to another MeshObject whose MeshObjectIdentifier is given is blessed
+     * with a given RoleType. Also returns false if the two MeshObjects are not related.
+     *
+     * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to
+     * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
+     * @return true if this MeshObject is currently related to otherObject
+     */
+    public final boolean isRelated(
+            RoleType             thisEnd,
+            MeshObjectIdentifier neighborIdentifier )
+    {
+        try {
+            RoleType [] allRoleTypes = getRoleTypes( neighborIdentifier );
             if( ArrayHelper.isIn( thisEnd, allRoleTypes, false )) {
                 return true;
             } else {

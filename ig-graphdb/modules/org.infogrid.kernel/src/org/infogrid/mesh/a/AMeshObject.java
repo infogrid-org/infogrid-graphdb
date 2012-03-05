@@ -573,6 +573,24 @@ public class AMeshObject
     }
 
     /**
+     * Determine whether this MeshObject is related to another MeshObject whose MeshObjectIdentifier is given.
+     *
+     * @param otherObjectIdentifier the MeshObjectIdentifier of the MeshObject to which this MeshObject may be related
+     * @return true if this MeshObject is currently related to otherObject
+     */
+    public boolean isRelated(
+            MeshObjectIdentifier otherObjectIdentifier )
+    {
+        checkAlive();
+        updateLastRead();
+
+        AMeshObjectNeighborManager nMgr = getNeighborManager();
+        boolean ret = nMgr.isRelated( this, otherObjectIdentifier );
+
+        return ret;
+    }
+
+    /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleTypes.
      * As a result, this relationship will support either all RoleTypes or none.
      * 

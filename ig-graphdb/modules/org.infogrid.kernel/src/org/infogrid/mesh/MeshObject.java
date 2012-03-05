@@ -419,6 +419,15 @@ public interface MeshObject
     public abstract boolean isRelated(
             MeshObject otherObject );
 
+    /**
+     * Determine whether this MeshObject is related to another MeshObject whose MeshObjectIdentifier is given.
+     *
+     * @param otherObjectIdentifier the MeshObjectIdentifier of the MeshObject to which this MeshObject may be related
+     * @return true if this MeshObject is currently related to otherObject
+     */
+    public abstract boolean isRelated(
+            MeshObjectIdentifier otherObjectIdentifier );
+
 // --
 
     /**
@@ -847,6 +856,19 @@ public interface MeshObject
 
     /**
      * Obtain the RoleTypes that this MeshObject currently participates in with the
+     * MeshObject with the specified MeshObjectIdentifier.
+     *
+     * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
+     * @return the RoleTypes that this MeshObject currently participates in.
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     */
+    public abstract RoleType [] getRoleTypes(
+            MeshObjectIdentifier neighborIdentifier )
+        throws
+            NotRelatedException;
+
+    /**
+     * Obtain the RoleTypes that this MeshObject currently participates in with the
      * specified other MeshObject.
      * Specify whether relationships of equivalent MeshObjects should be considered
      * as well.
@@ -864,6 +886,24 @@ public interface MeshObject
             NotRelatedException;
 
     /**
+     * Obtain the RoleTypes that this MeshObject currently participates in with the
+     * MeshObject with the specified MeshObjectIdentifier.
+     * Specify whether relationships of equivalent MeshObjects should be considered
+     * as well.
+     *
+     * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
+     * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
+     *        if false, only this MeshObject will be used as the start
+     * @return the RoleTypes that this MeshObject currently participates in.
+     * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
+     */
+    public abstract RoleType [] getRoleTypes(
+            MeshObjectIdentifier neighborIdentifier,
+            boolean              considerEquivalents )
+        throws
+            NotRelatedException;
+
+    /**
      * Determine whether this MeshObject's relationship to the other MeshObject is blessed
      * with a given RoleType. Also returns false if the two MeshObjects are not related.
      *
@@ -874,6 +914,18 @@ public interface MeshObject
     public abstract boolean isRelated(
             RoleType   thisEnd,
             MeshObject neighbor );
+
+    /**
+     * Determine whether this MeshObject is related to another MeshObject whose MeshObjectIdentifier is given is blessed
+     * with a given RoleType. Also returns false if the two MeshObjects are not related.
+     *
+     * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to
+     * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
+     * @return true if this MeshObject is currently related to otherObject
+     */
+    public abstract boolean isRelated(
+            RoleType             thisEnd,
+            MeshObjectIdentifier neighborIdentifier );
 
     /**
      * Add another MeshObject as an equivalent. All MeshObjects that are already equivalent
