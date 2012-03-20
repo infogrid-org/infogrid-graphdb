@@ -8,12 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.codegen;
 
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import org.infogrid.module.ModelModule;
@@ -92,7 +93,7 @@ public class CodeGeneratorModelModuleActivator
             Object ret = activateModelUsingXmlModel(
                     dependentModules,
                     dependentContextObjects,
-                    new FileInputStream( modelFile ),
+                    new BufferedInputStream( new FileInputStream( modelFile )),
                     theModule.getClassLoader() );
 
             ModuleErrorHandler.informModuleActivateSucceeded( theModule );
