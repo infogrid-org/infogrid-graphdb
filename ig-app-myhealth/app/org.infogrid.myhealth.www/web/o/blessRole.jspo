@@ -30,7 +30,7 @@
   <tr>
    <td class="label">Neighbor:</td>
    <td>
-    <input class="object" name="shell.to" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell"/>" />
+    <input class="object" name="shell.to" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell"/>" />
    </td>
   </tr>
  </table>
