@@ -2,7 +2,7 @@
 
 <project name="FirstStepWithMySQL" default="run" basedir=".">
 
-  <property name="libs" value="ig-all.jar;mysql-connector-java-5.1.6-bin.jar" />
+  <property name="libs" value="ig-all.jar;mysql-connector-java-bin.jar" />
 
   <target name="clean">
     <delete file="FirstStepWithMySQL_Create.class"/>
