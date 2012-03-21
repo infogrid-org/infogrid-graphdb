@@ -9,7 +9,7 @@
  
     For more information about InfoGrid go to http://infogrid.org/
 
-    Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
     All rights reserved.
 -->
 <web-app version="2.4" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
@@ -18,8 +18,8 @@
         <listener-class>org.infogrid.jee.app.InfoGridWebAppContextListener</listener-class>
     </listener>
     <filter>
-        <filter-name>DefaultInitializationFilter</filter-name>
-        <filter-class>org.infogrid.jee.rest.defaultapp.DefaultRestfulInitializationFilter</filter-class>
+        <filter-name>InitializationFilter</filter-name>
+        <filter-class>org.infogrid.jee.defaultapp.DefaultInitializationFilter</filter-class>
         <init-param>
             <param-name>ROOTMODULE</param-name>
             <param-value>org.infogrid.myhealth.www</param-value>
@@ -54,7 +54,7 @@
         <servlet-class>org.infogrid.jee.viewlet.servlet.ViewletDispatcherServlet</servlet-class>
     </servlet>
     <filter-mapping>
-        <filter-name>DefaultInitializationFilter</filter-name>
+        <filter-name>InitializationFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
