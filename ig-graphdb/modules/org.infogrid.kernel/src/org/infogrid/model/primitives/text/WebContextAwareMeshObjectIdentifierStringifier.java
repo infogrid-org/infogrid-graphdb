@@ -229,9 +229,11 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         MeshObjectIdentifierFactory realFactory   = (MeshObjectIdentifierFactory) factory;
         String                      contextString = realFactory.getMeshBase().getIdentifier().toExternalForm();
         String                      realRawString;
+        boolean                     startsWithContext = false;
 
         if( rawString.startsWith( contextString )) {
-            realRawString = rawString.substring( contextString.length() );
+            realRawString     = rawString.substring( contextString.length() );
+            startsWithContext = true;
         } else {
             realRawString = rawString;
         }
@@ -239,7 +241,11 @@ public class WebContextAwareMeshObjectIdentifierStringifier
         try {
             Identifier found;
             if( realRawString.length() == 0 ) {
-                found = null;
+                if( startsWithContext ) {
+                    found = realFactory.getHomeMeshObjectIdentifier();
+                } else {
+                    found = null;
+                }
             } else if( realRawString.equals( AMeshObject.HOME_OBJECT_STRING )) {
                 found = realFactory.getHomeMeshObjectIdentifier(); // FIXME this looks like a hack
             } else if( theProcessColloquial ) {
