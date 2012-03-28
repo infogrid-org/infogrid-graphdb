@@ -18,14 +18,14 @@
   <tr>
    <td class="label">MeshObject:</td>
    <td>
-    <input class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="from" stringRepresentation="HttpShell"/>" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="from" stringRepresentation="HttpShell"/>" />
     <input type="hidden" name="shell.subject.to.object.perform" value="relate" />
    </td>
   </tr>
   <tr>
    <td class="label">New&nbsp;Neighbor:</td>
    <td>
-    <input class="object" name="shell.object" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell" ignore="true"/>" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="object" name="shell.object" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell" ignore="true"/>" />
    </td>
   </tr>
  </table>

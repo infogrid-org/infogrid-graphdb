@@ -19,19 +19,19 @@
   <tr>
    <td class="label">MeshObject:</td>
    <td>
-    <input class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="from" stringRepresentation="HttpShell"/>" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="from" stringRepresentation="HttpShell"/>" />
    </td>
   </tr>
   <tr>
    <td class="label">RoleType:</td>
    <td>
-    <input class="roleType" name="shell.subject.to.object.unblessRole" size="32" value="<mesh:meshTypeId meshTypeName="role" stringRepresentation="HttpShell"/>" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="roleType" name="shell.subject.to.object.unblessRole" size="32" value="<mesh:meshTypeId meshTypeName="role" stringRepresentation="HttpShell"/>" />
    </td>
   </tr>
   <tr>
    <td class="label">Neighbor:</td>
    <td>
-    <input class="object" name="shell.object" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell"/>" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="object" name="shell.object" size="32" value="<mesh:meshObjectId meshObjectName="to" stringRepresentation="HttpShell"/>" />
    </td>
   </tr>
  </table>

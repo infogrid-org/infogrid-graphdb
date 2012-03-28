@@ -18,13 +18,13 @@
   <tr>
    <td class="label">MeshObject:</td>
    <td>
-    <input class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toUnbless" stringRepresentation="HttpShell" />" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toUnbless" stringRepresentation="HttpShell" />" />
    </td>
   </tr>
   <tr>
    <td class="label">Type:</td>
    <td>
-    <input class="subjecttype" name="shell.subject.unbless" size="32" value="<mesh:meshTypeId meshTypeName="type" stringRepresentation="HttpShell" />" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="subjecttype" name="shell.subject.unbless" size="32" value="<mesh:meshTypeId meshTypeName="type" stringRepresentation="HttpShell" />" />
    </td>
   </tr>
  </table>

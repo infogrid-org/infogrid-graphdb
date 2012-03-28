@@ -17,7 +17,7 @@
   <tr>
    <td class="label">MeshObject:</td>
    <td>
-    <input class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toBless" stringRepresentation="HttpShell" />" />
+    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="32" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toBless" stringRepresentation="HttpShell" />" />
    </td>
   </tr>
   <tr>

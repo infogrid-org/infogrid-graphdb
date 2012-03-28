@@ -15,7 +15,7 @@
   <tr>
    <td class="label">Identifier:</td>
    <td>
-    <input class="subject" name="shell.subject" size="32"/>
+    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="32"/>
     <input type="hidden" name="shell.subject.access" value="find" />
    </td>
   </tr>
