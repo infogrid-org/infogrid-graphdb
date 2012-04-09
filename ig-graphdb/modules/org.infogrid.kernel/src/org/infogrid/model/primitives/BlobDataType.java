@@ -18,6 +18,7 @@ import java.io.ObjectStreamException;
 import java.text.ParseException;
 import java.util.regex.Pattern;
 import org.infogrid.util.ArrayHelper;
+import org.infogrid.util.StringHelper;
 import org.infogrid.util.text.StringRepresentation;
 import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
@@ -169,6 +170,16 @@ public final class BlobDataType
             new String[]  { BlobValue.IMAGE_PNG_MIME_TYPE },
             new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.IMAGE_PNG_MIME_TYPE )) },
             theJdkSupportedBitmapType );
+
+    /**
+     * This is a Favicon DataType.
+     */
+    public static final BlobDataType theFaviconType = createByLoadingFrom(
+            BlobDataType.class.getClassLoader(),
+            packageName + "/BlobDefaultValue.ico",
+            new String[]  { BlobValue.IMAGE_FAVICON_MIME_TYPE },
+            new Pattern[] { Pattern.compile( Pattern.quote( BlobValue.IMAGE_FAVICON_MIME_TYPE )) },
+            theAnyType );
 
     /**
       * This is the default instance of this class (plain text).
@@ -808,6 +819,8 @@ public final class BlobDataType
             return className + ".theTextPlainType";
         } else if( this == theTextXmlType ) {
             return className + ".theTextXmlType";
+        } else if( this == theFaviconType ) {
+            return className + ".theFaviconType";
         } else {
             StringBuilder ret = new StringBuilder( className );
             ret.append( CREATE_STRING );
@@ -821,9 +834,12 @@ public final class BlobDataType
             if( theMimeTypeRegexes != null ) {
                 ret.append( "new java.util.Pattern[] { " );
                 for( int i=0 ; i<theMimeTypeRegexes.length ; ++i ) {
+                    ret.append( "new java.util.Pattern( " );
                     ret.append( QUOTE_STRING );
-                    ret.append( theMimeTypeRegexes[i].toString() );
+                    ret.append( StringHelper.stringToJavaString( theMimeTypeRegexes[i].toString() ));
                     ret.append( QUOTE_STRING );
+                    ret.append( " )" );
+
                     if( i<theMimeTypeRegexes.length-1 ) {
                         ret.append( COMMA_STRING );
                     }
@@ -832,6 +848,7 @@ public final class BlobDataType
             } else {
                 ret.append( NULL_STRING );
             }
+            ret.append( COMMA_STRING );
 
             if( theSupertype != null ) {
                 ret.append( theSupertype.getJavaConstructorString( classLoaderVar ));
