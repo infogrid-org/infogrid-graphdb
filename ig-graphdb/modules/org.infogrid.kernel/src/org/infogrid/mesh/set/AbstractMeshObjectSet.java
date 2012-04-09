@@ -332,7 +332,46 @@ public abstract class AbstractMeshObjectSet
         return size();
     }
 
+     /**
+     * Convenience method to intersect two MeshObjectSets using this MeshObjectSet's MeshObjectSetFactory.
+     *
+     * @param otherSet the MeshObjectSet to intersect this MeshObjectSet with
+     * @return the intersection
+     */
+    public MeshObjectSet intersect(
+            MeshObjectSet otherSet )
+    {
+        MeshObjectSet ret = theFactory.createImmutableMeshObjectSetIntersection( this, otherSet );
+        return ret;
+    }
+
     /**
+     * Convenience method to unify two MeshObjectSets using this MeshObjectSet's MeshObjectSetFactory.
+     *
+     * @param otherSet the MeshObjectSet to unify this MeshObjectSet with
+     * @return the intersection
+     */
+    public MeshObjectSet unify(
+            MeshObjectSet otherSet )
+    {
+        MeshObjectSet ret = theFactory.createImmutableMeshObjectSetUnification( this, otherSet );
+        return ret;
+    }
+
+    /**
+     * Convenience method to remove the members of a MeshObjectSet from this MeshObjectSet.
+     *
+     * @param otherSet the MeshObjectSet whose members shall be removed from this MeshObjectSet
+     * @return a new MeshObjectSet without the removed members
+     */
+    public MeshObjectSet minus(
+            MeshObjectSet otherSet )
+    {
+        MeshObjectSet ret = theFactory.createImmutableMeshObjectSetMinus( this, otherSet );
+        return ret;
+    }
+
+   /**
      * Set the PropertyTypes whose change events we forward to content
      * PropertyChangeListeners.
      *
