@@ -443,7 +443,16 @@ public class AMeshBaseLifecycleManager
             try {
                 // it's possible that the schema changed since we read this object. Try to recover.
                 PropertyType propertyType = (PropertyType) mb.findMeshTypeByIdentifier( propertyTypeNames[i] );
-                
+
+                if( propertyValues[i] != null ) {
+                    if( propertyType.getDataType().conforms( propertyValues[i] ) != 0 ) {
+                        log.warn( "Wrong DataType when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed );
+                        continue;
+                    }
+                } else if( !propertyType.getIsOptional().value() ) {
+                    log.warn( "No null value allowed when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed );
+                    continue;
+                }
                 // now we patch EnumeratedValues
                 DataType type = propertyType.getDataType();
                 if( type instanceof EnumeratedDataType && propertyValues[i] instanceof EnumeratedValue ) {
