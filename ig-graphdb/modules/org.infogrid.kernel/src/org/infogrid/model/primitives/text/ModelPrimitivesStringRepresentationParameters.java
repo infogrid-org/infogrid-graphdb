@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -46,4 +46,10 @@ public interface ModelPrimitivesStringRepresentationParameters
      * shown, if any.
      */
     public final String TIME_ZONE = "tz";
+
+    /**
+     * The key into this object that identifies the default value to use for this property instead of
+     * the one given in the model.
+     */
+    public final String DEFAULT_VALUE = "defaultValue";
 }

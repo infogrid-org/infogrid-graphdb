@@ -464,6 +464,10 @@
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
+            <name>defaultValue</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>filter</name>
             <rtexprvalue>true</rtexprvalue>
         </attribute>

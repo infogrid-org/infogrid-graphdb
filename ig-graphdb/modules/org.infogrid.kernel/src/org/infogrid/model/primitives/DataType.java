@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -253,9 +253,11 @@ public abstract class DataType
             IllegalPropertyTypeException,
             NotPermittedException
     {
-        String  editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
-        Integer editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
-        Boolean allowNull = (Boolean) pars.get( ModelPrimitivesStringRepresentationParameters.ALLOW_NULL );
+        String        editVar               = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+        Integer       editIndex             = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
+        Boolean       allowNull             = (Boolean) pars.get( ModelPrimitivesStringRepresentationParameters.ALLOW_NULL );
+        PropertyValue alternateDefaultValue = (PropertyValue) pars.get( ModelPrimitivesStringRepresentationParameters.DEFAULT_VALUE );
+
         if( allowNull != null && allowNull.booleanValue() ) {
             allowNull = propertyType.getIsOptional().value();
         } // else if not allowNull from the parameters, don't care what the PropertyType says
@@ -269,7 +271,12 @@ public abstract class DataType
 
         StringRepresentationParameters childPars = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );
 
-        PropertyValue defaultValue = propertyType.getDefaultValue();
+        PropertyValue defaultValue;
+        if( alternateDefaultValue != null ) {
+            defaultValue = alternateDefaultValue;
+        } else {
+            defaultValue = propertyType.getDefaultValue();
+        }
         PropertyValue currentValue;
         if( owningMeshObject != null ) {
             currentValue = owningMeshObject.getPropertyValue( propertyType );
