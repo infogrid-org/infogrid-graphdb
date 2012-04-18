@@ -453,7 +453,7 @@ public class PropertyValueXmlEncoder
     }
 
     /**
-     * Invoked when no previous start-element parsing rule has matched. Allows subclasses to add to parsing.
+     * Invoked when no previous start-element parsing rule has matched. Allows subclasses to plus to parsing.
      *
      * @param namespaceURI the URI of the namespace
      * @param localName the local name
@@ -584,7 +584,7 @@ public class PropertyValueXmlEncoder
     }
 
     /**
-     * Invoked when no previous end-element parsing rule has matched. Allows subclasses to add to parsing.
+     * Invoked when no previous end-element parsing rule has matched. Allows subclasses to plus to parsing.
      *
      * @param namespaceURI the URI of the namespace
      * @param localName the local name
