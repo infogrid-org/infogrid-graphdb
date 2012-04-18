@@ -343,6 +343,20 @@ public class CurrencyDataType
         }
 
         /**
+         * Obtain the factor by which the whole part needs to be multiplied to be equivalent to the fractional part.
+         *
+         * @return the factor
+         */
+        public int getFractionMultiplier()
+        {
+            int ret = 1;
+            for( int i=0 ; i<theFractionPlaces ; ++i ) {
+                ret *= 10;
+            }
+            return ret;
+        }
+
+        /**
          * Format a whole and a fraction suitably for this Unit.
          *
          * @param whole the whole

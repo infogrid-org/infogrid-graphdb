@@ -151,6 +151,19 @@ public final class CurrencyValue
         this.theWholes    = wholes;
         this.theFractions = fractions;
         this.theUnit      = u;
+
+        normalize();
+    }
+
+    /**
+     * Normalize internal data representation.
+     */
+    protected void normalize()
+    {
+        int multiplier = theUnit.getFractionMultiplier();
+
+        theWholes    += theFractions / multiplier;
+        theFractions %= multiplier;         // apparently modulus works with negative numbers in Java
     }
 
     /**
@@ -191,6 +204,62 @@ public final class CurrencyValue
     public CurrencyDataType.Unit getUnit()
     {
         return theUnit;
+    }
+
+    /**
+     * Determine whether this value is zero.
+     *
+     * @return true if the value is zero
+     */
+    public boolean isFree()
+    {
+        return theWholes == 0 && theFractions == 0;
+    }
+
+    /**
+     * Add two CurrencyValues.
+     * 
+     * @param other the other CurrencyValue
+     * @return the sum of the two CurrencyValues
+     * @throws IllegalArgumentException thrown if the two CurrencyValues do not have the same unit.
+     */
+    public CurrencyValue plus(
+            CurrencyValue other )
+        throws
+            IllegalArgumentException
+    {
+        if( theUnit != other.theUnit ) {
+            throw new IllegalArgumentException( "Cannot add " + theUnit + " and " + other.theUnit );
+        }
+        return new CurrencyValue( theWholes + other.theWholes, theFractions + other.theFractions, theUnit );
+    }
+
+    /**
+     * Subtract a CurrencyValue from this CurrencyValue.
+     *
+     * @param other the other CurrencyValue
+     * @return the difference of the two CurrencyValues
+     * @throws IllegalArgumentException thrown if the two CurrencyValues do not have the same unit.
+     */
+    public CurrencyValue minus(
+            CurrencyValue other )
+        throws
+            IllegalArgumentException
+    {
+        if( theUnit != other.theUnit ) {
+            throw new IllegalArgumentException( "Cannot add " + theUnit + " and " + other.theUnit );
+        }
+        return new CurrencyValue( theWholes - other.theWholes, theFractions - other.theFractions, theUnit );
+    }
+
+    /**
+     * Turn a CurrencyValue into a CurrencyValue with the same value but opposite sign.
+     *
+     * @return the inverted CurrencyValue
+     */
+    public CurrencyValue minus()
+    {
+        return new CurrencyValue( -theWholes, -theFractions, theUnit );
     }
 
     /**
