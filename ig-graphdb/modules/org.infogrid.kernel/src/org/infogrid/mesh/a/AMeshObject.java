@@ -1904,9 +1904,13 @@ public class AMeshObject
                         theMeshTypes.put( current, new WeakReference<TypedMeshObjectFacade>( facade ));
                     }
 
-                    ret = facade.get_UserVisibleString();
-                    if( ret != null ) {
-                        break;
+                    if( facade != null ) {
+                        // this is always non-null, except if we restore a MeshObject from disk that
+                        // is blessed with a type that used to be concrete and now is abstract
+                        ret = facade.get_UserVisibleString();
+                        if( ret != null ) {
+                            break;
+                        }
                     }
                 }
             }
