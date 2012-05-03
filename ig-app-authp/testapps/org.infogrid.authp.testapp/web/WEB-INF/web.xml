@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.4"
+         xmlns="http://java.sun.com/xml/ns/j2ee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+ <!-- Use web-app version 2.4 to support Tomcat 5.5, which is all that it can do -->
+
+ <display-name>Authentication Provider (testapp)</display-name>
+
+ <listener>
+  <listener-class>org.infogrid.jee.app.InfoGridWebAppContextListener</listener-class>
+ </listener>
+
+ <filter>
+  <filter-name>InitializationFilter</filter-name>
+  <filter-class>org.infogrid.jee.defaultapp.DefaultInitializationFilter</filter-class>
+  <init-param>
+   <param-name>ROOTMODULE</param-name>
+   <param-value>org.infogrid.authp.testapp</param-value>
+  </init-param>
+ </filter>
+
+ <filter>
+  <filter-name>TemplatesFilter</filter-name>
+  <filter-class>org.infogrid.jee.templates.servlet.TemplatesFilter</filter-class>
+ </filter>
+
+ <filter>
+  <filter-name>ApplicationInitializationFilter</filter-name>
+  <filter-class>org.infogrid.authp.testapp.TestAuthpAppInitializationFilter</filter-class>
+  <init-param>
+   <param-name>ldap-properties-file</param-name>
+   <param-value>/etc/org.infogrid.authp.www/Ldap.properties</param-value>
+  </init-param>
+ </filter>
+
+ <filter>
+  <filter-name>SafeUnsafePostFilter</filter-name>
+  <filter-class>org.infogrid.jee.security.SafeUnsafePostFilter</filter-class>
+ </filter>
+
+ <filter>
+  <filter-name>DispatcherFilter</filter-name>
+  <filter-class>org.infogrid.jee.servlet.RegexDispatcherFilter</filter-class>
+  <init-param>
+   <param-name>REGEX</param-name>
+   <param-value>/[^/]*(\?.*)?</param-value>
+  </init-param>
+  <init-param>
+   <param-name>SERVLET_NAME</param-name>
+   <param-value>LidPipelineServlet</param-value>
+  </init-param>
+ </filter>
+
+ <servlet>
+  <servlet-name>LidPipelineServlet</servlet-name>
+  <servlet-class>org.infogrid.lid.servlet.LidPipelineServlet</servlet-class>
+  <init-param>
+   <param-name>SERVLET_NAME</param-name>
+   <param-value>ContentServlet</param-value>
+  </init-param>
+ </servlet>
+
+ <servlet>
+  <servlet-name>ContentServlet</servlet-name>
+  <servlet-class>org.infogrid.authp.ContentServlet</servlet-class>
+ </servlet>
+
+
+ <filter-mapping>
+  <filter-name>InitializationFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+
+ <filter-mapping>
+  <filter-name>TemplatesFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+
+ <filter-mapping>
+  <filter-name>ApplicationInitializationFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+
+ <filter-mapping>
+  <filter-name>SafeUnsafePostFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+
+ <filter-mapping>
+  <filter-name>DispatcherFilter</filter-name>
+  <url-pattern>/*</url-pattern>
+ </filter-mapping>
+</web-app>

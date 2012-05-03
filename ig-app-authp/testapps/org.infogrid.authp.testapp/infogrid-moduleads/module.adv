@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<standardmodule>
+ <name>org.infogrid.authp.testapp</name>
+ <username>Authentication provider (testapp)</username>
+ <dependencies>
+  <requires name="org.infogrid.util.logging.log4j">
+   <parameter name="org.infogrid.util.logging.log4j.ConfigPropertiesFile" value="org/infogrid/authp/testapp/Log.properties"/>
+  </requires>
+  <requires name="org.infogrid.jee.lid"/>
+  <requires name="org.infogrid.jee.templates"/>
+  <requires name="org.infogrid.lid.openid.store"/>
+  <requires name="org.infogrid.lid.store"/>
+  <requires name="org.infogrid.util">
+   <parameter name="org.infogrid.util.logging.LogFactory.Class" value="org.infogrid.util.logging.log4j.Log4jLogFactory"/>
+   <parameter name="org.infogrid.util.logging.LogFactory.Module" value="org.infogrid.util.logging.log4j"/>
+  </requires>
+  <requires name="org.infogrid.authp"/>
+ </dependencies>
+ <provides>
+  <jar>org.infogrid.authp.testapp.war</jar>
+ </provides>
+</standardmodule>
