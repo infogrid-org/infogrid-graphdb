@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectStreamException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationParameters;
 import org.infogrid.util.PortableIcon;
 import org.infogrid.util.StringHelper;
@@ -479,7 +480,13 @@ public abstract class BlobValue
          */
         public byte [] value()
         {
-            return theValue.getBytes();
+            try {
+                return theValue.getBytes( "UTF-8" );
+
+            } catch( UnsupportedEncodingException ex ) {
+                log.error( ex );
+                return null;
+            }
         }
 
         /**
