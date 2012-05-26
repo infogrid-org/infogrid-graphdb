@@ -17,7 +17,7 @@
   <tr>
    <td class="label">MeshObject:</td>
    <td>
-    <input type="url" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="40" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toSweep" stringRepresentation="HttpShell" /> " />
+    <input type="text" autocorrect="off" autocapitalization="off" class="subject" name="shell.subject" size="40" readonly="readonly" value="<mesh:meshObjectId meshObjectName="toSweep" stringRepresentation="HttpShell" /> " />
     <input type="hidden" name="shell.subject.access" value="sweep" />
    </td>
   </tr>
