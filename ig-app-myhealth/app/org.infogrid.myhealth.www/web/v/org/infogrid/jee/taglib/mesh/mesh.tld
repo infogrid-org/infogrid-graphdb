@@ -534,8 +534,11 @@
         <name>propertyValue</name>
         <tag-class>org.infogrid.jee.taglib.mesh.PropertyValueTag</tag-class>
         <attribute>
+            <name>propertyValue</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>propertyValueName</name>
-            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
