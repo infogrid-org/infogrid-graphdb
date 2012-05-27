@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -431,7 +431,9 @@ public interface MeshObject
 // --
 
     /**
-     * Make this MeshObject support the provided EntityType.
+     * Make this MeshObject support the provided EntityType. (The name of this method comes from Perl's bless method.)
+     *
+     *
      * 
      * @param type the new EntityType to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with this EntityType
@@ -450,6 +452,7 @@ public interface MeshObject
     /**
      * Make this MeshObject support the provided one or more EntityTypes. As a result, the
      * MeshObject will either be blessed with all of the EntityTypes, or none.
+     *  (The name of this method comes from Perl's bless method.)
      * 
      * @param types the new EntityTypes to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with at least one of these EntityTypes
@@ -604,6 +607,7 @@ public interface MeshObject
 
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleType.
+     * (The name of this method comes from Perl's bless method.)
      * 
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
@@ -632,6 +636,7 @@ public interface MeshObject
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleTypes.
      * As a result, this relationship will support either all RoleTypes or none.
+     * (The name of this method comes from Perl's bless method.)
      * 
      * @param thisEnd the RoleTypes of the RelationshipTypes that are instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
