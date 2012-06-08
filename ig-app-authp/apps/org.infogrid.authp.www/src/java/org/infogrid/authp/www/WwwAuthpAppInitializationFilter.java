@@ -60,7 +60,7 @@ public class WwwAuthpAppInitializationFilter
     {
         // nothing
     }
-    
+
     /**
      * Initialize the Filter.
      *
@@ -205,7 +205,7 @@ public class WwwAuthpAppInitializationFilter
         LidCredentialType [] availableCredentialTypes = {
                 TranslatingLidCredentialType.create(
                         accountManagerBridge,
-                        LdapLidPasswordCredentialType.create( theLdapProperties, theLdapProperties.getProperty( IDENTIFIER_SUFFIX, null ) ))
+                        LdapLidPasswordCredentialType.create( theLdapProperties, theLdapProperties.getProperty( IDENTIFIER_PREFIX, null ) ))
         };
 
         // Session manager
@@ -252,10 +252,10 @@ public class WwwAuthpAppInitializationFilter
     public static final String LDAP_SEARCH_CONTEXT = "org.infogrid.authp.va.ldap.Context";
 
     /**
-     * Name of the property file parameter that defines the suffix to append to the identifier
+     * Name of the property file parameter that defines the prefix to append to the identifier
      * for authentication, if any.
      */
-    public static final String IDENTIFIER_SUFFIX = "org.infogrid.authp.va.ldap.IdentifierSuffix";
+    public static final String IDENTIFIER_PREFIX = "org.infogrid.authp.va.ldap.IdentifierPrefix";
 
     /**
      * Name of the property file parameter defining the Filter to use to find an entry.
