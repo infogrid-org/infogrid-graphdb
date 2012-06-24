@@ -20,7 +20,7 @@ div.org-infogrid-jee-viewlet-graphtree-GraphTreeViewlet-sidebar dd {
     margin-left: 20px;
 }
 div.org-infogrid-jee-viewlet-graphtree-GraphTreeViewlet-sidebar dt {
-    -moz-border-radius: 4px;
+    border-radius: 4px;
     -webkit-border-radius: 4px;
     border-width: 1px;
     border-style: solid;
