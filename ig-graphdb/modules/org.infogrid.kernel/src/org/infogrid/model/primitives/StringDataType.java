@@ -132,7 +132,7 @@ public final class StringDataType
             theStringValueResourceHelper.getResourceL10MapOrDefault( "IpV6AddressStringValueError", null ));
 
     /**
-     * Any DNS host name.
+     * Any DNS host name. May be local.
      */
     public static final StringDataType theDnsHostNameType = StringDataType.create(
             Pattern.compile( "(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z]|[A-Za-z][A-Za-z0-9\\-]*[A-Za-z0-9])" ),
