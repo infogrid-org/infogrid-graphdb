@@ -41,6 +41,7 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
@@ -463,8 +464,12 @@ public class AMeshBaseLifecycleManager
                     properties.put( propertyType, propertyValues[i] );
                 }
 
+            } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                // don't need the follow log here
+                log.warn( "Exception when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), ex.getIdentifier().toExternalForm() );
+
             } catch( Exception ex ) {
-                log.warn( "Exception when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed, ex );
+                log.warn( "Exception when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), ex );
             }
         }
 
