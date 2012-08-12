@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -547,7 +547,12 @@ public class MyHandler
                     temp = theStack.peek();
                     if( temp instanceof ExternalizedPropertyTypeGroup ) {
                         thePropertyTypeGroup = (ExternalizedPropertyTypeGroup) temp;
-                        thePropertyTypeGroup.addGroupMember( theAttributes.getValue( XmlModelTokens.IDENTIFIER_KEYWORD ));
+                        typeId = createTypeIdentifierFrom( theAttributes.getValue( XmlModelTokens.IDENTIFIER_KEYWORD ));
+                        if( typeId != null ) {
+                            thePropertyTypeGroup.addGroupMember( typeId );
+                        } else {
+                            error( theErrorPrefix + "element " + qName + " must carry attribute ID referencing the PropertyType's MeshTypeIdentifier" );
+                        }
                     } else {
                         error( theErrorPrefix + "unexpected type: " + temp );
                     }
@@ -2126,8 +2131,7 @@ public class MyHandler
 
         PropertyType [] mas = new PropertyType[ theExternalizedPropertyTypeGroup.getGroupMembers().size() ];
         for( int i=0 ; i<mas.length ; ++i ) {
-            String             current    = theExternalizedPropertyTypeGroup.getGroupMembers().get( i );
-            MeshTypeIdentifier currentRef = createTypeIdentifierFrom( current );
+            MeshTypeIdentifier currentRef = theExternalizedPropertyTypeGroup.getGroupMembers().get( i );
 
             mas[i] = theModelBase.findPropertyTypeByIdentifier( currentRef );
             if( mas[i] == null ) {
@@ -2184,7 +2188,7 @@ public class MyHandler
     {
         StringBuilder buf = new StringBuilder( 100 ); // fudge
         buf.append( "Parse Stack:" );
-        Iterator theIter = theStack.iterator();
+        Iterator<Object> theIter = theStack.iterator();
         while( theIter.hasNext() ) {
             buf.append( "\n    " );
             buf.append( theIter.next() );
@@ -2291,8 +2295,8 @@ public class MyHandler
             ExternalizedAttributableMeshType amo,
             ExternalizedPropertyTypeGroup    pt )
     {
-        if( amo.getIdentifier() != null ) {
-            return amo.getIdentifier();
+        if( pt.getIdentifier() != null ) {
+            return pt.getIdentifier();
         }
 
         StringBuilder idString = new StringBuilder();
@@ -2302,10 +2306,10 @@ public class MyHandler
             idString.append( "_v" );
             idString.append( sa.getVersion().value() );
         }
-        idString.append( "#" );
+        idString.append( '/' );
         idString.append( amo.getName().value() );
         
-        idString.append( '/' );
+        idString.append( '_' );
         idString.append( pt.getName().value() );
 
         return createTypeIdentifierFrom( idString.toString() );

@@ -8,15 +8,15 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.infogrid.model.primitives.FloatValue;
-
 import java.util.ArrayList;
+import org.infogrid.model.primitives.FloatValue;
+import org.infogrid.model.primitives.MeshTypeIdentifier;
 
 /**
  * This is data wanting to become a PropertyTypeGroup, during reading.
@@ -31,10 +31,10 @@ public class ExternalizedPropertyTypeGroup
      * @param newValue the new value
      */
     public void addGroupMember(
-            String newValue ) 
+            MeshTypeIdentifier newValue ) 
     {
         if( groupMembers == null ) {
-            groupMembers = new ArrayList<String>();
+            groupMembers = new ArrayList<MeshTypeIdentifier>();
         }
         groupMembers.add( newValue );
     }
@@ -44,7 +44,7 @@ public class ExternalizedPropertyTypeGroup
      *
      * @return the value
      */
-    public ArrayList<String> getGroupMembers()
+    public ArrayList<MeshTypeIdentifier> getGroupMembers()
     {
         return groupMembers;
     }
@@ -73,7 +73,7 @@ public class ExternalizedPropertyTypeGroup
     /**
      * The list of Identifiers of PropertyTypes that this PropertyTypeGroup contains.
      */
-    protected ArrayList<String> groupMembers = null;
+    protected ArrayList<MeshTypeIdentifier> groupMembers = null;
 
     /**
      * SequenceNumber.
