@@ -8,20 +8,18 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.infogrid.model.primitives.BooleanValue;
-import org.infogrid.model.primitives.PropertyValue;
-import org.infogrid.model.primitives.StringValue;
-
-import org.infogrid.model.primitives.MeshTypeIdentifier;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.infogrid.model.primitives.BooleanValue;
+import org.infogrid.model.primitives.MeshTypeIdentifier;
+import org.infogrid.model.primitives.PropertyValue;
+import org.infogrid.model.primitives.StringValue;
 
 /**
  * Convenience superclass for most of the other ExternalizedXXX. Roughly resembles MeshType.
