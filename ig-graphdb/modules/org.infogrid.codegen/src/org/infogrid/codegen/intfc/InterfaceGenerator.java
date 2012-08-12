@@ -316,7 +316,7 @@ public class InterfaceGenerator
                 }
                 outStream.println( "      */" );
                 outStream.println( "    public abstract void set" + propertyTypeName + "(" );
-                outStream.println( "            " + propertyTypeName + " newValue )" );
+                outStream.println( "            " + propertyTypeType + " newValue )" );
                 outStream.println( "        throws" );
                 outStream.println( "            org.infogrid.mesh.NotPermittedException," );
                 outStream.print(   "            org.infogrid.meshbase.transaction.TransactionException" );
