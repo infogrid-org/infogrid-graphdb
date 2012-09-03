@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -83,12 +83,28 @@ public final class StringDataType
             theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpsStringValueError", null ));
 
     /**
+     * Any FTP URL.
+     */
+    public static final StringDataType theFtpUrlType = StringDataType.create(
+            Pattern.compile( "ftp://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "FtpStringValue", "ftp://example.com/README" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "FtpStringValueError", null ));
+
+    /**
      * Any HTTP or HTTPS URL.
      */
     public static final StringDataType theHttpHttpsUrlType = StringDataType.create(
             Pattern.compile( "https?://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
             StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsStringValue", "http://example.com/" )),
             theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpHttpsStringValueError", null ));
+
+    /**
+     * Any HTTP, HTTPS or FTP URL.
+     */
+    public static final StringDataType theHttpHttpsFtpUrlType = StringDataType.create(
+            Pattern.compile( "(https?|ftp)://[a-z0-9](?:[a-z0-9\\-.]*[a-z0-9])?(?::\\d+)?/\\S*" ),
+            StringValue.create( theStringValueResourceHelper.getResourceStringOrDefault( "HttpHttpsFtpStringValue", "http://example.com/" )),
+            theStringValueResourceHelper.getResourceL10MapOrDefault( "HttpHttpsFtpStringValueError", null ));
 
     /**
      * Any e-mail address.
