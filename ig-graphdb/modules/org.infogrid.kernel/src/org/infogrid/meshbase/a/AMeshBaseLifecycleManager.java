@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -452,7 +452,7 @@ public class AMeshBaseLifecycleManager
                     }
                 } else if( !propertyType.getIsOptional().value() ) {
                     log.warn( "No null value allowed when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed );
-                    continue;
+                    propertyValues[i] = propertyType.getDefaultValue();
                 }
                 // now we patch EnumeratedValues
                 DataType type = propertyType.getDataType();
