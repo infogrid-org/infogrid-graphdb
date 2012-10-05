@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,8 +23,8 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
-import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.security.PropertyReadOnlyException;
+import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.meshbase.transaction.MeshObjectBecameDeadStateEvent;

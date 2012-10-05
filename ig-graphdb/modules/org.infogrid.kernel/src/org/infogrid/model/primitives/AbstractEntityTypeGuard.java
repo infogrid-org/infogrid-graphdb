@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -21,7 +21,7 @@ import org.infogrid.mesh.NotPermittedException;
  * Subclasses know how to check operations on MeshObjects. This abstract
  * class makes it easier to implement it.
  */
-public class AbstractEntityTypeGuard
+public abstract class AbstractEntityTypeGuard
         implements
             EntityTypeGuard
 {
