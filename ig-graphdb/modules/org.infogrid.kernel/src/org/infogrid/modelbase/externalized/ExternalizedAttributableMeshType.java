@@ -8,15 +8,14 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.infogrid.model.primitives.BooleanValue;
-
 import java.util.ArrayList;
+import org.infogrid.model.primitives.BooleanValue;
 
 /**
  * This is data wanting to become an AttributableMeshType, during reading.

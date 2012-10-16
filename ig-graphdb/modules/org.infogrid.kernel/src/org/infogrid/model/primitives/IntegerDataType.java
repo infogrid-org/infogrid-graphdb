@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,10 +16,9 @@ package org.infogrid.model.primitives;
 
 import java.io.ObjectStreamException;
 import java.text.ParseException;
-import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.util.text.StringRepresentation;
-import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringRepresentationParameters;
+import org.infogrid.util.text.StringRepresentationParseException;
 import org.infogrid.util.text.StringifierException;
 
 /**
