@@ -115,8 +115,8 @@ public class CodeGenerator
                 SubjectArea [] sas = (SubjectArea []) saModule.activateRecursively( activator );
 
                 if( sas == null || sas.length == 0 ) {
-                    log.error( "Could not obtain SubjectArea '" + saName + "', version '" + saVersion + "'" );
-                    System.exit( 0 );
+                    System.err.println( "ERROR: Could not load SubjectArea '" + saName + "', version '" + saVersion + "'" );
+                    System.exit( 1 );
                 }
                 generator.generateForAll( sas );
 

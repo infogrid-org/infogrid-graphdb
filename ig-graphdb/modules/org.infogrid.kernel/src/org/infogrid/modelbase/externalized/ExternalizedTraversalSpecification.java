@@ -8,13 +8,14 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
 import java.util.ArrayList;
+import org.infogrid.util.StringHelper;
 
 /**
  * This is data wanting to become a TraversalSpecification, during reading.
@@ -45,9 +46,20 @@ public abstract class ExternalizedTraversalSpecification
          *
          * @return the value
          */
-        public ArrayList getSteps()
+        public ArrayList<ExternalizedTraversalSpecification> getSteps()
         {
             return steps;
+        }
+
+        /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+            return "Sequential TraversalSpecification with steps " + StringHelper.join( steps.iterator() );
         }
 
         /**
@@ -127,6 +139,28 @@ public abstract class ExternalizedTraversalSpecification
         }
 
         /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+            StringBuilder buf = new StringBuilder();
+            buf.append( "Selective TraversalSpecification of " );
+            buf.append( travSpec );
+            if( startSelector != null ) {
+                buf.append( ", with start " );
+                buf.append( startSelector );
+            }
+            if( endSelector != null ) {
+                buf.append( ", with end " );
+                buf.append( endSelector );
+            }
+            return buf.toString();
+        }
+
+        /**
          * The qualified ExternalizedTraversalSpecification.
          */
         protected ExternalizedTraversalSpecification travSpec;
@@ -171,6 +205,17 @@ public abstract class ExternalizedTraversalSpecification
         }
 
         /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+             return "Role TraversalSpecification: " + identifierString;
+        }
+
+        /**
          * Identifier of the RoleType in string form -- inefficient to convert it to an IdentifierValue.
          */
         protected String identifierString;
@@ -183,7 +228,16 @@ public abstract class ExternalizedTraversalSpecification
         extends
             ExternalizedTraversalSpecification
     {
-        // nothing
+        /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+             return "Stay-right-here TraversalSpecification";
+        }
     }
 
     /**
@@ -193,7 +247,16 @@ public abstract class ExternalizedTraversalSpecification
         extends
             ExternalizedTraversalSpecification
     {
-        // nothing
+        /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+             return "All-neighbors TraversalSpecification";
+        }
     }
 
 }

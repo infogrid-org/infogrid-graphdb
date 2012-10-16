@@ -8,28 +8,42 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.infogrid.model.primitives.MultiplicityValue;
-import org.infogrid.model.primitives.PropertyValue;
-
-import org.infogrid.model.primitives.MeshTypeIdentifier;
-
-import org.infogrid.util.ArrayHelper;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import org.infogrid.model.primitives.MeshTypeIdentifier;
+import org.infogrid.model.primitives.MultiplicityValue;
+import org.infogrid.model.primitives.PropertyValue;
+import org.infogrid.util.ArrayHelper;
 
 /**
  * This is data wanting to become a RoleType, during reading.
  */
 public class ExternalizedRoleType
 {
+    /**
+     * Constructor.
+     * 
+     * @param rel the ExternalizedRelationshipType to which this ExternalizedRoleType belongs
+     * @param source if true, this is the source ExternalizedRoleType
+     * @param dest if true, this is the destination ExternalizedRoleType
+     */
+    public ExternalizedRoleType(
+            ExternalizedRelationshipType rel,
+            boolean                      source,
+            boolean                      dest )
+    {
+        theRelationship = rel;
+        isSource        = source;
+        isDestination   = dest;
+    }
+
     /**
      * Set property.
      *
@@ -169,6 +183,38 @@ public class ExternalizedRoleType
         return ArrayHelper.copyIntoNewArray( theRoleTypeGuardClassNames, String.class );
     }
 
+    /**
+     * Convert to String, for user error messages.
+     *
+     * @return String form of this object
+     */
+    @Override
+    public String toString()
+    {
+        if( isSource ) {
+            return "Source RoleType of RelationshipType: " + theRelationship.getIdentifier().toExternalForm();
+        } else if( isDestination ) {
+            return "Destination RoleType of RelationshipType: " + theRelationship.getIdentifier().toExternalForm();
+        } else {
+            return "RoleType of RelationshipType: " + theRelationship.getIdentifier().toExternalForm();
+        }
+    }
+
+    /**
+     * The RelationshipType to which this RoleType belongs.
+     */
+    protected ExternalizedRelationshipType theRelationship;
+    
+    /**
+     * True if this is the source RoleType.
+     */
+    protected boolean isSource;
+    
+    /**
+     * True if this is the destination RoleType.
+     */
+    protected boolean isDestination;
+    
     /**
      * MeshObjectIdentifier identifying the EntityType playing this RoleType.
      */

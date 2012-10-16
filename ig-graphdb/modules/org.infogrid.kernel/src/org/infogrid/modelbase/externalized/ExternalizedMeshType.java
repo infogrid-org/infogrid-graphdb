@@ -55,7 +55,7 @@ public class ExternalizedMeshType
     public void setName(
             StringValue newValue ) 
     {
-        name = newValue;
+        theName = newValue;
     }
     
     /**
@@ -65,7 +65,7 @@ public class ExternalizedMeshType
      */
     public StringValue getName()
     {
-        return name;
+        return theName;
     }
 
     /**
@@ -163,14 +163,32 @@ public class ExternalizedMeshType
     }
 
     /**
-      * Identifier, if specified.
-      */
+     * Convert to String, for user error messages.
+     *
+     * @return String form of this object
+     */
+    @Override
+    public String toString()
+    {
+        final String PREFIX = "org.infogrid.modelbase.externalized.Externalized";
+        
+        String name = getClass().getName();
+        if( name.startsWith( PREFIX )) {
+            name = name.substring( PREFIX.length() );
+        }
+        
+        return name + ": " + theIdentifier;
+    }
+
+    /**
+     * Identifier, if specified.
+     */
     protected MeshTypeIdentifier theIdentifier = null;
 
     /**
       * Name.
       */
-    protected StringValue name = null;
+    protected StringValue theName = null;
 
     /**
      * The set of localized user names, keyed by locale, if any.

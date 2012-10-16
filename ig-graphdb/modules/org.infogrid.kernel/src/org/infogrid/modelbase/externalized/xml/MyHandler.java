@@ -89,6 +89,7 @@ import org.infogrid.modelbase.externalized.ExternalizedSubjectAreaDependency;
 import org.infogrid.modelbase.externalized.ExternalizedTraversalSpecification;
 import org.infogrid.modelbase.externalized.ExternalizedTraversalToPropertySpecification;
 import org.infogrid.module.ModuleRequirement;
+import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.Base64;
 import org.infogrid.util.logging.Log;
 import org.xml.sax.Attributes;
@@ -223,7 +224,7 @@ public class MyHandler
                         theRelationshipType = (ExternalizedRelationshipType) temp;
                         theRelationshipType.addPropertyType( thePropertyType );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     theStack.push( thePropertyType );
                     break;
@@ -238,7 +239,7 @@ public class MyHandler
                         theRelationshipType = (ExternalizedRelationshipType) temp;
                         theRelationshipType.addProjectedPropertyType( theProjectedPropertyType );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     theStack.push( theProjectedPropertyType );
                     break;
@@ -253,7 +254,7 @@ public class MyHandler
                         theRelationshipType = (ExternalizedRelationshipType) temp;
                         theRelationshipType.addPropertyTypeGroup( thePropertyTypeGroup );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     theStack.push( thePropertyTypeGroup );
                     break;
@@ -346,19 +347,19 @@ public class MyHandler
                     break;
                 case XmlModelTokens.SOURCE_TOKEN:
                     theRelationshipType     = (ExternalizedRelationshipType) theStack.peek();
-                    theRoleType             = new ExternalizedRoleType();
+                    theRoleType             = new ExternalizedRoleType( theRelationshipType, true, false );
                     theRelationshipType.setSource( theRoleType );
                     theStack.push( theRoleType );
                     break;
                 case XmlModelTokens.DESTINATION_TOKEN:
                     theRelationshipType      = (ExternalizedRelationshipType) theStack.peek();
-                    theRoleType              = new ExternalizedRoleType();
+                    theRoleType              = new ExternalizedRoleType( theRelationshipType, false, true );
                     theRelationshipType.setDestination( theRoleType );
                     theStack.push( theRoleType );
                     break;
                 case XmlModelTokens.SOURCE_DESTINATION_TOKEN:
                     theRelationshipType         = (ExternalizedRelationshipType) theStack.peek();
-                    theRoleType                 = new ExternalizedRoleType();
+                    theRoleType                 = new ExternalizedRoleType( theRelationshipType, false, false );
                     theRelationshipType.setSourceDestination( theRoleType );
                     theStack.push( theRoleType );
                     break;
@@ -445,13 +446,13 @@ public class MyHandler
 
                 default:
                     if( namespaceURI == null || namespaceURI.length() == 0 ) {
-                        error( "Unknown token: <" + qName + ">" );
+                        userError( "Unknown token: <" + qName + ">" );
                     } else {
-                        error( "Unknown token: <" + namespaceURI + ":" + qName + ">" );
+                        userError( "Unknown token: <" + namespaceURI + ":" + qName + ">" );
                     }
             }
         } catch( RuntimeException ex ) {
-            error( ex );
+            log.error( ex );
         }
     }
 
@@ -551,10 +552,10 @@ public class MyHandler
                         if( typeId != null ) {
                             thePropertyTypeGroup.addGroupMember( typeId );
                         } else {
-                            error( theErrorPrefix + "element " + qName + " must carry attribute ID referencing the PropertyType's MeshTypeIdentifier" );
+                            userError( "Element " + qName + " must carry attribute ID referencing the PropertyType's MeshTypeIdentifier" );
                         }
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.INPUT_PROPERTY_SPECIFICATION_TOKEN:
@@ -564,7 +565,7 @@ public class MyHandler
                         theProjectedPropertyType = (ExternalizedProjectedPropertyType) temp;
                         theProjectedPropertyType.addTraversalToPropertySpecification( theTraversalToPropertySpecification );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.TRAVERSAL_SPECIFICATION_TOKEN:
@@ -577,7 +578,7 @@ public class MyHandler
                     } else if( temp instanceof ExternalizedTraversalToPropertySpecification ) {
                         ((ExternalizedTraversalToPropertySpecification)temp).setTraversalSpecification( theTraversalSpecification );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.SEQUENTIAL_TRAVERSAL_SPECIFICATION_TOKEN:
@@ -598,7 +599,7 @@ public class MyHandler
                     if( temp instanceof ExternalizedTraversalSpecification.Selective ) {
                         ((ExternalizedTraversalSpecification.Selective)temp).setEndSelector( theMeshObjectSelector );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.BY_TYPE_MESH_OBJECT_SELECTOR_TOKEN:
@@ -614,7 +615,7 @@ public class MyHandler
                     if( temp instanceof ExternalizedTraversalToPropertySpecification ) {
                         ((ExternalizedTraversalToPropertySpecification)temp).addPropertyType( createTypeIdentifierFrom( theAttributes.getValue( XmlModelTokens.IDENTIFIER_KEYWORD )));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.ROLE_TYPE_REFERENCE_TOKEN:
@@ -650,7 +651,7 @@ public class MyHandler
                         theModuleRequirement = (ExternalizedModuleRequirement) temp;
                         theModuleRequirement.setName( createStringValueFrom( theCharacters ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.MINVERSION_TOKEN:
@@ -662,7 +663,7 @@ public class MyHandler
                         theModuleRequirement = (ExternalizedModuleRequirement) temp;
                         theModuleRequirement.setMinVersion( createStringValueFrom( theCharacters ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.VERSION_TOKEN:
@@ -671,7 +672,7 @@ public class MyHandler
                         theSubjectArea = (ExternalizedSubjectArea) temp;
                         theSubjectArea.setVersion( createStringValueFrom( theCharacters ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.USERNAME_TOKEN:
@@ -699,7 +700,7 @@ public class MyHandler
                         theEnum = (ExternalizedEnum) temp;
                         theEnum.addUserName( theAttributes.getValue( XmlModelTokens.LOCALE_KEYWORD ), createStringValueFrom( theCharacters.toString() ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.USERDESCRIPTION_TOKEN:
@@ -728,7 +729,7 @@ public class MyHandler
                         theEnum = (ExternalizedEnum) temp;
                         theEnum.addUserDescription( theAttributes.getValue( XmlModelTokens.LOCALE_KEYWORD ), createHtmlBlobValueFrom( theCharacters.toString() ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.SUPERTYPE_TOKEN:
@@ -739,7 +740,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.addSuperType( typeId );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.SYNONYM_TOKEN:
@@ -749,7 +750,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.addSynonym( typeId );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.OVERRIDE_CODE_TOKEN:
@@ -758,7 +759,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.setRawOverrideCode( theCharacters.toString());
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.PROJECTION_CODE_TOKEN:
@@ -767,7 +768,7 @@ public class MyHandler
                         theProjectedPropertyType = (ExternalizedProjectedPropertyType) temp;
                         theProjectedPropertyType.setRawProjectionCode( theCharacters.toString());
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.IS_ABSTRACT_TOKEN:
@@ -779,7 +780,7 @@ public class MyHandler
                         theRelationshipType = (ExternalizedRelationshipType) temp;
                         theRelationshipType.setIsAbstract( BooleanValue.TRUE );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.MAYBE_USED_AS_FORWARD_REFERENCE:
@@ -788,7 +789,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.setMayBeUsedAsForwardReference( BooleanValue.TRUE );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.ADDITIONAL_INTERFACE:
@@ -797,7 +798,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.addAdditionalInterface( theCharacters.toString().trim() );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
 
@@ -807,7 +808,7 @@ public class MyHandler
                         thePropertyType = (ExternalizedPropertyType) temp;
                         thePropertyType.setIsOptional( BooleanValue.TRUE );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.IS_READONLY_TOKEN:
@@ -816,7 +817,7 @@ public class MyHandler
                         thePropertyType = (ExternalizedPropertyType) temp;
                         thePropertyType.setIsReadOnly( BooleanValue.TRUE );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.IS_SIGNIFICANT_TOKEN:
@@ -825,7 +826,7 @@ public class MyHandler
                         theEntityType = (ExternalizedEntityType) temp;
                         theEntityType.setIsSignificant( BooleanValue.TRUE );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.CODEGEN_TOKEN:
@@ -872,7 +873,7 @@ public class MyHandler
                             thePropertyTypeGroup.setGenerateImplementation( BooleanValue.FALSE );
                         }
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.DATATYPE_TOKEN:
@@ -882,7 +883,7 @@ public class MyHandler
                         thePropertyType = (ExternalizedPropertyType) temp;
                         thePropertyType.setDataType( theDataType );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.DEFAULT_VALUE_TOKEN:
@@ -899,7 +900,7 @@ public class MyHandler
                         theRegex = (ExternalizedRegex) temp;
                         theRegex.setDefaultValue( theCharacters != null ? theCharacters.toString() : "" );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.SOURCE_TOKEN:
@@ -925,7 +926,7 @@ public class MyHandler
                         thePropertyType = (ExternalizedPropertyType) temp;
                         thePropertyType.addToOverride( theCharacters.toString() );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.GUARD_TOKEN:
@@ -940,7 +941,7 @@ public class MyHandler
                         thePropertyType = (ExternalizedPropertyType) temp;
                         thePropertyType.addLocalPropertyTypeGuardClassName( theCharacters.toString() );
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.SEQUENCE_NUMBER_TOKEN:
@@ -952,7 +953,7 @@ public class MyHandler
                         thePropertyTypeGroup = (ExternalizedPropertyTypeGroup) temp;
                         thePropertyTypeGroup.setSequenceNumber( createFloatValueFrom( theCharacters ));
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.ICON_TOKEN:
@@ -968,7 +969,7 @@ public class MyHandler
                             theEntityType.setIconMimeType( "image/" + path.substring( lastPeriod+1 ));
                         }
                     } else {
-                        error( theErrorPrefix + "unexpected type: " + temp );
+                        userError( "Unexpected type: " + temp );
                     }
                     break;
                 case XmlModelTokens.BLOB_DATATYPE_TOKEN:
@@ -1032,7 +1033,7 @@ public class MyHandler
                     theAttributes = (ExternalizedAttributes) theStack.pop();
                     if( theRegex.getRegexString() != null ) {
                         if( theAttributes.getValue( XmlModelTokens.TYPEFIELD_KEYWORD ) != null ) {
-                            error( theErrorPrefix + "must not specify regex and typefield simultaneously" );
+                            userError( "Must not specify regex and typefield simultaneously" );
                         }
                         theStack.push( theRegex.getAsStringDataType() );
                     } else {
@@ -1076,13 +1077,13 @@ public class MyHandler
 
                 default:
                     if( namespaceURI == null || namespaceURI.length() == 0 ) {
-                        error( "Unknown token: </" + qName + ">" );
+                        userError( "Unknown token: </" + qName + ">" );
                     } else {
-                        error( "Unknown token: </" + namespaceURI + ":" + qName + ">" );
+                        userError( "Unknown token: </" + namespaceURI + ":" + qName + ">" );
                     }
             }
         } catch( RuntimeException ex ) {
-           error( ex );
+           log.error( ex );
         }
     }
 
@@ -1117,7 +1118,7 @@ public class MyHandler
             if( modelStream != null ) {
                 return new InputSource( modelStream );
             }
-            log.error( theErrorPrefix + "Cannot find DTD at " + XmlModelTokens.LOCAL_MODEL_DTD_PATH );
+            userError( "Cannot find DTD at " + XmlModelTokens.LOCAL_MODEL_DTD_PATH );
         }
         return null; // default behavior
     }
@@ -1302,7 +1303,7 @@ public class MyHandler
                 ret = BooleanValue.create( false );
             } else {
                 ret = BooleanValue.create( false );
-                log.error( "illegal encoding in boolean value: " + raw );
+                userError( "Illegal encoding in boolean value: " + raw );
             }
 
         } else if( type instanceof ColorDataType ) {
@@ -1317,7 +1318,7 @@ public class MyHandler
                 ret = ((EnumeratedDataType)type).select( raw );
 
             } catch( UnknownEnumeratedValueException.Key ex ) {
-                log.error( "Error when attempting to find key '" + raw + "' in EnumeratedDataType", ex );
+                userError( "Cannot find value '" + raw + "' in EnumeratedDataType with domain " + ArrayHelper.join( ",", "'", "'", null, ((EnumeratedDataType)type).getDomain() ));
                 ret = ((EnumeratedDataType)type).getDefaultValue();
             }
 
@@ -1376,7 +1377,8 @@ public class MyHandler
                         (float) ((index >=0 ) ? values[ index ] : 0 ) );
 
             } catch( NumberFormatException ex ) {
-                throw new NumberFormatException( "Error when attempting to parse TimePeriodValue '" + raw + "'" );
+                userError( "Invalid TimePeriodValue '" + raw + "'" );
+                ret = TimePeriodDataType.theDefault.getDefaultValue();
             }
 
         } else if( type instanceof TimeStampDataType ) {
@@ -1384,12 +1386,13 @@ public class MyHandler
                 ret = TimeStampValue.createFromRfc3339( raw );
                 
             } catch( ParseException ex ) {
-                throw new NumberFormatException( "Error when attempting parse TimeStampValue '" + raw + "'" );
+                userError( "Invalid TimeStampValue '" + raw + "'" );
+                ret = TimeStampDataType.theDefault.getDefaultValue();
             }
 
         } else {
             ret = null;
-            log.error( "unknown data type " + type );
+            userError( "Unknown data type " + type );
         }
 
         return ret;
@@ -1419,7 +1422,7 @@ public class MyHandler
         try {
             Field theField = theDataTypeClass.getDeclaredField( fieldName );
             if( theField == null ) {
-                error( "Cannot find Field " + theDataTypeClass + "." + fieldName );
+                userError( "Cannot find Field " + theDataTypeClass + "." + fieldName );
                 return theDefault;
             }
 
@@ -1427,14 +1430,14 @@ public class MyHandler
             if( fieldValue instanceof DataType ) {
                 return (DataType) fieldValue;
             } else {
-                error( "Field " + theDataTypeClass + "." + fieldName + " holds object " + fieldValue + ", not DataType" );
+                userError( "Field " + theDataTypeClass + "." + fieldName + " holds object " + fieldValue + ", not DataType" );
                 return theDefault;
             }
         } catch( NoSuchFieldException ex ) {
-            log.error( theErrorPrefix, ex ); // good enough for the time being, FIXME
+            userError( "No field " + fieldName + " in DataType class " + theDataTypeClass.getName() ); // good enough for the time being, FIXME
             return theDefault;
         } catch( IllegalAccessException ex ) {
-            log.error( theErrorPrefix, ex ); // good enough for the time being, FIXME
+            log.error( ex ); // good enough for the time being, FIXME
             return theDefault;
         }
     }
@@ -1946,7 +1949,7 @@ public class MyHandler
             ret = AllNeighborsTraversalSpecification.create();
 
         } else {
-            log.error( theErrorPrefix + "unexpected type: " + theExternalizedTraversalSpec );
+            userError( "Unexpected type: " + theExternalizedTraversalSpec );
         }
 
         return ret;
@@ -1973,7 +1976,7 @@ public class MyHandler
 
             ret = ByTypeMeshObjectSelector.create( type, realExternalizedSelector.subtypesAllowed );
         } else {
-            log.error( theErrorPrefix + "unexpected type: " + theExternalizedSelector );
+            userError( "Unexpected type: " + theExternalizedSelector );
         }
         return ret;
     }
@@ -2169,14 +2172,21 @@ public class MyHandler
     }
 
     /**
-     * For better debugging, we have this method.
+     * Emit an error message to the user attemption to parse an invalid model.
      *
      * @param msg the error message
      */
-    protected void error(
+    protected void userError(
             String msg )
     {
-        log.error( theErrorPrefix + msg + '\n' + parseStackToString() );
+        String stack = parseStackToString();
+        
+        System.err.print( "ERROR: " );
+        System.err.print( theErrorPrefix );
+        System.err.print( msg );
+        System.err.println( stack );
+        
+        log.info( theErrorPrefix + msg + '\n' + parseStackToString() );
     }
 
     /**
@@ -2187,13 +2197,15 @@ public class MyHandler
     public String parseStackToString()
     {
         StringBuilder buf = new StringBuilder( 100 ); // fudge
-        buf.append( "Parse Stack:" );
         Iterator<Object> theIter = theStack.iterator();
+        int i=0;
         while( theIter.hasNext() ) {
-            buf.append( "\n    " );
+            ++i;
+            buf.append( "\n    <" );
+            buf.append( i );
+            buf.append( "> " );
             buf.append( theIter.next() );
         }
-        buf.append( "\n(End parse stack)" );
         return buf.toString();
     }
     

@@ -130,17 +130,6 @@ public class ExternalizedSubjectArea
     }
 
     /**
-     * Convert to String, for debugging.
-     *
-     * @return String form of this object
-     */
-    @Override
-    public String toString()
-    {
-        return getClass().getName() + ": " + theIdentifier;
-    }
-
-    /**
      * Version.
      */
     protected StringValue version = null;

@@ -19,6 +19,7 @@ import org.infogrid.model.primitives.StringDataType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.util.L10MapImpl;
 import org.infogrid.util.L10StringMapImpl;
+import org.infogrid.util.StringHelper;
 
 /**
  * This is data wanting to become a regular expression, during reading.
@@ -140,6 +141,17 @@ public class ExternalizedRegex
             }
         }
         return ret;
+    }
+
+    /**
+     * Convert to String, for user error messages.
+     *
+     * @return String form of this object
+     */
+    @Override
+    public String toString()
+    {
+        return "Regular expression " + thePattern;
     }
 
     /**

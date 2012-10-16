@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -29,7 +29,7 @@ public abstract class ExternalizedDependency
     public void setName(
             StringValue newValue ) 
     {
-        name = newValue;
+        theName = newValue;
     }
     
     /**
@@ -39,7 +39,7 @@ public abstract class ExternalizedDependency
      */
     public StringValue getName()
     {
-        return name;
+        return theName;
     }
 
     /**
@@ -50,7 +50,7 @@ public abstract class ExternalizedDependency
     public void setMinVersion(
             StringValue newValue ) 
     {
-        minVersion = newValue;
+        theMinVersion = newValue;
     }
     
     /**
@@ -60,15 +60,31 @@ public abstract class ExternalizedDependency
      */
     public StringValue getMinVersion()
     {
-        return minVersion;
+        return theMinVersion;
+    }
+
+    /**
+     * Convert to String, for user error messages.
+     *
+     * @return String form of this object
+     */
+    @Override
+    public String toString()
+    {
+        if( theMinVersion != null ) {
+            return "Dependency on module " + theName.value() + " with a minimum version of " + theMinVersion.value();
+        } else {
+            return "Dependency on module " + theName.value();
+        }
     }
 
     /**
      * Name of the referenced SubjectArea.
      */
-    protected StringValue name = null;
+    protected StringValue theName = null;
 
     /**
-     * Minimum version of the referenced SubjectArea.
+     * Minimum version of the referenced Module.
      */
-    protected StringValue minVersion = null;}
+    protected StringValue theMinVersion = null;
+}

@@ -8,16 +8,15 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.externalized;
 
-import org.infogrid.model.primitives.PropertyValue;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.infogrid.model.primitives.PropertyValue;
 
 /**
  * This is data wanting to become an EnumeratedValue, during reading.
@@ -97,6 +96,17 @@ public class ExternalizedEnum
         return userDescriptions;
     }
 
+    /**
+     * Convert to String, for user error messages.
+     *
+     * @return String form of this object
+     */
+    @Override
+    public String toString()
+    {
+        return "Enumerated value: " + value;
+    }
+    
     /**
       * The actual value.
       */

@@ -31,6 +31,21 @@ public abstract class ExternalizedMeshObjectSelector
             ExternalizedMeshObjectSelector
     {
         /**
+         * Convert to String, for user error messages.
+         *
+         * @return String form of this object
+         */
+        @Override
+        public String toString()
+        {
+            if( subtypesAllowed ) {
+               return "Type MeshObjectSelector: " + identifier + " (subtypes allowed)";
+            } else {
+               return "Type MeshObjectSelector: " + identifier + " (subtypes not allowed)";
+            }
+        }
+        
+        /**
          * Identifier of the type.
          */
         public MeshTypeIdentifier identifier;
