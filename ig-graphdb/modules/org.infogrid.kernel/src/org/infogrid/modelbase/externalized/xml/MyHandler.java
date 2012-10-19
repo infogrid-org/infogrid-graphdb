@@ -70,6 +70,7 @@ import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.model.traversal.TraversalToPropertySpecification;
 import org.infogrid.modelbase.MeshTypeLifecycleManager;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
+import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ProjectedPropertyTypePatcher;
 import org.infogrid.modelbase.externalized.ExternalizedAttributableMeshType;
@@ -1534,11 +1535,10 @@ public class MyHandler
         for( int i=0 ; i<theSupertypes.length ; ++i ) {
             MeshTypeIdentifier currentRef = theExternalizedEntityType.getSuperTypes().get( i );
 
-            theSupertypes[i] = (AttributableMeshType) theModelBase.findMeshTypeByIdentifier( currentRef );
-
-            if( theSupertypes[i] == null ) {
-                // FIXME? I don't think this can ever happen
-                throw new IllegalArgumentException( "Cannot find supertype with ID " + currentRef + " for EntityType with ID " + theExternalizedEntityType.getIdentifier() );
+            try {
+                theSupertypes[i] = (AttributableMeshType) theModelBase.findMeshTypeByIdentifier( currentRef );
+            } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                userError( "Cannot find supertype with identifier: " + currentRef.getExternalForm() );
             }
         }
 
@@ -1635,8 +1635,16 @@ public class MyHandler
         throws
             MeshTypeNotFoundException
     {
-        EntityType theEntityType = (EntityType) theModelBase.findMeshTypeByIdentifier(
-                constructIdentifier( theExternalizedSubjectArea, theExternalizedEntityType ));
+        EntityType theEntityType;
+        MeshTypeIdentifier entityId = constructIdentifier( theExternalizedSubjectArea, theExternalizedEntityType );
+        
+        try {
+            theEntityType = (EntityType) theModelBase.findMeshTypeByIdentifier( entityId );
+
+        } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+            userError( "Cannot find EntityType with identifier: " + entityId.getExternalForm() );
+            return; // best we can do
+        }
 
         int i=0;
         for( ExternalizedPropertyType theExternalizedProjectedPropertyType
@@ -1694,8 +1702,23 @@ public class MyHandler
             MeshTypeIdentifier srcName  = theExternalizedRelationshipType.getSource().getEntityType();
             MeshTypeIdentifier destName = theExternalizedRelationshipType.getDestination().getEntityType();
             
-            EntityType src  = (srcName  != null) ? theModelBase.findEntityTypeByIdentifier( srcName ) : null;
-            EntityType dest = (destName != null) ? theModelBase.findEntityTypeByIdentifier( destName ) : null;
+            EntityType src  = null;
+            EntityType dest = null;
+            
+            if( srcName != null ) {
+                try {
+                    src = theModelBase.findEntityTypeByIdentifier( srcName );
+                } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                    userError( "Cannot find source EntityType with identifier: " + srcName.getExternalForm() );
+                }
+            }
+            if( destName != null ) {
+                try {
+                    dest = theModelBase.findEntityTypeByIdentifier( destName );
+                } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                    userError( "Cannot find destination EntityType with identifier: " + destName.getExternalForm() );
+                }
+            }
 
             theRelationshipType = theInstantiator.createRelationshipType(
                     constructIdentifier( theExternalizedSubjectArea, theExternalizedRelationshipType ),
@@ -1728,7 +1751,12 @@ public class MyHandler
                 }
             }
 
-            EntityType srcdest = (EntityType) theModelBase.findMeshTypeByIdentifier( theExternalizedRelationshipType.getSourceDestination().getEntityType() );
+            EntityType srcdest = null;
+            try {
+                srcdest = (EntityType) theModelBase.findMeshTypeByIdentifier( theExternalizedRelationshipType.getSourceDestination().getEntityType() );
+            } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                userError( "Cannot find source/destination EntityType with identifier: " + theExternalizedRelationshipType.getSourceDestination().getEntityType().getExternalForm() );
+            }
 
             theRelationshipType = theInstantiator.createRelationshipType(
                     constructIdentifier( theExternalizedSubjectArea, theExternalizedRelationshipType ),
@@ -1884,7 +1912,11 @@ public class MyHandler
             PropertyType [] mas = new PropertyType[ current.getPropertyTypes().size() ];
             for( int j=0 ; j<mas.length ; ++j ) {
                 MeshTypeIdentifier current2 = current.getPropertyTypes().get( j );
-                mas[j] = (PropertyType) theModelBase.findMeshTypeByIdentifier( current2 );
+                try {
+                    mas[j] = (PropertyType) theModelBase.findMeshTypeByIdentifier( current2 );
+                } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                    userError( "Cannot find PropertyType with identifier: " + current2.getExternalForm() );
+                }
             }
             mais[i] = TraversalToPropertySpecification.create(
                    traversalSpec,
@@ -1932,7 +1964,7 @@ public class MyHandler
 
             TraversalSpecification [] steps = new TraversalSpecification[ realExternalizedSpec.getSteps().size() ];
             for( int i=0 ; i<steps.length ; ++i ) {
-                steps[i] = deserializeTraversalSpecification( (ExternalizedTraversalSpecification) realExternalizedSpec.getSteps().get( i ));
+                steps[i] = deserializeTraversalSpecification( realExternalizedSpec.getSteps().get( i ));
             }
 
             ret = SequentialCompoundTraversalSpecification.create( steps );
@@ -1972,9 +2004,15 @@ public class MyHandler
         if( theExternalizedSelector instanceof ExternalizedMeshObjectSelector.ByType ) {
             ExternalizedMeshObjectSelector.ByType realExternalizedSelector = (ExternalizedMeshObjectSelector.ByType) theExternalizedSelector;
 
-            EntityType type = theModelBase.findEntityTypeByIdentifier( realExternalizedSelector.identifier );
+            try {
+                EntityType type = theModelBase.findEntityTypeByIdentifier( realExternalizedSelector.identifier );
 
-            ret = ByTypeMeshObjectSelector.create( type, realExternalizedSelector.subtypesAllowed );
+                ret = ByTypeMeshObjectSelector.create( type, realExternalizedSelector.subtypesAllowed );
+
+            } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                userError( "Cannot find EntityType with identifier: " + realExternalizedSelector.identifier.getExternalForm() );
+            }
+
         } else {
             userError( "Unexpected type: " + theExternalizedSelector );
         }
@@ -2020,15 +2058,17 @@ public class MyHandler
             throw new IllegalArgumentException( "don't know what this is: " + rawString );
         }
 
-        RelationshipType rt = mb.findRelationshipTypeByIdentifier( relationshipName );
-        if( rt == null ) {
-            throw new IllegalArgumentException( "Cannot find RoleType with ID " + rawString );
-        }
+        try {
+            RelationshipType rt = mb.findRelationshipTypeByIdentifier( relationshipName );
 
-        if( isSource || isTop ) {
-            return rt.getSource();
-        } else {
-            return rt.getDestination();
+            if( isSource || isTop ) {
+                return rt.getSource();
+            } else {
+                return rt.getDestination();
+            }
+        } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+            userError( "Cannot find RelationshipType with identifier: " + relationshipName.getExternalForm() );
+            return null;
         }
     }
 
@@ -2087,9 +2127,10 @@ public class MyHandler
                 String             current    = theExternalizedProjectedPropertyType.getToOverrides().get( i );
                 MeshTypeIdentifier currentRef = createTypeIdentifierFrom( current );
 
-                toOverride[i] = theModelBase.findPropertyTypeByIdentifier( currentRef );
-                if( toOverride[i] == null ) {
-                    throw new IllegalArgumentException( "Could not find PropertyType with id " + currentRef + " in order to override in object with id " + identifier );
+                try {
+                    toOverride[i] = theModelBase.findPropertyTypeByIdentifier( currentRef );
+                } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                    userError( "Cannot find PropertyType to override with identifier: " + currentRef );
                 }
             }
             ProjectedPropertyTypePatcher ret = theInstantiator.createOverridingProjectedPropertyType(
@@ -2136,9 +2177,11 @@ public class MyHandler
         for( int i=0 ; i<mas.length ; ++i ) {
             MeshTypeIdentifier currentRef = theExternalizedPropertyTypeGroup.getGroupMembers().get( i );
 
-            mas[i] = theModelBase.findPropertyTypeByIdentifier( currentRef );
-            if( mas[i] == null ) {
-                throw new IllegalArgumentException( "Cannot include null PropertyType in PropertyTypeGroup " + identifier );
+            try {
+                mas[i] = theModelBase.findPropertyTypeByIdentifier( currentRef );
+
+            } catch( MeshTypeWithIdentifierNotFoundException ex ) {
+                userError( "Cannot find PropertyType for PropertyTypeGroup with identifier: " + currentRef );
             }
         }
 
