@@ -139,7 +139,7 @@ public abstract class DataType
       *
       * @return the Java class that can hold values of this data type
       */
-    public abstract Class getCorrespondingJavaClass();
+    public abstract Class<? extends PropertyValue> getCorrespondingJavaClass();
 
     /**
      * Obtain a value expression in the Java language that invokes the constructor
@@ -218,15 +218,17 @@ public abstract class DataType
      * of the PropertyValue.
      * 
      * @param representation the StringRepresentation in which the String s is given
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String
      * @param mimeType the MIME type of the representation, if known
      * @return the PropertyValue
      * @throws PropertyValueParsingException thrown if the String representation could not be parsed successfully
      */
     public abstract PropertyValue fromStringRepresentation(
-            StringRepresentation representation,
-            String               s,
-            String               mimeType )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s,
+            String                         mimeType )
         throws
             PropertyValueParsingException;
 
@@ -269,7 +271,9 @@ public abstract class DataType
             editIndex = 1;
         }
 
-        StringRepresentationParameters childPars = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );
+        StringRepresentationParameters childPars               = pars.with( ModelPrimitivesStringRepresentationParameters.PROPERTY_TYPE, propertyType );
+        StringRepresentationParameters withoutAddTextChildPars = childPars.without( StringRepresentationParameters.ADD_TEXT );
+        StringRepresentationParameters withoutFormatChildPars  = withoutAddTextChildPars.without( StringRepresentationParameters.FORMAT_STRING );
 
         PropertyValue defaultValue;
         if( alternateDefaultValue != null ) {
@@ -292,7 +296,7 @@ public abstract class DataType
                 String ret = representation.formatEntry(
                         DataType.class,
                         "NullString",
-                        childPars,
+                        withoutFormatChildPars,
                /*  0 */ nullString );
                 return ret;
             }
@@ -313,14 +317,14 @@ public abstract class DataType
         }
         StringRepresentation           jsRep    = StringRepresentationDirectorySingleton.getSingleton().get( StringRepresentationDirectory.TEXT_JAVASCRIPT_NAME );
 
-        String currentValueJsString = PropertyValue.toStringRepresentationOrNull( currentValue, jsRep, childPars );
-        String defaultValueJsString = PropertyValue.toStringRepresentationOrNull( defaultValue, jsRep, childPars );
+        String currentValueJsString = PropertyValue.toStringRepresentationOrNull( currentValue, jsRep, withoutFormatChildPars );
+        String defaultValueJsString = PropertyValue.toStringRepresentationOrNull( defaultValue, jsRep, withoutFormatChildPars );
 
         String propertyHtml;
         if( currentValue != null ) {
-            propertyHtml = currentValue.toStringRepresentation( representation, childPars );
+            propertyHtml = currentValue.toStringRepresentation( representation, withoutAddTextChildPars );
         } else {
-            propertyHtml = defaultValue.toStringRepresentation( representation, childPars );
+            propertyHtml = defaultValue.toStringRepresentation( representation, withoutAddTextChildPars );
         }
 
         String owningMeshObjectString;
@@ -328,7 +332,7 @@ public abstract class DataType
             owningMeshObjectString = representation.formatEntry(
                     DataType.class,
                     "CurrentMeshObjectString",
-                    childPars,
+                    withoutFormatChildPars,
                     editVar,
                     owningMeshObject,
                     owningMeshObject.getIdentifier() );
@@ -337,12 +341,13 @@ public abstract class DataType
             owningMeshObjectString = "";
         }
 
-        StringRepresentationParameters withoutMaxLengthPars = pars.with( StringRepresentationParameters.MAX_LENGTH, Integer.MAX_VALUE );
+        StringRepresentationParameters forDataTypePars = pars.with( StringRepresentationParameters.MAX_LENGTH, Integer.MAX_VALUE );
+        forDataTypePars = forDataTypePars.without( StringRepresentationParameters.FORMAT_STRING );
 
         String ret = representation.formatEntry(
                 DataType.class,
                 entry,
-                withoutMaxLengthPars,
+                forDataTypePars,
        /*  0 */ owningMeshObjectString,
        /*  1 */ propertyType,
        /*  2 */ currentValue,

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -31,6 +31,7 @@ import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 
 /**
   * Implementation of a value-holding property of an AttributableMeshObjectType.
@@ -271,7 +272,7 @@ public class MPropertyType
 
             for( int i=0 ; i<theLocalPropertyTypeGuards.length ; ++i ) {
                 try {
-                    Class clazz = Class.forName( theLocalPropertyTypeGuardClassNames[i], true, loader );
+                    Class<?> clazz = Class.forName( theLocalPropertyTypeGuardClassNames[i], true, loader );
                     theLocalPropertyTypeGuards[i] = (PropertyTypeGuard) clazz.newInstance();
                 
                 } catch( ClassNotFoundException ex ) {
@@ -407,19 +408,21 @@ public class MPropertyType
      * of the PropertyValue.
      *
      * @param representation the StringRepresentation in which the String s is given
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String
      * @param mimeType the MIME type of the representation, if known
      * @return the PropertyValue
      * @throws PropertyValueParsingException thrown if the String representation could not be parsed successfully
      */
     public PropertyValue fromStringRepresentation(
-            StringRepresentation representation,
-            String               s,
-            String               mimeType )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s,
+            String                         mimeType )
         throws
             PropertyValueParsingException
     {
-        return theDataType.fromStringRepresentation( representation, s, mimeType );
+        return theDataType.fromStringRepresentation( representation, pars, s, mimeType );
     }
 
     /**

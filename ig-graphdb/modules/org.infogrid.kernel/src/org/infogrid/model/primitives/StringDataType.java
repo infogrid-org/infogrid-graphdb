@@ -14,11 +14,11 @@
 
 package org.infogrid.model.primitives;
 
-import org.infogrid.util.L10Map;
 import java.io.ObjectStreamException;
 import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import org.infogrid.util.L10Map;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.StringHelper;
 import org.infogrid.util.text.StringRepresentation;
@@ -368,7 +368,7 @@ public final class StringDataType
       *
       * @return the Java class that can hold values of this data type
       */
-    public Class getCorrespondingJavaClass()
+    public Class<StringValue> getCorrespondingJavaClass()
     {
         return StringValue.class;
     }
@@ -488,20 +488,22 @@ public final class StringDataType
      * of the PropertyValue.
      * 
      * @param representation the StringRepresentation in which the String s is given
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String
      * @param mimeType the MIME type of the representation, if known
      * @return the PropertyValue
      * @throws PropertyValueParsingException thrown if the String representation could not be parsed successfully
      */
     public StringValue fromStringRepresentation(
-            StringRepresentation representation,
-            String               s,
-            String               mimeType )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s,
+            String                         mimeType )
         throws
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( StringValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( StringValue.class, StringRepresentation.DEFAULT_ENTRY, pars, s, this );
 
             StringValue ret;
             switch( found.length ) {

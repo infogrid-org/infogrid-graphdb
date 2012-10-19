@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -107,7 +107,7 @@ public final class TimeStampDataType
       *
       * @return the Java class that can hold values of this data type
       */
-    public Class getCorrespondingJavaClass()
+    public Class<TimeStampValue> getCorrespondingJavaClass()
     {
         return TimeStampValue.class;
     }
@@ -185,20 +185,22 @@ public final class TimeStampDataType
      * of the PropertyValue.
      * 
      * @param representation the StringRepresentation in which the String s is given
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String
      * @param mimeType the MIME type of the representation, if known
      * @return the PropertyValue
      * @throws PropertyValueParsingException thrown if the String representation could not be parsed successfully
      */
     public TimeStampValue fromStringRepresentation(
-            StringRepresentation representation,
-            String               s,
-            String               mimeType )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s,
+            String                         mimeType )
         throws
             PropertyValueParsingException
     {
         try {
-            Object [] found = representation.parseEntry( TimeStampValue.class, NOW_ENTRY, s, this );
+            Object [] found = representation.parseEntry( TimeStampValue.class, NOW_ENTRY, pars, s, this );
 
             return TimeStampValue.now();
 
@@ -209,7 +211,7 @@ public final class TimeStampDataType
         }
 
         try {
-            Object [] found = representation.parseEntry( TimeStampValue.class, StringRepresentation.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( TimeStampValue.class, StringRepresentation.DEFAULT_ENTRY, pars, s, this );
 
             TimeZone tz;
             if( found.length == 11 ) {

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -19,6 +19,7 @@ import org.infogrid.modelbase.MeshTypeIdentifierFactory;
 import org.infogrid.util.InvalidObjectNumberFoundParseException;
 import org.infogrid.util.InvalidObjectTypeFoundParseException;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 
 /**
  * Factory for creating MeshTypeIdentifiers appropriate for the MModelBase
@@ -76,18 +77,20 @@ public class MMeshTypeIdentifierFactory
      * Convert this StringRepresentation back to an Identifier.
      *
      * @param representation the StringRepresentation in which this String is represented
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String to parse
      * @return the created MMeshTypeIdentifier
      * @throws ParseException thrown if the String could not be successfully parsed
      */
     public MMeshTypeIdentifier fromStringRepresentation(
-            StringRepresentation representation,
-            String               s )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s )
         throws
             ParseException
     {
         try {
-            Object [] found = representation.parseEntry( MMeshTypeIdentifier.class, MMeshTypeIdentifier.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( MMeshTypeIdentifier.class, MMeshTypeIdentifier.DEFAULT_ENTRY, pars, s, this );
 
             MMeshTypeIdentifier ret;
             switch( found.length ) {

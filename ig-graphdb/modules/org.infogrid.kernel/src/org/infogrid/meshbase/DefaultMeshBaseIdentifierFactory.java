@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,6 +18,7 @@ import java.text.ParseException;
 import org.infogrid.util.InvalidObjectNumberFoundParseException;
 import org.infogrid.util.InvalidObjectTypeFoundParseException;
 import org.infogrid.util.text.StringRepresentation;
+import org.infogrid.util.text.StringRepresentationParameters;
 import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
@@ -84,18 +85,20 @@ public class DefaultMeshBaseIdentifierFactory
      * Convert this StringRepresentation back to a MeshBaseIdentifier.
      *
      * @param representation the StringRepresentation in which this String is represented
+     * @param pars collects parameters that may influence the String representation. Always provided.
      * @param s the String to parse
      * @return the created MeshBaseIdentifier
      * @throws ParseException thrown if a parsing error occurred
      */
     public MeshBaseIdentifier fromStringRepresentation(
-            StringRepresentation representation,
-            String               s )
+            StringRepresentation           representation,
+            StringRepresentationParameters pars,
+            String                         s )
         throws
             ParseException
     {
         try {
-            Object [] found = representation.parseEntry( MeshBaseIdentifier.class, StringRepresentation.DEFAULT_ENTRY, s, this );
+            Object [] found = representation.parseEntry( MeshBaseIdentifier.class, StringRepresentation.DEFAULT_ENTRY, pars, s, this );
 
             MeshBaseIdentifier ret;
             switch( found.length ) {
