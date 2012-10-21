@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -375,7 +375,7 @@ public final class TimeStampValue
     {
         Calendar cal = getAsUtcCalendar();
 
-        String ret = String.format( "%1$tY-%1$tm-%1$tdZ%1$tH:%1$tm:%1$tS.%1$tL", cal );
+        String ret = String.format( "%1$tY-%1$tm-%1$tdZ%1$tH:%1$tM:%1$tS.%1$tL", cal );
 
         return ret;
     }
