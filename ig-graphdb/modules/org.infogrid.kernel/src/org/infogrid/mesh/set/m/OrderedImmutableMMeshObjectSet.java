@@ -8,16 +8,17 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set.m;
 
 import org.infogrid.mesh.MeshObject;
-
+import org.infogrid.mesh.set.MeshObjectSelector;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.OrderedImmutableMeshObjectSet;
+import org.infogrid.mesh.set.OrderedMeshObjectSet;
 
 /**
  * This MeshObjectSet has the same content as a passed-in MeshObjectSet,
@@ -62,6 +63,34 @@ public class OrderedImmutableMMeshObjectSet
     }
 
     /**
+     * Obtain the first MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the first MeshObject, if any
+     */
+    public MeshObject getFirstMeshObject()
+    {
+        if( currentContent != null && currentContent.length > 0 ) {
+            return currentContent[0];
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Obtain the last MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the last MeshObject, if any
+     */
+    public MeshObject getLastMeshObject()
+    {
+        if( currentContent != null && currentContent.length > 0 ) {
+            return currentContent[currentContent.length-1];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Determine the index of a certain MeshObject in this ordered set.
      * Because we know nothing about how we are ordered, we simple search linearly.
      *
@@ -79,6 +108,21 @@ public class OrderedImmutableMMeshObjectSet
         return -1;
     }
 
+    /**
+     * Create a subset of this set by providing a MeshObjectSelector that will select the MeshObjects
+     * to be selected for the subset. This method will return all matches in this set, keeping the
+     * order of this OrderedMeshObjectSet.
+     *
+     * @param selector the criteria for selection
+     * @return subset of this set
+     */
+    @Override
+    public OrderedMeshObjectSet subset(
+            MeshObjectSelector selector )
+    {
+        return theFactory.createOrderedImmutableMeshObjectSet( getMeshObjects(), selector );
+    }
+    
     /**
      * Obtain the maximum number of elements in ths set.
      * 

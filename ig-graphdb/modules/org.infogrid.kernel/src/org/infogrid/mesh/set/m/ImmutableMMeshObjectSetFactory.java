@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -348,9 +348,73 @@ public class ImmutableMMeshObjectSetFactory
     public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
             MeshObject [] contentInOrder )
     {
+        return createOrderedImmutableMeshObjectSet( contentInOrder, (MeshObjectSelector) null );
+    }
+
+    /**
+     * Factory method to create an OrderedMeshObjectSet with the specified members, as long
+     * as they are selected by the MeshObjectSelector.
+     * 
+     * @param candidatesInOrder the candidate content of the OrderedMeshObjectSet, in order
+     * @param selector determines which candidates are included
+     * @return the created OrderedImmutableMeshObjectSet
+     */
+    public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
+            MeshObject []      candidatesInOrder,
+            MeshObjectSelector selector )
+    {
+        // check for duplicates first
+        for( int i=0 ; i<candidatesInOrder.length ; ++i ) {
+            if( candidatesInOrder[i] == null ) {
+                throw new IllegalArgumentException( "Cannot add a null object to a MeshObjectSet" );
+            }
+            if( candidatesInOrder[i].getIsDead() ) {
+                throw new IllegalArgumentException( "Cannot add a dead object to a MeshObjectSet: " + candidatesInOrder[i] );
+            }
+            for( int j=0 ; j<i ; ++j ) {
+                if( candidatesInOrder[i] == candidatesInOrder[j] ) {
+                    throw new IllegalArgumentException( "Cannot create a MeshObjectSet with duplicate members: " + candidatesInOrder[i] );
+                }
+            }
+        }
+        
+        MeshObject [] content;
+        
+        if( selector != null ) {
+            int count = 0;
+            content = ArrayHelper.createArray( theComponentClass, candidatesInOrder.length );
+            for( int i=0 ; i<candidatesInOrder.length ; ++i ) {
+                if( selector.accepts( candidatesInOrder[i] )) {
+                    content[count++] = candidatesInOrder[i];
+                }
+            }
+            if( count < content.length ) {
+                content = ArrayHelper.copyIntoNewArray( content, 0, count, theComponentClass );
+            }
+ 
+        } else {
+            content = ArrayHelper.copyIntoNewArray( candidatesInOrder, theComponentClass );
+        }
+        
+        OrderedImmutableMMeshObjectSet ret = new OrderedImmutableMMeshObjectSet( this, content, OrderedMeshObjectSet.UNLIMITED );
+        
+        return ret;
+    }
+
+    /**
+     * Factory method to create an OrderedMeshObjectSet.
+     * 
+     * @param content the content of the OrderedMeshObjectSet, in any order
+     * @param sorter the MeshObjectSorter that determines the ordering within the OrderedMeshObjectSet
+     * @return the created OrderedImmutableMeshObjectSet
+     */
+    public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
+            MeshObject []    content,
+            MeshObjectSorter sorter )
+    {
         return new OrderedImmutableMMeshObjectSet(
                 this,
-                contentInOrder,
+                sorter.getOrderedInNew( content),
                 OrderedMeshObjectSet.UNLIMITED );
     }
 

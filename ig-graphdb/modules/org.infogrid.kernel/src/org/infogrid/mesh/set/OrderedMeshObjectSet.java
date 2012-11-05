@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -34,6 +34,20 @@ public interface OrderedMeshObjectSet
             int index );
 
     /**
+     * Obtain the first MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the first MeshObject, if any
+     */
+    public abstract MeshObject getFirstMeshObject();
+    
+    /**
+     * Obtain the last MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the last MeshObject, if any
+     */
+    public abstract MeshObject getLastMeshObject();
+    
+    /**
      * Determine the index of a certain MeshObject in this ordered set.
      * Generally, index == findIndexOf( getMeshObject( index )).
      *
@@ -49,6 +63,17 @@ public interface OrderedMeshObjectSet
      * @return the maximum number of elements in the set, or UNLIMITED
      */
     public abstract int getMaximumElements();
+
+    /**
+     * Create a subset of this set by providing a MeshObjectSelector that will select the MeshObjects
+     * to be selected for the subset. This method will return all matches in this set, keeping the
+     * order of this OrderedMeshObjectSet.
+     *
+     * @param selector the criteria for selection
+     * @return subset of this set
+     */
+    public abstract OrderedMeshObjectSet subset(
+            MeshObjectSelector selector );
 
     /**
      * Special code to specifiy "all levels" instead of a limited number.

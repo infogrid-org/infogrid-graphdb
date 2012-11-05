@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -231,6 +231,29 @@ public interface MeshObjectSetFactory
      */
     public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
             MeshObject [] contentInOrder );
+
+    /**
+     * Factory method to create an OrderedMeshObjectSet with the specified members, as long
+     * as they are selected by the MeshObjectSelector.
+     * 
+     * @param candidatesInOrder the candidate content of the OrderedMeshObjectSet, in order
+     * @param selector determines which candidates are included
+     * @return the created OrderedImmutableMeshObjectSet
+     */
+    public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
+            MeshObject []      candidatesInOrder,
+            MeshObjectSelector selector );
+
+    /**
+     * Factory method to create an OrderedMeshObjectSet.
+     * 
+     * @param content the content of the OrderedMeshObjectSet, in any order
+     * @param sorter the MeshObjectSorter that determines the ordering within the OrderedMeshObjectSet
+     * @return the created OrderedImmutableMeshObjectSet
+     */
+    public OrderedImmutableMeshObjectSet createOrderedImmutableMeshObjectSet(
+            MeshObject []    content,
+            MeshObjectSorter sorter );
 
     /**
      * Factory method to create an OrderedMeshObjectSet.

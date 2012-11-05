@@ -8,28 +8,28 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.set.active.m;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.set.MeshObjectSelector;
 import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.MeshObjectSorter;
+import org.infogrid.mesh.set.OrderedMeshObjectSet;
 import org.infogrid.mesh.set.active.ActiveMeshObjectSet;
 import org.infogrid.mesh.set.active.ActiveMeshObjectSetListener;
 import org.infogrid.mesh.set.active.MeshObjectAddedEvent;
 import org.infogrid.mesh.set.active.MeshObjectRemovedEvent;
 import org.infogrid.mesh.set.active.OrderedActiveMeshObjectSet;
 import org.infogrid.mesh.set.active.OrderedActiveMeshObjectSetReorderedEvent;
-
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
-
-import java.beans.PropertyChangeEvent;
-import java.beans.PropertyChangeListener;
 
 /**
  * This ActiveMeshObjectSet has the same content as a passed-in ActiveMeshObjectSet,
@@ -97,6 +97,34 @@ public class OrderedActiveMMeshObjectSet
     }
 
     /**
+     * Obtain the first MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the first MeshObject, if any
+     */
+    public MeshObject getFirstMeshObject()
+    {
+        if( currentContent != null && currentContent.length > 0 ) {
+            return currentContent[0];
+        } else {
+            return null;
+        }
+    }
+    
+    /**
+     * Obtain the last MeshObject in the OrderedMeshObjectSet, or null if the OrderedMeshObjectSet is empty.
+     * 
+     * @return the last MeshObject, if any
+     */
+    public MeshObject getLastMeshObject()
+    {
+        if( currentContent != null && currentContent.length > 0 ) {
+            return currentContent[currentContent.length-1];
+        } else {
+            return null;
+        }
+    }
+
+    /**
      * Determine the index of a certain MeshObject in this ordered set.
      *
      * @param candidate the MeshObject that we are looking for
@@ -125,6 +153,21 @@ public class OrderedActiveMMeshObjectSet
         return theMaximum;
     }
     
+    /**
+     * Create a subset of this set by providing a MeshObjectSelector that will select the MeshObjects
+     * to be selected for the subset. This method will return all matches in this set, keeping the
+     * order of this OrderedMeshObjectSet.
+     *
+     * @param selector the criteria for selection
+     * @return subset of this set
+     */
+    @Override
+    public OrderedMeshObjectSet subset(
+            MeshObjectSelector selector )
+    {
+        return theFactory.createOrderedImmutableMeshObjectSet( getMeshObjects(), selector );
+    }
+
     /**
      * Callback from the underlying set.
      *
