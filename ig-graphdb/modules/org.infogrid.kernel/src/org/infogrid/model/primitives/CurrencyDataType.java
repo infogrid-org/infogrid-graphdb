@@ -108,7 +108,7 @@ public class CurrencyDataType
      */
     public CurrencyValue getDefaultValue()
     {
-        return CurrencyValue.create( 1, 0, USD );
+        return CurrencyValue.create( true, 1, 0, USD );
     }
 
     /**
@@ -359,22 +359,26 @@ public class CurrencyDataType
         }
 
         /**
-         * Format a whole and a fraction suitably for this Unit.
+         * Format a whole and a fraction with a sign suitably for this Unit.
          *
+         * @param positive if true, positive amount
          * @param whole the whole
          * @param fraction the fraction
          * @return formatted String
          */
         public String format(
-                long whole,
-                int  fraction )
+                boolean positive,
+                long    whole,
+                int     fraction )
         {
             StringBuilder buf = new StringBuilder();
 
+            if( !positive ) {
+                buf.append( "-" );
+            }
             if( theSymbol != null ) {
                 buf.append( theSymbol );
             }
-
             if( whole > 0 ) {
                 buf.append( whole );
             } else {
@@ -429,7 +433,7 @@ public class CurrencyDataType
             } else {
                 fractions = 0;
             }
-            return CurrencyValue.create( wholes, fractions, this );
+            return CurrencyValue.create( wholes >= 0,  Math.abs( wholes ), fractions, this );
         }
 
         /**

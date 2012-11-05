@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -32,35 +32,75 @@ public final class CurrencyValue
     /**
      * Factory method.
      *
+     * @param isPositive if true, create a positive amount
      * @param wholes the wholes, e.g. dollars
      * @param fractions the fractions, e.g. cents
      * @param u the currency Unit for the value
      * @return the created FloatValue
      */
     public static CurrencyValue create(
+            boolean               isPositive,
             long                  wholes,
             int                   fractions,
             CurrencyDataType.Unit u )
     {
-        return new CurrencyValue( wholes, fractions, u );
+        long internal = fractions + u.getFractionMultiplier() * wholes;
+        if( !isPositive ) {
+            internal = -internal;
+        }
+        return new CurrencyValue( internal, u );
     }
 
     /**
      * Factory method.
      *
+     * @param isPositive if true, create a positive amount
      * @param wholes the wholes, e.g. dollars
      * @param fractions the fractions, e.g. cents
      * @param u the currency Unit for the value
      * @return the created FloatValue
      */
     public static CurrencyValue create(
-            long   wholes,
-            int    fractions,
-            String u )
+            boolean               isPositive,
+            long                  wholes,
+            int                   fractions,
+            String                u )
     {
-        return new CurrencyValue( wholes, fractions, CurrencyDataType.findUnitForCode( u ));
+        return create( isPositive, wholes, fractions, CurrencyDataType.findUnitForCode( u ) );
     }
 
+    /**
+     * Factory method from a number.
+     *
+     * @param number the number
+     * @param unit the currency Unit for the value
+     * @return the created FloatValue
+     */
+    public static CurrencyValue create(
+            double                number,
+            CurrencyDataType.Unit unit )
+    {
+        long internal = (long) ( number * unit.getFractionMultiplier() + .5 );
+        return new CurrencyValue( internal, unit );
+    }
+    
+    /**
+     * Factory method from a number.
+     *
+     * @param number the number
+     * @param unit the currency Unit for the value
+     * @return the created FloatValue
+     */
+    public static CurrencyValue create(
+            double                number,
+            String                unit )
+    {
+        CurrencyDataType.Unit u = CurrencyDataType.findUnitForCode( unit );
+        
+        long internal = (long) ( number * u.getFractionMultiplier() + .5 );
+        return new CurrencyValue( internal, u );
+    }
+    
     /**
      * Factory method.
      *
@@ -72,6 +112,7 @@ public final class CurrencyValue
     {
         // We have two possible representations;
 
+        String sign;
         String wholes;
         String fraction;
         String symbol;
@@ -79,24 +120,26 @@ public final class CurrencyValue
 
         Matcher m = AS_STRING_ISO.matcher( s );
         if( m.matches() ) {
+            sign     = m.group( 1 );
             wholes   = m.group( 2 );
-            fraction = m.group( 4 );
-
+            fraction = m.group( 3 );
             if( fraction == null || fraction.length() == 0 ) {
-                fraction = m.group( 5 );
+                fraction = m.group( 4 );
             }
-            code   = m.group( 6 );
+            
+            code   = m.group( 5 );
             symbol = null;
 
         } else {
             m = AS_STRING_SYMBOL.matcher( s );
             if( m.matches() ) {
-                symbol   = m.group( 1 );
+                sign     = m.group( 1 );
+                symbol   = m.group( 2 );
                 wholes   = m.group( 3 );
-                fraction = m.group( 5 );
+                fraction = m.group( 4 );
 
                 if( fraction == null || fraction.length() == 0 ) {
-                    fraction = m.group( 6 );
+                    fraction = m.group( 5 );
                 }
                 code = null;
 
@@ -129,41 +172,38 @@ public final class CurrencyValue
                 fraction += "0";
             }
         }
-
-        return new CurrencyValue(
-                ( wholes   != null && wholes.length()   > 0 ) ? Long.parseLong(   wholes )   : 0L,
-                ( fraction != null && fraction.length() > 0 ) ? Integer.parseInt( fraction ) : 0,
-                u );
+        
+        long realWholes   = 0L;
+        int  realFraction = 0;
+        
+        if( wholes != null && wholes.length() > 0 ) {
+            realWholes = Long.parseLong( wholes );
+        }
+        if( fraction != null && fraction.length() > 0 ) {
+            realFraction = Integer.parseInt( fraction );
+        }
+        
+        long internalValue = realFraction + u.getFractionMultiplier() * realWholes;
+        if( "-".equals( sign )) {
+            internalValue = -internalValue;
+        }
+        return new CurrencyValue( internalValue, u );
     }
 
     /**
       * Private constructor, use factory methods.
       *
-      * @param wholes the whole units, e.g. dollars
-      * @param fractions the fractional units, e.g. cents
+      * @param internalValue the internal value, i.e. fractions
       * @param u the currency Unit for the value
       */
     private CurrencyValue(
-            long                  wholes,
-            int                   fractions,
+            long                  internalValue,
             CurrencyDataType.Unit u )
+        throws
+            IllegalArgumentException
     {
-        this.theWholes    = wholes;
-        this.theFractions = fractions;
-        this.theUnit      = u;
-
-        normalize();
-    }
-
-    /**
-     * Normalize internal data representation.
-     */
-    protected void normalize()
-    {
-        int multiplier = theUnit.getFractionMultiplier();
-
-        theWholes    += theFractions / multiplier;
-        theFractions %= multiplier;         // apparently modulus works with negative numbers in Java
+        this.theInternalValue = internalValue;
+        this.theUnit          = u;
     }
 
     /**
@@ -173,7 +213,17 @@ public final class CurrencyValue
       */
     public String value()
     {
-        return theUnit.format( theWholes, theFractions );
+        return theUnit.format( getIsPositive(), getWholes(), getFractions() );
+    }
+
+    /**
+     * Determine whether the amount is positive or zero.
+     * 
+     * @return true if positive or zero, false if negative
+     */
+    public boolean getIsPositive()
+    {
+        return theInternalValue >= 0;
     }
 
     /**
@@ -183,7 +233,9 @@ public final class CurrencyValue
      */
     public long getWholes()
     {
-        return theWholes;
+        long ret = Math.abs( theInternalValue / theUnit.getFractionMultiplier() );
+        
+        return ret;
     }
 
     /**
@@ -193,7 +245,9 @@ public final class CurrencyValue
      */
     public int getFractions()
     {
-        return theFractions;
+        long ret = Math.abs( theInternalValue % theUnit.getFractionMultiplier());
+        
+        return (int) ret;
     }
 
     /**
@@ -205,6 +259,19 @@ public final class CurrencyValue
     {
         return theUnit;
     }
+    
+    /**
+     * Obtain this CurrencyValue as a numeric fraction, without unit.
+     * For example $1.50 would return 1.5.
+     * 
+     * @return the numeric fraction
+     */
+    public double getAsDouble()
+    {
+        double ret = (double)theInternalValue / theUnit.getFractionMultiplier();
+
+        return ret;
+    }
 
     /**
      * Determine whether this value is zero.
@@ -213,7 +280,7 @@ public final class CurrencyValue
      */
     public boolean isFree()
     {
-        return theWholes == 0 && theFractions == 0;
+        return theInternalValue == 0;
     }
 
     /**
@@ -229,9 +296,9 @@ public final class CurrencyValue
             IllegalArgumentException
     {
         if( theUnit != other.theUnit ) {
-            throw new IllegalArgumentException( "Cannot add " + theUnit + " and " + other.theUnit );
+            throw new IllegalArgumentException( "Incompatible units: " + theUnit + " and " + other.theUnit );
         }
-        return new CurrencyValue( theWholes + other.theWholes, theFractions + other.theFractions, theUnit );
+        return new CurrencyValue( theInternalValue + other.theInternalValue, theUnit );
     }
 
     /**
@@ -247,9 +314,9 @@ public final class CurrencyValue
             IllegalArgumentException
     {
         if( theUnit != other.theUnit ) {
-            throw new IllegalArgumentException( "Cannot add " + theUnit + " and " + other.theUnit );
+            throw new IllegalArgumentException( "Incompatible units: " + theUnit + " and " + other.theUnit );
         }
-        return new CurrencyValue( theWholes - other.theWholes, theFractions - other.theFractions, theUnit );
+        return new CurrencyValue( theInternalValue - other.theInternalValue, theUnit );
     }
 
     /**
@@ -259,7 +326,7 @@ public final class CurrencyValue
      */
     public CurrencyValue minus()
     {
-        return new CurrencyValue( -theWholes, -theFractions, theUnit );
+        return new CurrencyValue( -theInternalValue, theUnit );
     }
 
     /**
@@ -281,7 +348,7 @@ public final class CurrencyValue
         if( !theUnit.equals( realOtherValue.theUnit )) {
             return false;
         }
-        return theWholes == realOtherValue.theWholes && theFractions == realOtherValue.theFractions;
+        return theInternalValue == realOtherValue.theInternalValue;
     }
 
     /**
@@ -292,8 +359,7 @@ public final class CurrencyValue
     @Override
     public int hashCode()
     {
-        int ret = (int) theWholes;
-        ret ^= theFractions;
+        int ret = (int) theInternalValue;
         ret ^= theUnit.hashCode();
         return ret;
     }
@@ -310,13 +376,7 @@ public final class CurrencyValue
         if( !theUnit.equals( otherValue.theUnit )) {
             return false;
         }
-        if( theWholes < otherValue.theWholes ) {
-            return true;
-        }
-        if( theWholes > otherValue.theWholes ) {
-            return false;
-        }
-        return theFractions <= otherValue.theFractions;
+        return theInternalValue <= otherValue.theInternalValue;
     }
 
     /**
@@ -331,13 +391,7 @@ public final class CurrencyValue
         if( !theUnit.equals( otherValue.theUnit )) {
             return false;
         }
-        if( theWholes < otherValue.theWholes ) {
-            return true;
-        }
-        if( theWholes > otherValue.theWholes ) {
-            return false;
-        }
-        return theFractions < otherValue.theFractions;
+        return theInternalValue < otherValue.theInternalValue;
     }
 
     /**
@@ -349,7 +403,10 @@ public final class CurrencyValue
     public boolean isLargerOrEquals(
             CurrencyValue otherValue )
     {
-        return otherValue.isSmallerOrEquals( this );
+        if( !theUnit.equals( otherValue.theUnit )) {
+            return false;
+        }
+        return theInternalValue >= otherValue.theInternalValue;
     }
 
     /**
@@ -361,7 +418,10 @@ public final class CurrencyValue
     public boolean isLarger(
             CurrencyValue otherValue )
     {
-        return otherValue.isSmaller( this );
+        if( !theUnit.equals( otherValue.theUnit )) {
+            return false;
+        }
+        return theInternalValue > otherValue.theInternalValue;
     }
 
     /**
@@ -372,7 +432,7 @@ public final class CurrencyValue
     @Override
     public String toString()
     {
-        return theUnit.format( theWholes, theFractions );
+        return value();
     }
 
     /**
@@ -389,9 +449,11 @@ public final class CurrencyValue
         StringBuilder buf = new StringBuilder( 128 );
         buf.append( getClass().getName() );
         buf.append( DataType.CREATE_STRING );
-        buf.append( theWholes );
+        buf.append( getIsPositive() );
         buf.append( DataType.COMMA_STRING );
-        buf.append( theFractions );
+        buf.append( getWholes() );
+        buf.append( DataType.COMMA_STRING );
+        buf.append( getFractions() );
         buf.append( DataType.COMMA_STRING );
         buf.append( DataType.QUOTE_STRING );
         buf.append( theUnit.getIsoCode() );
@@ -421,17 +483,14 @@ public final class CurrencyValue
         if( !theUnit.equals( realOther.theUnit )) {
             return +2; // not comparable convention: +2
         }
-
-        if( theWholes < realOther.theWholes ) {
+        long delta = theInternalValue - realOther.theInternalValue;
+        
+        if( delta > 0 ) {
+            return 1;
+        } else if( delta < 0 ) {
             return -1;
-        } else if( theWholes > realOther.theWholes ) {
-            return +1;
-        } else if( theFractions < realOther.theFractions ) {
-            return -1;
-        } else if( theFractions == realOther.theFractions ) {
-            return 0;
         } else {
-            return +1;
+            return 0;
         }
     }
 
@@ -463,33 +522,30 @@ public final class CurrencyValue
         /* 0 */ this,
         /* 1 */ editVar,
         /* 2 */ editIndex,
-        /* 3 */ theWholes,
-        /* 4 */ theFractions,
-        /* 5 */ theUnit );
+        /* 3 */ theInternalValue >= 0,
+        /* 4 */ theInternalValue >= 0 ? "" : "-",
+        /* 5 */ getWholes(),
+        /* 6 */ getFractions(),
+        /* 7 */ theUnit );
     }
 
     /**
-      * The actual value before the decimal point.
-      */
-    protected long theWholes;
-
-    /**
-     * The actual value after the decimal point.
+     * The internal value, which is expressed entirely as fractions.
      */
-    protected int theFractions;
+    private long theInternalValue;
 
     /**
       * The Currency Unit, if any.
       */
-    protected CurrencyDataType.Unit theUnit;
+    private CurrencyDataType.Unit theUnit;
 
     /**
      * Pattern that expresses our String representation with a trailing ISO code.
      */
-    public static final Pattern AS_STRING_ISO = Pattern.compile( "^\\s*((\\d+)(\\.(\\d*))?|\\.(\\d+))\\s*([A-Za-z]{3})\\s*$" );
+    public static final Pattern AS_STRING_ISO = Pattern.compile( "^\\s*?(-)?(?:(\\d+)(?:\\.(\\d*))?|\\.(\\d+))\\s*([A-Za-z]{3})\\s*$" );
 
     /**
      * Pattern that expresses our String representation with a leading currency symbol.
      */
-    public static final Pattern AS_STRING_SYMBOL = Pattern.compile( "^\\s*([^\\s\\d]+)\\s*((\\d+)(\\.(\\d*))?|\\.(\\d+))\\s*$" );
+    public static final Pattern AS_STRING_SYMBOL = Pattern.compile( "^\\s*(-)?\\s*([^-\\.\\s\\d]+)\\s*(?:(\\d+)(?:\\.(\\d*))?|\\.(\\d+))\\s*$" );
 }

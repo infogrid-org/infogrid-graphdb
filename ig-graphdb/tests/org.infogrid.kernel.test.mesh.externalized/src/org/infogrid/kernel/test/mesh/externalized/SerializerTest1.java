@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -196,11 +196,16 @@ public class SerializerTest1
             new TestCase(
                     CurrencyDataType.theDefault,
                     new CurrencyValue[] {
-                         CurrencyValue.create( 1, 1, CurrencyDataType.USD ),
-                         CurrencyValue.create( 1, 0, CurrencyDataType.USD ),
-                         CurrencyValue.create( 1, 1, CurrencyDataType.USD ),
-                         CurrencyValue.create( 123, 45, CurrencyDataType.USD ),
-                         CurrencyValue.create( 123, 45, CurrencyDataType.EUR ),
+                         CurrencyValue.create( true,    1,  1, CurrencyDataType.USD ),
+                         CurrencyValue.create( true,    1,  0, CurrencyDataType.USD ),
+                         CurrencyValue.create( true,    1,  1, CurrencyDataType.USD ),
+                         CurrencyValue.create( true,  123, 45, CurrencyDataType.USD ),
+                         CurrencyValue.create( true,  123, 45, CurrencyDataType.EUR ),
+                         CurrencyValue.create( false,   1,  1, CurrencyDataType.USD ),
+                         CurrencyValue.create( false,   1,  0, CurrencyDataType.USD ),
+                         CurrencyValue.create( false,   1,  1, CurrencyDataType.USD ),
+                         CurrencyValue.create( false, 123, 45, CurrencyDataType.USD ),
+                         CurrencyValue.create( false, 123, 45, CurrencyDataType.EUR ),
                     } )
     };
 

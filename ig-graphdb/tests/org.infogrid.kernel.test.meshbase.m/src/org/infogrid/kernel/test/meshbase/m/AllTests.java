@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -33,6 +33,7 @@ public abstract class AllTests
     {
         TestSpec [] tests = {
                 new TestSpec(  EquivalenceSetComparatorTest1.class ),
+                new TestSpec(  CurrencyValueTest1.class ),
 
                 new TestSpec(  MeshBaseTest1.class ),
                 new TestSpec(  MeshBaseTest2.class ),
