@@ -823,8 +823,11 @@
         <name>type</name>
         <tag-class>org.infogrid.jee.taglib.mesh.MeshTypeTag</tag-class>
         <attribute>
+            <name>meshType</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
             <name>meshTypeName</name>
-            <required>true</required>
             <rtexprvalue>true</rtexprvalue>
         </attribute>
         <attribute>
