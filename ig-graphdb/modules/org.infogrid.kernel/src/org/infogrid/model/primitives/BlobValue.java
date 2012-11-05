@@ -428,6 +428,11 @@ public abstract class BlobValue
     public static final String APPLICATION_XML_MIME_TYPE = "application/xml";
 
     /**
+     * Pre-defined MIME type for JSON.
+     */
+    public static final String TEXT_JSON_MIME_TYPE = "text/json";
+
+    /**
      * Pre-defined MIME type for unknown.
      */
     public static final String OCTET_STREAM_MIME_TYPE = "application/octet-stream";
@@ -444,6 +449,7 @@ public abstract class BlobValue
         IMAGE_FAVICON_MIME_TYPE,
         TEXT_XML_MIME_TYPE,
         APPLICATION_XML_MIME_TYPE,
+        TEXT_JSON_MIME_TYPE,
         OCTET_STREAM_MIME_TYPE
     };
 

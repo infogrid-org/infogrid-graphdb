@@ -114,6 +114,19 @@ public final class BlobDataType
             theTextAnyType );
 
     /**
+     * This is a JSON text DataType.
+     */
+    public static final BlobDataType theTextJsonType = create(
+            "{}",
+            new String[] {
+                    BlobValue.TEXT_JSON_MIME_TYPE
+            },
+            new Pattern[] {
+                    Pattern.compile( Pattern.quote( BlobValue.TEXT_JSON_MIME_TYPE ))
+            },
+            theTextAnyType );
+
+    /**
      * Helper variable.
      */
     private static final String packageName;
@@ -776,6 +789,8 @@ public final class BlobDataType
             return theTextPlainType;
         } else if( this.equals( theTextXmlType )) {
             return theTextXmlType;
+        } else if( this.equals( theTextJsonType )) {
+            return theTextJsonType;
         } else {
             return this;
         }
@@ -819,6 +834,8 @@ public final class BlobDataType
             return className + ".theTextPlainType";
         } else if( this == theTextXmlType ) {
             return className + ".theTextXmlType";
+        } else if( this == theTextJsonType ) {
+            return className + ".theTextJsonType";
         } else if( this == theFaviconType ) {
             return className + ".theFaviconType";
         } else {
