@@ -508,7 +508,7 @@ public final class CurrencyValue
         throws
             StringifierException
     {
-        String  editVar   = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+        String  editVar   = (String)  pars.get( StringRepresentationParameters.EDIT_VARIABLE );
         Integer editIndex = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
 
         if( editIndex == null ) {

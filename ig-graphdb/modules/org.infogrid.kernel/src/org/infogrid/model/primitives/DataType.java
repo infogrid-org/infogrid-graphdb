@@ -255,7 +255,7 @@ public abstract class DataType
             IllegalPropertyTypeException,
             NotPermittedException
     {
-        String        editVar               = (String) pars.get( StringRepresentationParameters.EDIT_VARIABLE );
+        String        editVar               = (String)  pars.get( StringRepresentationParameters.EDIT_VARIABLE );
         Integer       editIndex             = (Integer) pars.get( StringRepresentationParameters.EDIT_INDEX );
         Boolean       allowNull             = (Boolean) pars.get( ModelPrimitivesStringRepresentationParameters.ALLOW_NULL );
         PropertyValue alternateDefaultValue = (PropertyValue) pars.get( ModelPrimitivesStringRepresentationParameters.DEFAULT_VALUE );
