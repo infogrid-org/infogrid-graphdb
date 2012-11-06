@@ -214,7 +214,7 @@ public final class BooleanDataType
             PropertyValueParsingException
     {
         try {
-            String compareTo = representation.formatEntry( BooleanValue.class, "True", null );
+            String compareTo = representation.formatEntry( BooleanValue.class, "True", StringRepresentationParameters.EMPTY );
             if( compareTo.equalsIgnoreCase( s )) {
                 return BooleanValue.TRUE;
             }
@@ -223,7 +223,7 @@ public final class BooleanDataType
         }
 
         try {
-            String compareTo = representation.formatEntry( BooleanValue.class, "False", null );
+            String compareTo = representation.formatEntry( BooleanValue.class, "False", StringRepresentationParameters.EMPTY );
             if( compareTo.equalsIgnoreCase( s )) {
                 return BooleanValue.FALSE;
             }
@@ -232,7 +232,7 @@ public final class BooleanDataType
         }
 
         try {
-            String compareTo = representation.formatEntry( BooleanValue.class, "True", null );
+            String compareTo = representation.formatEntry( BooleanValue.class, "True", StringRepresentationParameters.EMPTY );
             if( compareTo.equalsIgnoreCase( s )) {
                 return BooleanValue.TRUE;
             }
@@ -241,7 +241,7 @@ public final class BooleanDataType
         }
 
         try {
-            String compareTo = representation.formatEntry( BooleanValue.class, "False", null );
+            String compareTo = representation.formatEntry( BooleanValue.class, "False", StringRepresentationParameters.EMPTY );
             if( compareTo.equalsIgnoreCase( s )) {
                 return BooleanValue.FALSE;
             }

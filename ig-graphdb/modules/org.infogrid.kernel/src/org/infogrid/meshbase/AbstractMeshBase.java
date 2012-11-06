@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -1490,13 +1490,8 @@ public abstract class AbstractMeshBase
         throws
             StringifierException
     {
-        boolean isDefaultMeshBase = true;
-        String  contextPath       = null;
-
-        if( pars != null ) {
-            isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
-            contextPath       = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
-        }
+        boolean isDefaultMeshBase = equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+        String  contextPath       = (String) pars.get( StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
 
         String key;
         if( isDefaultMeshBase ) {

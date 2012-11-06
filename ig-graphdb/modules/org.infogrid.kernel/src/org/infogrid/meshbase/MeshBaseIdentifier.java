@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -117,17 +117,11 @@ public class MeshBaseIdentifier
         throws
             StringifierException
     {
-        String contextPath         = null;
-        String additionalArguments = null;
-        String target              = null;
-        String title               = null;
+        String contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
+        String target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
+        String title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
+        String additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
 
-        if( pars != null ) {
-            contextPath         = (String) pars.get(  StringRepresentationParameters.WEB_RELATIVE_CONTEXT_KEY );
-            target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
-            title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
-            additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
-        }
         String ret = rep.formatEntry(
                 getClass(), // dispatch to the right subtype
                 StringRepresentation.DEFAULT_LINK_START_ENTRY,
