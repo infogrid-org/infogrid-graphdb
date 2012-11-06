@@ -218,7 +218,7 @@ public class WwwAuthpAppInitializationFilter
                 availableCredentialTypes );
         appContext.addContextObject( authStage );
 
-        LidSessionManagementPipelineStage sessionMgmtStage = DefaultLidSessionManagementPipelineStage.create( lidSessionManager );
+        LidSessionManagementPipelineStage sessionMgmtStage = DefaultLidSessionManagementPipelineStage.create( lidSessionManager, idFact );
         appContext.addContextObject( sessionMgmtStage );
 
         // Lid

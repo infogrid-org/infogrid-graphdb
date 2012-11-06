@@ -109,7 +109,7 @@ public class TestAuthpAppInitializationFilter
                 });
         appContext.addContextObject( authStage );
 
-        LidSessionManagementPipelineStage sessionMgmtStage = DefaultLidSessionManagementPipelineStage.create( lidSessionManager );
+        LidSessionManagementPipelineStage sessionMgmtStage = DefaultLidSessionManagementPipelineStage.create( lidSessionManager, idFact );
         appContext.addContextObject( sessionMgmtStage );
 
         // Lid
