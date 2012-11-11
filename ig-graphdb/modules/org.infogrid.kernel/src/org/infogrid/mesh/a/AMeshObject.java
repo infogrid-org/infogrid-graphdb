@@ -497,7 +497,6 @@ public class AMeshObject
                     throw new NotRelatedException( this, neighborIdentifier );
                 }
                 if( realNeighbor != null && !nMgr.hasNeighbors( realNeighbor )) {
-                    log.error( "found neighbor here, but not here in neighbor: " + this + " vs. " + realNeighbor );
                     throw new NotRelatedException( realNeighbor, this );
                 }
 

@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.ArrayListCursorIterator;
 import org.infogrid.util.CursorIterator;
+import org.infogrid.util.logging.CanBeDumped;
+import org.infogrid.util.logging.Dumper;
 
 /**
   * <p>A ChangeSet is the set of {@link Change Changes} (createCopy, update, delete)
@@ -31,7 +33,8 @@ import org.infogrid.util.CursorIterator;
 public class ChangeSet
         implements
             Serializable,
-            Iterable<Change>
+            Iterable<Change>,
+            CanBeDumped
 {
     private static final long serialVersionUID = 1L; // helps with serialization
 
@@ -241,6 +244,25 @@ public class ChangeSet
         return ret.toString();
     }
 
+    /**
+     * Dump this object.
+     *
+     * @param d the Dumper to dump to
+     */
+    public void dump(
+            Dumper d )
+    {
+        d.dump( this,
+                new String[] {
+                    "changes",
+                    "isFrozen"
+                },
+                new Object[] {
+                    theChanges,
+                    theIsFrozen
+                });
+    }
+    
     /**
       * The Changes in their original form.
       */

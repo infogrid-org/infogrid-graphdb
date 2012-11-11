@@ -16,6 +16,8 @@ package org.infogrid.meshbase.transaction;
 
 import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.mesh.MeshObject;
+import org.infogrid.mesh.NotRelatedException;
+import org.infogrid.mesh.RoleTypeNotBlessedException;
 import org.infogrid.mesh.security.PropertyReadOnlyException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
@@ -24,6 +26,8 @@ import org.infogrid.util.FlexibleListenerSet;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.logging.ToStringDumper;
+import org.infogrid.util.logging.ToStringDumperFactory;
 
 /**
   * <p>The concept of a Transaction in InfoGrid. This is an abstract class;
@@ -136,8 +140,10 @@ public abstract class Transaction
             Throwable thrown )
     {
         if( log.isInfoEnabled() ) {
-            log.info(  "rollbackTransaction", thrown );
+            log.info( ToStringDumperFactory.create( ToStringDumper.DEFAULT_MAXLEVEL, Integer.MAX_VALUE ), this, "rollbackTransaction", thrown );
         }
+        
+        sudo();
 
         // go backwards in the change set
         CursorIterator<Change> iter = ChangeSet.createCopy( theChangeSet ).iterator();
@@ -154,7 +160,9 @@ public abstract class Transaction
                     Throwable cause = ex.getCause();
 
                     if(    !( cause instanceof PropertyReadOnlyException )
-                        && !( cause instanceof IllegalPropertyValueException ))
+                        && !( cause instanceof IllegalPropertyValueException )
+                        && !( cause instanceof NotRelatedException )
+                        && !( cause instanceof RoleTypeNotBlessedException ))
                     {
                         log.error( ex );
                         // that's the best we can do
