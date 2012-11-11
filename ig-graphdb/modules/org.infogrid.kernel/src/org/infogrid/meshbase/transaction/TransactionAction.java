@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -70,7 +70,18 @@ public abstract class TransactionAction<T>
     }
 
     /**
-     * Set the current Transaction, or reset the current Transaction to null.
+     * Obtain the MeshBase on which this TransactionAction executes.
+     * 
+     * @return the MeshBase
+     */
+    public MeshBase getMeshBase()
+    {
+        return mb;
+    }
+
+    /**
+     * Set the current Transaction, or reset the current Transaction to null. This should not be invoked
+     * by the application developer.
      *
      * @param currentTx the current Transaction
      */
@@ -78,6 +89,16 @@ public abstract class TransactionAction<T>
             Transaction currentTx )
     {
         tx = currentTx;
+    }
+
+    /**
+     * Obtain the current Transaction.
+     * 
+     * @return the current Transaction
+     */
+    public Transaction getTransaction()
+    {
+        return tx;
     }
 
     /**

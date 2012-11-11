@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,10 +18,10 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.IterableMeshBase;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
-import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.m.MMeshBase;
 import org.infogrid.meshbase.sweeper.DefaultIterableSweeper;
 import org.infogrid.meshbase.sweeper.ExpiresSweepPolicy;
+import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.util.logging.Log;
 

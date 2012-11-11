@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -50,6 +50,17 @@ public class MimeTypeNotInDomainException
     }
 
     /**
+     * Obtain the BlobDataType whose domain was violated.
+     * 
+     * @return the BlobDataType
+     */
+    @Override
+    public BlobDataType getDataType()
+    {
+        return (BlobDataType) theType;
+    }
+
+    /**
      * Obtain resource parameters for the internationalization.
      *
      * @return the resource parameters
@@ -57,7 +68,7 @@ public class MimeTypeNotInDomainException
     @Override
     public Object [] getLocalizationParameters()
     {
-        return new Object[] { theType, theMime };
+        return new Object[] { theType, theMime, ((BlobDataType)theType).theMimeTypeRegexes };
     }
 
     /**
