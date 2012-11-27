@@ -8,32 +8,19 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.kernel.test.meshbase.m;
 
-import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.m.MMeshBase;
 import org.infogrid.meshbase.transaction.Transaction;
-import org.infogrid.model.primitives.BooleanValue;
-import org.infogrid.model.primitives.ColorValue;
-import org.infogrid.model.primitives.EntityType;
-import org.infogrid.model.primitives.ExtentValue;
-import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.IntegerValue;
-import org.infogrid.model.primitives.MultiplicityValue;
-import org.infogrid.model.primitives.PointValue;
-import org.infogrid.model.primitives.PropertyType;
+import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.model.primitives.StringValue;
-import org.infogrid.model.primitives.TimePeriodValue;
-import org.infogrid.model.primitives.TimeStampValue;
-import org.infogrid.model.Test.TestSubjectArea;
-import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.util.logging.Log;
 
 /**
