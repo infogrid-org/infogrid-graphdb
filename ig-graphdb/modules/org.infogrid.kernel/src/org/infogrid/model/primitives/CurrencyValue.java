@@ -36,7 +36,7 @@ public final class CurrencyValue
      * @param wholes the wholes, e.g. dollars
      * @param fractions the fractions, e.g. cents
      * @param u the currency Unit for the value
-     * @return the created FloatValue
+     * @return the created CurrencyValue
      */
     public static CurrencyValue create(
             boolean               isPositive,
@@ -58,7 +58,7 @@ public final class CurrencyValue
      * @param wholes the wholes, e.g. dollars
      * @param fractions the fractions, e.g. cents
      * @param u the currency Unit for the value
-     * @return the created FloatValue
+     * @return the created CurrencyValue
      */
     public static CurrencyValue create(
             boolean               isPositive,
@@ -74,7 +74,7 @@ public final class CurrencyValue
      *
      * @param number the number
      * @param unit the currency Unit for the value
-     * @return the created FloatValue
+     * @return the created CurrencyValue
      */
     public static CurrencyValue create(
             double                number,
@@ -89,7 +89,7 @@ public final class CurrencyValue
      *
      * @param number the number
      * @param unit the currency Unit for the value
-     * @return the created FloatValue
+     * @return the created CurrencyValue
      */
     public static CurrencyValue create(
             double                number,
@@ -99,6 +99,32 @@ public final class CurrencyValue
         
         long internal = (long) ( number * u.getFractionMultiplier() + .5 );
         return new CurrencyValue( internal, u );
+    }
+    
+    /**
+     * Factory method to create a zero amount.
+     *
+     * @param unit the currency Unit for the value
+     * @return the created CurrencyValue
+     */
+    public static CurrencyValue createFree(
+            CurrencyDataType.Unit unit )
+    {
+        return new CurrencyValue( 0, unit );
+    }
+    
+    /**
+     * Factory method to create a zero amount.
+     *
+     * @param unit the currency Unit for the value
+     * @return the created CurrencyValue
+     */
+    public static CurrencyValue createFree(
+            String                unit )
+    {
+        CurrencyDataType.Unit u = CurrencyDataType.findUnitForCode( unit );
+
+        return new CurrencyValue( 0, u );
     }
     
     /**
