@@ -14,6 +14,7 @@
 
 package org.infogrid.model.primitives;
 
+import java.text.ParseException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.infogrid.util.text.StringRepresentation;
@@ -132,9 +133,12 @@ public final class CurrencyValue
      *
      * @param s amount and unit expressed as a String
      * @return the created CurrencyValue
+     * @throws ParseException thrown if the string could not be parsed
      */
     public static CurrencyValue parseCurrencyValue(
             String s )
+        throws
+            ParseException
     {
         // We have two possible representations;
 
@@ -170,7 +174,7 @@ public final class CurrencyValue
                 code = null;
 
             } else {
-                throw new IllegalArgumentException( "Cannot parse CurrencyValue: " + s );
+                throw new ParseException( "Cannot parse CurrencyValue: " + s, 0 );
             }
         }
 
@@ -179,20 +183,20 @@ public final class CurrencyValue
         if( code != null ) {
             u = CurrencyDataType.findUnitForCode( code );
             if( u == null ) {
-                throw new IllegalArgumentException( "Cannot find a currency unit with ISO code " + code );
+                throw new ParseException( "Cannot find a currency unit with ISO code " + code, 0 );
             }
 
         } else {
             u = CurrencyDataType.findUnitForSymbol( symbol );
             if( u == null ) {
-                throw new IllegalArgumentException( "Cannot find a currency unit with symbol " + symbol );
+                throw new ParseException( "Cannot find a currency unit with symbol " + symbol, 0 );
             }
         }
 
 
         if( fraction != null ) {
             if( fraction.length() > u.getFractionPlaces() ) {
-                throw new IllegalArgumentException( "Too many decimal places for " + u + ": " + fraction.length() );
+                throw new ParseException( "Too many decimal places for " + u + ": " + fraction.length(), 0 );
             }
             for( int i=fraction.length() ; i<u.getFractionPlaces() ; ++i ) {
                 fraction += "0";
@@ -225,8 +229,6 @@ public final class CurrencyValue
     private CurrencyValue(
             long                  internalValue,
             CurrencyDataType.Unit u )
-        throws
-            IllegalArgumentException
     {
         this.theInternalValue = internalValue;
         this.theUnit          = u;

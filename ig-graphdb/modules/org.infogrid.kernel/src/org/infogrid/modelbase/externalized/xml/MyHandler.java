@@ -164,7 +164,11 @@ public class MyHandler
             SAXException
     {
         if( log.isTraceEnabled() ) {
-            log.traceMethodCallEntry( this, "startElement", namespaceURI, localName, qName );
+            if( attrs != null && attrs.getValue( "ID" ) != null ) {
+                log.traceMethodCallEntry( this, "startElement", namespaceURI, localName, qName, attrs.getValue( "ID") );
+            } else {
+                log.traceMethodCallEntry( this, "startElement", namespaceURI, localName, qName );
+            }
         }
         
         theCharacters = null;
@@ -1312,7 +1316,12 @@ public class MyHandler
             ret = ColorValue.create( value );
 
         } else if( type instanceof CurrencyDataType ) {
-            ret = CurrencyValue.parseCurrencyValue( raw );
+            try {
+                ret = CurrencyValue.parseCurrencyValue( raw );
+            } catch( ParseException ex ) {
+                userError( "Failed to parse CurrencyValue '" + raw + "'" );
+                ret = ((CurrencyDataType)type).getDefaultValue();
+            }
 
         } else if( type instanceof EnumeratedDataType ) {
             try {

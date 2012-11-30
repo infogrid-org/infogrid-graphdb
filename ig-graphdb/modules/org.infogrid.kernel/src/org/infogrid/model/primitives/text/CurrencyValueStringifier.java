@@ -14,6 +14,7 @@
 
 package org.infogrid.model.primitives.text;
 
+import java.text.ParseException;
 import java.util.Iterator;
 import org.infogrid.model.primitives.CurrencyValue;
 import org.infogrid.util.OneElementIterator;
@@ -107,7 +108,7 @@ public class CurrencyValueStringifier
         try {
             ret = CurrencyValue.parseCurrencyValue( rawString );
 
-        } catch( IllegalArgumentException ex ) {
+        } catch( ParseException ex ) {
             throw new StringifierParseException( this, null, ex );
         }
         return ret;
@@ -238,7 +239,7 @@ public class CurrencyValueStringifier
                     ++theCounter;
                     return;
 
-                } catch( IllegalArgumentException ex ) {
+                } catch( ParseException ex ) {
                     ++theCurrentIndex;
                     theNext = null;
                 }

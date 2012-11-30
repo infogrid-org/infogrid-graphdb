@@ -526,7 +526,11 @@ public class PropertyValueXmlEncoder
 
         } else if( CURRENCY_VALUE_TAG.equals( qName )) {
             if( theCharacters != null ) {
-                thePropertyValue = CurrencyValue.parseCurrencyValue( theCharacters.toString() );
+                try {
+                    thePropertyValue = CurrencyValue.parseCurrencyValue( theCharacters.toString() );
+                } catch( ParseException ex ) {
+                    throw new SAXException(  "Failed to parse CurrencyValue " + theCharacters.toString() );
+                }
             } else {
                 throw new SAXException( "No value given for ColorValue" );
             }
