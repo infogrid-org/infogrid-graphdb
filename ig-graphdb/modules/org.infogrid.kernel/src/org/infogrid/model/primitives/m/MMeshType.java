@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -29,7 +29,8 @@ import org.infogrid.util.Identifier;
   */
 public abstract class MMeshType
         implements
-            MeshType
+            MeshType,
+            Comparable<MeshType>
 {
     private static final long serialVersionUID = 1L; // helps with serialization
 
@@ -247,6 +248,19 @@ public abstract class MMeshType
         return theIdentifier.toExternalForm();
     }
 
+    /**
+     * Implement Comparable using Identifier comparison. This gives consistent ordering
+     * in all cases.
+     * 
+     * @param other the Object to compare against
+     */
+    @Override
+    public int compareTo(
+            MeshType other )
+    {
+        return theIdentifier.getExternalForm().compareTo( other.getIdentifier().getExternalForm() );
+    }
+    
     /**
       * Determine equality.
       *
