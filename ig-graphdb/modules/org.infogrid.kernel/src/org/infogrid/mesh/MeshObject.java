@@ -603,7 +603,7 @@ public interface MeshObject
     public abstract TypedMeshObjectFacade getTypedFacadeFor(
             EntityType type )
         throws
-            NotBlessedException;
+            EntityNotBlessedException;
 
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleType.

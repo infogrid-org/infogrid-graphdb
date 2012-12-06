@@ -1277,12 +1277,12 @@ public abstract class AbstractMeshObject
      * 
      * @param type the EntityType
      * @return the TypedMeshObjectFacade for this MeshObject
-     * @throws NotBlessedException thrown if this MeshObject does not currently support this EntityType
+     * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
      */
     public synchronized TypedMeshObjectFacade getTypedFacadeFor(
             EntityType type )
         throws
-            NotBlessedException
+            EntityNotBlessedException
     {
         checkAlive();
 
