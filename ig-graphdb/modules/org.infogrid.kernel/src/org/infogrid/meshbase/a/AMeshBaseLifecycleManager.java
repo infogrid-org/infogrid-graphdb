@@ -447,11 +447,11 @@ public class AMeshBaseLifecycleManager
 
                 if( propertyValues[i] != null ) {
                     if( propertyType.getDataType().conforms( propertyValues[i] ) != 0 ) {
-                        log.warn( "Wrong DataType when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed );
+                        log.warn( "Wrong DataType when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), propertyType.getIdentifier().toExternalForm() );
                         continue;
                     }
                 } else if( !propertyType.getIsOptional().value() ) {
-                    log.warn( "No null value allowed when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), theObjectBeingParsed );
+                    log.warn( "No null value allowed when attempting to recreateMeshObject", theObjectBeingParsed.getIdentifier().toExternalForm(), propertyType.getIdentifier().toExternalForm() );
                     propertyValues[i] = propertyType.getDefaultValue();
                 }
                 // now we patch EnumeratedValues
