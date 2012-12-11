@@ -17,7 +17,7 @@
         - cleanup
 
         -->
-<project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="org.infogrid.authp.www-impl">
+<project xmlns:webproject1="http://www.netbeans.org/ns/web-project/1" xmlns:webproject2="http://www.netbeans.org/ns/web-project/2" xmlns:webproject3="http://www.netbeans.org/ns/web-project/3" basedir=".." default="default" name="org.infogrid.myhealth.www-impl">
     <import file="ant-deploy.xml"/>
     <fail message="Please build using Ant 1.7.1 or higher.">
         <condition>
@@ -524,40 +524,52 @@ exists or setup the property manually. For example like this:
                 COMPILATION SECTION
             -->
     <target depends="init" if="no.dist.ear.dir" name="deps-module-jar" unless="no.deps">
-        <ant antfile="${project.org_infogrid_authp}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_crypto}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
         <ant antfile="${project.org_infogrid_jee}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_jee_lid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_shell_http}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_jee_templates}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_ldap}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_bulk}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_openid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_log4j}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_openid_store}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_module}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_store}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_store}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_kernel}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_meshbase_store}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Blob}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Common}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_MyHealth}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Tagging}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Viewlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Wiki}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_store}/build.xml" inheritall="false" target="jar">
@@ -569,60 +581,72 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.org_infogrid_store_sql_mysql}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.org_infogrid_vendors_com_mysql_jdbc}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_viewlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
         <ant antfile="${project.org_infogrid_util}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_util_sql}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_jakarta_taglibs_jstl}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_logging_log4j}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
     </target>
     <target depends="init" if="dist.ear.dir" name="deps-ear-jar" unless="no.deps">
-        <ant antfile="${project.org_infogrid_authp}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_crypto}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
         <ant antfile="${project.org_infogrid_jee}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_jee_lid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_shell_http}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_jee_templates}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_ldap}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_bulk}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_openid}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_log4j}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_openid_store}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_module}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_lid_store}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_jee_viewlet_store}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_kernel}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
-        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="jar">
+        <ant antfile="${project.org_infogrid_meshbase_store}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Blob}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Common}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_MyHealth}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Tagging}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Viewlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_model_Wiki}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_store}/build.xml" inheritall="false" target="jar">
@@ -634,22 +658,22 @@ exists or setup the property manually. For example like this:
         <ant antfile="${project.org_infogrid_store_sql_mysql}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
+        <ant antfile="${project.org_infogrid_vendors_com_mysql_jdbc}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_viewlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
+        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="jar">
+            <property name="deploy.on.save" value="false"/>
+        </ant>
         <ant antfile="${project.org_infogrid_util}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
         <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_util_sql}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_jakarta_taglibs_jstl}/build.xml" inheritall="false" target="jar">
-            <property name="deploy.on.save" value="false"/>
-        </ant>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_logging_log4j}/build.xml" inheritall="false" target="jar">
             <property name="deploy.on.save" value="false"/>
         </ant>
     </target>
@@ -798,56 +822,66 @@ exists or setup the property manually. For example like this:
     </target>
     <target depends="init,compile,compile-jsps,-pre-dist,-do-dist-with-manifest,-do-dist-without-manifest" name="do-dist"/>
     <target depends="init" if="dist.ear.dir" name="library-inclusion-in-manifest">
-        <copyfiles files="${reference.org_infogrid_authp.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_crypto.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_jee.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_jee_lid.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_shell_http.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_jee_templates.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_ldap.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_openid.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_openid_store.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_store.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_bulk.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_log4j.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_module.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_store.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_kernel.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_meshbase_store.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Blob.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Common.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_MyHealth.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Tagging.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Viewlet.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Wiki.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_module.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_module_servlet.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_store.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_store_sql.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_store_sql_mysql.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_viewlet.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_util.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${reference.org_infogrid_util_logging_log4j.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_vendors_org_apache_jakarta_taglibs_jstl.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_vendors_org_apache_logging_log4j.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
+        <copyfiles files="${reference.org_infogrid_vendors_com_mysql_jdbc.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.ig-library-jstl.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.ig-library-log4j.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <copyfiles files="${libs.ig-library-mysql.classpath}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
-        <copyfiles files="${reference.org_infogrid_util_sql.jar}" iftldtodir="${build.web.dir}/WEB-INF" todir="${dist.ear.dir}/lib"/>
         <mkdir dir="${build.web.dir}/META-INF"/>
         <manifest file="${build.web.dir}/META-INF/MANIFEST.MF" mode="update"/>
     </target>
     <target depends="init" name="library-inclusion-in-archive" unless="dist.ear.dir">
-        <copyfiles files="${reference.org_infogrid_authp.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_crypto.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_jee.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_jee_lid.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_shell_http.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_jee_templates.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_ldap.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_openid.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_openid_store.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_lid_store.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_bulk.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_log4j.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_module.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_jee_viewlet_store.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_kernel.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_meshbase_store.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Blob.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Common.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_MyHealth.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Tagging.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Viewlet.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_model_Wiki.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_module.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_module_servlet.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_store.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_store_sql.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_store_sql_mysql.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_viewlet.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_util.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${reference.org_infogrid_util_logging_log4j.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_vendors_org_apache_jakarta_taglibs_jstl.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_vendors_org_apache_logging_log4j.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
+        <copyfiles files="${reference.org_infogrid_vendors_com_mysql_jdbc.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.ig-library-jstl.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.ig-library-log4j.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
         <copyfiles files="${libs.ig-library-mysql.classpath}" todir="${build.web.dir}/WEB-INF/lib"/>
-        <copyfiles files="${reference.org_infogrid_util_sql.jar}" todir="${build.web.dir}/WEB-INF/lib"/>
     </target>
     <target depends="init" if="dist.ear.dir" name="-clean-webinf-lib">
         <delete dir="${build.web.dir}/WEB-INF/lib"/>
@@ -1214,27 +1248,31 @@ exists or setup the property manually. For example like this:
                 CLEANUP SECTION
             -->
     <target depends="init" name="deps-clean" unless="no.deps">
-        <ant antfile="${project.org_infogrid_authp}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_crypto}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_jee}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_jee_lid}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_shell_http}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_jee_templates}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_lid}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_lid_ldap}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_lid_openid}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_lid_openid_store}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_lid_store}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_viewlet}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_viewlet_bulk}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_viewlet_log4j}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_viewlet_module}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_jee_viewlet_store}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_kernel}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_meshbase_store}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_Blob}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_Common}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_MyHealth}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_Tagging}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_Viewlet}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_model_Wiki}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_store}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_store_sql}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_store_sql_mysql}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_vendors_com_mysql_jdbc}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_viewlet}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_module}/build.xml" inheritall="false" target="clean"/>
+        <ant antfile="${project.org_infogrid_module_servlet}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_util}/build.xml" inheritall="false" target="clean"/>
         <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_util_logging_log4j}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_util_sql}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_jakarta_taglibs_jstl}/build.xml" inheritall="false" target="clean"/>
-        <ant antfile="${project.org_infogrid_vendors_org_apache_logging_log4j}/build.xml" inheritall="false" target="clean"/>
     </target>
     <target depends="init" name="do-clean">
         <condition property="build.dir.to.clean" value="${build.web.dir}">
