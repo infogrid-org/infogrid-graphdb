@@ -30,7 +30,7 @@ import org.infogrid.util.logging.Log;
 /**
  * Tests whether rollbacks work.
  */
-public class RollbackTest1
+public class RollbackTest2
         extends
             AbstractMeshBaseTest
 {
@@ -49,8 +49,8 @@ public class RollbackTest1
 
         final MeshObjectIdentifier fixed1Id = idFact.fromExternalForm( "fixed1" );
         final MeshObjectIdentifier fixed2Id = idFact.fromExternalForm( "fixed2" );
-        final MeshObjectIdentifier wrong1Id = idFact.fromExternalForm( "wrong1" );
-        final MeshObjectIdentifier wrong2Id = idFact.fromExternalForm( "wrong2" );
+        final MeshObjectIdentifier fixed3Id = idFact.fromExternalForm( "fixed3" );
+        final MeshObjectIdentifier fixed4Id = idFact.fromExternalForm( "fixed4" );
 
         //
         
@@ -64,19 +64,25 @@ public class RollbackTest1
                 {
                     MeshObject fixed1 = life.createMeshObject( fixed1Id, TestSubjectArea.AA );
                     MeshObject fixed2 = life.createMeshObject( fixed2Id, TestSubjectArea.AA );
+                    MeshObject fixed3 = life.createMeshObject( fixed3Id, TestSubjectArea.AA );
+                    MeshObject fixed4 = life.createMeshObject( fixed4Id, TestSubjectArea.AA );
 
+                    fixed1.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed2 );
+                    fixed2.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed3 );
+                    fixed3.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed4 );
+                    fixed4.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed1 );
+                    
                     return null;
                 }
         });
         
-        checkEquals( theMeshBase.size(), 3, "Wrong initial number of MeshObjects" );
+        checkEquals( theMeshBase.size(), 5, "Wrong initial number of MeshObjects" );
 
         final MeshObject fixed1 = theMeshBase.findMeshObjectByIdentifier( fixed1Id );
         final MeshObject fixed2 = theMeshBase.findMeshObjectByIdentifier( fixed2Id );
+        final MeshObject fixed3 = theMeshBase.findMeshObjectByIdentifier( fixed3Id );
+        final MeshObject fixed4 = theMeshBase.findMeshObjectByIdentifier( fixed4Id );
 
-        PropertyValue fixed1Value = fixed1.getPropertyValue( TestSubjectArea.AA_Y );
-        PropertyValue fixed2Value = fixed2.getPropertyValue( TestSubjectArea.AA_Y );
-        
         //
         
         log.debug( "Creating failing Transaction that will automatically be rolled back." );
@@ -87,18 +93,11 @@ public class RollbackTest1
                         throws
                             Throwable
                 {
-                    MeshObject wrong1 = life.createMeshObject( wrong1Id, TestSubjectArea.AA );
-                    MeshObject wrong2 = life.createMeshObject( wrong2Id, TestSubjectArea.AA );
-
-                    fixed1.setPropertyValue( TestSubjectArea.AA_Y, FloatValue.create( 1.2 ));
+                    life.deleteMeshObject( fixed4 );
                     
-                    wrong1.relateAndBless( TestSubjectArea.AR1A.getSource(), wrong2 );
-                    fixed1.relate( wrong1 );
-                    wrong2.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed2 );
+                    fixed1.unrelate( fixed2 );
                     
-                    wrong2.setPropertyValue( TestSubjectArea.AA_Y, FloatValue.create( 3.4 ));
-                    
-                    fixed1.relateAndBless( TestSubjectArea.AR1A.getSource(), fixed2 );
+                    fixed2.unblessRelationship( TestSubjectArea.AR1A.getSource(), fixed3 );
                     
                     throw new TransactionActionException.Rollback();
                 }
@@ -108,18 +107,28 @@ public class RollbackTest1
                         Transaction tx,
                         Throwable   causeForRollback )
                 {
-                    checkEquals( tx.getChangeSet().size(), 24, "Wrong number of changes" );
+                    checkEquals( tx.getChangeSet().size(), 15, "Wrong number of changes" );
                 }
         });
         
         //
         
-        checkEquals( theMeshBase.size(), 3, "Wrong initial number of MeshObjects" );
-        checkCondition( theMeshBase.findMeshObjectByIdentifier( wrong1Id ) == null, "Found wrong1Id" );
-        checkCondition( theMeshBase.findMeshObjectByIdentifier( wrong2Id ) == null, "Found wrong2Id" );
-        checkEquals( fixed1Value, fixed1.getPropertyValue( TestSubjectArea.AA_Y ), "Fixed1 has wrong property value" );
-        checkEquals( fixed2Value, fixed2.getPropertyValue( TestSubjectArea.AA_Y ), "Fixed2 has wrong property value" );
-        checkCondition( !fixed1.isRelated( fixed2 ), "fixed1 is still related to fixed2" );
+        final MeshObject fixed4New = theMeshBase.findMeshObjectByIdentifier( fixed4Id );
+        // fixed4 is now dead and cannot currently be revived (FIXME?)
+
+        checkEquals( theMeshBase.size(), 5, "Wrong initial number of MeshObjects" );
+        checkObject( theMeshBase.findMeshObjectByIdentifier( fixed1Id ), "fixed1Id not found" );
+        checkObject( theMeshBase.findMeshObjectByIdentifier( fixed2Id ), "fixed2Id not found" );
+        checkObject( theMeshBase.findMeshObjectByIdentifier( fixed3Id ), "fixed3Id not found" );
+        checkObject( theMeshBase.findMeshObjectByIdentifier( fixed4Id ), "fixed4Id not found" );
+        checkCondition( fixed1.isRelated( fixed2 ), "fixed1 is not related to fixed2" );
+        checkCondition( fixed2.isRelated( fixed3 ), "fixed2 is not related to fixed3" );
+        checkCondition( fixed3.isRelated( fixed4New ), "fixed3 is not related to fixed4" );
+        checkCondition( fixed4New.isRelated( fixed1 ), "fixed4 is not related to fixed1" );
+        checkEquals( fixed1.getRoleTypes( fixed2 ).length, 1, "Not blessed: fixed1 to fixed2");
+        checkEquals( fixed2.getRoleTypes( fixed3 ).length, 1, "Not blessed: fixed2 to fixed3");
+        checkEquals( fixed3.getRoleTypes( fixed4New ).length, 1, "Not blessed: fixed3 to fixed4");
+        checkEquals( fixed4New.getRoleTypes( fixed1 ).length, 1, "Not blessed: fixed4 to fixed1");
     }
 
     /**
@@ -130,7 +139,7 @@ public class RollbackTest1
     public static void main(
             String [] args )
     {
-        RollbackTest1 test = null;
+        RollbackTest2 test = null;
         try {
             if( args.length < 0 ) { // well, not quite possible but to stay with the general outline
                 System.err.println( "Synopsis: <no arguments>" );
@@ -138,7 +147,7 @@ public class RollbackTest1
                 System.exit( 1 );
             }
 
-            test = new RollbackTest1( args );
+            test = new RollbackTest2( args );
             test.run();
 
         } catch( Throwable ex ) {
@@ -162,15 +171,15 @@ public class RollbackTest1
      * @param args command-line arguments
      * @throws Exception all sorts of things may go wrong during a test.
      */
-    public RollbackTest1(
+    public RollbackTest2(
             String [] args )
         throws
             Exception
     {
-        super( RollbackTest1.class );
+        super( RollbackTest2.class );
 
     }
 
     // Our Logger
-    private static Log log = Log.getLogInstance( RollbackTest1.class );
+    private static Log log = Log.getLogInstance( RollbackTest2.class );
 }

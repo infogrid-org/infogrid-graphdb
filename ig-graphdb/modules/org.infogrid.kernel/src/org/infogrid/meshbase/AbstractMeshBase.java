@@ -919,7 +919,10 @@ public abstract class AbstractMeshBase
                 ret = act.execute();
                 act.setTransaction( null );
 
+                act.preCommitTransaction( tx );
                 tx.commitTransaction();
+                act.postCommitTransaction( tx );
+                
                 tx = null;
 
                 return ret;
@@ -971,7 +974,17 @@ public abstract class AbstractMeshBase
             } finally {
                 act.setTransaction( null );
                 if( tx != null ) {
+                    try {
+                        act.preRollbackTransaction( tx, thrown );
+                    } catch( Throwable t ) {
+                        log.error( t );
+                    }
                     tx.rollbackTransaction( thrown );
+                    try {
+                        act.postRollbackTransaction( tx, thrown );
+                    } catch( Throwable t ) {
+                        log.error( t );
+                    }
                 }
             }
             if( firstThrown == null ) {

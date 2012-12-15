@@ -17,6 +17,8 @@ package org.infogrid.meshbase.transaction;
 import org.infogrid.mesh.IllegalPropertyValueException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotRelatedException;
+import org.infogrid.mesh.RelatedAlreadyException;
+import org.infogrid.mesh.RoleTypeBlessedAlreadyException;
 import org.infogrid.mesh.RoleTypeNotBlessedException;
 import org.infogrid.mesh.security.PropertyReadOnlyException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
@@ -162,7 +164,9 @@ public abstract class Transaction
                     if(    !( cause instanceof PropertyReadOnlyException )
                         && !( cause instanceof IllegalPropertyValueException )
                         && !( cause instanceof NotRelatedException )
-                        && !( cause instanceof RoleTypeNotBlessedException ))
+                        && !( cause instanceof RoleTypeNotBlessedException )
+                        && !( cause instanceof RelatedAlreadyException )
+                        && !( cause instanceof RoleTypeBlessedAlreadyException ))
                     {
                         log.error( ex );
                         // that's the best we can do

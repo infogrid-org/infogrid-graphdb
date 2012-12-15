@@ -113,6 +113,54 @@ public abstract class TransactionAction<T>
             Throwable;
 
     /**
+     * Overridable callback executed just prior to attempting to perform a commit.
+     * 
+     * @param tx the Transaction
+     */
+    public void preCommitTransaction(
+            Transaction tx )
+    {
+        // no op
+    }
+    
+    /**
+     * Overridable callback executed just after having been successful performing a commit.
+     * 
+     * @param tx the Transaction
+     */
+    public void postCommitTransaction(
+            Transaction tx )
+    {
+        // no op
+    }
+
+    /**
+     * Overridable callback executed just prior to attempting to perform a rollback.
+     * 
+     * @param tx the Transaction
+     * @param causeForRollback the Throwable that was the cause for this rollback
+     */
+    public void preRollbackTransaction(
+            Transaction tx,
+            Throwable   causeForRollback )
+    {
+        // no op
+    }
+    
+    /**
+     * Overridable callback executed just after having been successful performing a rollback.
+     * 
+     * @param tx the Transaction
+     * @param causeForRollback the Throwable that was the cause for this rollback
+     */
+    public void postRollbackTransaction(
+            Transaction tx,
+            Throwable   causeForRollback )
+    {
+        // no op
+    }
+    
+    /**
      * If true, rollback the entire transaction upon an Exception; if false, abort at the location of the Exception.
      */
     protected boolean theAllOrNothing;

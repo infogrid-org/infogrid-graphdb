@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -25,12 +25,12 @@ import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
-import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
+import org.infogrid.modelbase.ModelBase;
 import org.infogrid.util.event.ExternalizableEvent;
-import org.infogrid.util.logging.Log;
 import org.infogrid.util.event.OtherUnresolvedException;
 import org.infogrid.util.logging.Dumper;
+import org.infogrid.util.logging.Log;
 
 /**
  * This event indicates that a new MeshObject was created. If the MeshObject was created

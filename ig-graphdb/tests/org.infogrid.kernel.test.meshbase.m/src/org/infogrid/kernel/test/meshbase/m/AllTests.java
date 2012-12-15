@@ -59,7 +59,9 @@ public abstract class AllTests
                 new TestSpec( SweeperTest1.class ),
                 new TestSpec( SweeperTest2.class ),
 
-                new TestSpec( RollbackTest1.class )
+                new TestSpec( RollbackTest1.class ),
+                new TestSpec( RollbackTest2.class ),
+                new TestSpec( RollbackTest3.class )
         };
 
         runTests( tests );

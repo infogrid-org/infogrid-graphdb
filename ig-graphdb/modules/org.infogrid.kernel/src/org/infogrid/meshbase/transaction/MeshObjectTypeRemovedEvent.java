@@ -8,18 +8,21 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.transaction;
 
+import java.util.Map;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MeshTypeUtils;
+import org.infogrid.model.primitives.PropertyType;
+import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.util.ArrayHelper;
 
 /**
@@ -38,14 +41,16 @@ public class MeshObjectTypeRemovedEvent
      * @param oldValues the old set of EntityTypes, prior to the event
      * @param deltaValues the EntityTypes that were added
      * @param newValues the new set of EntityTypes, after the event
+     * @param removedProperties the PropertyTypes and their values that were removed when removing the MeshTypes
      * @param timeEventOccurred the time at which the event occurred, in <code>System.currentTimeMillis</code> format
      */
     public MeshObjectTypeRemovedEvent(
-            MeshObject        source,
-            EntityType []     oldValues,
-            EntityType []     deltaValues,
-            EntityType []     newValues,
-            long              timeEventOccurred )
+            MeshObject                      source,
+            EntityType []                   oldValues,
+            EntityType []                   deltaValues,
+            EntityType []                   newValues,
+            Map<PropertyType,PropertyValue> removedProperties,
+            long                            timeEventOccurred )
     {
         super(  source,
                 source.getIdentifier(),
@@ -57,6 +62,8 @@ public class MeshObjectTypeRemovedEvent
                 MeshTypeUtils.meshTypeIdentifiersOrNull( newValues ),
                 timeEventOccurred,
                 source.getMeshBase() );
+        
+        theRemovedProperties = removedProperties;
     }
 
     /**
@@ -176,6 +183,7 @@ public class MeshObjectTypeRemovedEvent
                 getNewValue(),
                 getDeltaValue(),
                 getOldValue(),
+                theRemovedProperties,
                 getTimeEventOccurred() );
     }
 
@@ -199,6 +207,7 @@ public class MeshObjectTypeRemovedEvent
         if( !ArrayHelper.hasSameContentOutOfOrder( getDeltaValueIdentifier(), realCandidate.getDeltaValueIdentifier(), true )) {
             return false;
         }
+        // FIXME? compare theRemovedProperties
 
         return true;
     }
@@ -226,6 +235,8 @@ public class MeshObjectTypeRemovedEvent
         if( getTimeEventOccurred() != realOther.getTimeEventOccurred() ) {
             return false;
         }
+        // FIXME? compare theRemovedProperties
+        
         return true;
     }
 
@@ -239,4 +250,9 @@ public class MeshObjectTypeRemovedEvent
     {
         return super.hashCode();
     }
+
+    /**
+     * Map of the PropertyTypes and their values that were removed when the MeshTypes were removed.
+     */
+    protected Map<PropertyType,PropertyValue> theRemovedProperties;
 }

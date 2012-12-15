@@ -1034,15 +1034,16 @@ public abstract class AbstractMeshObject
         }
 
         // remove unnecessary properties
+        HashMap<PropertyType,PropertyValue> removedProperties = null;
         if( theProperties != null ) {
             PropertyType [] remainingProperties = getAllPropertyTypes();
-            ArrayList<PropertyType> toRemove = new ArrayList<PropertyType>();
-            for( PropertyType current : theProperties.keySet() ) {
-                if( !ArrayHelper.isIn( current, remainingProperties, false )) {
-                    toRemove.add( current );
+            removedProperties = new HashMap<PropertyType,PropertyValue>();
+            for( Map.Entry<PropertyType,PropertyValue> current : theProperties.entrySet() ) {
+                if( !ArrayHelper.isIn( current.getKey(), remainingProperties, false )) {
+                    removedProperties.put( current.getKey(), current.getValue() );
                 }
             }
-            for( PropertyType current : toRemove ) {
+            for( PropertyType current : removedProperties.keySet() ) {
                 theProperties.remove( current );
             }
             if( theProperties.isEmpty() ) {
@@ -1056,6 +1057,7 @@ public abstract class AbstractMeshObject
                 oldTypes,
                 types,
                 getTypes(),
+                removedProperties,
                 theMeshBase );
     }
 
@@ -1863,6 +1865,7 @@ public abstract class AbstractMeshObject
                         oldTypes,
                         addedTypes,
                         newTypes,
+                        null,
                         theTimeUpdated );
 
         mb.getCurrentTransaction().addChange( theEvent );
@@ -1876,13 +1879,15 @@ public abstract class AbstractMeshObject
      * @param oldTypes the EntityTypes prior to the change
      * @param removedTypes the removed MeshTypes
      * @param newTypes the EntityTypes now, after the change
+     * @param removedProperties the PropertyTypes and their values that were removed when removing the MeshTypes
      * @param mb the MeshBase to use
      */
     protected void fireTypesRemoved(
-            EntityType [] oldTypes,
-            EntityType [] removedTypes,
-            EntityType [] newTypes,
-            MeshBase      mb )
+            EntityType []                   oldTypes,
+            EntityType []                   removedTypes,
+            EntityType []                   newTypes,
+            Map<PropertyType,PropertyValue> removedProperties,
+            MeshBase                        mb )
     {
         MeshObjectTypeRemovedEvent theEvent
                 = new MeshObjectTypeRemovedEvent(
@@ -1890,6 +1895,7 @@ public abstract class AbstractMeshObject
                         oldTypes,
                         removedTypes,
                         newTypes,
+                        removedProperties,
                         theTimeUpdated );
 
         mb.getCurrentTransaction().addChange( theEvent );
