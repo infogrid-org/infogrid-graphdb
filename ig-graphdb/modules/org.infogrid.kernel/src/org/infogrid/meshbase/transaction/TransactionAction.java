@@ -161,6 +161,25 @@ public abstract class TransactionAction<T>
     }
     
     /**
+     * Make it easy for TransactionActions to perform other TransactionActions on the same Transaction.
+     * Note: this will not execute the pre and post commit/rollback callbacks on the subtransaction.
+     * 
+     * @param subAct the TransactionAction to perform
+     */
+    protected <T2> T2 executeSubTransactionAction(
+            TransactionAction<T2> subAct )
+        throws
+            Throwable
+    {
+        subAct.setMeshBase( mb );
+        subAct.setTransaction( tx );
+        T2 ret = subAct.execute();
+        subAct.setTransaction( null );
+        
+        return ret;
+    }
+
+    /**
      * If true, rollback the entire transaction upon an Exception; if false, abort at the location of the Exception.
      */
     protected boolean theAllOrNothing;
