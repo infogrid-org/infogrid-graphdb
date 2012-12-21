@@ -25,13 +25,18 @@ import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
 import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
+import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.modelbase.ModelBase;
+import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.store.IterableStore;
+import org.infogrid.store.Store;
 import org.infogrid.store.util.IterableStoreBackedSwappingHashMap;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.context.Context;
+import org.infogrid.util.context.SimpleContext;
 import org.infogrid.util.logging.Log;
+import org.infogrid.util.text.StringRepresentationParseException;
 
 /**
  * A StoreMeshBase that we can iterate over. For this to work, the underlying
@@ -46,8 +51,30 @@ public class IterableStoreMeshBase
     private static final Log log = Log.getLogInstance( IterableStoreMeshBase.class ); // our own, private logger
 
     /**
-      * Factory method.
-      *
+     * Most convenient factory method.
+     *
+     * @param meshObjectStore the IterableStore in which to store the MeshObjects
+     * @return the created IterableStoreMeshBase
+     */
+    public static IterableStoreMeshBase create(
+            IterableStore meshObjectStore )
+    {
+        try {
+            return create(
+                    DefaultMeshBaseIdentifierFactory.create().fromExternalForm( "DefaultMeshBase" ),
+                    MModelBase.create(),
+                    null,
+                    meshObjectStore,
+                    SimpleContext.createRoot( "root context" ));
+        } catch( StringRepresentationParseException ex ) {
+            log.error( ex );
+            return null;
+        }
+    }
+    
+    /**
+     * Factory method.
+     *
      * @param identifier the MeshBaseIdentifier of this MeshBase
      * @param modelBase the ModelBase containing type information
      * @param accessMgr the AccessManager that controls access to this MeshBase
