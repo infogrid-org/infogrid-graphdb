@@ -8,21 +8,20 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.store.test;
 
+import java.io.InputStream;
+import java.util.Iterator;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
 import org.infogrid.mesh.externalized.xml.BulkExternalizedMeshObjectXmlEncoder;
 import org.infogrid.meshbase.store.IterableStoreMeshBase;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.util.logging.Log;
-
-import java.io.InputStream;
-import java.util.Iterator;
 
 /**
  * Tests bulk loading.
