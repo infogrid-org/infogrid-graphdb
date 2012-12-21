@@ -357,6 +357,7 @@ public final class IntegerValue
         buf.append( getClass().getName() );
         buf.append( ".create( " );
         buf.append( theValue );
+        buf.append( "L" ); // be safe
         if( theUnit != null ) {
             buf.append( ", " );
             buf.append( theUnit.getJavaConstructorString() );
