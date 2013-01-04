@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -311,6 +311,26 @@ public final class CurrencyValue
         return theInternalValue == 0;
     }
 
+    /**
+     * Determine whether this value is positive.
+     * 
+     * @return true if the value is positive, and not negative or zero
+     */
+    public boolean isPositive()
+    {
+        return theInternalValue > 0;
+    }
+    
+    /**
+     * Determine whether this value is negative.
+     * 
+     * @return true if the value is negative, and not positive or zero
+     */
+    public boolean isNegative()
+    {
+        return theInternalValue < 0;
+    }
+    
     /**
      * Add two CurrencyValues.
      * 
