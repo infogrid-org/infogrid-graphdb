@@ -8,13 +8,12 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase;
 
-import org.infogrid.meshbase.sweeper.Sweeper;
 import java.beans.PropertyChangeListener;
 import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.MeshObject;
@@ -27,6 +26,7 @@ import org.infogrid.mesh.set.MeshObjectSet;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.text.MeshStringRepresentationParameters;
 import org.infogrid.meshbase.security.AccessManager;
+import org.infogrid.meshbase.sweeper.Sweeper;
 import org.infogrid.meshbase.transaction.DefaultTransaction;
 import org.infogrid.meshbase.transaction.IllegalTransactionThreadException;
 import org.infogrid.meshbase.transaction.MeshObjectCreatedEvent;
@@ -908,7 +908,8 @@ public abstract class AbstractMeshBase
 
         act.setMeshBase( this );
 
-        for( int counter = 0 ; counter < MAX_COMMIT_RETRIES ; ++counter ) {
+        int maxRetries = Math.min( act.getCommitRetries(), MAX_COMMIT_RETRIES );
+        for( int counter = 0 ; counter <= maxRetries ; ++counter ) { // one more, because we specify re-tries
 
             Transaction tx     = null;
             Throwable   thrown = null;
@@ -952,24 +953,10 @@ public abstract class AbstractMeshBase
 
             } catch( MeshObjectGraphModificationException ex ) {
                 thrown = ex;
-                if( act.getAllOrNothing() ) {
-                    log.error( "Rolling back Transaction", ex );
-                    return null; // rollback
-                } else {
-                    // else stay in the loop
-                    log.warn( "Attempting to retry Transaction", ex );
-                }
 
             } catch( Throwable ex ) {
                 thrown = ex;
                 log.error( ex );
-                if( act.getAllOrNothing() ) {
-                    log.error( "Rolling back Transaction", ex );
-                    return null; // rollback
-                } else {
-                    // else stay in the loop
-                    log.warn( "Attempting to retry Transaction", ex );
-                }
 
             } finally {
                 act.setTransaction( null );

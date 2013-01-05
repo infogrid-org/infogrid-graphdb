@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -30,29 +30,30 @@ public abstract class TransactionAction<T>
      */
     public TransactionAction()
     {
-        theAllOrNothing = false;
+        theCommitRetries = 1;
     }
 
     /**
      * Constructor.
      *
-     * @param allOrNothing if true, rollback the entire transaction upon an Exception; if false, abort at
-     *        the location of the Exception
+     * @param commitRetries the number of times an attempted commit is retried. This number is limited to a
+     *        maximum value specified by the MeshBase
      */
     public TransactionAction(
-            boolean allOrNothing )
+            int commitRetries )
     {
-        theAllOrNothing = allOrNothing;
+        theCommitRetries = commitRetries;
     }
 
     /**
-     * Obtain the allOrNothing property.
+     * Obtain the number of times an attempted commit is retried.
+     * This number is limited to a maximum value specified by the MeshBase.
      * 
-     * @return the property
+     * @return the number of retries
      */
-    public final boolean getAllOrNothing()
+    public int getCommitRetries()
     {
-        return theAllOrNothing;
+        return theCommitRetries;
     }
 
     /**
@@ -180,9 +181,9 @@ public abstract class TransactionAction<T>
     }
 
     /**
-     * If true, rollback the entire transaction upon an Exception; if false, abort at the location of the Exception.
+     * The number of times an attempted commit is retried.
      */
-    protected boolean theAllOrNothing;
+    protected int theCommitRetries;
 
     /**
      * The MeshBase on which this TransactionAction is to be performed.

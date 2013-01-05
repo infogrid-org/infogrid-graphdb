@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -24,7 +24,6 @@ import org.infogrid.meshbase.transaction.TransactionAction;
 import org.infogrid.meshbase.transaction.TransactionActionException;
 import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.model.primitives.FloatValue;
-import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -80,7 +79,7 @@ public class RollbackTest3
         
         log.debug( "Creating failing Transaction that will automatically be rolled back." );
         
-        theMeshBase.executeNow( new TransactionAction<Void>( true ) {
+        theMeshBase.executeNow( new TransactionAction<Void>() {
                 @Override
                 public Void execute()
                         throws

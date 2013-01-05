@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -81,7 +81,7 @@ public class RollbackTest1
         
         log.debug( "Creating failing Transaction that will automatically be rolled back." );
         
-        theMeshBase.executeNow( new TransactionAction<Void>( true ) {
+        theMeshBase.executeNow( new TransactionAction<Void>() {
                 @Override
                 public Void execute()
                         throws
