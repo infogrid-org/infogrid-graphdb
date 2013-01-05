@@ -9,7 +9,7 @@
 
     For more information about InfoGrid go to http://infogrid.org/
 
-    Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
     All rights reserved.
 -->
 
@@ -195,6 +195,11 @@
         <attribute>
             <name>flush</name>
         </attribute>
+    </tag>
+
+    <tag>
+        <name>notIfIterationHasNext</name>
+        <tag-class>org.infogrid.jee.taglib.util.NotIfIterationHasNextTag</tag-class>
     </tag>
 
     <tag>
