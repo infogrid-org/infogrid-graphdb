@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -108,6 +108,7 @@ public interface MeshObjectSet
      *
      * @return an Iterator iterating over the content of this set
      */
+    @Override
     public abstract CursorIterator<MeshObject> iterator();
 
     /**
@@ -116,6 +117,7 @@ public interface MeshObjectSet
      *
      * @return an Iterator iterating over the content of this set
      */
+    @Override
     public abstract CursorIterator<MeshObject> getIterator();
 
     /**
@@ -180,6 +182,16 @@ public interface MeshObjectSet
     public abstract MeshObjectSet subset(
             MeshObjectSelector selector );
 
+    /**
+     * Create a new OrderedMeshObjectSet with the same content as this MeshObjectSet, but sorted
+     * according to a MeshObjectSorter.
+     * 
+     * @param sorter the MeshObjectSorter to use
+     * @return the OrderedMeshObjectSet
+     */
+    public abstract OrderedMeshObjectSet ordered(
+            MeshObjectSorter sorter );
+    
     /**
      * Determine whether this set is empty.
      *

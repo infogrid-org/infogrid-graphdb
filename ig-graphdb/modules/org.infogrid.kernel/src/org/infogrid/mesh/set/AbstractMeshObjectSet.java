@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -68,6 +68,7 @@ public abstract class AbstractMeshObjectSet
      * 
      * @param newValue the new value
      */
+    @Override
     public void setDebugName(
             String newValue )
     {
@@ -79,6 +80,7 @@ public abstract class AbstractMeshObjectSet
      * 
      * @return the name
      */
+    @Override
     public String getDebugName()
     {
         return theDebugName;
@@ -89,6 +91,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return the MeshObjectSetFactory
      */
+    @Override
     public final MeshObjectSetFactory getFactory()
     {
         return theFactory;
@@ -99,6 +102,7 @@ public abstract class AbstractMeshObjectSet
      * 
      * @return the MeshBase
      */
+    @Override
     public final MeshBase getMeshBase()
     {
         return theFactory.getMeshBase();
@@ -112,6 +116,7 @@ public abstract class AbstractMeshObjectSet
      * @param n the index parameter
      * @return the Nth MeshObject contained in this set.
      */
+    @Override
     public MeshObject get(
             int n )
     {
@@ -128,6 +133,7 @@ public abstract class AbstractMeshObjectSet
      * @return the one element of the set, or null if the set is empty
      * @throws NotSingleMemberException thrown if the set contains more than one element
      */
+    @Override
     public MeshObject getSingleMember()
         throws
             NotSingleMemberException
@@ -152,6 +158,7 @@ public abstract class AbstractMeshObjectSet
      * @return the array of IdentifierValues representing the Identifiers of the members
      *         of this MeshObjectSet
      */
+    @Override
     public MeshObjectIdentifier[] asIdentifiers()
     {
         return theFactory.asIdentifiers( getMeshObjects() );
@@ -162,6 +169,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return Iterator over all members of this set
      */
+    @Override
     public abstract CursorIterator<MeshObject> iterator();
 
     /**
@@ -170,6 +178,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return an Iterator iterating over the content of this set
      */
+    @Override
     public final CursorIterator<MeshObject> getIterator()
     {
         return iterator();
@@ -182,6 +191,7 @@ public abstract class AbstractMeshObjectSet
      * @return if true, the MeshObject was found in the set
      * @throws WrongMeshBaseException thrown if the testObject is contained in a different MeshBase than the MeshObjects in this set
      */
+    @Override
     public boolean contains(
             MeshObject testObject )
         throws
@@ -207,6 +217,7 @@ public abstract class AbstractMeshObjectSet
      * @return true if this set contains all MeshObjects in the supposed subset
      * @throws WrongMeshBaseException thrown if a tested object is contained in a different MeshBase than the MeshObjects in this set
      */
+    @Override
     public boolean containsAll(
             MeshObjectSet subset )
         throws
@@ -237,6 +248,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @param other the MeshObjectSet to compare to
      */
+    @Override
     public boolean hasSameContent(
             MeshObjectSet other )
     {
@@ -258,6 +270,7 @@ public abstract class AbstractMeshObjectSet
      * @param identifier the identifier of the MeshObject to look for
      * @return true if this set contains the given MeshObject
      */
+    @Override
     public boolean contains(
             Identifier identifier )
     {
@@ -279,6 +292,7 @@ public abstract class AbstractMeshObjectSet
      * @param selector the criteria for selection
      * @return the first found MeshObject, or null if none
      */
+    @Override
     public MeshObject find(
             MeshObjectSelector selector )
     {
@@ -299,6 +313,7 @@ public abstract class AbstractMeshObjectSet
      * @param selector the criteria for selection
      * @return subset of this set
      */
+    @Override
     public MeshObjectSet subset(
             MeshObjectSelector selector )
     {
@@ -306,10 +321,25 @@ public abstract class AbstractMeshObjectSet
     }
 
     /**
+     * Create a new OrderedMeshObjectSet with the same content as this MeshObjectSet, but sorted
+     * according to a MeshObjectSorter.
+     * 
+     * @param sorter the MeshObjectSorter to use
+     * @return the OrderedMeshObjectSet
+     */
+    @Override
+    public OrderedMeshObjectSet ordered(
+            MeshObjectSorter sorter )
+    {
+        return theFactory.createOrderedImmutableMeshObjectSet( this, sorter );
+    }
+
+    /**
      * Determine whether this set is empty.
      *
      * @return if true, the set is empty
      */
+    @Override
     public boolean isEmpty()
     {
         return size() == 0;
@@ -320,6 +350,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return the number of elements in this set
      */
+    @Override
     public abstract int size();
 
     /**
@@ -327,6 +358,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return the number of members in this set
      */
+    @Override
     public final int getSize()
     {
         return size();
@@ -338,6 +370,7 @@ public abstract class AbstractMeshObjectSet
      * @param otherSet the MeshObjectSet to intersect this MeshObjectSet with
      * @return the intersection
      */
+    @Override
     public MeshObjectSet intersect(
             MeshObjectSet otherSet )
     {
@@ -351,6 +384,7 @@ public abstract class AbstractMeshObjectSet
      * @param otherSet the MeshObjectSet to unify this MeshObjectSet with
      * @return the intersection
      */
+    @Override
     public MeshObjectSet unify(
             MeshObjectSet otherSet )
     {
@@ -364,6 +398,7 @@ public abstract class AbstractMeshObjectSet
      * @param otherSet the MeshObjectSet whose members shall be removed from this MeshObjectSet
      * @return a new MeshObjectSet without the removed members
      */
+    @Override
     public MeshObjectSet minus(
             MeshObjectSet otherSet )
     {
@@ -378,6 +413,7 @@ public abstract class AbstractMeshObjectSet
      * @param filter the PropertyTypes whose change events we forward to content PropertyChangeListeners
      * @see #getFilterPropertyTypes
      */
+    @Override
     public void setFilterPropertyTypes(
             PropertyType [] filter )
     {
@@ -391,6 +427,7 @@ public abstract class AbstractMeshObjectSet
      * @return the PropertyTypes whose PropertyChangeEvents we forward to our
      * content PropertyChangeListeners, if any
      */
+    @Override
     public final PropertyType [] getFilterPropertyTypes()
     {
         return filterPropertyTypes;
@@ -402,6 +439,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @param newValue true if we forward RolePlayerTableEvents to content PropertyChangeListeners
      */
+    @Override
     public void setForwardingRolePlayerUpdateEvents(
             boolean newValue )
     {
@@ -413,6 +451,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return if true, this set forwards RolePlayerTableEvents
      */
+    @Override
     public final boolean isForwardingRolePlayerUpdateEvents()
     {
         return forwardRolePlayerChangeEvents;
@@ -426,6 +465,7 @@ public abstract class AbstractMeshObjectSet
       * @see #addSoftContentPropertyChangeListener
       * @see #removeContentPropertyChangeListener
       */
+    @Override
     public final synchronized void addDirectContentPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -445,6 +485,7 @@ public abstract class AbstractMeshObjectSet
       * @see #addSoftContentPropertyChangeListener
       * @see #removeContentPropertyChangeListener
       */
+    @Override
     public final synchronized void addWeakContentPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -464,6 +505,7 @@ public abstract class AbstractMeshObjectSet
       * @see #addDirectContentPropertyChangeListener
       * @see #removeContentPropertyChangeListener
       */
+    @Override
     public final synchronized void addSoftContentPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -483,6 +525,7 @@ public abstract class AbstractMeshObjectSet
      * @see #addWeakContentPropertyChangeListener
      * @see #addSoftContentPropertyChangeListener
      */
+    @Override
     public final synchronized void removeContentPropertyChangeListener(
             PropertyChangeListener oldListener )
     {
@@ -502,6 +545,7 @@ public abstract class AbstractMeshObjectSet
      * @param theTraversalSpecification specifies how to traverse
      * @return the set of Entities obtained through the traversal
      */
+    @Override
     public final MeshObjectSet traverse(
             TraversalSpecification theTraversalSpecification )
     {
@@ -519,6 +563,7 @@ public abstract class AbstractMeshObjectSet
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well
      * @return the set of Entities obtained through the traversal
      */
+    @Override
     public MeshObjectSet traverse(
             TraversalSpecification theTraversalSpecification,
             boolean                considerEquivalents )
@@ -536,6 +581,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @return the set of neighbor Entities
      */
+    @Override
     public final MeshObjectSet traverseToNeighborMeshObjects()
     {
         return traverseToNeighborMeshObjects( true );
@@ -548,6 +594,7 @@ public abstract class AbstractMeshObjectSet
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well
      * @return the set of neighbor Entities
      */
+    @Override
     public MeshObjectSet traverseToNeighborMeshObjects(
             boolean considerEquivalents )
     {
@@ -660,10 +707,10 @@ public abstract class AbstractMeshObjectSet
         // the fireEvent() method has a cleanup as a side-effect. If we cleaned up all
         // listners, do necessary adjustments.
         // This double check avoids doing a synchronization when not necessary
-        if( listeners.isEmpty() ) {
+        if( thePropertyChangeListeners.isEmpty() ) {
             synchronized( this ) {
-                if( listeners.isEmpty() ) {
-                    listeners = null;
+                if( thePropertyChangeListeners.isEmpty() ) {
+                    thePropertyChangeListeners = null;
                     lostLastContentPropertyChangeListener();
                 }
             }
@@ -702,6 +749,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @param d the Dumper to dump to
      */
+    @Override
     public void dump(
             Dumper d )
     {
@@ -719,6 +767,7 @@ public abstract class AbstractMeshObjectSet
      *
      * @param theEvent the event
      */
+    @Override
     public void propertyChange(
             PropertyChangeEvent theEvent )
     {
