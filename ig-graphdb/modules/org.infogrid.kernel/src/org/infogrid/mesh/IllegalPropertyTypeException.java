@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,6 +16,7 @@ package org.infogrid.mesh;
 
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshBaseIdentifier;
+import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MeshTypeUtils;
 import org.infogrid.model.primitives.PropertyType;
@@ -134,7 +135,14 @@ public class IllegalPropertyTypeException
      */
     public Object [] getLocalizationParameters()
     {
-        return new Object[] { theMeshObjectIdentifier, thePropertyTypeIdentifier };
+        EntityType []         types   = theMeshObject.getTypes();
+        MeshTypeIdentifier [] typeIds = new MeshTypeIdentifier[ types.length ];
+        
+        for( int i=0 ; i<types.length ; ++i ) {
+            typeIds[i] = types[i].getIdentifier();
+        }
+        
+        return new Object[] { theMeshObjectIdentifier, thePropertyTypeIdentifier, typeIds };
     }
 
     /**
