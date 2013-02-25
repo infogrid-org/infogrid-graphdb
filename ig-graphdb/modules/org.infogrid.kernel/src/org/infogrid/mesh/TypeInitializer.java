@@ -85,7 +85,7 @@ public class TypeInitializer
             NotPermittedException,
             TransactionException
     {
-        theMeshObject.internalSetPropertyValues( propertyTypes, propertyValues, false, timeUpdated );
+        theMeshObject.internalSetPropertyValues( propertyTypes, propertyValues, false, false, timeUpdated );
     }
 
     /**

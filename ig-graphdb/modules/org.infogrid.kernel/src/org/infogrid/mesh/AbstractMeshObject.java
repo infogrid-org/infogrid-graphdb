@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -406,6 +406,7 @@ public abstract class AbstractMeshObject
                 new PropertyType[] { thePropertyType },
                 new PropertyValue[] { newValue },
                 true,
+                true,
                 timeUpdated )[0];
     }
 
@@ -416,6 +417,7 @@ public abstract class AbstractMeshObject
      * @param thePropertyTypes the sequence of PropertyTypes to set
      * @param newValues the sequence of PropertyValues for the PropertyTypes
      * @param isMaster if true, check permissions
+     * @param generateEvents if false, do not generate PropertyChangeEvents. This is only false in initializers.
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 means "don't update" and 0 means "current time".
      * @return the old values of the Properties
      * @throws IllegalPropertyTypeException thrown if one PropertyType does not exist on this MeshObject
@@ -428,6 +430,7 @@ public abstract class AbstractMeshObject
             PropertyType []  thePropertyTypes,
             PropertyValue [] newValues,
             boolean          isMaster,
+            boolean          generateEvents,
             long             timeUpdated )
         throws
             IllegalPropertyTypeException,
@@ -437,16 +440,13 @@ public abstract class AbstractMeshObject
     {
         if( log.isDebugEnabled() ) {
             log.debug(
-                    this
-                    + ".internalSetPropertyValues( "
-                    + ArrayHelper.join( ", ", "[", "]", "null", thePropertyTypes )
-                    + ", "
-                    + ArrayHelper.join( ", ", "[", "]", "null", newValues )
-                    + ", "
-                    + timeUpdated
-                    + ", "
-                    + isMaster
-                    + " )" );
+                    this,
+                    "internalSetPropertyValues",
+                    thePropertyTypes,
+                    newValues,
+                    isMaster,
+                    generateEvents,
+                    timeUpdated );
         }
 
         checkAlive();
@@ -514,9 +514,11 @@ public abstract class AbstractMeshObject
         }
         updateLastUpdated( timeUpdated, theTimeUpdated );
 
-        for( int i=0 ; i<thePropertyTypes.length ; ++i ) {
-            if( PropertyValue.compare( oldValues[i], newValues[i] ) != 0 ) {
-                firePropertyChange( thePropertyTypes[i], oldValues[i], newValues[i], theMeshBase );
+        if( generateEvents ) {
+            for( int i=0 ; i<thePropertyTypes.length ; ++i ) {
+                if( PropertyValue.compare( oldValues[i], newValues[i] ) != 0 ) {
+                    firePropertyChange( thePropertyTypes[i], oldValues[i], newValues[i], theMeshBase );
+                }
             }
         }
 
@@ -604,7 +606,7 @@ public abstract class AbstractMeshObject
             NotPermittedException,
             TransactionException
     {
-        return internalSetPropertyValues( thePropertyTypes, thePropertyValues, true, timeUpdated );
+        return internalSetPropertyValues( thePropertyTypes, thePropertyValues, true, true, timeUpdated );
     }
 
     /**
