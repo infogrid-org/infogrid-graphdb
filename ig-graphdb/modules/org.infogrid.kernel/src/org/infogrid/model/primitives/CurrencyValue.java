@@ -378,6 +378,18 @@ public final class CurrencyValue
     }
 
     /**
+     * Multiply a CurrencyValue by some factor, and round.
+     * 
+     * @param the factor
+     * @return the multiplied CurrencyValue
+     */
+    public CurrencyValue times(
+            double factor )
+    {
+        return new CurrencyValue( (long) ( theInternalValue * factor + .5d ), theUnit );
+    }
+
+    /**
       * Determine equality of two objects.
       *
       * @param otherValue the object to test against
