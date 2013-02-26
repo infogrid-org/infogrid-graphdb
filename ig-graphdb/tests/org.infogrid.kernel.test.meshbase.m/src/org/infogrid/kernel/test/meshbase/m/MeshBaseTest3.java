@@ -105,7 +105,7 @@ public class MeshBaseTest3
         obj.bless( typeB );
         tx.commitTransaction();
 
-        checkEquals( listener.theEvents.size(), 2, "wrong number of events received" ); // bless event, default value set event
+        checkEquals( listener.theEvents.size(), 1, "wrong number of events received" ); // bless event. Default value set event does not create event.
         checkEqualsOutOfSequence( new Object[] { typeB }, (Object []) listener.theEvents.get( 0 ).getNewValue(), "wrong new value" );
         checkNotEquals( timeUpdated, obj.getTimeUpdated(), "should have changed timeUpdated" );
         listener.theEvents.clear();

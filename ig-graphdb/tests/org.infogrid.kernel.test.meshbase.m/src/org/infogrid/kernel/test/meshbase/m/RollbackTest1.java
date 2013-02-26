@@ -108,7 +108,7 @@ public class RollbackTest1
                         Transaction tx,
                         Throwable   causeForRollback )
                 {
-                    checkEquals( tx.getChangeSet().size(), 24, "Wrong number of changes" );
+                    checkEquals( tx.getChangeSet().size(), 20, "Wrong number of changes" );
                 }
         });
         
