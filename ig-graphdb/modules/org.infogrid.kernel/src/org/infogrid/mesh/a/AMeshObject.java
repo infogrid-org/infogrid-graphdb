@@ -2003,9 +2003,19 @@ public class AMeshObject
         String target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
         String title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
         String additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
-
-        boolean isDefaultMeshBase = getMeshBase().equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
-        boolean isHomeObject      = this == getMeshBase().getHomeObject();
+        
+        MeshBase mb = getMeshBase();
+        boolean  isDefaultMeshBase;
+        boolean  isHomeObject;
+        
+        if( mb != null ) {
+            isDefaultMeshBase = mb.equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
+            isHomeObject      = this == getMeshBase().getHomeObject();
+        } else {
+            // MeshObject is dead
+            isDefaultMeshBase = false;
+            isHomeObject      = false;
+        }
 
         String key;
         if( isDefaultMeshBase ) {
@@ -2032,7 +2042,7 @@ public class AMeshObject
         /* 0 */ this,
         /* 1 */ getIdentifier(),
         /* 2 */ contextPath,
-        /* 3 */ getMeshBase(),
+        /* 3 */ mb,
         /* 4 */ additionalArguments,
         /* 5 */ target,
         /* 6 */ title );
