@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -23,8 +23,8 @@ import org.infogrid.model.primitives.PropertyValue;
 import org.infogrid.util.logging.Log;
 
 /**
- * An implementation of MeshObjectSelector that accepts all MeshObjects one
- * of whose Properties is compared to a constant.
+ * An implementation of MeshObjectSelector that accepts all MeshObjects which have a property
+ * that compares successfully with a constant.
  */
 public class ByPropertyValueSelector
         extends
