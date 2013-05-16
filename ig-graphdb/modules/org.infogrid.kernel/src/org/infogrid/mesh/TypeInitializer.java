@@ -15,6 +15,7 @@
 package org.infogrid.mesh;
 
 import java.lang.reflect.Method;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
@@ -93,8 +94,12 @@ public class TypeInitializer
      */
     public void cascadingDelete()
     {
+        MeshBase mb = theMeshObject.getMeshBase();
+        if( mb == null ) {
+            return; // this is a loop, do nothing
+        }
         try {
-            Class<?> implClass = theMeshObject.getMeshBase().getMeshBaseLifecycleManager().getImplementationClass( theType );
+            Class<?> implClass = mb.getMeshBaseLifecycleManager().getImplementationClass( theType );
 
             if( implClass != null ) {
                 TypedMeshObjectFacade facade      = theMeshObject.getTypedFacadeFor( theType );
