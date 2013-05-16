@@ -183,7 +183,7 @@ public abstract class AMeshBase
 
         for( int i=0 ; i<theChanges.length ; ++i ) {
             
-            Change         currentChange = theChanges[i];
+            Change               currentChange = theChanges[i];
             MeshObjectIdentifier affectedName  = currentChange.getAffectedMeshObjectIdentifier();
 
             if( writtenAlready.contains( affectedName )) {
@@ -200,7 +200,8 @@ public abstract class AMeshBase
 
             } else if( currentChange instanceof MeshObjectDeletedEvent ) {
                 theCache.remove( affected.getIdentifier() );
-                writtenAlready.add( affectedName );
+                // do not add to writtenAlready: in a transaction that first deletes and then recreates this MeshObject, the
+                // newly created MeshObject won't be written to disk otherwise
 
             } else if( currentChange instanceof MeshObjectPropertyChangeEvent ) {
                 theCache.putIgnorePrevious( affected.getIdentifier(), affected );
@@ -219,8 +220,8 @@ public abstract class AMeshBase
                 writtenAlready.add( affectedName );
 
             } else if( currentChange instanceof MeshObjectCreatedEvent ) {
-                // noop, the LifecycleManager already did this
-                // do not add to the writtenAlready, as there may have been changes to the MeshObject since.
+                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
+                writtenAlready.add( affectedName );
 
             } else if( currentChange instanceof MeshObjectBecameDeadStateEvent ) {
                 // noop, we catch this through MeshObjectLifecycleEvent.Deleted
