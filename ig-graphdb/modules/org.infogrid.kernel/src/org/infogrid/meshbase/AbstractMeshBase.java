@@ -1054,18 +1054,6 @@ public abstract class AbstractMeshBase
     }
 
     /**
-     * Tell the MeshBase that this AMeshObject needs to be saved into persistent
-     * storage (if applicable per AMeshBase implementation).
-     * 
-     * @param obj the AbstractMeshObject to be saved
-     */
-    public void flushMeshObject(
-            AbstractMeshObject obj )
-    {
-        theCache.putIgnorePrevious( obj.getIdentifier(), obj );
-    }
-
-    /**
      * Add a PropertyChangeListener to this MeshBase, without using a Reference.
      *
      * @param newListener the to-be-added PropertyChangeListener

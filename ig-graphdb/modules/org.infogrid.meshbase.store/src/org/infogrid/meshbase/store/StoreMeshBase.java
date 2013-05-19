@@ -8,28 +8,38 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.store;
 
+import java.util.HashMap;
+import java.util.Map;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
+import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
+import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AMeshBase;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
-import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
-import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
+import org.infogrid.meshbase.transaction.AbstractMeshObjectNeighborChangeEvent;
+import org.infogrid.meshbase.transaction.AbstractMeshObjectRoleChangeEvent;
+import org.infogrid.meshbase.transaction.AbstractMeshObjectTypeChangeEvent;
+import org.infogrid.meshbase.transaction.Change;
+import org.infogrid.meshbase.transaction.MeshObjectBecameDeadStateEvent;
+import org.infogrid.meshbase.transaction.MeshObjectCreatedEvent;
+import org.infogrid.meshbase.transaction.MeshObjectDeletedEvent;
+import org.infogrid.meshbase.transaction.MeshObjectPropertyChangeEvent;
+import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.store.Store;
 import org.infogrid.store.util.StoreBackedSwappingHashMap;
-import org.infogrid.util.CachingMap;
 import org.infogrid.util.context.Context;
 import org.infogrid.util.context.SimpleContext;
 import org.infogrid.util.logging.Log;
@@ -118,8 +128,8 @@ public class StoreMeshBase
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
         
-        StoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
-                = StoreBackedSwappingHashMap.createWeak( objectMapper, meshObjectStore );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
+                = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
         MeshObjectIdentifierFactory identifierFactory = DefaultAMeshObjectIdentifierFactory.create();
         AMeshBaseLifecycleManager   life              = AMeshBaseLifecycleManager.create();
@@ -167,8 +177,8 @@ public class StoreMeshBase
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
         
-        StoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
-                = StoreBackedSwappingHashMap.createWeak( objectMapper, meshObjectStore );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
+                = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
         AMeshBaseLifecycleManager life = AMeshBaseLifecycleManager.create();
 
@@ -204,14 +214,14 @@ public class StoreMeshBase
      * @param context the Context in which this MeshBase runs
      */
     protected StoreMeshBase(
-            MeshBaseIdentifier                          identifier,
-            MeshObjectIdentifierFactory                 identifierFactory,
-            MeshObjectSetFactory                        setFactory,
-            ModelBase                                   modelBase,
-            AMeshBaseLifecycleManager                   life,
-            AccessManager                               accessMgr,
-            CachingMap<MeshObjectIdentifier,MeshObject> cache,
-            Context                                     context )
+            MeshBaseIdentifier                                            identifier,
+            MeshObjectIdentifierFactory                                   identifierFactory,
+            MeshObjectSetFactory                                          setFactory,
+            ModelBase                                                     modelBase,
+            AMeshBaseLifecycleManager                                     life,
+            AccessManager                                                 accessMgr,
+            StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> cache,
+            Context                                                       context )
     {
         super( identifier, identifierFactory, setFactory, modelBase, life, accessMgr, cache, context );
     }
@@ -224,5 +234,89 @@ public class StoreMeshBase
     protected StoreBackedSwappingHashMap<MeshObjectIdentifier, MeshObject> getCachingMap()
     {
         return (StoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject>) theCache;
+    }
+    
+    /**
+     * Update the cache when Transactions are committed.
+     *
+     * @param tx Transaction the Transaction that was committed
+     */
+    @Override
+    protected void transactionCommittedHook(
+            Transaction tx )
+    {
+        super.transactionCommittedHook( tx );
+        
+        Map<MeshObjectIdentifier,MeshObject>                          toWrite = determineObjectsToWriteFromTransaction( tx );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> map     = (StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>) theCache;
+        
+        for( Map.Entry<MeshObjectIdentifier,MeshObject> current : toWrite.entrySet() ) {
+            if( current.getValue() != null ) {
+                map.saveValueToStorageUponCommit( current.getKey(), current.getValue() );
+            } else {
+                map.removeValueFromStorageUponCommit( current.getKey() );
+            }
+        }
+        map.transactionDone();
+    }
+    
+    /**
+     * Write changes made during a Transaction to the Store. This is factored out as a static, so NetStoreMeshBase can also
+     * use it without replicating code.
+     * 
+     * @param tx Transaction the Transaction that was committed
+     * @param map the storage for the MeshObjects
+     */
+    public static Map<MeshObjectIdentifier,MeshObject> determineObjectsToWriteFromTransaction(
+            Transaction tx )
+    {
+        Change [] theChanges = tx.getChangeSet().getChanges();
+
+        HashMap<MeshObjectIdentifier,MeshObject> ret = new HashMap<MeshObjectIdentifier,MeshObject>( theChanges.length );
+
+        // we go backwards, that way we don't forget to store MeshObjects that were deleted and recreated within the
+        // same Transaction
+        for( int i=theChanges.length-1 ; i>=0 ; --i ) {
+            
+            Change               currentChange = theChanges[i];
+            MeshObjectIdentifier affectedName  = currentChange.getAffectedMeshObjectIdentifier();
+
+            if( ret.containsKey( affectedName )) {
+                continue;
+            }
+            MeshObject affected = currentChange.getAffectedMeshObject();
+            if( affected == null ) {
+                log.error( "Cannot find affected MeshObject " + affectedName );
+
+            } else if( affected.getIsDead() ) {
+                // need to check for isDead first, otherwise we might update instead of delete, for example
+                ret.put( affectedName, null );
+
+            } else if( currentChange instanceof MeshObjectDeletedEvent ) {
+                ret.put( affectedName, null );
+
+            } else if( currentChange instanceof MeshObjectPropertyChangeEvent ) {
+                ret.put( affectedName, affected );
+
+            } else if( currentChange instanceof AbstractMeshObjectNeighborChangeEvent ) { // either Added or Removed
+                ret.put( affectedName, affected );
+
+            } else if( currentChange instanceof AbstractMeshObjectTypeChangeEvent ) { // either Added or Removed
+                ret.put( affectedName, affected );
+
+            } else if( currentChange instanceof AbstractMeshObjectRoleChangeEvent ) { // either Added or Removed
+                ret.put( affectedName, affected );
+
+            } else if( currentChange instanceof MeshObjectCreatedEvent ) {
+                ret.put( affectedName, affected );
+
+            } else if( currentChange instanceof MeshObjectBecameDeadStateEvent ) {
+                // noop, we catch this through MeshObjectLifecycleEvent.Deleted
+ 
+            } else {
+                log.error( "Unknown change: " + currentChange );
+            }
+        }
+        return ret;
     }
 }

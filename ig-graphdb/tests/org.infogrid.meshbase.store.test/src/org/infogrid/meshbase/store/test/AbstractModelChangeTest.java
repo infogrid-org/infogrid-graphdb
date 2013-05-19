@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -31,6 +31,7 @@ import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.meshbase.store.IterableStoreMeshBase;
 import org.infogrid.meshbase.store.StoreMeshBaseEntryMapper;
+import org.infogrid.meshbase.store.StoreMeshBaseSwappingHashMap;
 import org.infogrid.meshbase.transaction.TransactionAction;
 import org.infogrid.model.primitives.BooleanValue;
 import org.infogrid.model.primitives.EntityType;
@@ -226,8 +227,8 @@ public abstract class AbstractModelChangeTest
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
 
-        IterableStoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
-                = IterableStoreBackedSwappingHashMap.createWeak( objectMapper, meshObjectStore );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
+                = new StoreMeshBaseSwappingHashMap( objectMapper, meshObjectStore );
 
         MeshObjectIdentifierFactory identifierFactory = DefaultAMeshObjectIdentifierFactory.create();
         AMeshBaseLifecycleManager   life              = new AMeshBaseLifecycleManager() {
@@ -318,14 +319,14 @@ public abstract class AbstractModelChangeTest
                 IterableStoreMeshBase
     {
         public TestingStoreMeshBase(
-                MeshBaseIdentifier                                                  identifier,
-                MeshObjectIdentifierFactory                                         identifierFactory,
-                MeshObjectSetFactory                                                setFactory,
-                ModelBase                                                           modelBase,
-                AMeshBaseLifecycleManager                                           life,
-                AccessManager                                                       accessMgr,
-                IterableStoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> cache,
-                Context                                                             context )
+                MeshBaseIdentifier                                            identifier,
+                MeshObjectIdentifierFactory                                   identifierFactory,
+                MeshObjectSetFactory                                          setFactory,
+                ModelBase                                                     modelBase,
+                AMeshBaseLifecycleManager                                     life,
+                AccessManager                                                 accessMgr,
+                StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> cache,
+                Context                                                       context )
         {
             super( identifier, identifierFactory, setFactory, modelBase, life, accessMgr, cache, context );
         }

@@ -8,13 +8,12 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.a;
 
-import java.util.HashSet;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
@@ -27,15 +26,6 @@ import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectAccessException;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
-import org.infogrid.meshbase.transaction.AbstractMeshObjectNeighborChangeEvent;
-import org.infogrid.meshbase.transaction.AbstractMeshObjectRoleChangeEvent;
-import org.infogrid.meshbase.transaction.AbstractMeshObjectTypeChangeEvent;
-import org.infogrid.meshbase.transaction.Change;
-import org.infogrid.meshbase.transaction.MeshObjectBecameDeadStateEvent;
-import org.infogrid.meshbase.transaction.MeshObjectCreatedEvent;
-import org.infogrid.meshbase.transaction.MeshObjectDeletedEvent;
-import org.infogrid.meshbase.transaction.MeshObjectPropertyChangeEvent;
-import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.util.ArrayHelper;
@@ -163,72 +153,6 @@ public abstract class AMeshBase
                 ret = new MeshObject[0];
             }
             return theMeshObjectSetFactory.createImmutableMeshObjectSet( ret );
-        }
-    }
-
-
-    /**
-     * Update the cache when Transactions are committed.
-     *
-     * @param tx Transaction the Transaction that was committed
-     */
-    @Override
-    protected void transactionCommittedHook(
-            Transaction tx )
-    {
-        Change [] theChanges = tx.getChangeSet().getChanges();
-
-        HashSet<MeshObjectIdentifier> writtenAlready = new HashSet<MeshObjectIdentifier>( theChanges.length );
-            // this needs to be MeshObjectIdentifier, not MeshObject, otherwise things get swapped back
-
-        for( int i=0 ; i<theChanges.length ; ++i ) {
-            
-            Change               currentChange = theChanges[i];
-            MeshObjectIdentifier affectedName  = currentChange.getAffectedMeshObjectIdentifier();
-
-            if( writtenAlready.contains( affectedName )) {
-                continue;
-            }
-            MeshObject affected = currentChange.getAffectedMeshObject();
-            if( affected == null ) {
-                log.error( "Cannot find affected MeshObject " + affectedName );
-
-            } else if( affected.getIsDead() ) {
-                // need to check for isDead first, otherwise we might update instead of delete, for example
-                theCache.remove( affected.getIdentifier() );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof MeshObjectDeletedEvent ) {
-                theCache.remove( affected.getIdentifier() );
-                // do not add to writtenAlready: in a transaction that first deletes and then recreates this MeshObject, the
-                // newly created MeshObject won't be written to disk otherwise
-
-            } else if( currentChange instanceof MeshObjectPropertyChangeEvent ) {
-                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof AbstractMeshObjectNeighborChangeEvent ) { // either Added or Removed
-                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof AbstractMeshObjectTypeChangeEvent ) { // either Added or Removed
-                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof AbstractMeshObjectRoleChangeEvent ) { // either Added or Removed
-                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof MeshObjectCreatedEvent ) {
-                theCache.putIgnorePrevious( affected.getIdentifier(), affected );
-                writtenAlready.add( affectedName );
-
-            } else if( currentChange instanceof MeshObjectBecameDeadStateEvent ) {
-                // noop, we catch this through MeshObjectLifecycleEvent.Deleted
- 
-            } else {
-                log.error( "Unknown change: " + currentChange );
-            }
         }
     }
 

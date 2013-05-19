@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,21 +17,19 @@ package org.infogrid.meshbase.store;
 import java.io.IOException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
+import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
+import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.IterableMeshBase;
 import org.infogrid.meshbase.IterableMeshBaseDifferencer;
 import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
-import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
-import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.store.IterableStore;
-import org.infogrid.store.Store;
-import org.infogrid.store.util.IterableStoreBackedSwappingHashMap;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.context.Context;
 import org.infogrid.util.context.SimpleContext;
@@ -124,8 +122,8 @@ public class IterableStoreMeshBase
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
         
-        IterableStoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
-                = IterableStoreBackedSwappingHashMap.createWeak( objectMapper, meshObjectStore );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
+                = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
         MeshObjectIdentifierFactory identifierFactory = DefaultAMeshObjectIdentifierFactory.create();
         AMeshBaseLifecycleManager   life              = AMeshBaseLifecycleManager.create();
@@ -173,8 +171,8 @@ public class IterableStoreMeshBase
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
         
-        IterableStoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
-                = IterableStoreBackedSwappingHashMap.createWeak( objectMapper, meshObjectStore );
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
+                = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
         AMeshBaseLifecycleManager life = AMeshBaseLifecycleManager.create();
 
@@ -210,14 +208,14 @@ public class IterableStoreMeshBase
      * @param context the Context in which this MeshBase runs
      */
     protected IterableStoreMeshBase(
-            MeshBaseIdentifier                                                  identifier,
-            MeshObjectIdentifierFactory                                         identifierFactory,
-            MeshObjectSetFactory                                                setFactory,
-            ModelBase                                                           modelBase,
-            AMeshBaseLifecycleManager                                           life,
-            AccessManager                                                       accessMgr,
-            IterableStoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject> cache,
-            Context                                                             context )
+            MeshBaseIdentifier                                            identifier,
+            MeshObjectIdentifierFactory                                   identifierFactory,
+            MeshObjectSetFactory                                          setFactory,
+            ModelBase                                                     modelBase,
+            AMeshBaseLifecycleManager                                     life,
+            AccessManager                                                 accessMgr,
+            StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> cache,
+            Context                                                       context )
     {
         super( identifier, identifierFactory, setFactory, modelBase, life, accessMgr, cache, context );
     }

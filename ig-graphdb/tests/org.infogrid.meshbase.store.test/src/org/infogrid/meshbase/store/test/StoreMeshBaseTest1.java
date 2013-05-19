@@ -8,12 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.meshbase.store.test;
 
+import java.lang.ref.WeakReference;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.meshbase.MeshBaseLifecycleManager;
@@ -23,8 +24,6 @@ import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.util.logging.Log;
-
-import java.lang.ref.WeakReference;
 
 /**
  * Test that we do the right number of writes and reads.
@@ -38,6 +37,7 @@ public class StoreMeshBaseTest1
      *
      * @throws Exception thrown if an Exception occurred during the test
      */
+    @Override
     public void run()
         throws
             Exception
@@ -85,9 +85,8 @@ public class StoreMeshBaseTest1
         MeshObject []           mesh  = new MeshObject[ theTestSize ];
         MeshObjectIdentifier [] names = new MeshObjectIdentifier[ theTestSize ];
         
-        WeakReference [] refs = new WeakReference[ theTestSize ];
+        WeakReference [] refs = new WeakReference<?>[ theTestSize ];
         
-        int updateCount = 0;
         for( int i=0 ; i<mesh.length ; ++i ) {
             mesh[i]  = life.createMeshObject();
             names[i] = mesh[i].getIdentifier();
@@ -95,11 +94,9 @@ public class StoreMeshBaseTest1
             
             if( i % 3 == 1 ) {
                 mesh[i].bless( typeAA );
-                ++updateCount;
             } else if( i % 3 == 2 ) {
                 mesh[i].bless( typeAA );
                 mesh[i].setPropertyValue( ptX, StringValue.create( "Testing ... " + i ));
-                ++updateCount;
             }
         }
 
@@ -107,7 +104,7 @@ public class StoreMeshBaseTest1
         tx = null;
 
         checkEquals( listener.thePuts.size(),       theTestSize, "Wrong number of puts" );
-        checkEquals( listener.theUpdates.size(),    updateCount, "Wrong number of updates" );
+        checkEquals( listener.theUpdates.size(),    0,           "Wrong number of updates" );
         checkEquals( listener.theGets.size(),       0,           "Wrong number of gets" );
         checkEquals( listener.theFailedGets.size(), theTestSize, "Wrong number of failedGets" );
         checkEquals( listener.theDeletes.size(),    0,           "Wrong number of deletes" );
