@@ -129,7 +129,8 @@ public class StoreMeshBaseSwappingHashMap<K,V>
         if( log.isTraceEnabled() ) {
             log.traceMethodCallEntry( this, "removeValueFromStorage", key );
         }
-        
+
+        theDelegate.remove( key );
         theRemoved.add( key );
     }
     

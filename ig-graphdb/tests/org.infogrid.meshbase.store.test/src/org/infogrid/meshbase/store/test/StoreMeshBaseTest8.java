@@ -128,7 +128,7 @@ public class StoreMeshBaseTest8
     public static void main(
             String [] args )
     {
-        StoreMeshBaseTest1 test = null;
+        StoreMeshBaseTest8 test = null;
         try {
             if( args.length < 1 ) {
                 System.err.println( "Synopsis: <test size>" );
@@ -136,7 +136,7 @@ public class StoreMeshBaseTest8
                 System.exit( 1 );
             }
 
-            test = new StoreMeshBaseTest1( args );
+            test = new StoreMeshBaseTest8( args );
             test.run();
 
         } catch( Throwable ex ) {
