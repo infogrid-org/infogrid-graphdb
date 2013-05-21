@@ -251,6 +251,9 @@ public abstract class AbstractMeshObjectNeighborChangeEvent
         MeshObject [] ret = new MeshObject[ vid.length ];
         for( int i=0 ; i<ret.length ; ++i ) {
             ret[i] = theResolver.findMeshObjectByIdentifier( vid[i] );
+            if( ret[i] == null ) {
+                throw new NullPointerException( "Member " + i + " in array cannot be resolved: " + ArrayHelper.arrayToString( vid ));
+            }
         }
         return ret;
     }
