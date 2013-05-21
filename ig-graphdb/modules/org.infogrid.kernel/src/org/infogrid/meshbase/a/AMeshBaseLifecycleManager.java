@@ -246,15 +246,19 @@ public class AMeshBaseLifecycleManager
             ((AMeshObject)theObjects[i]).checkPermittedDelete(); // this may throw NotPermittedException
         }
         for( int i=0 ; i<theObjects.length ; ++i ) {
-            AMeshObject          current           = (AMeshObject) theObjects[i];
-            MeshObjectIdentifier currentIdentifier = current.getIdentifier();
-            
-            ExternalizedMeshObject currentExternalized = current.asExternalized();
-            
-            current.delete();
-            removeFromMeshBase(
-                    current.getIdentifier(),
-                    createDeletedEvent( current, currentIdentifier, currentExternalized, now ));
+            AMeshObject current = (AMeshObject) theObjects[i];
+            if( !current.getIsDead() ) {
+                // this may be a loop, or this object was deleted already as part of a cascading delete performed
+                // earlier in theObjects
+                MeshObjectIdentifier currentIdentifier = current.getIdentifier();
+
+                ExternalizedMeshObject currentExternalized = current.asExternalized();
+
+                current.delete();
+                removeFromMeshBase(
+                        current.getIdentifier(),
+                        createDeletedEvent( current, currentIdentifier, currentExternalized, now ));
+            }
         }
     }
 
