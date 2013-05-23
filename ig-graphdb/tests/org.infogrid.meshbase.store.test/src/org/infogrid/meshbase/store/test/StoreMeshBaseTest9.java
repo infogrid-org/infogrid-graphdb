@@ -193,8 +193,6 @@ public class StoreMeshBaseTest9
         two = null;
         mb.clearMemoryCache();
         collectGarbage();
-        
-        Thread.sleep( 1000000L );
     }
 
     /**
