@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -152,32 +152,32 @@ public abstract class Transaction
         iter.moveToAfterLast();
         while( iter.hasPrevious() ) {
             Change current  = iter.previous();
-            Change inverted = current.inverse();
+            try {
+                Change inverted = current.inverse();
 
-            if( inverted != null ) {
-                try {
+                if( inverted != null ) {
                     inverted.applyTo( theTransactable );
+                } else {
+                    log.error( "Could not invert change", current );
+                }
+                
+            } catch( CannotApplyChangeException ex ) {
+                Throwable cause = ex.getCause();
 
-                } catch( CannotApplyChangeException ex ) {
-                    Throwable cause = ex.getCause();
-
-                    if(    !( cause instanceof PropertyReadOnlyException )
-                        && !( cause instanceof IllegalPropertyValueException )
-                        && !( cause instanceof NotRelatedException )
-                        && !( cause instanceof RoleTypeNotBlessedException )
-                        && !( cause instanceof RelatedAlreadyException )
-                        && !( cause instanceof RoleTypeBlessedAlreadyException ))
-                    {
-                        log.error( ex );
-                        // that's the best we can do
-                    }
-
-                } catch( TransactionException ex ) {
+                if(    !( cause instanceof PropertyReadOnlyException )
+                    && !( cause instanceof IllegalPropertyValueException )
+                    && !( cause instanceof NotRelatedException )
+                    && !( cause instanceof RoleTypeNotBlessedException )
+                    && !( cause instanceof RelatedAlreadyException )
+                    && !( cause instanceof RoleTypeBlessedAlreadyException ))
+                {
                     log.error( ex );
                     // that's the best we can do
                 }
-            } else {
-                log.error( "Could not invert change", current );
+
+            } catch( TransactionException ex ) {
+                log.error( ex );
+                // that's the best we can do
             }
         }
 

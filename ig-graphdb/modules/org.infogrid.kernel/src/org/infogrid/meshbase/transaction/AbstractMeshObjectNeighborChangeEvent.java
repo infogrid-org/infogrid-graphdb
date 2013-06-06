@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -252,7 +252,7 @@ public abstract class AbstractMeshObjectNeighborChangeEvent
         for( int i=0 ; i<ret.length ; ++i ) {
             ret[i] = theResolver.findMeshObjectByIdentifier( vid[i] );
             if( ret[i] == null ) {
-                throw new NullPointerException( "Member " + i + " in array cannot be resolved: " + ArrayHelper.arrayToString( vid ));
+                throw new NullPointerException( "Member " + i + " in array cannot be resolved: " + ArrayHelper.arrayToString( vid, ", " ));
             }
         }
         return ret;

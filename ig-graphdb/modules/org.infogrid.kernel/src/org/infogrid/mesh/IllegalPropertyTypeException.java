@@ -21,6 +21,7 @@ import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.MeshTypeUtils;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
+import org.infogrid.util.IsDeadException;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 
@@ -135,14 +136,19 @@ public class IllegalPropertyTypeException
      */
     public Object [] getLocalizationParameters()
     {
-        EntityType []         types   = theMeshObject.getTypes();
-        MeshTypeIdentifier [] typeIds = new MeshTypeIdentifier[ types.length ];
-        
-        for( int i=0 ; i<types.length ; ++i ) {
-            typeIds[i] = types[i].getIdentifier();
+        try {
+            EntityType []         types   = theMeshObject.getTypes();
+            MeshTypeIdentifier [] typeIds = new MeshTypeIdentifier[ types.length ];
+
+            for( int i=0 ; i<types.length ; ++i ) {
+                typeIds[i] = types[i].getIdentifier();
+            }
+
+            return new Object[] { theMeshObjectIdentifier, thePropertyTypeIdentifier, typeIds };
+
+        } catch( IsDeadException ex ) {
+            return new Object[] { theMeshObjectIdentifier, thePropertyTypeIdentifier, new String[] { "<unknown, MeshObject is dead>" }};
         }
-        
-        return new Object[] { theMeshObjectIdentifier, thePropertyTypeIdentifier, typeIds };
     }
 
     /**
