@@ -1,0 +1,6 @@
+*~
+private/
+build/
+dist/
+genfiles.properties
+private.properties
