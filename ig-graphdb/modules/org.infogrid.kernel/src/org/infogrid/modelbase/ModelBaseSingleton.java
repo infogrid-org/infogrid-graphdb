@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -22,6 +22,7 @@ import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.model.primitives.UnknownEnumeratedValueException;
 import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
 import org.infogrid.modelbase.m.MModelBase;
@@ -73,9 +74,36 @@ public abstract class ModelBaseSingleton
      * @throws UnknownEnumeratedValueException thrown if an invalid EnumeratedValue was specified
      */
     public static SubjectArea [] loadModel(
-            String      xmlResource,
-            InputStream stream,
-            ClassLoader classLoader )
+            String         xmlResource,
+            InputStream    stream,
+            ClassLoader    classLoader )
+        throws
+            MeshTypeNotFoundException,
+            InheritanceConflictException,
+            IOException,
+            UnknownEnumeratedValueException
+    {
+        return loadModel( xmlResource, stream, classLoader, null );
+    }
+    
+    /**
+     * Load a model from this stream.
+     *
+     * @param xmlResource the name of the XML resource, for error messages
+     * @param stream the InputStream from which to load
+     * @param classLoader the ClassLoader to use
+     * @param now the time the current run was started
+     * @return the SubjectAreas that were loaded
+     * @throws MeshTypeNotFoundException thrown if a required MeshType was not found (e.g. when a subtype was looking for its non-existing supertype)
+     * @throws InheritanceConflictException thrown if the specified PropertyType overriding was inconsistent with the model
+     * @throws IOException thrown if an I/O error occurred during reading
+     * @throws UnknownEnumeratedValueException thrown if an invalid EnumeratedValue was specified
+     */
+    public static SubjectArea [] loadModel(
+            String         xmlResource,
+            InputStream    stream,
+            ClassLoader    classLoader,
+            TimeStampValue now )
         throws
             MeshTypeNotFoundException,
             InheritanceConflictException,
@@ -85,6 +113,9 @@ public abstract class ModelBaseSingleton
         if( theSingleton == null ) {
             throw new IllegalStateException( "no singleton ModelBase has been set" );
         }
+        if( now == null ) {
+            now = TimeStampValue.now();
+        }
 
         ModelLoader theLoader = new XmlModelLoader(
                             theSingleton,
@@ -92,7 +123,7 @@ public abstract class ModelBaseSingleton
                             classLoader, // FIXME?
                             classLoader,
                             xmlResource + ": " );
-        SubjectArea [] ret = theLoader.loadAndCheckModel( theSingleton.getMeshTypeLifecycleManager() );
+        SubjectArea [] ret = theLoader.loadAndCheckModel( theSingleton.getMeshTypeLifecycleManager(), now );
         return ret;
     }
 

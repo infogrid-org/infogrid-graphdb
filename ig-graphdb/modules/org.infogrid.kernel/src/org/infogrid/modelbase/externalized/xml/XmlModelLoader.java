@@ -20,6 +20,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.modelbase.InheritanceConflictException;
 import org.infogrid.modelbase.MeshTypeLifecycleManager;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
@@ -71,13 +72,15 @@ public class XmlModelLoader
      * model through the passed-in MeshTypeLifecycleManager.
      *
      * @param theInstantiator the MeshTypeLifecycleManager to use to instantiate the model
+     * @param now the time the current run was started
      * @return the instantiated SubjectAreas
      * @throws MeshTypeNotFoundException thrown if a referenced MeshType could not be resolved
      * @throws InheritanceConflictException thrown if there is a conflict in the inheritance hierarchy
      * @throws IOException thrown if an I/O error occurred
      */
     public SubjectArea [] loadModel(
-            MeshTypeLifecycleManager theInstantiator )
+            MeshTypeLifecycleManager theInstantiator,
+            TimeStampValue           now )
         throws
             MeshTypeNotFoundException,
             InheritanceConflictException,
@@ -103,7 +106,7 @@ public class XmlModelLoader
                     theParser = fact.newSAXParser();
                 }
 
-                theHandler = new MyHandler( theInstantiator, theModelBase, theCatalogClassLoader, theErrorPrefix );
+                theHandler = new MyHandler( theInstantiator, theModelBase, theCatalogClassLoader, theErrorPrefix, now );
                 theParser.parse( theStream, theHandler );
                 SubjectArea [] ret = theHandler.instantiateExternalizedObjects( theCodeClassLoader );
 

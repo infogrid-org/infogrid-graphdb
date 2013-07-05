@@ -8,22 +8,22 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase;
 
+import java.io.IOException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyTypeGroup;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.SubjectArea;
-import org.infogrid.util.logging.Log;
-
-import java.io.IOException;
+import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.model.primitives.UnknownEnumeratedValueException;
+import org.infogrid.util.logging.Log;
 
 /**
  * <p>An abstract supertype for classes that know how to load
@@ -50,6 +50,7 @@ public abstract class ModelLoader
      * Instruct this ModelLoader to instantiate and check its model.
      *
      * @param theInstantiator the MeshTypeLifecycleManager whose methods shall be used to instantiate
+     * @param now the time the current run was started
      * @return the SubjectAreas that were instantiated
      * @throws MeshTypeNotFoundException thrown if there was an undeclared dependency in the model
      *         that could not be resolved
@@ -59,7 +60,8 @@ public abstract class ModelLoader
      * @throws UnknownEnumeratedValueException thrown if an invalid EnumeratedValue was specified
      */
     public final SubjectArea [] loadAndCheckModel(
-            MeshTypeLifecycleManager theInstantiator )
+            MeshTypeLifecycleManager theInstantiator,
+            TimeStampValue           now )
         throws
             MeshTypeNotFoundException,
             InheritanceConflictException,
@@ -68,7 +70,7 @@ public abstract class ModelLoader
     {
         LoaderMeshTypeLifecycleManager delegate = new LoaderMeshTypeLifecycleManager( theInstantiator );
 
-        SubjectArea [] ret = loadModel( delegate );
+        SubjectArea [] ret = loadModel( delegate, now );
 
         MeshType [] inst = delegate.getInstantiated();
         for( int i=0 ; i<inst.length ; ++i ) {
@@ -93,6 +95,7 @@ public abstract class ModelLoader
      * Instruct this ModelLoader to instantiate its model.
      *
      * @param theInstantiator the MeshTypeLifecycleManager whose method shall be used to instantiate
+     * @param now the time the current run was started
      * @return the SubjectAreas that were instantiated
      * @throws MeshTypeNotFoundException thrown if there was an undeclared dependency in the model that could not be resolved
      * @throws InheritanceConflictException thrown if there was a conflict in the inheritance hierarchy
@@ -101,7 +104,8 @@ public abstract class ModelLoader
      * @throws UnknownEnumeratedValueException thrown if an invalid EnumeratedValue was specified
      */
     protected abstract SubjectArea [] loadModel(
-            MeshTypeLifecycleManager theInstantiator )
+            MeshTypeLifecycleManager theInstantiator,
+            TimeStampValue           now )
         throws
             MeshTypeNotFoundException,
             InheritanceConflictException,

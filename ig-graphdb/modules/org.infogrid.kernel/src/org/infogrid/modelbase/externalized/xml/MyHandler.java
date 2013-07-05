@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -113,17 +113,20 @@ public class MyHandler
       * @param modelBase the ModelBase into which to instantiate the memodel
       * @param catalogClassLoader the ClassLoader for the XML catalog
       * @param errorPrefix a prefix for error messages
+      * @param now the time the current run was started
       */
     public MyHandler(
             MeshTypeLifecycleManager inst,
             ModelBase                modelBase,
             ClassLoader              catalogClassLoader,
-            String                   errorPrefix )
+            String                   errorPrefix,
+            TimeStampValue           now )
     {
         theInstantiator       = inst;
         theModelBase          = modelBase;
         theCatalogClassLoader = catalogClassLoader;
         theErrorPrefix        = errorPrefix;
+        theNow                = now;
     }
 
     /**
@@ -899,7 +902,7 @@ public class MyHandler
                         if( theAttributes.getValue( XmlModelTokens.CODE_KEYWORD ) != null ) {
                             thePropertyType.setDefaultValueCode( StringValue.create( theCharacters != null ? theCharacters.toString() : "" ));
                         } else {
-                            thePropertyType.setDefaultValue( constructDefaultValue( theCharacters != null ? theCharacters.toString() : "", thePropertyType ));
+                            thePropertyType.setDefaultValue( constructDefaultValue( theCharacters != null ? theCharacters.toString() : "", thePropertyType, theNow ));
                         }
                     } else if( temp instanceof ExternalizedRegex ) {
                         theRegex = (ExternalizedRegex) temp;
@@ -1256,11 +1259,13 @@ public class MyHandler
       *
       * @param raw the String
       * @param pt the ExternalizedPropertyType
+      * @param now the time when the run was started
       * @return the created PropertyValue
       */
     protected PropertyValue constructDefaultValue(
             String                   raw,
-            ExternalizedPropertyType pt )
+            ExternalizedPropertyType pt,
+            TimeStampValue           now )
     {
         PropertyValue ret;
         DataType      type = pt.getDataType();
@@ -1392,6 +1397,9 @@ public class MyHandler
             }
 
         } else if( type instanceof TimeStampDataType ) {
+            if( "NOW".equalsIgnoreCase( raw )) {
+                return now;
+            }
             try {
                 ret = TimeStampValue.createFromRfc3339( raw );
                 
@@ -2398,4 +2406,9 @@ public class MyHandler
      * The set of SubjectAreas that we have parsed and found.
      */
     protected ArrayList<ExternalizedSubjectArea> theSubjectAreas = new ArrayList<ExternalizedSubjectArea>();
+    
+    /**
+     * The time the current run was started.
+     */
+    protected TimeStampValue theNow;
 }

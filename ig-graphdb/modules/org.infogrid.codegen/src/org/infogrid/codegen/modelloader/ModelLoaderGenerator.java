@@ -238,13 +238,15 @@ public class ModelLoaderGenerator
         outStream.println( "     * Instruct this object to instantiate its model." );
         outStream.println( "     *" );
         outStream.println( "     * @param theInstantiator the MeshTypeLifecycleManager which shall be used to instantiate" );
+        outStream.println( "     * @param now time the run was started" );
         outStream.println( "     * @return the instantiated SubjectArea(s)" );
         outStream.println( "     * @throws MeshTypeNotFoundException thrown if there was an undeclared dependency in the model that could not be resolved" );
         outStream.println( "     * @throws InheritanceConflictException thrown if there was a conflict in the inheritance hierarchy of the newly loaded model" );
         outStream.println( "     * @throws IOException thrown if reading the model failed" );
         outStream.println( "     */" );
         outStream.println( "    protected SubjectArea [] loadModel(" );
-        outStream.println( "            MeshTypeLifecycleManager theInstantiator )" );
+        outStream.println( "            MeshTypeLifecycleManager theInstantiator," );
+        outStream.println( "            TimeStampValue           now )" );
         outStream.println( "        throws" );
         outStream.println( "            MeshTypeNotFoundException," );
         outStream.println( "            InheritanceConflictException," );

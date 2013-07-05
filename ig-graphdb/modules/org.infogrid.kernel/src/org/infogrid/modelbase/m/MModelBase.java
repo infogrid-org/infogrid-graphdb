@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -31,6 +31,7 @@ import org.infogrid.model.primitives.PropertyTypeOrGroup;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.RoleType;
 import org.infogrid.model.primitives.SubjectArea;
+import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.modelbase.AttributableMeshTypeNotFoundException;
 import org.infogrid.modelbase.EntityTypeNotFoundException;
 import org.infogrid.modelbase.MeshTypeLifecycleEventListener;
@@ -695,7 +696,7 @@ public class MModelBase
                             cl, // FIXME?
                             cl,
                             realPath + ": " );
-        SubjectArea [] ret = theLoader.loadAndCheckModel( getMeshTypeLifecycleManager() );
+        SubjectArea [] ret = theLoader.loadAndCheckModel( getMeshTypeLifecycleManager(), TimeStampValue.now() );
         return ret[0];
     }
 
