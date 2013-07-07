@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -16,10 +16,10 @@ package org.infogrid.meshbase;
 
 import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.EntityBlessedAlreadyException;
-import org.infogrid.mesh.MeshObjectIdentifierNotUniqueException;
 import org.infogrid.mesh.IsAbstractException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
+import org.infogrid.mesh.MeshObjectIdentifierNotUniqueException;
 import org.infogrid.mesh.NotPermittedException;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
 import org.infogrid.mesh.externalized.ParserFriendlyExternalizedMeshObject;
@@ -71,6 +71,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * 
      * @return the MeshBase that this MMeshBaseLifecycleManagerworks on
      */
+    @Override
     public MeshBase getMeshBase()
     {
         return theMeshBase;
@@ -91,6 +92,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             EntityType type )
         throws
@@ -125,6 +127,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             EntityType [] types )
         throws
@@ -161,6 +164,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             MeshObjectIdentifier identifier )
         throws
@@ -198,6 +202,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             MeshObjectIdentifier identifier,
             EntityType           type )
@@ -237,6 +242,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             MeshObjectIdentifier identifier,
             EntityType []        types )
@@ -281,6 +287,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             MeshObjectIdentifier identifier,
             EntityType     type,
@@ -330,6 +337,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public MeshObject createMeshObject(
             MeshObjectIdentifier identifier,
             EntityType []  types,
@@ -369,6 +377,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void deleteMeshObject(
             MeshObject theObject )
         throws
@@ -386,6 +395,7 @@ public abstract class AbstractMeshBaseLifecycleManager
      * 
      * @return the ParserFriendlyExternalizedMeshObject.
      */
+    @Override
     public ParserFriendlyExternalizedMeshObject createParserFriendlyExternalizedMeshObject()
     {
         return new ParserFriendlyExternalizedMeshObject();

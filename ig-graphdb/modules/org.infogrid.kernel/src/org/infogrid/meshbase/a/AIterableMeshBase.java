@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -66,6 +66,7 @@ public abstract class AIterableMeshBase
      *
      * @return the iterator
      */
+    @Override
     public final CursorIterator<MeshObject> getIterator()
     {
         return iterator();
@@ -77,6 +78,7 @@ public abstract class AIterableMeshBase
      *
      * @return the IterableMeshBaseDifferencer
      */
+    @Override
     public IterableMeshBaseDifferencer getDifferencer()
     {
         return new IterableMeshBaseDifferencer( this );

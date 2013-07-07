@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -76,6 +76,7 @@ public class MPropertyType
       * @return the value of the DataType property
       * @see #setDataType
       */
+    @Override
     public final DataType getDataType()
     {
         return theDataType;
@@ -99,6 +100,7 @@ public class MPropertyType
      * @return the value of the DefaultValue property
      * @see #setDefaultValue
      */
+    @Override
     public final PropertyValue getDefaultValue()
     {
         return theDefaultValue;
@@ -123,6 +125,7 @@ public class MPropertyType
      * @return the programming language code that determines the default value for this PropertyType.
      * @see #setDefaultValueCode
      */
+    @Override
     public final StringValue getDefaultValueCode()
     {
         return theDefaultValueCode;
@@ -146,6 +149,7 @@ public class MPropertyType
       * @return the value of the IsOptional property
       * @see #setIsOptional
       */
+    @Override
     public final BooleanValue getIsOptional()
     {
         return theIsOptional;
@@ -169,6 +173,7 @@ public class MPropertyType
      * @return the value of the IsReadOnly property
      * @see #setIsReadOnly
      */
+    @Override
     public final BooleanValue getIsReadOnly()
     {
         return this.theIsReadOnly;
@@ -192,6 +197,7 @@ public class MPropertyType
      * @return the PropertyTypes that this PropertyType overrides
      * @see #setOverride
      */
+    @Override
     public final PropertyType [] getOverride()
     {
         return theOverride;
@@ -208,6 +214,7 @@ public class MPropertyType
      *
      * @return the ancestor of the overriding hierarchy
      */
+    @Override
     public final PropertyType getOverrideAncestor()
     {
         if( theOverride.length == 0 ) {
@@ -223,6 +230,7 @@ public class MPropertyType
      * @param other the PropertyType to test against
      * @return true if this PropertyType overrides the passed-in PropertyType
      */
+    @Override
     public final boolean overrides(
             PropertyType other )
     {
@@ -249,6 +257,7 @@ public class MPropertyType
      * @param other the PropertyType to test against
      * @return true if this PropertyType is the same as, or overrides the passed-in PropertyType
      */
+    @Override
     public final boolean equalsOrOverrides(
             PropertyType other )
     {
@@ -263,6 +272,7 @@ public class MPropertyType
      *
      * @return the set of PropertyTypeGuards locally defined on this PropertyType
      */
+    @Override
     public synchronized PropertyTypeGuard [] getLocalPropertyTypeGuards()
     {
         if( theLocalPropertyTypeGuards == null ) {
@@ -293,6 +303,7 @@ public class MPropertyType
      *
      * @return the set of applicable PropertyTypeGuards
      */
+    @Override
     public synchronized PropertyTypeGuard [] getAllPropertyTypeGuards()
     {
         if( theAllPropertyTypeGuards == null ) {
@@ -345,6 +356,7 @@ public class MPropertyType
      *
      * @return the class names of the set of PropertyTypeGuards defined locally on this PropertyType
      */
+    @Override
     public String [] getLocalPropertyTypeGuardClassNames()
     {
         return theLocalPropertyTypeGuardClassNames;
@@ -371,6 +383,7 @@ public class MPropertyType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedSetProperty(
             MeshObject    subject,
             PropertyValue newValue,
@@ -392,6 +405,7 @@ public class MPropertyType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedGetProperty(
             MeshObject    subject,
             MeshObject    caller )
@@ -414,6 +428,7 @@ public class MPropertyType
      * @return the PropertyValue
      * @throws PropertyValueParsingException thrown if the String representation could not be parsed successfully
      */
+    @Override
     public PropertyValue fromStringRepresentation(
             StringRepresentation           representation,
             StringRepresentationParameters pars,
@@ -430,29 +445,16 @@ public class MPropertyType
      *
      * @param d the Dumper to dump to
      */
+    @Override
     public void dump(
             Dumper d )
     {
         d.dump( this,
                 new String[] {
-                    "theIdentifier",
-//                    "theName",
-//                    "theDataType",
-//                    "theDefaultValue",
-//                    "theAmo",
-//                    "theOverride",
-//                    "theIsOptional",
-//                    "theIsReadOnly"
+                    "theIdentifier"
                 },
                 new Object[] {
-                    getIdentifier(),
-//                    getName(),
-//                    theDataType,
-//                    theDefaultValue,
-//                    getAttributableMeshType(),
-//                    theOverride,
-//                    theIsOptional,
-//                    theIsReadOnly
+                    getIdentifier()
                 });
     }
 

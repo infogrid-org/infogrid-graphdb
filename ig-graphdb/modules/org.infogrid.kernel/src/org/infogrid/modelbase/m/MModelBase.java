@@ -194,6 +194,7 @@ public class MModelBase
      *
      * @return the MeshTypeIdentifierFactory
      */
+    @Override
     public MMeshTypeIdentifierFactory getMeshTypeIdentifierFactory()
     {
         return theMeshTypeIdentifierFactory;
@@ -205,6 +206,7 @@ public class MModelBase
       *
       * @return the MeshTypeLifecycleManager for this ModelBase
       */
+    @Override
     public MeshTypeLifecycleManager getMeshTypeLifecycleManager()
     {
         return theLifecycleManager;
@@ -216,6 +218,7 @@ public class MModelBase
      *
      * @return the ModuleRegistry
      */
+    @Override
     public ModuleRegistry getModuleRegistry()
     {
         return theModuleRegistry;
@@ -226,6 +229,7 @@ public class MModelBase
       *
       * @return the iterator
       */
+    @Override
     public Iterator<MeshType> iterator()
     {
         return theCluster.iterator();
@@ -236,6 +240,7 @@ public class MModelBase
       *
       * @return the iterator
       */
+    @Override
     public Iterator<SubjectArea> subjectAreaIterator()
     {
         return theCluster.subjectAreaIterator();
@@ -248,6 +253,7 @@ public class MModelBase
       * @param newListener the listener to be added
       * @see #removeMeshTypeLifecycleEventListener
       */
+    @Override
     public void addMeshTypeLifecycleEventListener(
             MeshTypeLifecycleEventListener newListener )
     {
@@ -261,6 +267,7 @@ public class MModelBase
       * @param oldListener the listener to be removed
       * @see #removeMeshTypeLifecycleEventListener
       */
+    @Override
     public void removeMeshTypeLifecycleEventListener(
             MeshTypeLifecycleEventListener oldListener )
     {
@@ -275,6 +282,7 @@ public class MModelBase
       * @return the found SubjectArea
       * @throws SubjectAreaNotFoundException thrown if the SubjectArea cannot be found
       */
+    @Override
     public SubjectArea findSubjectArea(
             String subjectAreaName,
             String subjectAreaVersionNumber )
@@ -318,6 +326,7 @@ public class MModelBase
       * @return the found EntityType
       * @throws EntityTypeNotFoundException thrown if the EntityType cannot be found
       */
+    @Override
     public EntityType findEntityType(
             SubjectArea theSubjectArea,
             String      theEntityTypeName )
@@ -349,6 +358,7 @@ public class MModelBase
       * @return the found EntityType
       * @throws MeshTypeNotFoundException thrown if the EntityType cannot be found
       */
+    @Override
     public EntityType findEntityType(
             String subjectAreaName,
             String subjectAreaVersionNumber,
@@ -371,6 +381,7 @@ public class MModelBase
       * @return the found RelationshipType
       * @throws RelationshipTypeNotFoundException thrown if the RelationshipType cannot be found
       */
+    @Override
     public RelationshipType findRelationshipType(
             SubjectArea theSubjectArea,
             String      theRelationshipTypeName )
@@ -403,6 +414,7 @@ public class MModelBase
       * @return the found RelationshipType
       * @throws MeshTypeNotFoundException thrown if the RelationshipType cannot be found
       */
+    @Override
     public RelationshipType findRelationshipType(
             String subjectAreaName,
             String subjectAreaVersionNumber,
@@ -425,6 +437,7 @@ public class MModelBase
       * @return the found PropertyType
       * @throws PropertyTypeNotFoundException thrown if the PropertyType cannot be found
       */
+    @Override
     public PropertyType findPropertyType(
             AttributableMeshType theAttributableMeshType,
             String               thePropertyTypeName )
@@ -454,6 +467,7 @@ public class MModelBase
       * @return the found PropertyType
       * @throws MeshTypeNotFoundException thrown if the PropertyType cannot be found
       */
+    @Override
     public PropertyType findPropertyType(
             String subjectAreaName,
             String subjectAreaVersionNumber,
@@ -480,6 +494,7 @@ public class MModelBase
      * @return the found MeshType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if the MeshType could not be found
      */
+    @Override
     public MeshType findMeshTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -495,6 +510,7 @@ public class MModelBase
      * @param identifier Identifier of the to-be-found MeshType
      * @return the found MeshType, or null if not found
      */
+    @Override
     public MeshType findLoadedMeshTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -733,70 +749,6 @@ public class MModelBase
         return theCluster.findSubjectArea( saName, saVersion );
     }
 
-//    /**
-//     * This is a convenience method that can be invoked from our ModuleRegistry.
-//     * It instructs this ModelBase to load the model contained in the passed-in ModelModule.
-//     * It first checks for a ModelLoader class file that can instantiate the SubjectArea; if not
-//     * found, it falls back to reading and parsing the XML file.
-//     *
-//     * @param theModule the ModelModule from which we load a model
-//     * @throws IOException thrown if the ModelModule could not be read or parsed
-//     * @throws ModuleException thrown if a dependent ModelModule could not be loaded
-//     */
-//    public void loadModelModule(
-//            ModelModule theModule )
-//        throws
-//            IOException,
-//            ModuleException
-//    {
-//        ModelLoader theLoader   = null;
-//        Class       loaderClass = theModule.getLoaderClass();
-//
-//        if( loaderClass != null ) {
-//            // this seems to work, so far
-//            try {
-//                Constructor loaderConstructor = loaderClass.getDeclaredConstructor( new Class[] {
-//                        ModelBase.class,
-//                        ClassLoader.class
-//                } );
-//                theLoader = (ModelLoader) loaderConstructor.newInstance( new Object[] {
-//                        this,
-//                        theModule.getClassLoader()
-//                } );
-//            } catch( NoSuchMethodException ex ) {
-//                // The implementor screwed up
-//                log.warn( "The ModelLoader class in Module " + theModule.getModuleName() + ", version " + theModule.getModuleVersion() + " has an incorrect constructor" );
-//            } catch( InstantiationException ex ) {
-//                // The implementor screwed up
-//                log.warn( "ModelLoader class in Module " + theModule.getModuleName() + ", version " + theModule.getModuleVersion() + " is abstract or an interface", ex );
-//            } catch( InvocationTargetException ex ) {
-//                // The implementor screwed up
-//                log.warn( "Constructor of the ModelLoader class in Module " + theModule.getModuleName() + ", version " + theModule.getModuleVersion() + " failed", ex );
-//            } catch( IllegalAccessException ex ) {
-//                // The implementor screwed up
-//                log.warn( "Constructor of the ModelLoader class in Module " + theModule.getModuleName() + ", version " + theModule.getModuleVersion() + " cannot be accessed", ex );
-//            }
-//        }
-//        if( theLoader == null ) {
-//            InputStream theStream = theModule.modelXmlStream();
-//            if( theStream != null ) {
-//                // this seems to work
-//                theLoader = new XmlModelLoader(
-//                        this,
-//                        theStream,
-//                        getClass().getClassLoader(),
-//                        theModule.getClassLoader(),
-//                        theModule.getModuleName() + ", version " + theModule.getModuleVersion() + ": " );
-//            }
-//        }
-//
-//        if( theLoader != null ) {
-//            theLoader.loadAndCheckModel( getMeshTypeLifecycleManager() );
-//        } else {
-//            throw new IOException( "Could not find a ModelLoader or a Model XML file in Module " + theModule );
-//        }
-//    }
-
     /**
      * Find a SubjectArea by its unique identifier.
      * 
@@ -804,6 +756,7 @@ public class MModelBase
      * @return the found SubjectArea, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a SubjectArea with this Identifier cannot be found
      */
+    @Override
     public SubjectArea findSubjectAreaByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -820,6 +773,7 @@ public class MModelBase
      * @return the found CollectableMeshType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a CollectableMeshType with this Identifier cannot be found
      */
+    @Override
     public CollectableMeshType findCollectableMeshTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -836,6 +790,7 @@ public class MModelBase
      * @return the found AttributableMeshType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if an AttributableMeshType with this Identifier cannot be found
      */
+    @Override
     public AttributableMeshType findAttributableMeshTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -852,6 +807,7 @@ public class MModelBase
      * @return the found EntityType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if an EntityType with this Identifier cannot be found
      */
+    @Override
     public EntityType findEntityTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -868,6 +824,7 @@ public class MModelBase
      * @return the found RelationshipType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a RelationshipType with this Identifier cannot be found
      */
+    @Override
     public RelationshipType findRelationshipTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -884,6 +841,7 @@ public class MModelBase
      * @return the found PropertyTypeOrGroup, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a PropertyTypeOrGroup with this Identifier cannot be found
      */
+    @Override
     public PropertyTypeOrGroup findPropertyTypeOrGroupByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -900,6 +858,7 @@ public class MModelBase
      * @return the found PropertyType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a PropertyType with this Identifier cannot be found
      */
+    @Override
     public PropertyType findPropertyTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -916,6 +875,7 @@ public class MModelBase
      * @return the found ProjectedPropertyType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a ProjectedPropertyType with this Identifier cannot be found
      */
+    @Override
     public ProjectedPropertyType findProjectedPropertyTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -932,6 +892,7 @@ public class MModelBase
      * @return the found PropertyTypeGroup, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a PropertyTypeGroup with this Identifier cannot be found
      */
+    @Override
     public PropertyTypeGroup findPropertyTypeGroupByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -948,6 +909,7 @@ public class MModelBase
      * @return the found RoleType, or null if not found
      * @throws MeshTypeWithIdentifierNotFoundException if a RoleType with this Identifier cannot be found
      */
+    @Override
     public RoleType findRoleTypeByIdentifier(
             MeshTypeIdentifier identifier )
         throws
@@ -962,6 +924,7 @@ public class MModelBase
      *
      * @return the MeshTypeSynonyDirectory.
      */
+    @Override
     public MMeshTypeSynonymDictionary getSynonymDictionary()
     {
         return theSynonymDictionary;
@@ -1015,6 +978,7 @@ public class MModelBase
      * @param candidate the candidate EntityType to check
      * @throws IllegalArgumentException if the EntityType is not valid
      */
+    @Override
     public void checkEntityType(
             EntityType candidate )
         throws
@@ -1066,6 +1030,7 @@ public class MModelBase
      * @param candidate the candidate RelationshipType to check
      * @throws IllegalArgumentException if the RelationshipType is not valid
      */
+    @Override
     public void checkRelationshipType(
             RelationshipType candidate )
         throws
@@ -1117,6 +1082,7 @@ public class MModelBase
      * @param candidate the candidate PropertyType to check
      * @throws IllegalArgumentException if the PropertyType is not valid
      */
+    @Override
     public void checkPropertyType(
             PropertyType candidate )
         throws
@@ -1158,6 +1124,7 @@ public class MModelBase
      * @param candidate the candidate PropertyTypeGroup to check
      * @throws IllegalArgumentException if the PropertyTypeGroup is not valid
      */
+    @Override
     public void checkPropertyTypeGroup(
             PropertyTypeGroup candidate )
         throws
@@ -1186,6 +1153,7 @@ public class MModelBase
      * @param candidate the candidate SubjectArea to check
      * @throws IllegalArgumentException if the SubjectArea is not valid
      */
+    @Override
     public void checkSubjectArea(
             SubjectArea candidate )
         throws
@@ -1203,14 +1171,12 @@ public class MModelBase
         if( candidate.getCollectableMeshTypes() == null ) {
             throw new IllegalArgumentException( "SubjectArea has no CollectableMeshTypes: " + candidate );
         }
-//        if( candidate.getVersionNumber() == null ) {
-//            throw new IllegalArgumentException( "SubjectArea has no VersionNumber: " + candidate );
-//        }
     }
 
     /**
       * We are told we are not needed any more. Clean up and release all resources.
       */
+    @Override
     public void die()
     {
     }

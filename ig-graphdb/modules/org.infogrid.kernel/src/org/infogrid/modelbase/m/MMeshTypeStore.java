@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -388,7 +388,7 @@ public class MMeshTypeStore
         /**
           * Construct one.
           */
-        public ClusterIterator()
+        ClusterIterator()
         {
             currentIter = theSubjectAreas.values().iterator();
             goNext();
@@ -399,6 +399,7 @@ public class MMeshTypeStore
          *
          * @return if true, there are more elements
          */
+        @Override
         public boolean hasNext()
         {
             return nextElement != null;
@@ -409,6 +410,7 @@ public class MMeshTypeStore
          *
          * @return the next element
          */
+        @Override
         public MeshType next()
         {
             MeshType ret = nextElement;
@@ -421,6 +423,7 @@ public class MMeshTypeStore
          *
          * @throws UnsupportedOperationException always
          */
+        @Override
         public void remove()
         {
             throw new UnsupportedOperationException();
@@ -429,7 +432,7 @@ public class MMeshTypeStore
         /**
           * Internal advance to the next element.
           */
-        protected void goNext()
+        final protected void goNext()
         {
             while( true ) {
                 if( currentIter.hasNext() ) {
@@ -530,7 +533,8 @@ public class MMeshTypeStore
                 Object theOther )
         {
             if( theOther instanceof KeyInTable ) {
-                KeyInTable realOther = (KeyInTable) theOther;
+                @SuppressWarnings( "unchecked" )
+                KeyInTable<T,S> realOther = (KeyInTable<T,S>) theOther;
                 if( !theFirst.equals( realOther.theFirst )) {
                     return false;
                 }
