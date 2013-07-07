@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -50,7 +50,6 @@ public abstract class MMeshType
       *
       * @return value of the Identifier property
       */
-    @Override
     public final MeshTypeIdentifier getIdentifier()
     {
         return theIdentifier;
@@ -64,7 +63,6 @@ public abstract class MMeshType
      * @param toTest the Identifier to test against
      * @return true if this HasIdentifier is being identified by the provided Identifier
      */
-    @Override
     public boolean isIdentifiedBy(
             Identifier toTest )
     {
@@ -89,7 +87,6 @@ public abstract class MMeshType
       * @return value of the Name property
       * @see #setName
       */
-    @Override
     public final StringValue getName()
     {
         return theName;
@@ -102,7 +99,6 @@ public abstract class MMeshType
      * @return value of the UserVisibleName property
      * @see #setUserVisibleNameMap
      */
-    @Override
     public StringValue getUserVisibleName()
     {
         if( theUserName == null && theUserNameMap != null ) {
@@ -129,7 +125,6 @@ public abstract class MMeshType
      * @return the localized map of user-visible names
      * @see #setUserVisibleNameMap
      */
-    @Override
     public final L10PropertyValueMap getUserVisibleNameMap()
     {
         return theUserNameMap;
@@ -141,7 +136,6 @@ public abstract class MMeshType
      * @return the value of the UserVisibleDescription property
      * @see #setUserVisibleDescriptionMap
      */
-    @Override
     public final BlobValue getUserVisibleDescription()
     {
         if( theUserDescription == null && theUserDescriptionMap != null ) {
@@ -169,7 +163,6 @@ public abstract class MMeshType
      * @return the localized map of user-visible descriptions
      * @see #setUserVisibleDescriptionMap
      */
-    @Override
     public final L10PropertyValueMap getUserVisibleDescriptionMap()
     {
         return theUserDescriptionMap;
@@ -193,7 +186,6 @@ public abstract class MMeshType
      * @return the value of the Icon property
      * @see #setIcon
      */
-    @Override
     public BlobValue getIcon()
     {
         return theIcon;
@@ -217,7 +209,6 @@ public abstract class MMeshType
      * @return the value of the DoGenerateInterfaceCode property
      * @see #setDoGenerateInterfaceCode
      */
-    @Override
     public final BooleanValue getDoGenerateInterfaceCode()
     {
         return theDoGenerateInterfaceCode;
@@ -241,7 +232,6 @@ public abstract class MMeshType
      * @return the value of the DoGenerateImplementationCode property
      * @see #setDoGenerateImplementationCode
      */
-    @Override
     public final BooleanValue getDoGenerateImplementationCode()
     {
         return theDoGenerateImplementationCode;
@@ -253,7 +243,6 @@ public abstract class MMeshType
      *
      * @return the external form for this MeshObjectType
      */
-    @Override
     public final String toExternalForm()
     {
         return theIdentifier.toExternalForm();

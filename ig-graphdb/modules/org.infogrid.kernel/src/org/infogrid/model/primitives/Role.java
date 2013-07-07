@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -141,7 +141,7 @@ public abstract class Role
          * @param type the RoleType
          * @param neighbor the MeshObject
          */
-        UsingMeshObject(
+        public UsingMeshObject(
                 MeshObject start,
                 RoleType   type,
                 MeshObject neighbor )
@@ -156,7 +156,6 @@ public abstract class Role
          *
          * @return the identifier of the destination MeshObject
          */
-        @Override
         public MeshObjectIdentifier getNeighborIdentifier()
         {
             return theNeighbor.getIdentifier();
@@ -167,7 +166,6 @@ public abstract class Role
          *
          * @return the destination MeshObject
          */
-        @Override
         public MeshObject getNeighbor()
         {
             return theNeighbor;
@@ -178,7 +176,6 @@ public abstract class Role
          *
          * @return the destination MeshObject
          */
-        @Override
         public MeshObject getNeighborIfAvailable()
         {
             return theNeighbor;
@@ -205,7 +202,7 @@ public abstract class Role
          * @param type the RoleType
          * @param neighborIdentifier identifier of the  MeshObject
          */
-        UsingMeshObjectIdentifier(
+        public UsingMeshObjectIdentifier(
                 MeshObject           start,
                 RoleType             type,
                 MeshObjectIdentifier neighborIdentifier )
@@ -220,7 +217,6 @@ public abstract class Role
          *
          * @return the identifier of the destination MeshObject
          */
-        @Override
         public MeshObjectIdentifier getNeighborIdentifier()
         {
             return theNeighborIdentifier;
@@ -233,7 +229,6 @@ public abstract class Role
          * @throws MeshObjectAccessException thrown if the MeshObject could not be accessed
          * @throws NotPermittedException thrown if accessing the MeshObject was not permitted
          */
-        @Override
         public MeshObject getNeighbor()
             throws
                 MeshObjectAccessException,
@@ -250,7 +245,6 @@ public abstract class Role
          *
          * @return the destination MeshObject
          */
-        @Override
         public MeshObject getNeighborIfAvailable()
         {
             return null;

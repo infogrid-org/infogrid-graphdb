@@ -87,7 +87,6 @@ public class AMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public AMeshObject createMeshObject()
         throws
             TransactionException,
@@ -130,7 +129,6 @@ public class AMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public synchronized AMeshObject createMeshObject(
             MeshObjectIdentifier identifier,
             long                 timeCreated,
@@ -220,7 +218,6 @@ public class AMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public synchronized void deleteMeshObjects(
             MeshObject [] theObjects )
         throws
@@ -281,7 +278,6 @@ public class AMeshBaseLifecycleManager
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public void deleteMeshObjects(
             MeshObjectSet theSet )
         throws
@@ -300,7 +296,6 @@ public class AMeshBaseLifecycleManager
      * @param type the EntityType for the TypedMeshObjectFacadeImpl
      * @return the created TypedMeshObjectFacadeImpl
      */
-    @Override
     public TypedMeshObjectFacadeImpl createTypedMeshObjectFacade(
             MeshObject object,
             EntityType type )
@@ -321,9 +316,15 @@ public class AMeshBaseLifecycleManager
         try {
             theClass = getImplementationClass( type );
 
-            Constructor<?> theConstructor = theClass.getDeclaredConstructor( MeshObject.class );
+            Constructor theConstructor = theClass.getDeclaredConstructor(
+                        new Class [] {
+                                MeshObject.class
+                        } );
 
-            TypedMeshObjectFacadeImpl ret = (TypedMeshObjectFacadeImpl) theConstructor.newInstance( object );
+            TypedMeshObjectFacadeImpl ret = (TypedMeshObjectFacadeImpl) theConstructor.newInstance(
+                    new Object [] {
+                            object
+                    } );
             
             return ret;
 
@@ -358,7 +359,6 @@ public class AMeshBaseLifecycleManager
       * @throws ClassNotFoundException thrown if for some reason, this Class could not be found
       */
     @SuppressWarnings( "unchecked" )
-    @Override
     public Class<? extends TypedMeshObjectFacadeImpl> getImplementationClass(
             EntityType theObjectType )
         throws
@@ -375,7 +375,7 @@ public class AMeshBaseLifecycleManager
         className.append( ".Impl" );
         className.append( theObjectType.getName().value() );
 
-        Class<?> ret = Class.forName( className.toString(), true, theObjectType.getClassLoader() );
+        Class ret = Class.forName( className.toString(), true, theObjectType.getClassLoader() );
         return (Class<? extends TypedMeshObjectFacadeImpl>) ret;
         // this cast is correct by construction
     }
@@ -602,7 +602,6 @@ public class AMeshBaseLifecycleManager
      * @return the created MeshObject
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
      */
-    @Override
     public AbstractMeshObject loadExternalizedMeshObject(
             ExternalizedMeshObject theExternalizedObject )
         throws

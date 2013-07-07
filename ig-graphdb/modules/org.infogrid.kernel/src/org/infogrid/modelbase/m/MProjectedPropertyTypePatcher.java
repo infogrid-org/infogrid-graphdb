@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -45,7 +45,6 @@ public class MProjectedPropertyTypePatcher
      * @param inputProperties the input Properties to be set
      * @throws IllegalStateException thrown if invoked more than once.
      */
-    @Override
     public void setInputProperties(
             TraversalToPropertySpecification [] inputProperties )
     {

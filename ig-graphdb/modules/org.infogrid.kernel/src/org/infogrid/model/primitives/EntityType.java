@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2009 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -18,7 +18,7 @@ import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.NotPermittedException;
 
 /**
-  * <p>A MeshType that does not depend on the existence of others, that can participate in
+  * <p>A MeshType that does not depend on the existance of others, that can participate in
   * inheritance relationships, and may be attributed. This is often called Class (or MetaClass)
   * or Entity in the literature.</p>
   *

@@ -8,14 +8,15 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.model.primitives;
 
-import java.util.ArrayList;
 import org.infogrid.util.ArrayHelper;
+
+import java.util.ArrayList;
 
 /**
   * <p>This represents a family of "compatible" units, eg "cm" and "inch".

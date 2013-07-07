@@ -15,6 +15,7 @@
 package org.infogrid.meshbase;
 
 import java.beans.PropertyChangeListener;
+import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectGraphModificationException;
 import org.infogrid.mesh.MeshObjectIdentifier;
@@ -213,7 +214,6 @@ public abstract class AbstractMeshBase
      *
      * @return the Context in which this <tt>ObjectInContext</tt> runs.
      */
-    @Override
     public final Context getContext()
     {
         return theContext;
@@ -224,7 +224,6 @@ public abstract class AbstractMeshBase
      * 
      * @return the MeshBaseIdentifier
      */
-    @Override
     public MeshBaseIdentifier getIdentifier()
     {
         return theMeshBaseIdentifier;
@@ -238,7 +237,6 @@ public abstract class AbstractMeshBase
      * @param toTest the Identifier to test against
      * @return true if this HasIdentifier is being identified by the provided Identifier
      */
-    @Override
     public boolean isIdentifiedBy(
             Identifier toTest )
     {
@@ -252,7 +250,6 @@ public abstract class AbstractMeshBase
       *
       * @return the MeshObject that is this MeshBase's home object
       */
-    @Override
     public MeshObject getHomeObject()
     {
         // this is not subject to the sweeper
@@ -272,7 +269,6 @@ public abstract class AbstractMeshBase
      * @return the found MeshObject, or null if not found
      * @see #findMeshObjectByIdentifierOrThrow
      */
-    @Override
     public MeshObject findMeshObjectByIdentifier(
             MeshObjectIdentifier identifier )
     {
@@ -298,7 +294,6 @@ public abstract class AbstractMeshBase
      * @param identifiers the identifiers of the MeshObjects that shall be found
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
      */
-    @Override
     public MeshObject [] findMeshObjectsByIdentifier(
             MeshObjectIdentifier[] identifiers )
     {
@@ -319,7 +314,6 @@ public abstract class AbstractMeshBase
      * @return the found MeshObject, or null if not found
      * @throws MeshObjectsNotFoundException if the MeshObject was not found
      */
-    @Override
     public MeshObject findMeshObjectByIdentifierOrThrow(
             MeshObjectIdentifier identifier )
         throws
@@ -343,7 +337,6 @@ public abstract class AbstractMeshBase
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
      * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found
      */
-    @Override
     public MeshObject [] findMeshObjectsByIdentifierOrThrow(
             MeshObjectIdentifier [] identifiers )
         throws
@@ -378,7 +371,6 @@ public abstract class AbstractMeshBase
      * @return the found HasIdentifier
      * @throws CannotFindHasIdentifierException thrown if the MeshObject cannot be found
      */
-    @Override
     public MeshObject find(
             Identifier identifier )
         throws
@@ -410,7 +402,6 @@ public abstract class AbstractMeshBase
      * @throws MeshObjectAccessException thrown if something went wrong accessing the MeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public MeshObject accessLocally(
             MeshObjectIdentifier nameOfLocalObject )
         throws
@@ -431,7 +422,6 @@ public abstract class AbstractMeshBase
      * @throws MeshObjectAccessException thrown if something went wrong accessing one or more MeshObjects
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
-    @Override
     public MeshObject [] accessLocally(
             MeshObjectIdentifier[] identifiers )
         throws
@@ -454,7 +444,6 @@ public abstract class AbstractMeshBase
       *
       * <p>This overridable default implementation does nothing.</p>
       */
-    @Override
     public void prepareForQuit()
     {
     }
@@ -465,7 +454,6 @@ public abstract class AbstractMeshBase
      *
      * @throws IsDeadException if called on an object that is dead already
      */
-    @Override
     public void die()
         throws
             IsDeadException
@@ -480,7 +468,6 @@ public abstract class AbstractMeshBase
      *         it may come alive again some time later
      * @throws IsDeadException thrown if this object is dead already
      */
-    @Override
     public void die(
              boolean isPermanent )
          throws
@@ -537,7 +524,6 @@ public abstract class AbstractMeshBase
      * 
      * @return a MeshBaseLifecycleManager that works on this MeshBase
      */
-    @Override
     public MeshBaseLifecycleManager getMeshBaseLifecycleManager()
     {
         return theMeshBaseLifecycleManager;
@@ -549,7 +535,6 @@ public abstract class AbstractMeshBase
       *
       * @return the MeshBase that contains the type descriptions
       */
-    @Override
     public final ModelBase getModelBase()
     {
         return theModelBase;
@@ -562,7 +547,6 @@ public abstract class AbstractMeshBase
       *
       * @return true if this is a persistent MeshBase.
       */
-    @Override
     public boolean isPersistent()
     {
         return theCache.isPersistent();
@@ -574,7 +558,6 @@ public abstract class AbstractMeshBase
      *
      * @return the AccessManager, if any
      */
-    @Override
     public AccessManager getAccessManager()
     {
         return theAccessManager;
@@ -585,7 +568,6 @@ public abstract class AbstractMeshBase
      *
      * @param newSweeper the new Sweeper
      */
-    @Override
     public void setSweeper(
             Sweeper newSweeper )
     {
@@ -597,7 +579,6 @@ public abstract class AbstractMeshBase
      *
      * @return the Sweeper, if any
      */
-    @Override
     public Sweeper getSweeper()
     {
         return theSweeper;
@@ -608,7 +589,6 @@ public abstract class AbstractMeshBase
      *
      * @return the factory for MeshObjectIdentifiers
      */
-    @Override
     public MeshObjectIdentifierFactory getMeshObjectIdentifierFactory()
     {
         return theMeshObjectIdentifierFactory;
@@ -620,7 +600,6 @@ public abstract class AbstractMeshBase
      * @return the factory for MeshObjectSets
      * @see #setMeshObjectSetFactory
      */
-    @Override
     public MeshObjectSetFactory getMeshObjectSetFactory()
     {
         return theMeshObjectSetFactory;
@@ -632,7 +611,6 @@ public abstract class AbstractMeshBase
      * @param newValue the new factory
      * @see #getMeshObjectSetFactory
      */
-    @Override
     public void setMeshObjectSetFactory(
             MeshObjectSetFactory newValue )
     {
@@ -646,7 +624,6 @@ public abstract class AbstractMeshBase
      * @return the created and started Transaction
      * @throws TransactionAsapTimeoutException a Transaction timeout has occurred
      */
-    @Override
     public final Transaction createTransactionAsap()
         throws
             TransactionAsapTimeoutException
@@ -690,7 +667,6 @@ public abstract class AbstractMeshBase
      * @return the created and started Transaction
      * @throws TransactionActiveAlreadyException a Transaction was active already
      */
-    @Override
     public final Transaction createTransactionNow()
         throws
             TransactionActiveAlreadyException
@@ -723,7 +699,6 @@ public abstract class AbstractMeshBase
      * @return the created and started Transaction, or null if one is already open on this Thread
      * @throws TransactionAsapTimeoutException a Transaction timeout has occurred
      */
-    @Override
     public final Transaction createTransactionAsapIfNeeded()
         throws
             TransactionAsapTimeoutException
@@ -778,7 +753,6 @@ public abstract class AbstractMeshBase
      * @return the created and started Transaction, or null if one is already open on this Thread
      * @throws TransactionActiveAlreadyException a Transaction was active already
      */
-    @Override
     public final Transaction createTransactionNowIfNeeded()
         throws
             TransactionActiveAlreadyException
@@ -824,7 +798,6 @@ public abstract class AbstractMeshBase
       *
       * @return the currently active Transaction, or null if there is none
       */
-    @Override
     public final Transaction getCurrentTransaction()
     {
         return theCurrentTransaction;
@@ -837,7 +810,6 @@ public abstract class AbstractMeshBase
      * @return the current Transaction
      * @throws TransactionException thrown if there was no valid Transaction
      */
-    @Override
     public synchronized Transaction checkTransaction()
         throws
             TransactionException
@@ -858,14 +830,12 @@ public abstract class AbstractMeshBase
      * @throws TransactionActionException a problem occurred when executing the TransactionAction
      * @param <T> the type of return value
      */
-    @Override
     public <T> T executeNow(
             TransactionAction<T> act )
         throws
             TransactionActionException
     {
         Factory<Void,Transaction,Void> txFactory = new AbstractFactory<Void,Transaction,Void>() {
-                @Override
                 public Transaction obtainFor(
                         Void key,
                         Void argument )
@@ -893,14 +863,12 @@ public abstract class AbstractMeshBase
      * @throws TransactionActionException a problem occurred when executing the TransactionAction
      * @param <T> the type of return value
      */
-    @Override
     public <T> T executeAsap(
             TransactionAction<T> act )
         throws
             TransactionActionException
     {
         Factory<Void,Transaction,Void> txFactory = new AbstractFactory<Void,Transaction,Void>() {
-                @Override
                 public Transaction obtainFor(
                         Void key,
                         Void argument )
@@ -1029,7 +997,6 @@ public abstract class AbstractMeshBase
      * if the MeshBase is persistent. Any class may implement this as a no op.
      * This must only be invoked if no clients hold references to MeshObjects in the cache.
      */
-    @Override
     public synchronized void clearMemoryCache()
     {
         theCache.clearLocalCache();
@@ -1044,7 +1011,6 @@ public abstract class AbstractMeshBase
      * @param two the second MeshObject
      * @return the set of MeshObjects that are neighbors of both MeshObject one and MeshObject two
      */
-    @Override
     public MeshObjectSet findCommonNeighbors(
             MeshObject one,
             MeshObject two )
@@ -1064,7 +1030,6 @@ public abstract class AbstractMeshBase
      * @param twoType the RoleType to be played by the second MeshObject with the to-be-found MeshObjects
      * @return the set of MeshObjects that are neighbors of both MeshObject one and MeshObject two
      */
-    @Override
     public MeshObjectSet findCommonNeighbors(
             MeshObject one,
             RoleType   oneType,
@@ -1082,7 +1047,6 @@ public abstract class AbstractMeshBase
      * @param all the MeshObjects whose common neighbors we seek.
      * @return the set of MeshObjects that are neighbors of all MeshObjects
      */
-    @Override
     public MeshObjectSet findCommonNeighbors(
             MeshObject [] all )
     {
@@ -1097,7 +1061,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftPropertyChangeListener
      * @see #removePropertyChangeListener
      */
-    @Override
     public final synchronized void addDirectPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1114,7 +1077,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftPropertyChangeListener
      * @see #removePropertyChangeListener
      */
-    @Override
     public final synchronized void addWeakPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1131,7 +1093,6 @@ public abstract class AbstractMeshBase
      * @see #addDirectPropertyChangeListener
      * @see #removePropertyChangeListener
      */
-    @Override
     public final synchronized void addSoftPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1148,7 +1109,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftPropertyChangeListener
      * @see #addDirectPropertyChangeListener
      */
-    @Override
     public final synchronized void removePropertyChangeListener(
             PropertyChangeListener oldListener )
     {
@@ -1166,7 +1126,6 @@ public abstract class AbstractMeshBase
       * @see #addSoftTransactionListener
       * @see #removeTransactionListener
       */
-    @Override
     public final synchronized void addDirectTransactionListener(
             TransactionListener newListener )
     {
@@ -1183,7 +1142,6 @@ public abstract class AbstractMeshBase
       * @see #addSoftTransactionListener
       * @see #removeTransactionListener
       */
-    @Override
     public final synchronized void addWeakTransactionListener(
             TransactionListener newListener )
     {
@@ -1200,7 +1158,6 @@ public abstract class AbstractMeshBase
       * @see #addDirectTransactionListener
       * @see #removeTransactionListener
       */
-    @Override
     public final synchronized void addSoftTransactionListener(
             TransactionListener newListener )
     {
@@ -1217,7 +1174,6 @@ public abstract class AbstractMeshBase
       * @see #addSoftTransactionListener
       * @see #addDirectTransactionListener
       */
-    @Override
     public final synchronized void removeTransactionListener(
             TransactionListener oldListener )
     {
@@ -1236,7 +1192,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftMeshObjectLifecycleEventListener
      * @see #removeMeshObjectLifecycleEventListener
      */
-    @Override
     public final synchronized void addDirectMeshObjectLifecycleEventListener(
             MeshObjectLifecycleListener newListener )
     {
@@ -1254,7 +1209,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftMeshObjectLifecycleEventListener
      * @see #removeMeshObjectLifecycleEventListener
      */
-    @Override
     public final synchronized void addWeakMeshObjectLifecycleEventListener(
             MeshObjectLifecycleListener newListener )
     {
@@ -1272,7 +1226,6 @@ public abstract class AbstractMeshBase
      * @see #addDirectMeshObjectLifecycleEventListener
      * @see #removeMeshObjectLifecycleEventListener
      */
-    @Override
     public final synchronized void addSoftMeshObjectLifecycleEventListener(
             MeshObjectLifecycleListener newListener )
     {
@@ -1290,7 +1243,6 @@ public abstract class AbstractMeshBase
      * @see #addSoftMeshObjectLifecycleEventListener
      * @see #addDirectMeshObjectLifecycleEventListener
      */
-    @Override
     public final synchronized void removeMeshObjectLifecycleEventListener(
             MeshObjectLifecycleListener oldListener )
     {
@@ -1316,8 +1268,8 @@ public abstract class AbstractMeshBase
     protected void instantiateTransactionListenersIfNeeded()
     {
         if( theTransactionListeners == null ) {
-            theTransactionListeners = new FlexibleListenerSet<TransactionListener,Transaction,Integer>() {
-                @Override
+            theTransactionListeners = new FlexibleListenerSet<TransactionListener,Transaction,Integer>()
+            {
                 public void fireEventToListener(
                         TransactionListener listener,
                         Transaction         tx,
@@ -1341,8 +1293,8 @@ public abstract class AbstractMeshBase
     protected void instantiateLifecycleEventListenersIfNeeded()
     {
         if( theLifecycleEventListeners == null ) {
-            theLifecycleEventListeners = new FlexibleListenerSet<MeshObjectLifecycleListener,MeshObjectLifecycleEvent,Integer>() {
-                @Override
+            theLifecycleEventListeners = new FlexibleListenerSet<MeshObjectLifecycleListener,MeshObjectLifecycleEvent,Integer>()
+            {
                 public void fireEventToListener(
                         MeshObjectLifecycleListener listener,
                         MeshObjectLifecycleEvent    event,
@@ -1443,7 +1395,6 @@ public abstract class AbstractMeshBase
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
-    @Override
     public String toStringRepresentation(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -1477,7 +1428,6 @@ public abstract class AbstractMeshBase
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
-    @Override
     public String toStringRepresentationLinkStart(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -1522,7 +1472,6 @@ public abstract class AbstractMeshBase
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
-    @Override
     public String toStringRepresentationLinkEnd(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -1637,7 +1586,6 @@ public abstract class AbstractMeshBase
      *
      * @param d the Dumper to dump to
      */
-    @Override
     public void dump(
             Dumper d )
     {

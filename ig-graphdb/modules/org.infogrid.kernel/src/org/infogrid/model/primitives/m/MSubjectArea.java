@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -20,7 +20,9 @@ import org.infogrid.model.primitives.MeshTypeIdentifier;
 import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.StringValue;
 import org.infogrid.model.primitives.SubjectArea;
+
 import org.infogrid.module.ModuleRequirement;
+
 import org.infogrid.util.ArrayHelper;
 
 /**
@@ -64,7 +66,6 @@ public final class MSubjectArea
       * @return the version number property
       * @see #setVersionNumber
       */
-    @Override
     public final StringValue getVersionNumber()
     {
         return theVersionNumber;
@@ -76,7 +77,6 @@ public final class MSubjectArea
      * @return the set of SubjectAreas that this SubjectArea depends on
      * @see #setSubjectAreaDependencies
      */
-    @Override
     public final SubjectArea [] getSubjectAreaDependencies()
     {
         return theSubjectAreaDependencies;
@@ -100,7 +100,6 @@ public final class MSubjectArea
      * @return the set of Modules that this SubjectArea depends on
      * @see #setModuleRequirements
      */
-    @Override
     public final ModuleRequirement [] getModuleRequirements()
     {
         return theModuleRequirements;
@@ -124,7 +123,6 @@ public final class MSubjectArea
       *
       * @return the CollectableMeshTypes in this SubjectArea
       */
-    @Override
     public final CollectableMeshType [] getCollectableMeshTypes()
     {
         return theCollectableMeshTypes;
@@ -135,7 +133,6 @@ public final class MSubjectArea
      *
      * @return the EntityTypes in this SubjectArea.
      */
-    @Override
     public EntityType [] getEntityTypes()
     {
         int count = 0;
@@ -158,7 +155,6 @@ public final class MSubjectArea
      *
      * @return the RelationshipType in this SubjectArea.
      */
-    @Override
     public RelationshipType [] getRelationshipTypes()
     {
         int count = 0;
@@ -181,7 +177,6 @@ public final class MSubjectArea
       *
       * @return the canonical name of this SubjectArea
       */
-    @Override
     public final StringValue getCanonicalName()
     {
         StringBuilder buf = new StringBuilder( 48 );
@@ -213,7 +208,6 @@ public final class MSubjectArea
      * @return the ClassLoader for this SubjectArea
      * @see #setClassLoader
      */
-    @Override
     public final ClassLoader getClassLoader()
     {
         return theClassLoader;
@@ -226,7 +220,6 @@ public final class MSubjectArea
      * @param name the name of the CollectableMeshType
      * @return the found CollectableMeshType, or null if not found
      */
-    @Override
     public CollectableMeshType findCollectableMeshTypeByName(
             StringValue name )
     {

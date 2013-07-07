@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -62,7 +62,6 @@ public final class MProjectedPropertyType
      * @return the local TraversalToPropertySpecifications that we are watching
      * @see #setInputPropertiesDuringParsing
      */
-    @Override
     public final TraversalToPropertySpecification [] getInputProperties()
     {
         return theInputPropertyInstances;
@@ -86,7 +85,6 @@ public final class MProjectedPropertyType
      * @return the Java text containing the projection code for this ProjectedPropertyType
      * @see #setProjectionCode
      */
-    @Override
     public final StringValue getProjectionCode()
     {
         return theProjectionCode;

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="org.infogrid.authp.testapp" default="default" basedir=".">
+    <description>Builds, tests, and runs the project org.infogrid.authp.testapp.</description>
+
+    <import file="../../../ig-tools/infogrid-ant-library.xml"/>
+    <import file="nbproject/build-impl.xml"/>
+
+    <target name="-pre-compile" depends="-module-setup"/>
+    <target name="jar" depends="dist"/>
+    <target name="run" depends="run-deploy,run-display-browser"/>
+</project>

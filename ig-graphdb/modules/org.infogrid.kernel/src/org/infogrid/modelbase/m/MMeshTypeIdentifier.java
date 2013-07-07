@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -63,7 +63,6 @@ public class MMeshTypeIdentifier
      *
      * @return the external form
      */
-    @Override
     public String toExternalForm()
     {
         return theString;
@@ -75,7 +74,6 @@ public class MMeshTypeIdentifier
      * @param suffix the suffix to append
      * @return the created MeshTypeIdentifier
      */
-    @Override
     public MeshTypeIdentifier createDerivedMeshTypeIdentifier(
             String suffix )
     {
@@ -90,7 +88,6 @@ public class MMeshTypeIdentifier
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
-    @Override
     public String toStringRepresentation(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -113,7 +110,6 @@ public class MMeshTypeIdentifier
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
-    @Override
     public String toStringRepresentationLinkStart(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -132,7 +128,6 @@ public class MMeshTypeIdentifier
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
-    @Override
     public String toStringRepresentationLinkEnd(
             StringRepresentation           rep,
             StringRepresentationParameters pars )

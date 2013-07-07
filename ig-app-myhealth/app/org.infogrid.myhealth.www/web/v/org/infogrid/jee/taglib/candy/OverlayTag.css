@@ -1,0 +1,37 @@
+div#org-infogrid-jee-taglib-candy-OverlayTagCanvas {
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    opacity: 0.9;
+    visibility: hidden;
+    display: none;
+}
+div.org-infogrid-jee-taglib-candy-OverlayTag {
+    z-index: 101;
+    position: fixed;
+    top: 100px;
+    left: 50%;
+    border-radius: 20px;
+    -webkit-border-radius: 20px;
+    width: 450px;
+    margin-left: -200px;
+    padding: 25px;
+    display: none;
+    visibility: hidden;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    text-align: left;
+}
+div.org-infogrid-jee-taglib-candy-OverlayTag > * {
+    width: 100%;
+}
+div.org-infogrid-jee-taglib-candy-OverlayTag h2 {
+    margin-top: 0;
+    text-align: left;
+    font-size: 16px;
+}

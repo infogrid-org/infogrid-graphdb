@@ -1,0 +1,13 @@
+div.org-infogrid-jee-viewlet-wikiobject-WikiObjectEditViewlet div.content {
+    width: auto;
+    margin: 0;
+    padding: 0 2px 0 0 ;
+}
+div.org-infogrid-jee-viewlet-wikiobject-WikiObjectEditViewlet textarea {
+    min-height: 200px;
+    width: 100%;
+    min-width: 600px;
+}
+div.org-infogrid-jee-viewlet-wikiobject-WikiObjectEditViewlet div.org-infogrid-model-primitives-BlobValue-meta > * {
+    margin: 3px;
+}

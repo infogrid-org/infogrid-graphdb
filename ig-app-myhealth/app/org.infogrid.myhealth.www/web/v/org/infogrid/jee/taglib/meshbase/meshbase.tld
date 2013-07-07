@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file is part of InfoGrid(tm). You may not use this file except in
+    compliance with the InfoGrid license. The InfoGrid license and important
+    disclaimers are contained in the file LICENSE.InfoGrid.txt that you should
+    have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
+    or you do not consent to all aspects of the license and the disclaimers,
+    no license is granted; do not use this file.
+
+    For more information about InfoGrid go to http://infogrid.org/
+
+    Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    All rights reserved.
+-->
+
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>meshbase</short-name>
+    <uri>/v/org/infogrid/jee/taglib/meshbase/meshbase.tld</uri>
+
+    <!-- Tags are ordered alphabetically by Java Class name. Makes it easier
+         to find them in the IDE. -->
+    
+    <tag>
+        <name>meshBaseId</name>
+        <tag-class>org.infogrid.jee.taglib.meshbase.MeshBaseIdentifierTag</tag-class>
+        <attribute>
+            <name>meshBaseName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>stringRepresentation</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>maxLength</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>colloquial</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>filter</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>ignore</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>meshBaseLink</name>
+        <tag-class>org.infogrid.jee.taglib.meshbase.MeshBaseLinkTag</tag-class>
+        <attribute>
+            <name>meshBaseName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>addArguments</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>title</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>stringRepresentation</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>filter</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>ignore</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>scope</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+</taglib>

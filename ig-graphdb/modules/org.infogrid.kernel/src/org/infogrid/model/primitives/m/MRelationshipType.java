@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -91,7 +91,6 @@ public final class MRelationshipType
       *
       * @return the source RoleType of this RelationshipType
       */
-    @Override
     public final RoleType getSource()
     {
         return sourceRole;
@@ -102,7 +101,6 @@ public final class MRelationshipType
       *
       * @return the destination RoleType of this RelationshipType
       */
-    @Override
     public final RoleType getDestination()
     {
         return destinationRole;
@@ -113,7 +111,6 @@ public final class MRelationshipType
      *
      * @param d the Dumper to dump to
      */
-    @Override
     public void dump(
             Dumper d )
     {

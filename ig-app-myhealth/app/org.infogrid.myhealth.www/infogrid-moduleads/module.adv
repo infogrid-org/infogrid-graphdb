@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file is part of InfoGrid(tm). You may not use this file except in
+    compliance with the InfoGrid license. The InfoGrid license and important
+    disclaimers are contained in the file LICENSE.InfoGrid.txt that you should
+    have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
+    or you do not consent to all aspects of the license and the disclaimers,
+    no license is granted; do not use this file.
+ 
+    For more information about InfoGrid go to http://infogrid.org/
+
+    Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    All rights reserved.
+-->
+
+<standardmodule>
+ <name>org.infogrid.myhealth.www</name>
+ <userdescription>The Unnamed App example application.</userdescription>
+ <provides>
+  <jar>org.infogrid.myhealth.www.jar</jar>
+ </provides>
+ <dependencies>
+  <requires name="org.infogrid.util.logging.log4j">
+   <parameter name="org.infogrid.util.logging.log4j.ConfigPropertiesFile" value="org/infogrid/myhealth/www/Log.properties"/>
+   <parameter name="org.infogrid.util.ResourceHelper.ApplicationResourceBundle" value="org/infogrid/myhealth/www/App" />
+  </requires>
+  <requires name="org.infogrid.jee.shell.http"/>
+  <requires name="org.infogrid.jee.viewlet.store"/>
+  <requires name="org.infogrid.kernel"/>
+  <requires name="org.infogrid.meshbase.store"/>
+  <requires name="org.infogrid.model.Tagging"/>
+  <requires name="org.infogrid.model.Viewlet"/>
+  <requires name="org.infogrid.model.Wiki"/>
+  <requires name="org.infogrid.store.sql.mysql"/>
+  <requires name="org.infogrid.jee.viewlet.bulk"/>
+  <requires name="org.infogrid.jee.viewlet.log4j"/>
+  <requires name="org.infogrid.jee.viewlet.module"/>
+  <requires name="org.infogrid.util"/>
+  <requires name="org.infogrid.model.MyHealth"/>
+ </dependencies>
+</standardmodule>

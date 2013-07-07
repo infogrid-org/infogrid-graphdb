@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    This file is part of InfoGrid(tm). You may not use this file except in
+    compliance with the InfoGrid license. The InfoGrid license and important
+    disclaimers are contained in the file LICENSE.InfoGrid.txt that you should
+    have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
+    or you do not consent to all aspects of the license and the disclaimers,
+    no license is granted; do not use this file.
+
+    For more information about InfoGrid go to http://infogrid.org/
+
+    Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+    All rights reserved.
+-->
+
+<taglib version="2.0" xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee web-jsptaglibrary_2_0.xsd">
+    <tlib-version>1.0</tlib-version>
+    <short-name>templates</short-name>
+    <uri>/v/org/infogrid/jee/taglib/templates/templates.tld</uri>
+
+    <!-- Tags are ordered alphabetically by Java Class name. Makes it easier
+         to find them in the IDE. -->
+
+    <tag>
+        <name>append</name>
+        <tag-class>org.infogrid.jee.taglib.templates.AppendSectionTag</tag-class>
+        <attribute>
+            <name>sectionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>allowDuplicates</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>define</name>
+        <tag-class>org.infogrid.jee.taglib.templates.DefineSectionTag</tag-class>
+        <attribute>
+            <name>sectionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ifEmpty</name>
+        <tag-class>org.infogrid.jee.taglib.templates.IfEmptyTag</tag-class>
+        <attribute>
+            <name>sectionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>ifErrors</name>
+        <tag-class>org.infogrid.jee.taglib.templates.IfErrorsTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>ifInfoMessages</name>
+        <tag-class>org.infogrid.jee.taglib.templates.IfInfoMessagesTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>ifNotEmpty</name>
+        <tag-class>org.infogrid.jee.taglib.templates.IfNotEmptyTag</tag-class>
+        <attribute>
+            <name>sectionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>inline</name>
+        <tag-class>org.infogrid.jee.taglib.templates.InlineTag</tag-class>
+        <attribute>
+            <name>sectionName</name>
+            <required>true</required>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>inlineErrors</name>
+        <tag-class>org.infogrid.jee.taglib.templates.InlineErrorsTag</tag-class>
+        <attribute>
+            <name>stringRepresentation</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>inlineInfoMessages</name>
+        <tag-class>org.infogrid.jee.taglib.templates.InlineInfoMessagesTag</tag-class>
+        <attribute>
+            <name>stringRepresentation</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>notIfErrors</name>
+        <tag-class>org.infogrid.jee.taglib.templates.NotIfErrorsTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>notIfInfoMessages</name>
+        <tag-class>org.infogrid.jee.taglib.templates.NotIfInfoMessagesTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>reportInfoMessage</name>
+        <tag-class>org.infogrid.jee.taglib.templates.ReportProblemTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>reportProblem</name>
+        <tag-class>org.infogrid.jee.taglib.templates.ReportProblemTag</tag-class>
+    </tag>
+
+    <tag>
+        <name>requestedTemplate</name>
+        <tag-class>org.infogrid.jee.taglib.templates.RequestedTemplateTag</tag-class>
+        <attribute>
+            <name>name</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>script</name>
+        <tag-class>org.infogrid.jee.taglib.templates.ScriptTag</tag-class>
+        <attribute>
+            <name>allowDuplicates</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>src</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>stylesheet</name>
+        <tag-class>org.infogrid.jee.taglib.templates.StylesheetTag</tag-class>
+        <attribute>
+            <name>allowDuplicates</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+        <attribute>
+            <name>href</name>
+            <rtexprvalue>true</rtexprvalue>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>title</name>
+        <tag-class>org.infogrid.jee.taglib.templates.TitleTag</tag-class>
+    </tag>
+</taglib>

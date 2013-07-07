@@ -89,7 +89,6 @@ public abstract class AMeshBase
      *        with the to-be-found MeshObjects
      * @return the set of MeshObjects that are neighbors of all MeshObjects
      */
-    @Override
     public MeshObjectSet findCommonNeighbors(
             MeshObject [] all,
             RoleType []   allTypes )

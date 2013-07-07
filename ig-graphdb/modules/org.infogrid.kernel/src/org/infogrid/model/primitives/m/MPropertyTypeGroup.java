@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -51,7 +51,6 @@ public final class MPropertyTypeGroup
      * @return the PropertyTypes that are members of this PropertyTypeGroup
      * @see #setContainedPropertyTypes
      */
-    @Override
     public final PropertyType [] getContainedPropertyTypes()
     {
         return thePropertyTypes;
@@ -74,7 +73,6 @@ public final class MPropertyTypeGroup
      *
      * @param d the Dumper to dump to
      */
-    @Override
     public void dump(
             Dumper d )
     {

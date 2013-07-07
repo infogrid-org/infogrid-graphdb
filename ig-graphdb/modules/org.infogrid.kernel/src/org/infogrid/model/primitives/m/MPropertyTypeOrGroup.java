@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -61,7 +61,6 @@ public class MPropertyTypeOrGroup
       * @return the AttributableMeshType on which this PropertyTypeOrGroup is defined
       * @see #setAttributableMeshType
       */
-    @Override
     public final AttributableMeshType getAttributableMeshType()
     {
         return theAttributableMeshType;
@@ -85,7 +84,6 @@ public class MPropertyTypeOrGroup
      * @return the value of the SequenceNumber property
      * @see #setSequenceNumber
      */
-    @Override
     public final FloatValue getSequenceNumber()
     {
         return theSequenceNumber;

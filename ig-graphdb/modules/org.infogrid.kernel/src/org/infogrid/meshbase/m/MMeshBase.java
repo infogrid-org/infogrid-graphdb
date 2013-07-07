@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -17,7 +17,6 @@ package org.infogrid.meshbase.m;
 import java.util.HashMap;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
-import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.mesh.set.MeshObjectSetFactory;
 import org.infogrid.mesh.set.m.ImmutableMMeshObjectSetFactory;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
@@ -25,6 +24,7 @@ import org.infogrid.meshbase.MeshBaseIdentifier;
 import org.infogrid.meshbase.MeshObjectIdentifierFactory;
 import org.infogrid.meshbase.a.AIterableMeshBase;
 import org.infogrid.meshbase.a.AMeshBaseLifecycleManager;
+import org.infogrid.mesh.a.DefaultAMeshObjectIdentifierFactory;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.m.MModelBase;
@@ -163,7 +163,6 @@ public class MMeshBase
      * 
      * @return a CursorIterator.
      */
-    @Override
     public CursorIterator<MeshObject> iterator()
     {
         // not sure why these type casts are needed, they should not be
@@ -180,7 +179,6 @@ public class MMeshBase
      * @return the number of MeshObjects in this MeshBase
      * @see #getSize()
      */
-    @Override
     public int size()
     {
         return theCache.size();
@@ -193,7 +191,6 @@ public class MMeshBase
      * @return the number of MeshObjects in this MeshBase
      * @see #size()
      */
-    @Override
     public final int getSize()
     {
         return size();

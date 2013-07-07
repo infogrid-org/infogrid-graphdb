@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -99,7 +99,6 @@ public class MEntityType
       * @return the value of the IsSignificant property
       * @see #setIsSignificant
       */
-    @Override
     public final BooleanValue getIsSignificant()
     {
         return theIsSignificant;
@@ -139,7 +138,6 @@ public class MEntityType
       *
       * @return the local RoleTypes in which this EntityType participates in the working model
       */
-    @Override
     public final RoleType [] getLocalRoleTypes()
     {
         return theRoles;
@@ -157,7 +155,6 @@ public class MEntityType
       *         participates in the working model
       * @see #getAllConcreteRoleTypes
       */
-    @Override
     public final RoleType [] getAllRoleTypes()
     {
         return getAllRoleTypesInternal();
@@ -177,7 +174,6 @@ public class MEntityType
       *         and which belong to RelationshipTypes which are not abstract
       * @see #getAllRoleTypes
       */
-    @Override
     public final RoleType [] getAllConcreteRoleTypes()
     {
         return getAllConcreteRoleTypesInternal();
@@ -191,7 +187,6 @@ public class MEntityType
       * @param supertypeRelationshipType the supertype RelationshipType
       * @return the set of RelationshipTypes
       */
-    @Override
     public final RelationshipType [] obtainMostConcreteSubtypeRelated(
             RelationshipType supertypeRelationshipType )
     {
@@ -250,7 +245,6 @@ public class MEntityType
      * @return text in Java that will be in-lined into the generated code
      * @see #setInheritingOverrideCode
      */
-    @Override
     public final StringValue getInheritingOverrideCode()
     {
         return theInheritingOverrideCode;
@@ -261,7 +255,6 @@ public class MEntityType
      *
      * @param d the Dumper to dump to
      */
-    @Override
     public void dump(
             Dumper d )
     {
@@ -359,7 +352,6 @@ public class MEntityType
      *
      * @return the identifiers by which this EntityType is also known
      */
-    @Override
     public final MeshTypeIdentifier [] getSynonyms()
     {
         return theSynonyms;
@@ -381,7 +373,6 @@ public class MEntityType
      *
      * @return Java method declarations
      */
-    @Override
     public final StringValue [] getDeclaredMethods()
     {
         return theDeclaredMethods;
@@ -403,7 +394,6 @@ public class MEntityType
      *
      * @return Java method implementations
      */
-    @Override
     public final StringValue [] getImplementedMethods()
     {
         return theImplementedMethods;
@@ -425,7 +415,6 @@ public class MEntityType
      *
      * @return Java interface names
      */
-    @Override
     public String [] getAdditionalInterfaces()
     {
         return theAdditionalInterfaces;
@@ -436,7 +425,6 @@ public class MEntityType
      *
      * @return the set of EntityTypeGuards locally defined on this EntityType
      */
-    @Override
     public EntityTypeGuard [] getLocalEntityTypeGuards()
     {
         if( theLocalEntityTypeGuards == null ) {
@@ -446,7 +434,7 @@ public class MEntityType
 
             for( int i=0 ; i<theLocalEntityTypeGuards.length ; ++i ) {
                 try {
-                    Class<?> clazz = Class.forName( theLocalEntityTypeGuardClassNames[i], true, loader );
+                    Class clazz = Class.forName( theLocalEntityTypeGuardClassNames[i], true, loader );
                     theLocalEntityTypeGuards[i] = (EntityTypeGuard) clazz.newInstance();
                 
                 } catch( ClassNotFoundException ex ) {
@@ -467,7 +455,6 @@ public class MEntityType
      *
      * @return the set of EntityTypeGuards defined on this EntityType either locally or by inheritance
      */
-    @Override
     public EntityTypeGuard [] getAllEntityTypeGuards()
     {
         if( theAllEntityTypeGuards == null ) {
@@ -525,7 +512,6 @@ public class MEntityType
      *
      * @return the class names of the set of EntityTypeGuards on this EntityType
      */
-    @Override
     public String [] getLocalEntityTypeGuardClassNames()
     {
         return theLocalEntityTypeGuardClassNames;
@@ -547,7 +533,6 @@ public class MEntityType
      *
      * @return true if this may be used as a ForwardReference
      */
-    @Override
     public BooleanValue getMayBeUsedAsForwardReference()
     {
         return theMayBeUsedAsForwardReference;
@@ -574,7 +559,6 @@ public class MEntityType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
-    @Override
     public void checkPermittedBless(
             MeshObject    subject,
             MeshObject    caller )
@@ -595,7 +579,6 @@ public class MEntityType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
-    @Override
     public void checkPermittedUnbless(
             MeshObject    subject,
             MeshObject    caller )
@@ -616,7 +599,6 @@ public class MEntityType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
-    @Override
     public void checkPermittedBlessedBy(
             MeshObject    subject,
             MeshObject    caller )
