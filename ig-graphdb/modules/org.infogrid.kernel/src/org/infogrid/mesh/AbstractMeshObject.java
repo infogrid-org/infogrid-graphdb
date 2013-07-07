@@ -101,6 +101,7 @@ public abstract class AbstractMeshObject
       *
       * @return the globally unique identifier of this MeshObject
       */
+    @Override
     public MeshObjectIdentifier getIdentifier()
     {
         return theIdentifier;
@@ -114,6 +115,7 @@ public abstract class AbstractMeshObject
      * @param toTest the Identifier to test against
      * @return true if this HasIdentifier is being identified by the provided Identifier
      */
+    @Override
     public boolean isIdentifiedBy(
             Identifier toTest )
     {
@@ -126,6 +128,7 @@ public abstract class AbstractMeshObject
      *
      * @return the MeshBase that contains this MeshObject.
      */
+    @Override
     public MeshBase getMeshBase()
     {
         return theMeshBase;
@@ -137,6 +140,7 @@ public abstract class AbstractMeshObject
      *
      * @return the time this MeshObject was created in <code>System.currentTimeMillis()</code> format
      */
+    @Override
     public final long getTimeCreated()
     {
         return theTimeCreated;
@@ -148,6 +152,7 @@ public abstract class AbstractMeshObject
      *
      * @return the time this MeshObject was last updated in <code>System.currentTimeMillis()</code> format
      */
+    @Override
     public final long getTimeUpdated()
     {
         return theTimeUpdated;
@@ -159,6 +164,7 @@ public abstract class AbstractMeshObject
      *
      * @return the time this MeshObject was last read in <code>System.currentTimeMillis()</code> format
      */
+    @Override
     public final long getTimeRead()
     {
         return theTimeRead;
@@ -170,6 +176,7 @@ public abstract class AbstractMeshObject
      * @param newValue the new value, in <code>System.currentTimeMillis()</code> format
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public final void setTimeExpires(
             long newValue )
         throws
@@ -191,6 +198,7 @@ public abstract class AbstractMeshObject
      *
      * @return the time at which this MeshObject expires, in <code>System.currentTimeMillis()</code> format
      */
+    @Override
     public final long getTimeExpires()
     {
         return theTimeExpires;
@@ -201,6 +209,7 @@ public abstract class AbstractMeshObject
      *
      * @return true if the MeshObject is dead
      */
+    @Override
     public final boolean getIsDead()
     {
         MeshBase mb = theMeshBase; // this allows us not to synchronize this method
@@ -220,6 +229,7 @@ public abstract class AbstractMeshObject
      *
      * @throws IsDeadException thrown if this MeshObject is dead already
      */
+    @Override
     public final void checkAlive()
         throws
             IsDeadException
@@ -234,6 +244,7 @@ public abstract class AbstractMeshObject
      * 
      * @return true if it is the home object
      */
+    @Override
     public final boolean isHomeObject()
     {
         MeshObject home = theMeshBase.getHomeObject();
@@ -251,6 +262,7 @@ public abstract class AbstractMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #setPropertyValue
      */
+    @Override
     public PropertyValue getPropertyValue(
             PropertyType thePropertyType )
         throws
@@ -305,6 +317,7 @@ public abstract class AbstractMeshObject
      *         because the MeshObject has not been blessed with a MeshType that provides this PropertyType
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public PropertyValue [] getPropertyValues(
             PropertyType [] thePropertyTypes )
         throws
@@ -364,6 +377,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @see #getPropertyValue
      */
+    @Override
     public PropertyValue setPropertyValue(
             PropertyType  thePropertyType,
             PropertyValue newValue )
@@ -392,6 +406,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @see #getPropertyValue
      */
+    @Override
     public PropertyValue setPropertyValue(
             PropertyType  thePropertyType,
             PropertyValue newValue,
@@ -538,6 +553,7 @@ public abstract class AbstractMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      */
+    @Override
     public PropertyValue [] setPropertyValues(
             PropertyType []  thePropertyTypes,
             PropertyValue [] thePropertyValues )
@@ -561,6 +577,7 @@ public abstract class AbstractMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      */
+    @Override
     public void setPropertyValues(
             Map<PropertyType,PropertyValue> newValues )
         throws
@@ -596,6 +613,7 @@ public abstract class AbstractMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      */
+    @Override
     public PropertyValue [] setPropertyValues(
             PropertyType []  thePropertyTypes,
             PropertyValue [] thePropertyValues,
@@ -621,6 +639,7 @@ public abstract class AbstractMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      */
+    @Override
     public void setPropertyValues(
             Map<PropertyType,PropertyValue> newValues,
             long                            timeUpdated )
@@ -648,6 +667,7 @@ public abstract class AbstractMeshObject
      *
      * @return the set of all PropertyTypes
      */
+    @Override
     public synchronized PropertyType [] getAllPropertyTypes()
     {
         checkAlive();
@@ -690,6 +710,7 @@ public abstract class AbstractMeshObject
      * @throws MeshTypeNotFoundException thrown if a Property by this name could not be found
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public PropertyValue getPropertyValueByName(
             String propertyName )
         throws
@@ -720,6 +741,7 @@ public abstract class AbstractMeshObject
      *
      * @return the set of MeshObjects that are directly related to this MeshObject
      */
+    @Override
     public final MeshObjectSet traverseToNeighborMeshObjects()
     {
         return traverseToNeighborMeshObjects( true );
@@ -732,6 +754,7 @@ public abstract class AbstractMeshObject
      *
      * @return the MeshObjectIdentifier of the neighbors, if any
      */
+    @Override
     public MeshObjectIdentifier[] getNeighborMeshObjectIdentifiers()
     {
         checkAlive();
@@ -749,6 +772,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void bless(
             EntityType type )
         throws
@@ -770,6 +794,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if invoked outside of proper transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void bless(
             EntityType [] types )
         throws
@@ -922,6 +947,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void unbless(
             EntityType type )
         throws
@@ -947,6 +973,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void unbless(
             EntityType [] types )
         throws
@@ -1068,6 +1095,7 @@ public abstract class AbstractMeshObject
       *
       * @return the types of this MeshObject
       */
+    @Override
     public synchronized EntityType [] getTypes()
     {
         checkAlive();
@@ -1105,6 +1133,7 @@ public abstract class AbstractMeshObject
      * @param type the EntityType to look for
      * @return true if this MeshObject supports this MeshType or a subtype
      */
+    @Override
     public final boolean isBlessedBy(
             EntityType type )
     {
@@ -1119,6 +1148,7 @@ public abstract class AbstractMeshObject
      * @param considerSubtypes if true, return true even if only a subtype matches
      * @return true if this MeshObject supports this MeshType
      */
+    @Override
     public synchronized boolean isBlessedBy(
             EntityType type,
             boolean    considerSubtypes )
@@ -1166,6 +1196,7 @@ public abstract class AbstractMeshObject
      * @throws EntityNotBlessedException thrown if the MeshObject is not blessed by the EntityType
      * @see #determineSingleBlessedSubtype
      */
+    @Override
     public EntityType [] determineBlessedSubtypes(
             EntityType type )
         throws
@@ -1218,6 +1249,7 @@ public abstract class AbstractMeshObject
      * @throws IllegalStateException thrown if the MeshObject is blessed by more than one subtype
      * @see #determineBlessedSubtypes
      */
+    @Override
     public EntityType determineSingleBlessedSubtype(
             EntityType type )
         throws
@@ -1243,6 +1275,7 @@ public abstract class AbstractMeshObject
      * @return the EntityType that corresponds to this TypedMeshObjectFacade
      * @throws IllegalArgumentException thrown if the TypedMeshObjectFacade is not a facade of this MeshObject
      */
+    @Override
     public synchronized EntityType getTypeFor(
             TypedMeshObjectFacade obj )
         throws
@@ -1283,6 +1316,7 @@ public abstract class AbstractMeshObject
      * @return the TypedMeshObjectFacade for this MeshObject
      * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
      */
+    @Override
     public synchronized TypedMeshObjectFacade getTypedFacadeFor(
             EntityType type )
         throws
@@ -1343,6 +1377,7 @@ public abstract class AbstractMeshObject
      * @see #relateAndBless
      * @see #unrelate
      */
+    @Override
     public void blessRelationship(
             RoleType   thisEnd,
             MeshObject neighbor )
@@ -1373,6 +1408,7 @@ public abstract class AbstractMeshObject
      * @see #blessRelationship
      * @see #unrelate
      */
+    @Override
     public final void relateAndBless(
             RoleType   thisEnd,
             MeshObject neighbor )
@@ -1413,6 +1449,7 @@ public abstract class AbstractMeshObject
      * @see #blessRelationship
      * @see #unrelate
      */
+    @Override
     public final void relateAndBless(
             RoleType [] thisEnds,
             MeshObject  neighbor )
@@ -1447,6 +1484,7 @@ public abstract class AbstractMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void unblessRelationship(
             RoleType   thisEnd,
             MeshObject neighbor )
@@ -1466,6 +1504,7 @@ public abstract class AbstractMeshObject
       * @param theTraverseSpec the TraversalSpecification to traverse
       * @return the set of MeshObjects found as a result of the traversal
       */
+    @Override
     public final MeshObjectSet traverse(
             TraversalSpecification theTraverseSpec )
     {
@@ -1479,6 +1518,7 @@ public abstract class AbstractMeshObject
      * 
      * @return the RoleTypes that this MeshObject currently participates in.
      */
+    @Override
     public final RoleType [] getRoleTypes()
     {
         return getRoleTypes( true );
@@ -1489,6 +1529,7 @@ public abstract class AbstractMeshObject
      *
      * @return the Roles that this MeshObject currently participates in.
      */
+    @Override
     public final Role [] getRoles()
     {
         return getRoles( true );
@@ -1502,6 +1543,7 @@ public abstract class AbstractMeshObject
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and otherObject are not related
      */
+    @Override
     public final RoleType [] getRoleTypes(
             MeshObject neighbor )
         throws
@@ -1518,6 +1560,7 @@ public abstract class AbstractMeshObject
      * @return the RoleTypes that this MeshObject currently participates in.
      * @throws NotRelatedException thrown if this MeshObject and the neighbor MeshObject are not related
      */
+    @Override
     public RoleType [] getRoleTypes(
             MeshObjectIdentifier neighborIdentifier )
         throws
@@ -1534,6 +1577,7 @@ public abstract class AbstractMeshObject
      * @return the identifiers of the RoleTypes
      * @throws NotRelatedException thrown if the specified MeshObject is not actually a neighbor
      */
+    @Override
     public final MeshTypeIdentifier [] getRoleTypeIdentifiers(
             MeshObjectIdentifier neighborIdentifier )
         throws
@@ -1550,6 +1594,7 @@ public abstract class AbstractMeshObject
      * @param neighbor the other MeshObject
      * @return true if this MeshObject has a relationship to the other MeshObject  and it is blessed with the given RoleType
      */
+    @Override
     public final boolean isRelated(
             RoleType   thisEnd,
             MeshObject neighbor )
@@ -1574,6 +1619,7 @@ public abstract class AbstractMeshObject
      * @param neighborIdentifier the MeshObjectIdentifier of the other MeshObject
      * @return true if this MeshObject is currently related to otherObject
      */
+    @Override
     public final boolean isRelated(
             RoleType             thisEnd,
             MeshObjectIdentifier neighborIdentifier )
@@ -1596,6 +1642,7 @@ public abstract class AbstractMeshObject
      *
      * @return the MeshObjectIdentifiers of the equivalents
      */
+    @Override
     public MeshObjectIdentifier[] getEquivalentMeshObjectIdentifiers()
     {
         MeshObjectIdentifier [] ret = getEquivalents().asIdentifiers();
@@ -1658,6 +1705,7 @@ public abstract class AbstractMeshObject
      * @see #addSoftPropertyChangeListener
      * @see #removePropertyChangeListener
      */
+    @Override
     public synchronized void addDirectPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1680,6 +1728,7 @@ public abstract class AbstractMeshObject
      * @see #addSoftPropertyChangeListener
      * @see #removePropertyChangeListener
      */
+    @Override
     public synchronized void addWeakPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1702,6 +1751,7 @@ public abstract class AbstractMeshObject
      * @see #addWeakPropertyChangeListener
      * @see #removePropertyChangeListener
      */
+    @Override
     public synchronized void addSoftPropertyChangeListener(
             PropertyChangeListener newListener )
     {
@@ -1721,6 +1771,7 @@ public abstract class AbstractMeshObject
      * @see #addWeakPropertyChangeListener
      * @see #addSoftPropertyChangeListener
      */
+    @Override
     public synchronized void removePropertyChangeListener(
             PropertyChangeListener oldListener )
     {
@@ -1740,6 +1791,7 @@ public abstract class AbstractMeshObject
      *
      * @return true if there is at least one currently subscribed PropertyChangeListener.
      */
+    @Override
     public boolean hasPropertyChangeListener()
     {
         Iterator<PropertyChangeListener> iter = propertyChangeListenersIterator();
@@ -1751,6 +1803,7 @@ public abstract class AbstractMeshObject
      *
      * @return the Iterator over the currently subscribed PropertyChangeListeners
      */
+    @Override
     public Iterator<PropertyChangeListener> propertyChangeListenersIterator()
     {
         FlexiblePropertyChangeListenerSet listeners = thePropertyChangeListeners;
@@ -2372,6 +2425,7 @@ public abstract class AbstractMeshObject
      *
      * @param d the Dumper to dump to
      */
+    @Override
     public void dump(
             Dumper d )
     {

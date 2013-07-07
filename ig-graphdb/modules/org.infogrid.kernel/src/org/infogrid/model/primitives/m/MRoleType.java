@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -86,6 +86,7 @@ public abstract class MRoleType
       *
       * @return the SubjectArea in which this CollectableMeshType is defined
       */
+    @Override
     public final SubjectArea getSubjectArea()
     {
         return theRelationshipType.getSubjectArea();
@@ -96,6 +97,7 @@ public abstract class MRoleType
       *
       * @return the RelationshipType that this RoleType belongs to
       */
+    @Override
     public final RelationshipType getRelationshipType()
     {
         return theRelationshipType;
@@ -106,6 +108,7 @@ public abstract class MRoleType
       *
       * @return the EntityType that this RoleType belongs to
       */
+    @Override
     public final EntityType getEntityType()
     {
         return theEntityType;
@@ -118,6 +121,7 @@ public abstract class MRoleType
      *
      * @return the RoleType on the other end of the RelationshipType that this RoleType belongs to
      */
+    @Override
     public final RoleType getInverseRoleType()
     {
         if( theRelationshipType.getSource() == this ) {
@@ -134,6 +138,7 @@ public abstract class MRoleType
      *
      * @return the EntityType on the other end of the RelationshipType that this RoleType belongs to
      */
+    @Override
     public EntityType getOtherEntityType()
     {
         return getInverseRoleType().getEntityType();
@@ -148,6 +153,7 @@ public abstract class MRoleType
      *
      * @return the multiplicity of this RoleType
      */
+    @Override
     public final MultiplicityValue getMultiplicity()
     {
         return theMultiplicity;
@@ -171,6 +177,7 @@ public abstract class MRoleType
      * @return the RoleTypes that this RoleType refines directly. In most cases, this will be just one.
      * @see #setDirectSuperRoleTypes
      */
+    @Override
     public final RoleType [] getDirectSuperRoleTypes()
     {
         return theDirectSuperRoleTypes;
@@ -184,6 +191,7 @@ public abstract class MRoleType
      * @param other the TraversalSpecification to compare against
      * @return true if this RoleType is a specialization of the passed-in TraversalSpecification
      */
+    @Override
     public final boolean isSpecializationOfOrEquals(
             TraversalSpecification other )
     {
@@ -210,6 +218,7 @@ public abstract class MRoleType
      * @param start the start MeshObject for the traversal
      * @return the result of the traversal
      */
+    @Override
     public final MeshObjectSet traverse(
             MeshObject start )
     {
@@ -225,6 +234,7 @@ public abstract class MRoleType
      * @param start the start MeshObject for the traversal
      * @return the result of the traversal
      */
+    @Override
     public final MeshObjectSet traverse(
             MeshObject start,
             boolean    considerEquivalents )
@@ -241,6 +251,7 @@ public abstract class MRoleType
       * @param theSet the start MeshObjectSet for the traversal
       * @return the result of the traversal
       */
+    @Override
     public final MeshObjectSet traverse(
             MeshObjectSet theSet )
     {
@@ -256,6 +267,7 @@ public abstract class MRoleType
       * @param theSet the start MeshObjectSet for the traversal
       * @return the result of the traversal
       */
+    @Override
     public final MeshObjectSet traverse(
             MeshObjectSet theSet,
             boolean       considerEquivalents )
@@ -272,6 +284,7 @@ public abstract class MRoleType
      * @return true if this event may affect the result of traversing from the Entity
      *         that sent this event
      */
+    @Override
     public final boolean isAffectedBy(
             MeshBase                  toResolveAgainst,
             MeshObjectRoleChangeEvent theEvent )
@@ -287,16 +300,6 @@ public abstract class MRoleType
         return false;
     }
 
-//    /**
-//     * Obtain a string that can be used as a command.
-//     *
-//     * @return a command string
-//     */
-//    public final String getCommandName()
-//    {
-//        return toExternalForm();
-//    }
-//
     /**
      * Obtain a string identifying this TraversalSpecification that can be shown to the user.
      *
@@ -317,6 +320,7 @@ public abstract class MRoleType
      *
      * @return the set of RoleConstraints locally defined on this RoleType
      */
+    @Override
     public synchronized RoleTypeGuard [] getLocalRoleTypeGuards()
     {
         if( theLocalRoleTypeGuards == null ) {
@@ -326,7 +330,7 @@ public abstract class MRoleType
 
             for( int i=0 ; i<theLocalRoleTypeGuards.length ; ++i ) {
                 try {
-                    Class clazz = Class.forName( theLocalRoleTypeGuardClassNames[i], true, loader );
+                    Class<?> clazz = Class.forName( theLocalRoleTypeGuardClassNames[i], true, loader );
                     theLocalRoleTypeGuards[i] = (RoleTypeGuard) clazz.newInstance();
                 
                 } catch( ClassNotFoundException ex ) {
@@ -347,6 +351,7 @@ public abstract class MRoleType
      *
      * @return the set of applicable RoleTypeGuards
      */
+    @Override
     public synchronized RoleTypeGuard [] getAllRoleTypeGuards()
     {
         if( theAllRoleTypeGuards == null ) {
@@ -399,6 +404,7 @@ public abstract class MRoleType
      *
      * @return the class names of the set of RoleTypeGuards on this RoleType
      */
+    @Override
     public String [] getLocalRoleTypeGuardClassNames()
     {
         return theLocalRoleTypeGuardClassNames;
@@ -413,6 +419,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedSetTimeExpires(
             MeshObject obj,
             long       newValue,
@@ -441,6 +448,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedBless(
             MeshObject           start,
             MeshObjectIdentifier neighborIdentifier,
@@ -471,6 +479,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedUnbless(
             MeshObject           start,
             MeshObjectIdentifier neighborIdentifier,
@@ -503,6 +512,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this
      */
+    @Override
     public void checkPermittedIncrementalBless(
             MeshObject           start,
             EntityType []        types,
@@ -537,6 +547,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this
      */
+    @Override
     public void checkPermittedIncrementalUnbless(
             MeshObject           start,
             EntityType []        types,
@@ -571,6 +582,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this
      */
+    @Override
     public void checkPermittedIncrementalBless(
             MeshObject           start,
             MeshObjectIdentifier neighborIdentifier,
@@ -609,6 +621,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this
      */
+    @Override
     public void checkPermittedIncrementalUnbless(
             MeshObject           start,
             MeshObjectIdentifier neighborIdentifier,
@@ -643,6 +656,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedTraversal(
             MeshObject           start,
             MeshObjectIdentifier neighborIdentifier,
@@ -671,6 +685,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedAddAsEquivalent(
             MeshObject           one,
             MeshObjectIdentifier twoIdentifier,
@@ -697,6 +712,7 @@ public abstract class MRoleType
      * @param caller the MeshObject representing the caller
      * @throws NotPermittedException thrown if this caller is not permitted to do this 
      */
+    @Override
     public void checkPermittedRemoveAsEquivalent(
             MeshObject  obj,
             MeshObject  caller )
@@ -828,6 +844,7 @@ public abstract class MRoleType
          *
          * @return true if this is a source RoleType of a RelationshipType
          */
+        @Override
         public final boolean isSource()
         {
             return true;
@@ -838,6 +855,7 @@ public abstract class MRoleType
          *
          * @return always returns false
          */
+        @Override
         public final boolean isTopSingleton()
         {
             return false;
@@ -903,6 +921,7 @@ public abstract class MRoleType
          *
          * @return true if this is a source RoleType of a RelationshipType
          */
+        @Override
         public final boolean isSource()
         {
             return false;
@@ -913,6 +932,7 @@ public abstract class MRoleType
          *
          * @return always returns false
          */
+        @Override
         public final boolean isTopSingleton()
         {
             return false;
@@ -991,6 +1011,7 @@ public abstract class MRoleType
          * @return never
          * @throws UnsupportedOperationException always thrown
          */
+        @Override
         public final boolean isSource()
         {
             throw new UnsupportedOperationException();
@@ -1001,6 +1022,7 @@ public abstract class MRoleType
          *
          * @return always returns true
          */
+        @Override
         public final boolean isTopSingleton()
         {
             return true;

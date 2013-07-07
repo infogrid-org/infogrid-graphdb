@@ -8,7 +8,7 @@
 //
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -72,6 +72,7 @@ public class MMeshTypeSynonymDictionary
      *
      * @return the ModelBase
      */
+    @Override
     public ModelBase getModelBase()
     {
         return theModelBase;
@@ -84,6 +85,7 @@ public class MMeshTypeSynonymDictionary
      * @return the MeshType
      * @throws MeshTypeNotFoundException thrown if this Identifier was not known
      */
+    @Override
     public MeshType findMeshTypeByIdentifier(
             MeshTypeIdentifier externalIdentifier )
         throws

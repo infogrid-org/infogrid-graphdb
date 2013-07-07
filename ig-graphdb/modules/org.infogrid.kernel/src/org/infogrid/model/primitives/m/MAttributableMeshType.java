@@ -8,14 +8,16 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.model.primitives.m;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.Iterator;
 import org.infogrid.mesh.MeshObject;
-
 import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.BooleanValue;
@@ -24,14 +26,8 @@ import org.infogrid.model.primitives.ProjectedPropertyType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyTypeGroup;
 import org.infogrid.model.primitives.PropertyTypeOrGroup;
-
 import org.infogrid.modelbase.InheritanceConflictException;
-
 import org.infogrid.util.ArrayHelper;
-
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.Iterator;
 
 /**
   * A MeshObjectType that can have PropertyTypes and participate in inheritance.
@@ -79,6 +75,7 @@ public abstract class MAttributableMeshType
       *
       * @return the locally defined PropertyTypes for this AttributableMeshType
       */
+    @Override
     public final PropertyType [] getLocalPropertyTypes()
     {
         return thePropertyTypes;
@@ -89,6 +86,7 @@ public abstract class MAttributableMeshType
      *
      * @return the inherited, but locally overridden PropertyTypes
      */
+    @Override
     public final PropertyType [] getOverridingLocalPropertyTypes()
     {
         return theOverridingPropertyTypes;
@@ -99,6 +97,7 @@ public abstract class MAttributableMeshType
       *
       * @return the inherited PropertyTypes for this AttributableMeshType
       */
+    @Override
     public final PropertyType [] getInheritedPropertyTypes()
     {
         if( inheritedPropertyTypes == null ) {
@@ -125,6 +124,7 @@ public abstract class MAttributableMeshType
       *
       * @return all local and inherited PropertyTypes
       */
+    @Override
     public final PropertyType [] getAllPropertyTypes()
     {
         if( allPropertyTypes == null ) {
@@ -151,6 +151,7 @@ public abstract class MAttributableMeshType
      *
      * @return all local and inherited PropertyTypes that are ProjectedPropertyTypes
      */
+    @Override
     public final ProjectedPropertyType [] getAllProjectedPropertyTypes()
     {
         PropertyType [] pts = getAllPropertyTypes();
@@ -280,6 +281,7 @@ public abstract class MAttributableMeshType
      *
      * @return the locally defined PropertyTypeGroups for this AttributableMeshTypes
      */
+    @Override
     public final PropertyTypeGroup [] getLocalPropertyTypeGroups()
     {
         return thePropertyTypeGroups;
@@ -291,6 +293,7 @@ public abstract class MAttributableMeshType
      *
      * @return all local and inherited PropertyTypeGroups
      */
+    @Override
     public final PropertyTypeGroup [] getAllPropertyTypeGroups()
     {
         ArrayList<MPropertyTypeGroup> almostRet = internalGetAllPropertyTypeGroups();
@@ -324,6 +327,7 @@ public abstract class MAttributableMeshType
      *
      * @return all local and inherited PropertyTypeOrGroups in sequence
      */
+    @Override
     public final PropertyTypeOrGroup [] getAllPropertyTypeOrGroupsInSequence()
     {
         // determine which PropertyTypes are not in groups
@@ -389,6 +393,7 @@ public abstract class MAttributableMeshType
       * @return the direct supertypes of this AttributableMeshType
       * @see #setDirectSupertypes
       */
+    @Override
     public final AttributableMeshType [] getDirectSupertypes()
     {
         return theSupertypes;
@@ -399,6 +404,7 @@ public abstract class MAttributableMeshType
      *
      * @return transitive closure of all supertypes of this AttributableMeshType
      */
+    @Override
     public final AttributableMeshType [] getAllSupertypes()
     {
         if( allSupertypes == null ) {
@@ -422,6 +428,7 @@ public abstract class MAttributableMeshType
      *
      * @return the paths from the root(s) of the inheritance hierarchy
      */
+    @Override
     public AttributableMeshType [][] getPathsFromInheritanceRoots()
     {
         if( theSupertypes.length == 0 ) {
@@ -455,6 +462,7 @@ public abstract class MAttributableMeshType
       * @return the direct subtypes of this AttributableMeshType
       * @see #addDirectSubtype
       */
+    @Override
     public final AttributableMeshType [] getDirectSubtypes()
     {
         return theSubtypes;
@@ -491,6 +499,7 @@ public abstract class MAttributableMeshType
       *
       * @return the transitive closure of all known subtypes of this AttributableMeshType
       */
+    @Override
      public final AttributableMeshType [] getAllSubtypes()
      {
          ArrayList<MAttributableMeshType> almostRet = new ArrayList<MAttributableMeshType>();
@@ -515,33 +524,35 @@ public abstract class MAttributableMeshType
        *
        * @return the transitive closure of all known subtypes of this AttributableMeshType
        */
-     public final AttributableMeshType [] getAllConcreteSubtypes()
-     {
-         AttributableMeshType [] allSubtypes = getAllSubtypes();
-         int count = 0;
-         for( int i=0 ; i<allSubtypes.length ; ++i ) {
-             if( ! allSubtypes[i].getIsAbstract().value() ) {
-                 ++count;
-             }
-         }
-         AttributableMeshType [] ret = new AttributableMeshType[ count ];
-         for( int i=allSubtypes.length-1 ; i>=0 ; --i )
-         {
-             if( ! allSubtypes[i].getIsAbstract().value() ) {
-                 ret[--count] = allSubtypes[i];
-             }
-         }
-         return ret;
-     }
+    @Override
+    public final AttributableMeshType [] getAllConcreteSubtypes()
+    {
+        AttributableMeshType [] allSubtypes = getAllSubtypes();
+        int count = 0;
+        for( int i=0 ; i<allSubtypes.length ; ++i ) {
+            if( ! allSubtypes[i].getIsAbstract().value() ) {
+                ++count;
+            }
+        }
+        AttributableMeshType [] ret = new AttributableMeshType[ count ];
+        for( int i=allSubtypes.length-1 ; i>=0 ; --i )
+        {
+            if( ! allSubtypes[i].getIsAbstract().value() ) {
+                ret[--count] = allSubtypes[i];
+            }
+        }
+        return ret;
+    }
 
-     /**
-       * Determine whether the passed-in AttributableMeshType equals or is
-       * a supertype of this AttributableMeshType.
-       *
-       * @param other the AttributableMeshType to test against
-       * @return true of the passed-in AttributableMeshType equals or is a supertype of this
-       *         AttributableMeshType
-       */
+    /**
+      * Determine whether the passed-in AttributableMeshType equals or is
+      * a supertype of this AttributableMeshType.
+      *
+      * @param other the AttributableMeshType to test against
+      * @return true of the passed-in AttributableMeshType equals or is a supertype of this
+      *         AttributableMeshType
+      */
+    @Override
     public final boolean equalsOrIsSupertype(
             AttributableMeshType other )
     {
@@ -556,6 +567,7 @@ public abstract class MAttributableMeshType
       * @return the number of steps between this AttributableMeshType and other. -1 if
       *         there is no sub-typing relationships between the two
       */
+    @Override
     public final int getDistanceToSupertype(
             AttributableMeshType other )
     {
@@ -588,6 +600,7 @@ public abstract class MAttributableMeshType
       * @return the number of steps between this AttributableMeshType and other. -1 if
       *         there is no sub-typing relationships between the two
       */
+    @Override
     public final int getDistanceToSupertype(
             String className )
     {
@@ -618,6 +631,7 @@ public abstract class MAttributableMeshType
      * @param other the AttributableMeshType to test against
      * @return true if this AttributableMeshType is a subtype of other
      */
+    @Override
     public final boolean isSubtypeOfOrEquals(
             AttributableMeshType other )
     {
@@ -632,6 +646,7 @@ public abstract class MAttributableMeshType
      * @return true if this AttributableMeshType is a subtype of other
      * @see #isSubtypeOfOrEquals
      */
+    @Override
     public final boolean isSubtypeOfDoesNotEqual(
             AttributableMeshType other )
     {
@@ -645,6 +660,7 @@ public abstract class MAttributableMeshType
      * @param candidate RootObject the RootObject to test against
      * @return true if candidate is an instance of this AttributableMeshType, or one of its subtypes
      */
+    @Override
     public final boolean isInstance(
             MeshObject candidate )
     {
@@ -675,6 +691,7 @@ public abstract class MAttributableMeshType
       * @return the value of the IsAbstract property
       * @see #setIsAbstract
       */
+    @Override
     public final BooleanValue getIsAbstract()
     {
         return theIsAbstract;
@@ -687,13 +704,14 @@ public abstract class MAttributableMeshType
       * @param name value of the Name property of the PropertyType
       * @return the found PropertyType, or null if not found.
       */
+    @Override
     public final PropertyType findPropertyTypeByName(
             String name )
     {
         PropertyType [] all = getAllPropertyTypes();
 
         for( int i=0 ; i<all.length ; ++i ) {
-            if( all[i].getName().equals( name )) {
+            if( name.equals( all[i].getName().getAsString())) {
                 return all[i];
             }
         }
@@ -708,6 +726,7 @@ public abstract class MAttributableMeshType
      * @return the ClassLoader that can load the appropriate Java classes to instantiate this
      *         AttributableMeshType
      */
+    @Override
     public final ClassLoader getClassLoader()
     {
         return getSubjectArea().getClassLoader();
@@ -797,7 +816,7 @@ public abstract class MAttributableMeshType
     }
 
     /**
-      * Obtain transitive closure of inhereted (but not local) PropertyTypes, with duplicates but
+      * Obtain transitive closure of inherited (but not local) PropertyTypes, with duplicates but
       * without overridden PropertyTypes in supertypes.
       *
       * @return an ArrayList containing a transitive closure of PropertyTypes
@@ -948,6 +967,7 @@ public abstract class MAttributableMeshType
              * @param o2 the second Object
              * @returns integer indicating the comparison result
              */
+            @Override
             public int compare(
                     PropertyTypeOrGroup o1,
                     PropertyTypeOrGroup o2 )

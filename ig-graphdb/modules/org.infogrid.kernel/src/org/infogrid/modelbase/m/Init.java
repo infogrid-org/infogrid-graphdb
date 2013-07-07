@@ -8,15 +8,13 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.modelbase.m;
 
 import org.infogrid.modelbase.ModelBase;
-import org.infogrid.modelbase.ModelBaseSingleton;
-
 import org.infogrid.module.Module;
 
 /**
@@ -25,6 +23,8 @@ import org.infogrid.module.Module;
  */
 public abstract class Init
 {
+    private Init() {} // keep this abstract
+    
     /**
      * The Module Framework's BootLoader activates this Module by calling this method.
      *

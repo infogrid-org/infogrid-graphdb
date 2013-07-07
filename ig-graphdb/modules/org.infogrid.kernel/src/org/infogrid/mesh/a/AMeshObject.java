@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2012 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -140,6 +140,7 @@ public class AMeshObject
      * @param timeUpdated the time to set to. -1 means "don't update" and 0 means "current time".
      * @param lastTimeUpdated the time this MeshObject was updated last before
      */
+    @Override
     protected void updateLastUpdated(
             long timeUpdated,
             long lastTimeUpdated )
@@ -155,6 +156,7 @@ public class AMeshObject
      * @param timeRead the time to set to. -1 means "don't update" and 0 means "current time".
      * @param lastTimeRead the time this MeshObject was read last before
      */
+    @Override
     protected void updateLastRead(
             long timeRead,
             long lastTimeRead )
@@ -172,6 +174,7 @@ public class AMeshObject
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well
      * @return the set of MeshObjects that are directly related to this MeshObject
      */
+    @Override
     public MeshObjectSet traverseToNeighborMeshObjects(
             boolean considerEquivalents )
     {
@@ -306,6 +309,7 @@ public class AMeshObject
      * @see #unrelate
      * @see #relateAndBless
      */
+    @Override
     public void relate(
             MeshObject newNeighbor )
         throws
@@ -424,6 +428,7 @@ public class AMeshObject
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #relate
      */
+    @Override
     public void unrelate(
             MeshObject neighbor )
         throws
@@ -554,6 +559,7 @@ public class AMeshObject
      * @param otherObject the MeshObject to which this MeshObject may be related
      * @return true if this MeshObject is currently related to otherObject
      */
+    @Override
     public boolean isRelated(
             MeshObject otherObject )
     {
@@ -577,6 +583,7 @@ public class AMeshObject
      * @param otherObjectIdentifier the MeshObjectIdentifier of the MeshObject to which this MeshObject may be related
      * @return true if this MeshObject is currently related to otherObject
      */
+    @Override
     public boolean isRelated(
             MeshObjectIdentifier otherObjectIdentifier )
     {
@@ -605,6 +612,7 @@ public class AMeshObject
      * @see #relateAndBless
      * @see #unrelate
      */
+    @Override
     public void blessRelationship(
             RoleType [] thisEnds,
             MeshObject  neighbor )
@@ -839,6 +847,7 @@ public class AMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void unblessRelationship(
             RoleType [] thisEnds,
             MeshObject  otherObject )
@@ -914,9 +923,6 @@ public class AMeshObject
                     throw new NotRelatedException( realNeighbor, this );
                 }
 
-//                MeshObjectIdentifier [] neighborIdentifiers      = nMgr.getNeighborIdentifiers( this );
-//                MeshObjectIdentifier [] otherNeighborIdentifiers = realNeighbor != null ? nMgr.getNeighborIdentifiers( realNeighbor ) : null;
-//
                 RoleType [] oldRoleTypesHere  = realNeighbor != null ? nMgr.getRoleTypesFor( this, realNeighbor.getIdentifier() ) : null; // will throw NotRelatedException
                 RoleType [] oldRoleTypesThere = realNeighbor != null ? nMgr.getRoleTypesFor( realNeighbor, theIdentifier )        : null; // will throw NotRelatedException
 
@@ -1033,6 +1039,7 @@ public class AMeshObject
       *        if false, only this MeshObject will be used as the start
       * @return the set of MeshObjects found as a result of the traversal
       */
+    @Override
     public MeshObjectSet traverse(
             TraversalSpecification theTraverseSpec,
             boolean                considerEquivalents )
@@ -1129,6 +1136,7 @@ public class AMeshObject
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
+    @Override
     public RoleType [] getRoleTypes(
             boolean considerEquivalents )
     {
@@ -1206,6 +1214,7 @@ public class AMeshObject
      * @return the identifiers of the RoleTypes
      * @throws NotRelatedException thrown if the specified MeshObject is not actually a neighbor
      */
+    @Override
     public MeshTypeIdentifier [] getRoleTypeIdentifiers(
             MeshObjectIdentifier neighborIdentifier,
             boolean              considerEquivalents )
@@ -1258,6 +1267,7 @@ public class AMeshObject
      *        if false, only this MeshObject will be used as the start
      * @return the Roles that this MeshObject currently participates in.
      */
+    @Override
     public Role [] getRoles(
             boolean considerEquivalents )
     {
@@ -1338,6 +1348,7 @@ public class AMeshObject
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
+    @Override
     public RoleType [] getRoleTypes(
             MeshObject neighbor,
             boolean    considerEquivalents )
@@ -1356,6 +1367,7 @@ public class AMeshObject
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
+    @Override
     public RoleType [] getRoleTypes(
             MeshObjectIdentifier neighborIdentifier,
             boolean              considerEquivalents )
@@ -1455,6 +1467,7 @@ public class AMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void addAsEquivalent(
             MeshObject equiv )
         throws
@@ -1552,6 +1565,7 @@ public class AMeshObject
      *
      * @return the set of MeshObjects that are equivalent
      */
+    @Override
     public synchronized MeshObjectSet getEquivalents()
     {
         checkAlive();
@@ -1599,6 +1613,7 @@ public class AMeshObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
+    @Override
     public void removeAsEquivalent()
         throws
             TransactionException,
@@ -1661,6 +1676,7 @@ public class AMeshObject
      * 
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
      */
+    @Override
     public void delete()
         throws
             TransactionException
@@ -1795,6 +1811,7 @@ public class AMeshObject
      * 
      * @return this MeshObject as ExternalizedMeshObject
      */
+    @Override
     public SimpleExternalizedMeshObject asExternalized()
     {
         AMeshObjectNeighborManager nMgr = getNeighborManager();
@@ -1888,6 +1905,7 @@ public class AMeshObject
      * @param types the EntityTypes to be consulted, in sequence, until a non-null result is found
      * @return the user-visible String representing this instance, or null if none could be found
      */
+    @Override
     public String getUserVisibleString(
             EntityType [] types )
     {
@@ -1923,6 +1941,7 @@ public class AMeshObject
      *
      * @return the user-visible String representing this instance
      */
+    @Override
     public String getUserVisibleString()
     {
         // if it has a name, return that
@@ -1951,6 +1970,7 @@ public class AMeshObject
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      * @return String representation
      */
+    @Override
     public String toStringRepresentation(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -1993,6 +2013,7 @@ public class AMeshObject
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
+    @Override
     public String toStringRepresentationLinkStart(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
@@ -2059,6 +2080,7 @@ public class AMeshObject
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
+    @Override
     public String toStringRepresentationLinkEnd(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
