@@ -1,9 +1,0 @@
-div.org-infogrid-jee-viewlet-objectset-ObjectSetViewlet > table.objects > * > * > * {
-    padding: 10px 0;
-}
-div.org-infogrid-jee-viewlet-objectset-ObjectSetViewlet > table.objects > * > * > th.identifier {
-    width: 20%;
-}
-div.org-infogrid-jee-viewlet-objectset-ObjectSetViewlet > table.objects > * > * > td.type {
-    width: 20%;
-}
