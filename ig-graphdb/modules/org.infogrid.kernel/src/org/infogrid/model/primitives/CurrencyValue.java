@@ -239,19 +239,10 @@ public final class CurrencyValue
       *
       * @return the value as String
       */
+    @Override
     public String value()
     {
-        return theUnit.format( getIsPositive(), getWholes(), getFractions() );
-    }
-
-    /**
-     * Determine whether the amount is positive or zero.
-     * 
-     * @return true if positive or zero, false if negative
-     */
-    public boolean getIsPositive()
-    {
-        return theInternalValue >= 0;
+        return theUnit.format( theInternalValue >= 0, getWholes(), getFractions() );
     }
 
     /**
@@ -502,6 +493,7 @@ public final class CurrencyValue
      * @param typeVar  name of the variable containing the DatatType that goes with the to-be-created instance.
      * @return the Java-language constructor expression
      */
+    @Override
     public String getJavaConstructorString(
             String classLoaderVar,
             String typeVar )
@@ -509,7 +501,7 @@ public final class CurrencyValue
         StringBuilder buf = new StringBuilder( 128 );
         buf.append( getClass().getName() );
         buf.append( DataType.CREATE_STRING );
-        buf.append( getIsPositive() );
+        buf.append( theInternalValue >= 0 );
         buf.append( DataType.COMMA_STRING );
         buf.append( getWholes() );
         buf.append( DataType.COMMA_STRING );
@@ -535,6 +527,7 @@ public final class CurrencyValue
      * @throws ClassCastException if the specified object's type prevents it
      *         from being compared to this Object.
      */
+    @Override
     public int compareTo(
             PropertyValue o )
     {
@@ -562,6 +555,7 @@ public final class CurrencyValue
      * @return String representation
      * @throws StringifierException thrown if there was a problem when attempting to stringify
      */
+    @Override
     public String toStringRepresentation(
             StringRepresentation           rep,
             StringRepresentationParameters pars )
