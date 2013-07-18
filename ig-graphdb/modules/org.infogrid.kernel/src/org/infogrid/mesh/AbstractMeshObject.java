@@ -898,6 +898,18 @@ public abstract class AbstractMeshObject
         if( theMeshTypes == null ) {
             theMeshTypes = createMeshTypes();
         }
+        
+        // determine existing property types
+        ArrayList<PropertyType> existingPropertyTypes = new ArrayList<PropertyType>();
+        for( EntityType type : theMeshTypes.keySet() ) {
+            PropertyType [] current = type.getAllPropertyTypes();
+            for( int i=0 ; i<current.length ; ++i ) {
+                if( !existingPropertyTypes.contains( current[i] )) {
+                    existingPropertyTypes.add( current[i] );
+                }
+            }
+        }
+        
         boolean doTimeUpdate = false;
         for( int i=0 ; i<types.length ; ++i ) {
             WeakReference<TypedMeshObjectFacade> already = theMeshTypes.get( types[i] );
@@ -918,20 +930,20 @@ public abstract class AbstractMeshObject
 
         for( int i=0 ; i<types.length ; ++i ) {
             TypeInitializer init = createTypeInitializer( types[i] );
-            init.initialize( theTimeUpdated );
+            init.initialize( existingPropertyTypes, theTimeUpdated );
         }
     }
 
     /**
      * Obtain a type initializer. This may be overridden by subclasses.
      *
-     * @param type the EntityType for which a TypeInitializer is to be found
+     * @param newType the EntityType for which a TypeInitializer is to be found
      * @return the TypeInitializer
      */
     public TypeInitializer createTypeInitializer(
-             EntityType type )
+            EntityType      newType )
     {
-         return new TypeInitializer( this, type );
+         return new TypeInitializer( this, newType );
     }
 
     /**

@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2010 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -20,11 +20,11 @@ import org.infogrid.meshbase.MeshBaseLifecycleManager;
 import org.infogrid.meshbase.store.StoreMeshBase;
 import org.infogrid.meshbase.transaction.Transaction;
 import org.infogrid.meshbase.transaction.TransactionException;
+import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.model.primitives.BlobValue;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.EnumeratedValue;
 import org.infogrid.model.primitives.StringValue;
-import org.infogrid.model.Test.TestSubjectArea;
 import org.infogrid.util.logging.Log;
 
 /**

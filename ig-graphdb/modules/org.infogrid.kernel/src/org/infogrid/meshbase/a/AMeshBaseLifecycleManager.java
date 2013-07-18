@@ -16,13 +16,13 @@ package org.infogrid.meshbase.a;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import org.infogrid.mesh.AbstractMeshObject;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.MeshObjectIdentifierNotUniqueException;
 import org.infogrid.mesh.NotPermittedException;
-import org.infogrid.mesh.TypeInitializer;
 import org.infogrid.mesh.TypedMeshObjectFacadeImpl;
 import org.infogrid.mesh.a.AMeshObject;
 import org.infogrid.mesh.externalized.ExternalizedMeshObject;
@@ -421,15 +421,16 @@ public class AMeshBaseLifecycleManager
         AMeshBase realBase = (AMeshBase) theMeshBase;
         ModelBase mb       = realBase.getModelBase();
 
-        MeshTypeIdentifier [] meshTypeNames = theObjectBeingParsed.getExternalTypeIdentifiers();
-        EntityType         [] types         = new EntityType[ meshTypeNames.length ];
-
+        MeshTypeIdentifier []   meshTypeNames = theObjectBeingParsed.getExternalTypeIdentifiers();
+        EntityType         []   types         = new EntityType[ meshTypeNames.length ];
+        
         int typeCounter = 0;
         for( int i=0 ; i<meshTypeNames.length ; ++i ) {
             try {
                 // it's possible that the schema changed since we read this object. Try to recover.
                 types[typeCounter] = (EntityType) mb.findMeshTypeByIdentifier( meshTypeNames[i] );
                 typeCounter++; // make sure we do the increment after an exception might have been thrown
+
             } catch( Exception ex ) {
                 log.warn( ex );
             }
@@ -444,6 +445,17 @@ public class AMeshBaseLifecycleManager
         PropertyValue      [] propertyValues    = theObjectBeingParsed.getPropertyValues();
         
         HashMap<PropertyType,PropertyValue> properties = new HashMap<PropertyType,PropertyValue>();
+        
+        // set defaults first
+        for( EntityType type : types ) {
+            for( PropertyType propertyType : type.getAllPropertyTypes() ) {
+                if( propertyType.getDefaultValue() == null ) {
+                    continue;
+                }
+                properties.put( propertyType, propertyType.getDefaultValue() );
+            }
+        }
+        
         for( int i=0 ; i<propertyTypeNames.length ; ++i ) {
             try {
                 // it's possible that the schema changed since we read this object. Try to recover.
@@ -492,8 +504,7 @@ public class AMeshBaseLifecycleManager
                 }
             }
         }
-
-
+        
         // relationships
 
         MeshObjectIdentifier [] otherSides = theObjectBeingParsed.getNeighbors();
@@ -611,14 +622,6 @@ public class AMeshBaseLifecycleManager
         Transaction tx = theMeshBase.checkTransaction();
 
         AbstractMeshObject ret = recreateMeshObject( theExternalizedObject );
-
-        // re-initialize default values
-        EntityType [] types = ret.getTypes();
-
-        for( int i=0 ; i<types.length ; ++i ) {
-            TypeInitializer init = ret.createTypeInitializer( types[i] );
-            init.initialize( ret.getTimeUpdated() );
-        }
 
         putIntoMeshBase( ret, createCreatedEvent( ret ));
         

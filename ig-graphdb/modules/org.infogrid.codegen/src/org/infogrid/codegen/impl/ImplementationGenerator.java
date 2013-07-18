@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2013 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
 // All rights reserved.
 //
 
@@ -66,6 +66,7 @@ public class ImplementationGenerator
       * @throws IOException thrown if an I/O error occurred during code generation
       * @throws StringifierException thrown if there was a problem when attempting to stringify
       */
+    @Override
     protected String generateCodeForEntityType(
             EntityType theMeshType )
         throws
@@ -319,17 +320,19 @@ public class ImplementationGenerator
         outStream.println( "    /**" );
         outStream.println( "      * Initializes the MeshObject to its default values." );
         outStream.println( "      *");
-        outStream.println( "      * @param init the TypeInitializer");
-        outStream.println( "      * @param timeUpdated the timeUpdated to use");
-        outStream.println( "      * @throws org.infogrid.mesh.IllegalPropertyTypeException should not be thrown -- codegenerator faulty");
-        outStream.println( "      * @throws org.infogrid.mesh.IllegalPropertyValueException should not be thrown -- codegenerator faulty");
-        outStream.println( "      * @throws org.infogrid.mesh.NotPermittedException should not be thrown -- codegenerator faulty");
-        outStream.println( "      * @throws org.infogrid.meshbase.transaction.TransactionException should not be thrown -- codegenerator faulty");
-        outStream.println( "      * @throws org.infogrid.model.primitives.UnknownEnumeratedValueException should not be thrown -- codegenerator faulty");
+        outStream.println( "      * @param init the TypeInitializer" );
+        outStream.println( "      * @param skipSettingValuesFor collection of PropertyTypes that already have values and should not be initialized" );
+        outStream.println( "      * @param timeUpdated the timeUpdated to use" );
+        outStream.println( "      * @throws org.infogrid.mesh.IllegalPropertyTypeException should not be thrown -- codegenerator faulty" );
+        outStream.println( "      * @throws org.infogrid.mesh.IllegalPropertyValueException should not be thrown -- codegenerator faulty" );
+        outStream.println( "      * @throws org.infogrid.mesh.NotPermittedException should not be thrown -- codegenerator faulty" );
+        outStream.println( "      * @throws org.infogrid.meshbase.transaction.TransactionException should not be thrown -- codegenerator faulty" );
+        outStream.println( "      * @throws org.infogrid.model.primitives.UnknownEnumeratedValueException should not be thrown -- codegenerator faulty" );
         outStream.println( "      */" );
         outStream.println( "    public static void initializeDefaultValues(" );
-        outStream.println( "            TypeInitializer init," );
-        outStream.println( "            long            timeUpdated )" );
+        outStream.println( "            TypeInitializer                    init," );
+        outStream.println( "            java.util.Collection<PropertyType> skipSettingValuesFor," );
+        outStream.println( "            long                               timeUpdated )" );
         outStream.println( "        throws" );
         outStream.println( "            org.infogrid.mesh.IllegalPropertyTypeException," );
         outStream.println( "            org.infogrid.mesh.IllegalPropertyValueException," );
@@ -379,6 +382,7 @@ public class ImplementationGenerator
             outStream.println( "                new PropertyValue[] {" );
             outStream.print( propValuesString.toString() );
             outStream.println( "                }," );
+            outStream.println( "                skipSettingValuesFor," );
             outStream.println( "                timeUpdated );" );
         }
         outStream.println( "    }" );
@@ -522,6 +526,7 @@ public class ImplementationGenerator
       * @return the relative path of the file to which the code will be written
       * @throws IOException thrown if an I/O error occurred
       */
+    @Override
     protected String getRelativeCodeFileNameFor(
             MeshType theMeshType )
         throws
@@ -562,6 +567,7 @@ public class ImplementationGenerator
       * @return the relative file name into which the code will be written
       * @throws IOException thrown if an I/O error occurred during code generation
       */
+    @Override
     protected String getRelativeJavaDocFileNameFor(
             SubjectArea theSubjectArea )
         throws
@@ -580,6 +586,7 @@ public class ImplementationGenerator
      * @return the fully-qualified file name where it was generated
      * @throws IOException thrown if an I/O error occurred during code generation
      */
+    @Override
     protected String generateJavaDocForSubjectArea(
             SubjectArea theSubjectArea )
         throws IOException

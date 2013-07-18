@@ -43,6 +43,7 @@ public abstract class AllTests
                 new TestSpec( StoreMeshBaseTest7.class ),
                 new TestSpec( StoreMeshBaseTest8.class ),
                 new TestSpec( StoreMeshBaseTest9.class ),
+                new TestSpec( StoreMeshBaseTest10.class ),
 
                 new TestSpec( StoreBulkLoaderTest1.class ),
 

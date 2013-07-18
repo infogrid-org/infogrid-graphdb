@@ -15,11 +15,13 @@
 package org.infogrid.mesh;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
 import org.infogrid.model.primitives.PropertyValue;
+import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.IsDeadException;
 
 
@@ -32,31 +34,33 @@ public class TypeInitializer
     /**
      * Constructor.
      *
-     * @param obj the MeshObject 
-     * @param type the type with which the MeshObject is being newly blessed.
+     * @param obj the MeshObject
+     * @param newType the type with which the MeshObject is being newly blessed.
      */
     protected TypeInitializer(
             AbstractMeshObject obj,
-            EntityType         type )
+            EntityType         newType )
     {
         theMeshObject = obj;
-        theType       = type;
+        theNewType    = newType;
     }
 
     /**
      * Perform the initialization.
      * 
+     * @param skipSettingValuesFor collection of PropertyTypes that already have values and should not be initialized
      * @param timeUpdated the timeUpdated time stamp to use, in System.currentTimeMillis() format
      */
     public void initialize(
-            long timeUpdated )
+            Collection<PropertyType> skipSettingValuesFor,
+            long                     timeUpdated )
     {
         try {
-            Class<?> implClass = theMeshObject.getMeshBase().getMeshBaseLifecycleManager().getImplementationClass( theType );
+            Class<?> implClass = theMeshObject.getMeshBase().getMeshBaseLifecycleManager().getImplementationClass( theNewType );
 
             if( implClass != null ) {
-                Method   initializer = implClass.getDeclaredMethod( "initializeDefaultValues", TypeInitializer.class, Long.TYPE );
-                initializer.invoke( null, this, timeUpdated );
+                Method   initializer = implClass.getDeclaredMethod( "initializeDefaultValues", TypeInitializer.class, Collection.class, Long.TYPE );
+                initializer.invoke( null, this, skipSettingValuesFor, timeUpdated );
             }
 
         } catch( Exception ex ) {
@@ -69,6 +73,7 @@ public class TypeInitializer
      *
      * @param propertyTypes the PropertyTypes of the MeshObject to change
      * @param propertyValues the PropertyValues to set them to
+     * @param skipSettingValuesFor collection of PropertyTypes that already have values and should not be initialized
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
      * @throws IllegalPropertyTypeException thrown if one PropertyType does not exist on this MeshObject
      *         because the MeshObject has not been blessed with a MeshType that provides this PropertyType
@@ -77,16 +82,36 @@ public class TypeInitializer
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
      */
     public void setPropertyValues(
-            PropertyType  [] propertyTypes,
-            PropertyValue [] propertyValues,
-            long             timeUpdated )
+            PropertyType  []         propertyTypes,
+            PropertyValue []         propertyValues,
+            Collection<PropertyType> skipSettingValuesFor,
+            long                     timeUpdated )
         throws
             IllegalPropertyTypeException,
             IllegalPropertyValueException,
             NotPermittedException,
             TransactionException
     {
-        theMeshObject.internalSetPropertyValues( propertyTypes, propertyValues, false, false, timeUpdated );
+        if( skipSettingValuesFor != null ) {
+            PropertyType  [] propertyTypes2  = new PropertyType[ propertyTypes.length ];
+            PropertyValue [] propertyValues2 = new PropertyValue[ propertyValues.length ];
+            int count = 0;
+
+            for( int i=0 ; i<propertyTypes.length ; ++i ) {
+                if( !skipSettingValuesFor.contains( propertyTypes[i] )) {
+                    propertyTypes2[count]  = propertyTypes[i];
+                    propertyValues2[count] = propertyValues[i];
+                    ++count;
+                }
+            }
+            if( count < propertyTypes2.length ) {
+                propertyTypes2  = ArrayHelper.copyIntoNewArray( propertyTypes2,  0, count, PropertyType.class );
+                propertyValues2 = ArrayHelper.copyIntoNewArray( propertyValues2, 0, count, PropertyValue.class );
+            }
+            theMeshObject.internalSetPropertyValues( propertyTypes2, propertyValues2, false, false, timeUpdated );
+        } else {
+            theMeshObject.internalSetPropertyValues( propertyTypes, propertyValues, false, false, timeUpdated );
+        }
     }
 
     /**
@@ -99,10 +124,10 @@ public class TypeInitializer
             return; // this is a loop, do nothing
         }
         try {
-            Class<?> implClass = mb.getMeshBaseLifecycleManager().getImplementationClass( theType );
+            Class<?> implClass = mb.getMeshBaseLifecycleManager().getImplementationClass( theNewType );
 
             if( implClass != null ) {
-                TypedMeshObjectFacade facade      = theMeshObject.getTypedFacadeFor( theType );
+                TypedMeshObjectFacade facade      = theMeshObject.getTypedFacadeFor( theNewType );
                 Method                initializer = implClass.getDeclaredMethod( "cascadingDelete" );
                 // will throw if not found
                 initializer.invoke( facade );
@@ -124,7 +149,7 @@ public class TypeInitializer
     protected AbstractMeshObject theMeshObject;
 
     /**
-     * The type with which the MeshObject is to be initialized.
+     * The type with which the MeshObject is to be newly blessed.
      */
-    protected EntityType theType;
+    protected EntityType theNewType;
 }
