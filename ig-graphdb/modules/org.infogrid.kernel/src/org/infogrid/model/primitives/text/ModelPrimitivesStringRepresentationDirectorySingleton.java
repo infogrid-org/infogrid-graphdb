@@ -57,7 +57,7 @@ public class ModelPrimitivesStringRepresentationDirectorySingleton
         StringRepresentation java       = theSingleton.get( TEXT_JAVA_NAME );
         StringRepresentation javadoc    = theSingleton.get( TEXT_JAVADOC_NAME );
         StringRepresentation javascript = theSingleton.get( TEXT_JAVASCRIPT_NAME );
-        StringRepresentation json       = theSingleton.get(  TEXT_JSON_NAME );
+        StringRepresentation json       = theSingleton.get( TEXT_JSON_NAME );
 
         Map<String,Stringifier<? extends Object>> plainMap      = plain.getLocalStringifierMap();
         Map<String,Stringifier<? extends Object>> editPlainMap  = editPlain.getLocalStringifierMap();
