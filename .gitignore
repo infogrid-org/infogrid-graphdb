@@ -4,3 +4,4 @@ build/
 dist/
 genfiles.properties
 private.properties
+target/

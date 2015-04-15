@@ -1,6 +1,0 @@
-org.infogrid.kernel
-org.infogrid.kernel.active
-org.infogrid.codegen [no-run]
-org.infogrid.meshbase.store
-org.infogrid.meshbase.security.aclbased
-org.infogrid.model.AclBasedSecurity
