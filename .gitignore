@@ -5,3 +5,4 @@ dist/
 genfiles.properties
 private.properties
 target/
+generated/

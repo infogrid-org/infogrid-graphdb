@@ -17,7 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>org.infogrid.util</artifactId>
+            <artifactId>org.infogrid.kernel</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>

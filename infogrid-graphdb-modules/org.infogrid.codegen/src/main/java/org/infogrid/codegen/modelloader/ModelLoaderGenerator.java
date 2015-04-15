@@ -165,8 +165,6 @@ public class ModelLoaderGenerator
         outStream.println( "import org.infogrid.model.primitives.*;" );
         outStream.println( "import org.infogrid.model.traversal.TraversalSpecification;" );
         outStream.println( "import org.infogrid.model.traversal.TraversalToPropertySpecification;" );
-        outStream.println( "import org.infogrid.module.ModuleException;" );
-        outStream.println( "import org.infogrid.module.ModuleRequirement;" );
         outStream.println( "import java.io.IOException;" );
         outStream.println();
     }
