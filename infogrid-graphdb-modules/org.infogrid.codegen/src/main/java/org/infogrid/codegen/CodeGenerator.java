@@ -120,7 +120,6 @@ public class CodeGenerator
         System.err.println( "Usage: The code generator must be invoked from the InfoGrid Module Framework:" );
         System.err.println( "    root module: " + CodeGenerator.class.getName() );
         System.err.println( "    arguments: <model.xml file> ... -o <outputDir>" );
-new Throwable().printStackTrace( System.err );
         System.exit( 1 );
     }
 
