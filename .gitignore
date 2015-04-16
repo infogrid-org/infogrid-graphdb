@@ -4,5 +4,6 @@ build/
 dist/
 genfiles.properties
 private.properties
+nbactions.xml
 target/
 generated/
