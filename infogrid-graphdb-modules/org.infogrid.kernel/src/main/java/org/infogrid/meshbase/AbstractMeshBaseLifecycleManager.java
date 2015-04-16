@@ -422,7 +422,11 @@ public abstract class AbstractMeshBaseLifecycleManager
             return; // no owner
         }
 
-        accessMgr.assignOwner( obj, caller );
+        try {
+            accessMgr.assignOwner( obj, caller );
+        } catch( NotPermittedException ex ) {
+            log.error( ex );
+        }
     }
 
     /**

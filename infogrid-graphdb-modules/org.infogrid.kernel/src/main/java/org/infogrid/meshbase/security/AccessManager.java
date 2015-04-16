@@ -35,12 +35,14 @@ public interface AccessManager
      *
      * @param toBeOwned the MeshObject to be owned by the new owner
      * @param newOwner the MeshObject that is the new owner.
+     * @throws NotPermittedException thrown if it is not permitted
      * @throws TransactionException thrown if this is invoked outside of proper transaction boundaries
      */
     public void assignOwner(
             MeshObject toBeOwned,
             MeshObject newOwner )
         throws
+            NotPermittedException,
             TransactionException;
     
     /**

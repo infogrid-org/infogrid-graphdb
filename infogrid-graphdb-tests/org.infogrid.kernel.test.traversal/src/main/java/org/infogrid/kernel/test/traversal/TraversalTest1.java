@@ -28,7 +28,7 @@ import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
 
 /**
- * Tests externalization and reconstructinon of TraversalSpecifications.
+ * Tests externalization and reconstruction of TraversalSpecifications.
  */
 public class TraversalTest1
         extends

@@ -76,7 +76,7 @@ public class ModelChangeTest3
                 StringValue.create( "org.infogrid.meshbase.store.test.model" ),
                 null,
                 L10PropertyValueMapImpl.create( StringValue.create( "test.model") ),
-                null, null, null, null,
+                null, null, null,
                 BooleanValue.TRUE,
                 BooleanValue.TRUE );
 

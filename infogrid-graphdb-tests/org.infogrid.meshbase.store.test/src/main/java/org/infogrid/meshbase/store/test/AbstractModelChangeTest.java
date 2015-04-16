@@ -14,6 +14,7 @@
 
 package org.infogrid.meshbase.store.test;
 
+import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.TypedMeshObjectFacadeImpl;
@@ -53,7 +54,6 @@ import org.infogrid.modelbase.m.MModelBase;
 import org.infogrid.store.IterableStore;
 import org.infogrid.store.sql.AbstractSqlStore;
 import org.infogrid.store.sql.mysql.MysqlStore;
-import org.infogrid.store.util.IterableStoreBackedSwappingHashMap;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.context.Context;
 import org.infogrid.util.context.SimpleContext;
