@@ -10,8 +10,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} --moduledirectory /home/buildmaster/.m2:/home/buildmaster/git/github.com/infogrid-org/infogrid-graphdb/infogrid-graphdb-tests/org.infogrid.model.Test --rootmodule org.infogrid.codegen org.infogrid.model.Test -o /tmp</exec.args>
+                <exec.args>-jar ${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module.commandline/${project.version}/org.infogrid.module.commandline-${project.version}-jar-with-dependencies.jar --moduledirectory /home/buildmaster/.m2 --rootmodule org.infogrid.codegen /home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob/infogrid-models/model.xml -o /tmp</exec.args>
                 <exec.executable>java</exec.executable>
+                <exec.workingdir>, -o, /home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob/src/generated</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -24,9 +25,10 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -classpath %classpath ${packageClassName} --moduledirectory /home/buildmaster/.m2:/home/buildmaster/git/github.com/infogrid-org/infogrid-graphdb/infogrid-graphdb-tests/org.infogrid.model.Test --rootmodule org.infogrid.codegen org.infogrid.model.Test -o /tmp</exec.args>
+                <exec.args>-Xdebug -Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address} -jar ${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module.commandline/${project.version}/org.infogrid.module.commandline-${project.version}-jar-with-dependencies.jar --moduledirectory /home/buildmaster/.m2 --rootmodule org.infogrid.codegen /home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob/infogrid-models/model.xml -o /tmp</exec.args>
                 <exec.executable>java</exec.executable>
                 <jpda.listen>true</jpda.listen>
+                <exec.workingdir>, -o, /home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob/src/generated</exec.workingdir>
             </properties>
         </action>
         <action>
@@ -39,8 +41,9 @@
                 <goal>org.codehaus.mojo:exec-maven-plugin:1.2.1:exec</goal>
             </goals>
             <properties>
-                <exec.args>-classpath %classpath ${packageClassName} --moduledirectory /home/buildmaster/.m2:/home/buildmaster/git/github.com/infogrid-org/infogrid-graphdb/infogrid-graphdb-tests/org.infogrid.model.Test --rootmodule org.infogrid.codegen org.infogrid.model.Test -o /tmp</exec.args>
+                <exec.args>-classpath %classpath ${packageClassName} --moduledirectory /home/buildmaster/.m2:/home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob --rootmodule org.infogrid.codegen org.infogrid.model.Blob -o /tmp</exec.args>
                 <exec.executable>java</exec.executable>
+                <exec.workingdir>, -o, /home/buildmaster/git/github.com/infogrid-org/infogrid-model-library/infogrid-model-library-modules/org.infogrid.model.Blob/src/generated</exec.workingdir>
             </properties>
         </action>
     </actions>

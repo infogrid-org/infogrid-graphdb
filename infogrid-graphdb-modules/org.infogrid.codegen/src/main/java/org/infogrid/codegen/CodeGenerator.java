@@ -22,6 +22,7 @@ import java.util.Iterator;
 import org.infogrid.codegen.impl.ImplementationGenerator;
 import org.infogrid.codegen.intfc.InterfaceGenerator;
 import org.infogrid.codegen.modelloader.ModelLoaderGenerator;
+import org.infogrid.codegen.moduleinit.ModuleInitGenerator;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationDirectorySingleton;
@@ -158,6 +159,9 @@ public class CodeGenerator
 
         ModelLoaderGenerator theLoaderGenerator = new ModelLoaderGenerator( theOutputDirectory, theCommentsRepresentation );
         theLoaderGenerator.generateForAll( sas );
+
+        ModuleInitGenerator theModuleInitGenerator = new ModuleInitGenerator( theOutputDirectory, theCommentsRepresentation );
+        theModuleInitGenerator.generateForAll( sas );
     }
 
     /**

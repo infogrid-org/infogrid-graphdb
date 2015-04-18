@@ -30,13 +30,10 @@
                     <configuration>
                         <executable>java</executable>
                         <mainClass>org.infogrid.module.commandline.CommandlineBootLoader</mainClass>
-                        <additionalClasspathElements>
-                            <additionalClasspathElement>${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module.commandline/3.0-SNAPSHOT/org.infogrid.module.commandline-3.0-SNAPSHOT.jar</additionalClasspathElement>
-                            <additionalClasspathElement>${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module/3.0-SNAPSHOT/org.infogrid.module-3.0-SNAPSHOT.jar</additionalClasspathElement>
-                        </additionalClasspathElements>
                         <arguments>
-                            <argument>-jar</argument>
-                            <argument>${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module.commandline/${project.version}/org.infogrid.module.commandline-${project.version}-jar-with-dependencies.jar</argument>
+                            <argument>-classpath</argument>
+                            <argument>${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module/3.0-SNAPSHOT/org.infogrid.module-3.0-SNAPSHOT.jar:${env.HOME}/.m2/repository/org/infogrid/org.infogrid.module.commandline/${project.version}/org.infogrid.module.commandline-${project.version}.jar</argument>
+                            <argument>org.infogrid.module.commandline.CommandlineBootLoader</argument>
                             <argument>--rootmodule</argument>
                             <argument>org.infogrid.codegen</argument>
                             <argument>--moduledirectory</argument>

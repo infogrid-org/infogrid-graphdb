@@ -39,13 +39,21 @@ import org.infogrid.modelbase.MeshTypeLifecycleManager;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.MeshTypeWithIdentifierNotFoundException;
 import org.infogrid.modelbase.ModelBase;
-import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.modelbase.ModelLoader;
 import org.infogrid.modelbase.PropertyTypeNotFoundException;
 import org.infogrid.modelbase.RelationshipTypeNotFoundException;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
 import org.infogrid.modelbase.WrongMeshTypeException;
 import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
+import org.infogrid.module.Module;
+import org.infogrid.module.ModuleActivationException;
+import org.infogrid.module.ModuleException;
+import org.infogrid.module.ModuleMeta;
+import org.infogrid.module.ModuleNotFoundException;
+import org.infogrid.module.ModuleRegistry;
+import org.infogrid.module.ModuleRequirement;
+import org.infogrid.module.ModuleResolutionCandidateNotUniqueException;
+import org.infogrid.module.ModuleResolutionException;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -240,8 +248,6 @@ public class MModelBase
                 if( ret == null ) {
                     throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber );
                 }
-            } catch( MeshTypeNotFoundException ex ) {
-                throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
             } catch( IOException ex ) {
                 throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
             }
@@ -559,6 +565,7 @@ public class MModelBase
         // this may call us back to load a subject area we have not loaded yet
     }
 
+
     /**
      * This internal method is called when there is an attempt to access a SubjectArea
      * which is not present in the working model. This method will attempt to load it, and returns
@@ -567,10 +574,49 @@ public class MModelBase
      * @param saName fully-qualified name of the SubjectArea to be loaded
      * @param saVersion version number of the SubjectArea to be loaded
      * @return the found SubjectArea
-     * @throws MeshTypeNotFoundException thrown if the MeshType was not found
+     * @throws SubjectAreaNotFoundException thrown if the SubjectArea was not found
      * @throws IOException thrown if the file could not be read
      */
     public SubjectArea attemptToLoadSubjectArea(
+            String saName,
+            String saVersion )
+        throws
+            SubjectAreaNotFoundException,
+            IOException
+    {
+        if( ModuleRegistry.getSingleton() == null ) {
+            try {
+                return attemptToLoadSubjectAreaWithoutModuleRegistry( saName, saVersion );
+
+            } catch( SubjectAreaNotFoundException ex ) {
+                throw ex;
+
+            } catch( MeshTypeNotFoundException ex ) {
+                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
+            }
+        } else {
+            try {
+               return attemptToLoadSubjectAreaWithModuleRegistry( saName, saVersion );
+
+            } catch( ModuleException ex ) {
+                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
+            }
+        }
+    }
+
+    /**
+     * This internal method is called when there is an attempt to access a SubjectArea
+     * which is not present in the working model. This method will attempt to load it without the
+     * Module Framework. It returns true if it was successful. This must only be called
+     * if this SubjectArea has not been loaded before.
+     *
+     * @param saName fully-qualified name of the SubjectArea to be loaded
+     * @param saVersion version number of the SubjectArea to be loaded
+     * @return the found SubjectArea
+     * @throws MeshTypeNotFoundException thrown if the MeshType was not found
+     * @throws IOException thrown if the file could not be read
+     */
+    protected SubjectArea attemptToLoadSubjectAreaWithoutModuleRegistry(
             String saName,
             String saVersion )
         throws
@@ -603,6 +649,39 @@ public class MModelBase
                             realPath + ": " );
         SubjectArea [] ret = theLoader.loadAndCheckModel( getMeshTypeLifecycleManager(), TimeStampValue.now() );
         return ret[0];
+    }
+
+    /**
+     * This internal method is called when there is an attempt to access a SubjectArea
+     * which is not present in the working model. This method will attempt to load it using the
+     * Module Framework. It returns true if it was successful. This must only be called
+     * if this SubjectArea has not been loaded before.
+     *
+     * @param saName fully-qualified name of the SubjectArea to be loaded
+     * @param saVersion version number of the SubjectArea to be loaded
+     * @return the found SubjectArea
+     * @throws ModuleNotFoundException thrown if the ModelModule was not found
+     * @throws ModuleResolutionException thrown if the found ModelModule's dependencies could not be resolved
+     * @throws ModuleActivationException thrown if the found ModelModule could not be activated
+     * @throws ModuleResolutionCandidateNotUniqueException thrown if a dependency could not be uniquely resolved
+     */
+    protected SubjectArea attemptToLoadSubjectAreaWithModuleRegistry(
+            String saName,
+            String saVersion )
+        throws
+            ModuleNotFoundException,
+            ModuleResolutionException,
+            ModuleActivationException,
+            ModuleResolutionCandidateNotUniqueException
+    {
+        ModuleRequirement saRequirement = ModuleRequirement.create1( saName, saVersion );
+        ModuleMeta        saCandidate   = ModuleRegistry.getSingleton().determineSingleResolutionCandidate( saRequirement );
+
+        Module saModule = ModuleRegistry.getSingleton().resolve( saCandidate, true );
+
+        saModule.activateRecursively();
+
+        return theCluster.findSubjectArea( saName, saVersion );
     }
 
     /**
