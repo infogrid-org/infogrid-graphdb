@@ -3,7 +3,6 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.infogrid</groupId>
     <artifactId>org.infogrid.meshbase.store</artifactId>
-    <version>3.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <name>org.infogrid.meshbase.store</name>
     <url>http://infogrid.org/</url>
