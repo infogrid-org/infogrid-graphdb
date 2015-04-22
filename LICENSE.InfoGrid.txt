@@ -26,5 +26,5 @@ If you are unable or unwilling to abide by the terms of the GNU Affero General
 Public License version 3, feel free to contact the copyright holder(s) for a
 commercial license. See http://InfoGrid.org/ .
 
-Copyright 1998-2009, R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+Copyright 1998-2015, Johannes Ernst
 

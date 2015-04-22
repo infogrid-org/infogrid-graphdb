@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2011 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2015 by Johannes Ernst
 // All rights reserved.
 //
 
@@ -1379,7 +1379,7 @@ public class XmlModelExporter
         }
         theWriter.write( "?>\n" );
         theWriter.write( "<!DOCTYPE model" );
-        theWriter.write( " PUBLIC '-//NetMesh Inc.//InfoGrid Model//EN' '" );
+        theWriter.write( " PUBLIC '-//InfoGrid.org//InfoGrid Model//EN' '" );
         theWriter.write( XmlModelTokens.PUBLIC_MODEL_DTD_URL );
         theWriter.write( "'>\n" );
         theWriter.write( "\n" );

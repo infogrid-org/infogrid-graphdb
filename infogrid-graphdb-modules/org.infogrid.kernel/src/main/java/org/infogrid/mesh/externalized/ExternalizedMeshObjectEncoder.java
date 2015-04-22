@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2015 by Johannes Ernst
 // All rights reserved.
 //
 
@@ -46,7 +46,7 @@ public interface ExternalizedMeshObjectEncoder
      * Deserialize an ExternalizedMeshObject from a byte stream.
      *
      * @param s the InputStream from which to read
-     * @param mb the NetMeshBase on whose behalf the decoding is performed
+     * @param mb the MeshBase on whose behalf the decoding is performed
      * @return return the just-instantiated ExternalizedMeshObject
      * @throws DecodingException thrown if a problem occurred during decoding
      * @throws IOException thrown if a problem occurred during writing the output

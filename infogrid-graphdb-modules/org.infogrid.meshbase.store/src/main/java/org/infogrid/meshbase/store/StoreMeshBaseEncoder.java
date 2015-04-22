@@ -8,7 +8,7 @@
 // 
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2008 by R-Objects Inc. dba NetMesh Inc., Johannes Ernst
+// Copyright 1998-2015 by Johannes Ernst
 // All rights reserved.
 //
 
@@ -42,7 +42,7 @@ public interface StoreMeshBaseEncoder
      * Deserialize a MeshObject from a byte stream.
      *
      * @param contentAsStream the byte [] stream in which the MeshObject is encoded
-     * @param mb the NetMeshBase on whose behalf the decoding is performed
+     * @param mb the MeshBase on whose behalf the decoding is performed
      * @return return the just-instantiated MeshObject, as convenience
      * @throws DecodingException thrown if a decoding problem occurred
      */
