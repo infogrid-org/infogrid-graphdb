@@ -38,18 +38,18 @@
     </properties>
 
     <build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-jar-plugin</artifactId>
+        <plugins>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
                 <version>2.6</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>org.infogrid.kernel.test.meshbase.m.AllTests</mainClass>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>org.infogrid.kernel.test.meshbase.m.AllTests</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
         </plugins>
-	</build>
+    </build>
 </project>

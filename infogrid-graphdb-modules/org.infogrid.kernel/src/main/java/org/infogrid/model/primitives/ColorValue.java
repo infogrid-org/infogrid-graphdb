@@ -54,7 +54,7 @@ public final class ColorValue
      * @throws IllegalArgumentException if null was provided
      */
     public static ColorValue createOrNull(
-    		Color value )
+            Color value )
     {
         if( value == null ) {
             return null;
@@ -298,7 +298,7 @@ public final class ColorValue
      *
      * @param   o the PropertyValue to be compared.
      * @return  a negative integer, zero, or a positive integer as this object
-     *		is less than, equal to, or greater than the specified object.
+     *      is less than, equal to, or greater than the specified object.
      *
      * @throws ClassCastException if the specified object's type prevents it
      *         from being compared to this Object.
