@@ -47,6 +47,7 @@ import org.infogrid.modelbase.WrongMeshTypeException;
 import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
 import org.infogrid.module.Module;
 import org.infogrid.module.ModuleActivationException;
+import org.infogrid.module.ModuleClassLoader;
 import org.infogrid.module.ModuleException;
 import org.infogrid.module.ModuleMeta;
 import org.infogrid.module.ModuleNotFoundException;
@@ -584,9 +585,18 @@ public class MModelBase
             SubjectAreaNotFoundException,
             IOException
     {
-        if( ModuleRegistry.getSingleton() == null ) {
+        SubjectArea ret;
+        ClassLoader cl = getClass().getClassLoader();
+        if( cl instanceof ModuleClassLoader && ((ModuleClassLoader)cl).getModuleRegistry() != null ) {
             try {
-                return attemptToLoadSubjectAreaWithoutModuleRegistry( saName, saVersion );
+               ret = attemptToLoadSubjectAreaWithModuleRegistry( ((ModuleClassLoader)cl).getModuleRegistry(), saName, saVersion );
+
+            } catch( ModuleException ex ) {
+                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
+            }
+        } else {
+            try {
+                ret = attemptToLoadSubjectAreaWithoutModuleRegistry( saName, saVersion );
 
             } catch( SubjectAreaNotFoundException ex ) {
                 throw ex;
@@ -594,14 +604,8 @@ public class MModelBase
             } catch( MeshTypeNotFoundException ex ) {
                 throw new SubjectAreaNotFoundException( saName, saVersion, ex );
             }
-        } else {
-            try {
-               return attemptToLoadSubjectAreaWithModuleRegistry( saName, saVersion );
-
-            } catch( ModuleException ex ) {
-                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
-            }
         }
+        return ret;
     }
 
     /**
@@ -657,6 +661,7 @@ public class MModelBase
      * Module Framework. It returns true if it was successful. This must only be called
      * if this SubjectArea has not been loaded before.
      *
+     * @param registry the ModuleRegistry to use
      * @param saName fully-qualified name of the SubjectArea to be loaded
      * @param saVersion version number of the SubjectArea to be loaded
      * @return the found SubjectArea
@@ -666,18 +671,19 @@ public class MModelBase
      * @throws ModuleResolutionCandidateNotUniqueException thrown if a dependency could not be uniquely resolved
      */
     protected SubjectArea attemptToLoadSubjectAreaWithModuleRegistry(
-            String saName,
-            String saVersion )
+            ModuleRegistry registry,
+            String         saName,
+            String         saVersion )
         throws
             ModuleNotFoundException,
             ModuleResolutionException,
             ModuleActivationException,
             ModuleResolutionCandidateNotUniqueException
     {
-        ModuleRequirement saRequirement = ModuleRequirement.create1( saName, saVersion );
-        ModuleMeta        saCandidate   = ModuleRegistry.getSingleton().determineSingleResolutionCandidate( saRequirement );
+        ModuleRequirement saRequirement = ModuleRequirement.create1( saName, saVersion, true );
+        ModuleMeta        saCandidate   = registry.determineSingleResolutionCandidate( saRequirement );
 
-        Module saModule = ModuleRegistry.getSingleton().resolve( saCandidate, true );
+        Module saModule = registry.resolve( saCandidate, true );
 
         saModule.activateRecursively();
 

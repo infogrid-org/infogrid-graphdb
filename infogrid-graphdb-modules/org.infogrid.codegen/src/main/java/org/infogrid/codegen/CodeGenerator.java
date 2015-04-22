@@ -27,7 +27,7 @@ import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.model.primitives.TimeStampValue;
 import org.infogrid.model.primitives.text.ModelPrimitivesStringRepresentationDirectorySingleton;
 import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.module.ModuleRegistry;
+import org.infogrid.module.ModuleClassLoader;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
@@ -80,8 +80,8 @@ public class CodeGenerator
             usageAndQuit();
         }
 
-        ModuleRegistry theModuleRegistry = ModuleRegistry.getSingleton();
-        if( theModuleRegistry == null ) {
+        ClassLoader cl = CodeGenerator.class.getClassLoader();
+        if( !( cl instanceof ModuleClassLoader ) || ((ModuleClassLoader)cl).getModuleRegistry() == null ) {
             usageAndQuit();
         }
 
