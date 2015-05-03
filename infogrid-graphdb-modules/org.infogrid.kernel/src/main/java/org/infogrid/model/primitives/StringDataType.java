@@ -425,7 +425,9 @@ public final class StringDataType
             if( theRegex != null ) {
                 ret.append( "java.util.regex.Pattern.compile( \"" );
                 ret.append( StringHelper.stringToJavaString( theRegex.toString() ));
-                ret.append( "\" )" );
+                ret.append( "\", " );
+                ret.append( theRegex.flags() );
+                ret.append( " )" );
             } else {
                 ret.append( NULL_STRING );
             }
