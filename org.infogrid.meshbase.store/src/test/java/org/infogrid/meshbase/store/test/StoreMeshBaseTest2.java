@@ -171,7 +171,7 @@ public class StoreMeshBaseTest2
             }
             if( i/2 % 2 == 0 ) {
                 if( mesh[i].isBlessedBy( TestSubjectArea.AA )) {
-                    checkEquals( mesh[i].getPropertyValue( TestSubjectArea.A_X ),  PROP_VALUE_PREFIX + i, "Wrong ptX value" );
+                    checkEquals( mesh[i].getPropertyValue( TestSubjectArea.A_X ),  StringValue.create( PROP_VALUE_PREFIX + i ), "Wrong ptX value" );
                     checkEquals( mesh[i].getPropertyValue( TestSubjectArea.A_XX ), TestSubjectArea.A_XX_type.createBlobValue( PROP_VALUE_PREFIX + i, BlobValue.TEXT_PLAIN_MIME_TYPE ), "Wrong ptX value" );
                 } else {
                     checkEquals( mesh[i].getPropertyValue( TestSubjectArea.B_Z ), ptZdomain[ i % ptZdomain.length ], "Wrong ptZ value" );

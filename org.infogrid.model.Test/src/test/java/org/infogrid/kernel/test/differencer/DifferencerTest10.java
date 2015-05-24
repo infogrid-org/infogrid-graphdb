@@ -26,7 +26,7 @@ import org.junit.Test;
 /**
  * Tests the differencer with respect to EquivalenceSets.
  */
-public class DifferencerTest9
+public class DifferencerTest10
         extends
             AbstractDifferencerTest
 {
@@ -50,11 +50,20 @@ public class DifferencerTest9
 
         Transaction tx1 = theMeshBase1.createTransactionNow();
 
-        MeshObject a_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "a" ), typeAA, now );
-        MeshObject b_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "b"  ), typeAA, now );
-        MeshObject c_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "c"  ), typeAA, now );
+        MeshObject a1_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "a1" ), typeAA, now );
+        MeshObject a2_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "a2" ), typeAA, now );
+        MeshObject a3_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "a3" ), typeAA, now );
+        MeshObject a4_mb1 = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "a4" ), typeAA, now );
 
-        a_mb1.addAsEquivalent( b_mb1 );
+        MeshObject b_mb1  = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "b"  ), typeAA, now );
+        MeshObject c_mb1  = createMeshObject( life1, theMeshBase1.getMeshObjectIdentifierFactory().fromExternalForm( "c"  ), typeAA, now );
+
+        a1_mb1.relateAndBless( typeAR1A.getSource(), b_mb1 );
+        a2_mb1.relateAndBless( typeAR1A.getSource(), c_mb1 );
+        
+        a1_mb1.addAsEquivalent( a2_mb1 );
+        a2_mb1.addAsEquivalent( a3_mb1 );
+        // no a4
         
         tx1.commitTransaction();
 
@@ -66,12 +75,22 @@ public class DifferencerTest9
 
         Transaction tx2 = theMeshBase2.createTransactionNow();
         
-        MeshObject a_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "a" ), typeAA, now );
-        MeshObject b_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "b"  ), typeAA, now );
-        MeshObject c_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "c"  ), typeAA, now );
-        
-        a_mb2.addAsEquivalent( c_mb2 );
+        MeshObject a1_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "a1" ), typeAA, now );
+        MeshObject a2_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "a2" ), typeAA, now );
+        MeshObject a3_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "a3" ), typeAA, now );
+        MeshObject a4_mb2 = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "a4" ), typeAA, now );
 
+        MeshObject b_mb2  = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "b"  ), typeAA, now );
+        MeshObject c_mb2  = createMeshObject( life2, theMeshBase2.getMeshObjectIdentifierFactory().fromExternalForm( "c"  ), typeAA, now );
+
+        a1_mb2.relateAndBless( typeAR1A.getSource(), b_mb2 );
+        a2_mb2.relateAndBless( typeAR1A.getSource(), c_mb2 );
+        
+        a1_mb2.addAsEquivalent( a3_mb2 ); // different structure, but same semantics
+        a3_mb2.addAsEquivalent( a4_mb2 );
+        // new a4
+        // and a2 is missing
+        
         tx2.commitTransaction();
 
         //
@@ -136,5 +155,5 @@ public class DifferencerTest9
     }
 
     // Our Logger
-    private static Log log = Log.getLogInstance(DifferencerTest9.class );
+    private static Log log = Log.getLogInstance(DifferencerTest10.class );
 }

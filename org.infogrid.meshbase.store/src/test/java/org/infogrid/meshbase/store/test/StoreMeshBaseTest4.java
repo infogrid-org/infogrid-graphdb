@@ -159,20 +159,20 @@ public class StoreMeshBaseTest4
                         three,
                         four
                     },
-                    "One has wrong relationships " + twoId );
+                    "Two has wrong relationships " + twoId );
             checkEqualsOutOfSequence(
                     three.traverseToNeighborMeshObjects().getMeshObjects(),
                     new MeshObject[] {
                         two
                     },
-                    "One has wrong relationships " + threeId );
+                    "Three has wrong relationships " + threeId );
             checkEqualsOutOfSequence(
                     four.traverseToNeighborMeshObjects().getMeshObjects(),
                     new MeshObject[] {
                         one,
                         two
                     },
-                    "One has wrong relationships " + fourId );
+                    "Four has wrong relationships " + fourId );
         }
 
         //
@@ -246,7 +246,7 @@ public class StoreMeshBaseTest4
     /**
      * The number of MeshObjects to create for the test.
      */
-    protected int theTestSize = 1000;
+    protected int theTestSize = 400;
 
     // Our Logger
     private static Log log = Log.getLogInstance( StoreMeshBaseTest4.class);

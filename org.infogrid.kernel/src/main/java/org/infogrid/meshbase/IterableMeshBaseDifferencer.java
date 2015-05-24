@@ -126,12 +126,19 @@ public class IterableMeshBaseDifferencer
             log.traceMethodCallEntry( this, "determineChangeSet" );
         }
 
-        long      now                    = System.currentTimeMillis();
+        long      now                         = System.currentTimeMillis();
         
-        ChangeSet entityChanges          = ChangeSet.create();
-        ChangeSet graphChanges           = ChangeSet.create();
-        ChangeSet roleAdditionChanges    = ChangeSet.create();
-        ChangeSet roleSubtractionChanges = ChangeSet.create();
+        ChangeSet createdEntityChanges         = ChangeSet.create();
+        ChangeSet blessedEntityChanges         = ChangeSet.create();
+        ChangeSet relatedChanges               = ChangeSet.create();
+        ChangeSet blessedRelationshipChanges   = ChangeSet.create();
+        ChangeSet equivalentsAddedChanges      = ChangeSet.create();
+        ChangeSet equivalentsRemovedChanges    = ChangeSet.create();
+        ChangeSet propertyChanges              = ChangeSet.create();
+        ChangeSet deletedEntityChanges         = ChangeSet.create();
+        ChangeSet unblessedRelationshipChanges = ChangeSet.create();
+        ChangeSet unrelatedChanges             = ChangeSet.create();
+        ChangeSet unblessedEntityChanges       = ChangeSet.create();
 
         for( MeshObject meshObjectInBase : theBaselineBase ) {
             MeshObjectIdentifier identifier             = meshObjectInBase.getIdentifier();
@@ -144,7 +151,7 @@ public class IterableMeshBaseDifferencer
                 ExternalizedMeshObject externalized = meshObjectInBase.asExternalized();
                 
                 AbstractMeshObjectLifecycleEvent obsoletionChange = createMeshObjectDeletedEvent( meshObjectInBase, identifier, externalized, now );
-                entityChanges.addChange( obsoletionChange );
+                deletedEntityChanges.addChange( obsoletionChange );
 
             } else {
                 // If the MeshObject from BASE exists on COMPARISON,
@@ -172,7 +179,7 @@ public class IterableMeshBaseDifferencer
                             objectTypesInBase,
                             addedTypesArray,
                             hypotheticalAllTypes );
-                    entityChanges.addChange( addedTypeChange );
+                    blessedEntityChanges.addChange( addedTypeChange );
                 }
 
                 ArrayList<EntityType> removedTypes = new ArrayList<EntityType>();
@@ -189,7 +196,7 @@ public class IterableMeshBaseDifferencer
                             hypotheticalAllTypes,
                             ArrayHelper.copyIntoNewArray( removedTypes, EntityType.class ),
                             objectTypesInComparison );
-                    entityChanges.addChange( removedTypeChange );
+                    unblessedEntityChanges.addChange( removedTypeChange );
                 }
                 
                 // Now compare the properties. We only compare the ones in COMPARISON, because the ones
@@ -210,7 +217,7 @@ public class IterableMeshBaseDifferencer
                                         propertyValueInBase,
                                         propertyValueInComparison );
 
-                                entityChanges.addChange( propertyChange );
+                                propertyChanges.addChange( propertyChange );
                             }
                         } catch( IllegalPropertyTypeException ex ) {
                             // that's fine -- PropertyType does not exist on the old version
@@ -267,7 +274,7 @@ public class IterableMeshBaseDifferencer
                                     currentOtherSideInBase,
                                     otherSidesInComparison );
                                     
-                            graphChanges.addChange( relChange );
+                            unrelatedChanges.addChange( relChange );
                         }
                     } else {
                         // noop, nothing changed
@@ -288,7 +295,7 @@ public class IterableMeshBaseDifferencer
                                     otherSidesInComparison,
                                     addedRoleTypes );
 
-                            graphChanges.addChange( relChange );
+                            relatedChanges.addChange( relChange );
 
                         } catch( NotRelatedException ex ) {
                             log.error( ex );
@@ -339,7 +346,7 @@ public class IterableMeshBaseDifferencer
                                         removed,
                                         hypotheticalMinRoleTypes,
                                         currentOtherSideInBase );
-                                roleSubtractionChanges.addChange( change );
+                                unblessedRelationshipChanges.addChange( change );
                             }
                         }
 
@@ -364,7 +371,7 @@ public class IterableMeshBaseDifferencer
                                         roleTypesInComparison,
                                         currentOtherSideInComparison );
 
-                                roleAdditionChanges.addChange( change );
+                                blessedRelationshipChanges.addChange( change );
                             }
                         }
                     }
@@ -398,7 +405,7 @@ public class IterableMeshBaseDifferencer
                             asIdentifiers( removal ),
                             hypotheticalMinEquivalents );
                             
-                    graphChanges.addChange( equivChange );
+                    equivalentsRemovedChanges.addChange( equivChange );
 
                 } else {
                     hypotheticalMinEquivalents = equivalentsInBase;
@@ -413,7 +420,7 @@ public class IterableMeshBaseDifferencer
                             asIdentifiers( addition ),
                             equivalentsInComparison );
                     
-                    graphChanges.addChange( equivChange );                    
+                    equivalentsAddedChanges.addChange( equivChange );                    
                 }
             }
         }
@@ -429,7 +436,7 @@ public class IterableMeshBaseDifferencer
                 AbstractMeshObjectLifecycleEvent creationChange = createMeshObjectCreatedEvent( 
                         meshObjectInComparison,
                         meshObjectInComparison.getTimeCreated() );
-                entityChanges.addChange( creationChange );
+                createdEntityChanges.addChange( creationChange );
                 
                 // we don't need to do anything about blessing -- that's captured in the MeshObjectCreatedEvent
                 for( EntityType objectTypeInComparison : meshObjectInComparison.getTypes() ) {
@@ -445,7 +452,7 @@ public class IterableMeshBaseDifferencer
                                         null,
                                         propertyValueInComparison );
 
-                                entityChanges.addChange( propertyChange );
+                                propertyChanges.addChange( propertyChange );
                             }
 
                         } catch( IllegalPropertyTypeException ex ) {
@@ -477,7 +484,7 @@ public class IterableMeshBaseDifferencer
                                 newOtherSides,
                                 addedRoleTypes );
 
-                        graphChanges.addChange( relChange );
+                        relatedChanges.addChange( relChange );
 
                         oldOtherSides = newOtherSides;
 
@@ -496,16 +503,23 @@ public class IterableMeshBaseDifferencer
                             asIdentifiers( ArrayHelper.remove( equivalentsInComparison.getMeshObjects(), meshObjectInComparison, false, MeshObject.class )),
                             equivalentsInComparison );
                             
-                    graphChanges.addChange( equivChange );
+                    equivalentsAddedChanges.addChange( equivChange );
                 }
             }
         }
 
         ChangeSet changes = ChangeSet.createCat( new ChangeSet[] {
-                entityChanges,
-                graphChanges,
-                roleAdditionChanges,
-                roleSubtractionChanges
+                createdEntityChanges,
+                blessedEntityChanges,
+                relatedChanges,
+                blessedRelationshipChanges,
+                equivalentsRemovedChanges,
+                equivalentsAddedChanges,
+                propertyChanges,
+                deletedEntityChanges,
+                unblessedRelationshipChanges,
+                unrelatedChanges,
+                unblessedEntityChanges
         });
         return changes;
     }
