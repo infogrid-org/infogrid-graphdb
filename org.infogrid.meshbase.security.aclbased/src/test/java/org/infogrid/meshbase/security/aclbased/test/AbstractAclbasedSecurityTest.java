@@ -17,6 +17,8 @@ package org.infogrid.meshbase.security.aclbased.test;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshBaseIdentifierFactory;
@@ -30,7 +32,6 @@ import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.context.Context;
@@ -60,8 +61,8 @@ public abstract class AbstractAclbasedSecurityTest
             Exception
     {
         InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.meshbase.security.aclbased" )).activateRecursively();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.model.Test" )).activateRecursively();
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create1( "org.infogrid.meshbase.security.aclbased" ))).activateRecursively();
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create1( "org.infogrid.model.Test" ))).activateRecursively();
         
         Log4jLog.configure( "org/infogrid/meshbase/security/aclbased/test/Log.properties", AbstractAclbasedSecurityTest.class.getClassLoader() );
         Log.setLogFactory( new Log4jLogFactory());

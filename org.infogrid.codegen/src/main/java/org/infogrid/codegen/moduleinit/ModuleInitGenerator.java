@@ -11,7 +11,6 @@ import org.infogrid.codegen.AbstractGenerator;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.MeshType;
 import org.infogrid.model.primitives.SubjectArea;
-import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
 
 /**
@@ -22,8 +21,6 @@ public class ModuleInitGenerator
     extends
         AbstractGenerator
 {
-    private static final Log log = Log.getLogInstance( ModuleInitGenerator.class ); // our own, private logger
-
     /**
      * Constructor.
      *
@@ -126,8 +123,8 @@ public class ModuleInitGenerator
         outStream.println( "import org.infogrid.modelbase.MeshTypeNotFoundException;" );
         outStream.println( "import org.infogrid.modelbase.ModelBase;" );
         outStream.println( "import org.infogrid.modelbase.ModelBaseSingleton;" );
-        outStream.println( "import org.infogrid.module.Module;" );
-        outStream.println( "import org.infogrid.module.ModuleActivationException;" );
+        outStream.println( "import org.diet4j.core.Module;" );
+        outStream.println( "import org.diet4j.core.ModuleActivationException;" );
         outStream.println();
     }
 
@@ -166,32 +163,27 @@ public class ModuleInitGenerator
         outStream.println( "    /**" );
         outStream.println( "     * Activate this Module." );
         outStream.println( "     *" );
-        outStream.println( "     * @param dependentModules the dependent Modules" );
-        outStream.println( "     * @param contextObjects context objects of the dependent Modules" );
-        outStream.println( "     * @param theModule the current Module" );
+        outStream.println( "     * @param thisModule the current Module" );
         outStream.println( "     * @return the Subject Area as context object" );
         outStream.println( "     * @throws ModuleActivationException thrown if the Module could not be activated" );
         outStream.println( "     */" );
-        outStream.println( "    public static Object activate(" );
-        outStream.println( "            Module [] dependentModules," );
-        outStream.println( "            Object [] contextObjects," );
-        outStream.println( "            Module    theModule )" );
+        outStream.println( "    public static Object moduleActivate(" );
+        outStream.println( "            Module thisModule )" );
         outStream.println( "        throws" );
         outStream.println( "            ModuleActivationException" );
         outStream.println( "    {" );
         outStream.println( "        try {" );
         outStream.println( "            ModelBase mb = ModelBaseSingleton.getSingleton();" );
         outStream.println();
-        outStream.println( "            SubjectAreaLoader saLoader = new SubjectAreaLoader( mb, theModule.getClassLoader() );" );
+        outStream.println( "            SubjectAreaLoader saLoader = new SubjectAreaLoader( mb, thisModule.getClassLoader() );" );
         outStream.println();
         outStream.println( "            return saLoader.loadAndCheckModel( mb.getMeshTypeLifecycleManager(), TimeStampValue.now());" );
         outStream.println();
         outStream.println( "        } catch( MeshTypeNotFoundException | IOException ex ) {" );
-        outStream.println( "            throw new ModuleActivationException( theModule.getModuleMeta(), ex );" );
+        outStream.println( "            throw new ModuleActivationException( thisModule.getModuleMeta(), ex );" );
         outStream.println( "       }" );
         outStream.println( "    }" );
     }
-
 
     /**
      * Generate the JavaDoc documentation for one SubjectArea.

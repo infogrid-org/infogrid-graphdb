@@ -19,6 +19,16 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
 import java.util.Iterator;
+import org.diet4j.core.Module;
+import org.diet4j.core.ModuleActivationException;
+import org.diet4j.core.ModuleClassLoader;
+import org.diet4j.core.ModuleException;
+import org.diet4j.core.ModuleMeta;
+import org.diet4j.core.ModuleNotFoundException;
+import org.diet4j.core.ModuleRegistry;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.core.ModuleResolutionCandidateNotUniqueException;
+import org.diet4j.core.ModuleResolutionException;
 import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.CollectableMeshType;
 import org.infogrid.model.primitives.EntityType;
@@ -45,16 +55,6 @@ import org.infogrid.modelbase.RelationshipTypeNotFoundException;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
 import org.infogrid.modelbase.WrongMeshTypeException;
 import org.infogrid.modelbase.externalized.xml.XmlModelLoader;
-import org.infogrid.module.Module;
-import org.infogrid.module.ModuleActivationException;
-import org.infogrid.module.ModuleClassLoader;
-import org.infogrid.module.ModuleException;
-import org.infogrid.module.ModuleMeta;
-import org.infogrid.module.ModuleNotFoundException;
-import org.infogrid.module.ModuleRegistry;
-import org.infogrid.module.ModuleRequirement;
-import org.infogrid.module.ModuleResolutionCandidateNotUniqueException;
-import org.infogrid.module.ModuleResolutionException;
 import org.infogrid.util.logging.Log;
 
 /**
@@ -680,7 +680,7 @@ public class MModelBase
             ModuleActivationException,
             ModuleResolutionCandidateNotUniqueException
     {
-        ModuleRequirement saRequirement = ModuleRequirement.create1( saName, saVersion, true );
+        ModuleRequirement saRequirement = ModuleRequirement.create( saName, saName, saVersion, true );
         ModuleMeta        saCandidate   = registry.determineSingleResolutionCandidate( saRequirement );
 
         Module saModule = registry.resolve( saCandidate, true );

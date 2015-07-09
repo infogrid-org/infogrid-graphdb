@@ -17,11 +17,12 @@ package org.infogrid.kernel.test.modelbase;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
 import org.infogrid.modelbase.externalized.xml.XmlModelExporter;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
@@ -47,16 +48,17 @@ public abstract class AbstractModelBaseTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.model.Test" )).activateRecursively();
+        ClassLoader cl = AbstractModelBaseTest.class.getClassLoader();
+        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
-        Log4jLog.configure( "org/infogrid/kernel/test/modelbase/Log.properties", AbstractModelBaseTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/kernel/test/modelbase/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/kernel/test/modelbase/ResourceHelper",
                 Locale.getDefault(),
-                AbstractModelBaseTest.class.getClassLoader() ));
+                cl ));
     }
 
     /**

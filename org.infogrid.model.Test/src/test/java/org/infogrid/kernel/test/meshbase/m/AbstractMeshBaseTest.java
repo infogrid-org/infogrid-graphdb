@@ -16,11 +16,12 @@ package org.infogrid.kernel.test.meshbase.m;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.MeshBaseIdentifierFactory;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.context.Context;
@@ -47,16 +48,17 @@ public abstract class AbstractMeshBaseTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.model.Test" )).activateRecursively();
+        ClassLoader cl = AbstractMeshBaseTest.class.getClassLoader();
+        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
-        Log4jLog.configure( "org/infogrid/kernel/test/meshbase/m/Log.properties", AbstractMeshBaseTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/kernel/test/meshbase/m/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/kernel/test/meshbase/m/ResourceHelper",
                 Locale.getDefault(),
-                AbstractMeshBaseTest.class.getClassLoader() ));
+                cl ));
     }
 
     /**

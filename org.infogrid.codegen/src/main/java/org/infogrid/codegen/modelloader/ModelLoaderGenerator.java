@@ -42,7 +42,6 @@ import org.infogrid.model.traversal.SequentialCompoundTraversalSpecification;
 import org.infogrid.model.traversal.StayRightHereTraversalSpecification;
 import org.infogrid.model.traversal.TraversalSpecification;
 import org.infogrid.model.traversal.TraversalToPropertySpecification;
-import org.infogrid.module.ModuleRequirement;
 import org.infogrid.util.logging.Log;
 import org.infogrid.util.text.StringRepresentation;
 
@@ -985,36 +984,6 @@ public class ModelLoaderGenerator
         }
     }
 
-    /**
-     * Format a ModuleRequirement array and return/
-     *
-     * @param reqs array of ModuleRequirements
-     * @return String representation
-     */
-    protected String getModuleRequirementsString(
-            ModuleRequirement [] reqs )
-    {
-        StringBuilder ret = new StringBuilder();
-        String       sep = "";
-
-        ret.append( "new ModuleRequirement[] { " );
-        for( ModuleRequirement current : reqs ) {
-            ret.append( sep );
-            ret.append( "ModuleRequirement.create1( \"" );
-            ret.append( current.getRequiredModuleName() );
-            ret.append( "\"" );
-            if( current.getRequiredModuleVersion() != null ) {
-                ret.append( ", \"" );
-                ret.append( current.getRequiredModuleVersion() );
-                ret.append( "\"" );
-            }
-            ret.append( " )" );
-            sep = ", ";
-        }
-        ret.append( " }" );
-        return ret.toString();
-    }    
-    
     /**
      * Convert an array of class names into Java source code representing a String array
      * containing the class names.

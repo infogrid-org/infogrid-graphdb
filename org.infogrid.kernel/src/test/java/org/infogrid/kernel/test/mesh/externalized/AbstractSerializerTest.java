@@ -16,7 +16,8 @@ package org.infogrid.kernel.test.mesh.externalized;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.logging.Log;
@@ -41,15 +42,16 @@ public abstract class AbstractSerializerTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.kernel" )).activateRecursively();
+        ClassLoader cl = AbstractSerializerTest.class.getClassLoader();
+        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.kernel" ))).activateRecursively();
         
-        Log4jLog.configure( "org/infogrid/kernel/test/mesh/externalized/Log.properties", AbstractSerializerTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/kernel/test/mesh/externalized/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/kernel/test/mesh/externalized/ResourceHelper",
                 Locale.getDefault(),
-                AbstractSerializerTest.class.getClassLoader() ));
+                cl ));
     }
 }

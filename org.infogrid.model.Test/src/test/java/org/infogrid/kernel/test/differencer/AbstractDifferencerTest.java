@@ -16,6 +16,8 @@ package org.infogrid.kernel.test.differencer;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.mesh.IsAbstractException;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
@@ -35,7 +37,6 @@ import org.infogrid.model.primitives.RelationshipType;
 import org.infogrid.model.primitives.SubjectArea;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.context.Context;
@@ -64,16 +65,17 @@ public abstract class AbstractDifferencerTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.model.Test" )).activateRecursively();
+        ClassLoader cl = AbstractDifferencerTest.class.getClassLoader();
+        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
-        Log4jLog.configure( "org/infogrid/kernel/test/differencer/Log.properties", AbstractDifferencerTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/kernel/test/differencer/Log.properties", cl  );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/kernel/test/differencer/ResourceHelper",
                 Locale.getDefault(),
-                AbstractDifferencerTest.class.getClassLoader() ));
+                cl ));
 
         theModelBase = ModelBaseSingleton.getSingleton();
 

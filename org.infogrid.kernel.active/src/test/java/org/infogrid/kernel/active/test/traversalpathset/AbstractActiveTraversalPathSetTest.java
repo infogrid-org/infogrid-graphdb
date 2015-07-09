@@ -17,6 +17,8 @@ package org.infogrid.kernel.active.test.traversalpathset;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRequirement;
+import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.kernel.active.test.objectset.AbstractActiveMeshObjectSetTest;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
@@ -34,7 +36,6 @@ import org.infogrid.model.traversal.TraversalPath;
 import org.infogrid.modelbase.MeshTypeNotFoundException;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
-import org.infogrid.module.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.testharness.AbstractTest;
 import org.infogrid.util.ResourceHelper;
 import org.infogrid.util.context.Context;
@@ -63,16 +64,17 @@ public abstract class AbstractActiveTraversalPathSetTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.getModuleMetaFor( "org.infogrid.kernel.active", null )).activateRecursively();
+        ClassLoader cl = AbstractActiveMeshObjectSetTest.class.getClassLoader();
+        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.kernel.active" ))).activateRecursively();
         
-        Log4jLog.configure( "org/infogrid/kernel/active/test/Log.properties", AbstractActiveMeshObjectSetTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/kernel/active/test/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/kernel/active/test/ResourceHelper",
                 Locale.getDefault(),
-                AbstractActiveMeshObjectSetTest.class.getClassLoader() ));
+                cl ));
 
         theModelBase = ModelBaseSingleton.getSingleton();
 
