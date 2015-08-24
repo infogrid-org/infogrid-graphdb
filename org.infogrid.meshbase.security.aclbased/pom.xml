@@ -67,7 +67,7 @@
                         <configuration>
                             <executable>diet4j</executable>
                             <arguments>
-                                <argument>org.infogrid.codegen</argument>
+                                <argument>org.infogrid:org.infogrid.codegen:${project.version}</argument>
                                 <argument>${basedir}/infogrid-models/model.xml</argument>
                                 <argument>-o</argument>
                                 <argument>${basedir}/target/infogrid-generated</argument>
