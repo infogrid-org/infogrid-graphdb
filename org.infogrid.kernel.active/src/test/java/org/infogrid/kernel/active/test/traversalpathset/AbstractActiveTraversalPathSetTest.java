@@ -17,6 +17,7 @@ package org.infogrid.kernel.active.test.traversalpathset;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.kernel.active.test.objectset.AbstractActiveMeshObjectSetTest;
@@ -64,8 +65,9 @@ public abstract class AbstractActiveTraversalPathSetTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractActiveMeshObjectSetTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractActiveTraversalPathSetTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.kernel.active" ))).activateRecursively();
         
         Log4jLog.configure( "org/infogrid/kernel/active/test/Log.properties", cl );

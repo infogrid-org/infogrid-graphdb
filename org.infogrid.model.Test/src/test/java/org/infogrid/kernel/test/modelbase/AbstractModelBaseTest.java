@@ -17,8 +17,10 @@ package org.infogrid.kernel.test.modelbase;
 import java.io.IOException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
+import org.infogrid.kernel.test.differencer.AbstractDifferencerTest;
 import org.infogrid.modelbase.ModelBase;
 import org.infogrid.modelbase.ModelBaseSingleton;
 import org.infogrid.modelbase.SubjectAreaNotFoundException;
@@ -48,8 +50,9 @@ public abstract class AbstractModelBaseTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractModelBaseTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractModelBaseTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
         Log4jLog.configure( "org/infogrid/kernel/test/modelbase/Log.properties", cl );

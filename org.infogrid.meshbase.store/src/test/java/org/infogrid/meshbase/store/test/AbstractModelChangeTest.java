@@ -17,6 +17,7 @@ package org.infogrid.meshbase.store.test;
 import com.mysql.jdbc.jdbc2.optional.MysqlDataSource;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.mesh.MeshObject;
@@ -85,16 +86,18 @@ public abstract class AbstractModelChangeTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create1( "org.infogrid.meshbase.store" ))).activateRecursively();
+        ClassLoader    cl       = AbstractModelChangeTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.meshbase.store" ))).activateRecursively();
         
-        Log4jLog.configure( "org/infogrid/meshbase/store/test/Log.properties", AbstractModelChangeTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/meshbase/store/test/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/meshbase/store/test/ResourceHelper",
                 Locale.getDefault(),
-                AbstractModelChangeTest.class.getClassLoader() ));
+                cl ));
     }
 
     /**

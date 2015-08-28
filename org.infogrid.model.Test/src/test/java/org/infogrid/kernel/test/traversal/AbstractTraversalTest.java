@@ -16,8 +16,10 @@ package org.infogrid.kernel.test.traversal;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
+import org.infogrid.kernel.test.differencer.AbstractDifferencerTest;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
 import org.infogrid.meshbase.IterableMeshBase;
 import org.infogrid.meshbase.MeshBaseIdentifierFactory;
@@ -52,8 +54,8 @@ public abstract class AbstractTraversalTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractTraversalTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractTraversalTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
         Log4jLog.configure( "org/infogrid/kernel/test/traversal/Log.properties", cl );

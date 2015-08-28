@@ -17,6 +17,7 @@ package org.infogrid.meshbase.security.aclbased.test;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
@@ -60,17 +61,19 @@ public abstract class AbstractAclbasedSecurityTest
         throws
             Exception
     {
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.getSingleton();
-        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create1( "org.infogrid.meshbase.security.aclbased" ))).activateRecursively();
-        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create1( "org.infogrid.model.Test" ))).activateRecursively();
+        ClassLoader    cl       = AbstractAclbasedSecurityTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.meshbase.security.aclbased" ))).activateRecursively();
+        registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
         
-        Log4jLog.configure( "org/infogrid/meshbase/security/aclbased/test/Log.properties", AbstractAclbasedSecurityTest.class.getClassLoader() );
+        Log4jLog.configure( "org/infogrid/meshbase/security/aclbased/test/Log.properties", cl );
         Log.setLogFactory( new Log4jLogFactory());
         
         ResourceHelper.setApplicationResourceBundle( ResourceBundle.getBundle(
                 "org/infogrid/meshbase/security/aclbased/test/ResourceHelper",
                 Locale.getDefault(),
-                AbstractAclbasedSecurityTest.class.getClassLoader() ));
+                cl ));
 
         theModelBase = ModelBaseSingleton.getSingleton();
 

@@ -59,8 +59,10 @@
                             <goal>exec</goal>
                         </goals>
                         <configuration>
-                            <executable>diet4j</executable>
+                            <executable>java</executable>
                             <arguments>
+                                <argument>-jar</argument>
+                                <argument>${maven.repository}/org/diet4j/diet4j-cmdline/${diet4j.version}/diet4j-cmdline-${diet4j.version}.jar</argument>
                                 <argument>org.infogrid:org.infogrid.codegen:${project.version}</argument>
                                 <argument>${basedir}/infogrid-models/model.xml</argument>
                                 <argument>-o</argument>

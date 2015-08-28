@@ -680,7 +680,18 @@ public class MModelBase
             ModuleActivationException,
             ModuleResolutionCandidateNotUniqueException
     {
-        ModuleRequirement saRequirement = ModuleRequirement.create( saName, saName, saVersion, true );
+        // FIXME: not sure this InfoGrid-Maven mapping is the best there can be
+        String groupId;
+        String artifactId;
+        int    colon = saName.indexOf( ':' );
+        if( colon >= 0 ) {
+            groupId    = saName.substring( 0, colon );
+            artifactId = saName.substring( colon+1 );
+        } else {
+            groupId    = "org.infogrid";
+            artifactId = saName;
+        }
+        ModuleRequirement saRequirement = ModuleRequirement.create( groupId, artifactId, saVersion, true );
         ModuleMeta        saCandidate   = registry.determineSingleResolutionCandidate( saRequirement );
 
         Module saModule = registry.resolve( saCandidate, true );

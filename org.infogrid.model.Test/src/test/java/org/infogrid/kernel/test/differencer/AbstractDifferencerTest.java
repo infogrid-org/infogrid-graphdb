@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.differencer;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.mesh.IsAbstractException;
@@ -65,8 +66,9 @@ public abstract class AbstractDifferencerTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractDifferencerTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractDifferencerTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
         Log4jLog.configure( "org/infogrid/kernel/test/differencer/Log.properties", cl  );

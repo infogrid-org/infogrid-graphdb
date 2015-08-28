@@ -16,6 +16,7 @@ package org.infogrid.kernel.test.meshbase.m;
 
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.meshbase.DefaultMeshBaseIdentifierFactory;
@@ -48,8 +49,9 @@ public abstract class AbstractMeshBaseTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractMeshBaseTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractMeshBaseTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
         Log4jLog.configure( "org/infogrid/kernel/test/meshbase/m/Log.properties", cl );

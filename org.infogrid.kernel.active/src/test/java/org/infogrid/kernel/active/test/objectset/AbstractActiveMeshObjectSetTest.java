@@ -17,6 +17,7 @@ package org.infogrid.kernel.active.test.objectset;
 import java.text.ParseException;
 import java.util.Locale;
 import java.util.ResourceBundle;
+import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.inclasspath.InClasspathModuleRegistry;
 import org.infogrid.mesh.MeshObject;
@@ -64,8 +65,9 @@ public abstract class AbstractActiveMeshObjectSetTest
         throws
             Exception
     {
-        ClassLoader cl = AbstractActiveMeshObjectSetTest.class.getClassLoader();
-        InClasspathModuleRegistry registry = InClasspathModuleRegistry.instantiate( cl );
+        ClassLoader    cl       = AbstractActiveMeshObjectSetTest.class.getClassLoader();
+        ModuleRegistry registry = InClasspathModuleRegistry.instantiateOrGet( cl );
+
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.kernel.active" ))).activateRecursively();
         registry.resolve( registry.determineSingleResolutionCandidate( ModuleRequirement.create( "org.infogrid", "org.infogrid.model.Test" ))).activateRecursively();
 
