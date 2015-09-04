@@ -129,7 +129,6 @@ public abstract class AbstractModelChangeTest
         final SubjectArea sa = typeLife.createSubjectArea(
                 typeIdFact.fromExternalForm( "org.infogrid.meshbase.store.test.model" ),
                 StringValue.create( "org.infogrid.meshbase.store.test.model" ),
-                null,
                 L10PropertyValueMapImpl.create( StringValue.create( "test.model") ),
                 null, null, null,
                 BooleanValue.TRUE,

@@ -1,5 +1,15 @@
 //
+// This file is part of InfoGrid(tm). You may not use this file except in
+// compliance with the InfoGrid license. The InfoGrid license and important
+// disclaimers are contained in the file LICENSE.InfoGrid.txt that you should
+// have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
+// or you do not consent to all aspects of the license and the disclaimers,
+// no license is granted; do not use this file.
+// 
+// For more information about InfoGrid go to http://infogrid.org/
 //
+// Copyright 1998-2015 by Johannes Ernst
+// All rights reserved.
 //
 
 package org.infogrid.codegen.moduleinit;
@@ -73,7 +83,7 @@ public class ModuleInitGenerator
         outStream.println();
 
         // package
-        String packageName = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
 
         outStream.println( "package " + packageName + ";" );
         outStream.println();
@@ -115,7 +125,7 @@ public class ModuleInitGenerator
         throws
             IOException
     {
-        String packageName = thePackageNameTranslatorWithVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
 
         outStream.println( "import java.io.IOException;" );
         outStream.println( "import " + packageName + ".SubjectAreaLoader;" );
@@ -218,7 +228,7 @@ public class ModuleInitGenerator
 
         SubjectArea theSubjectArea = (SubjectArea) theMeshType;
 
-        String rawSubjectArea = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         return dirName + File.separatorChar + "ModuleInit.java";

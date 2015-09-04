@@ -80,7 +80,7 @@ public class InterfaceGenerator
         if( !theSa.getDoGenerateInterfaceCode().value() ) {
             return null;
         }
-        String saName          = encodeSubjectAreaWithVersion( theSa );
+        String saName          = theSa.getName().value();
         String theMeshTypeName = theMeshType.getName().value();
 
         log.info( "Generating Interface for " + saName + " " + theMeshType );
@@ -96,7 +96,7 @@ public class InterfaceGenerator
         outStream.println( "// DO NOT MODIFY -- re-generate!" );
         outStream.println();
 
-        String packageName = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
 
         outStream.println( "package " + packageName + getInterfaceSubPackageName() + ";" );
         outStream.println();
@@ -150,7 +150,7 @@ public class InterfaceGenerator
         String sep = "        extends\n            ";
         if( supertypes.length >= 1 ) {
             String supertypeName
-                    = thePackageNameTranslatorWithoutVersion.translateSubjectArea( supertypes[0].getSubjectArea() )
+                    = thePackageNameTranslator.translateSubjectArea( supertypes[0].getSubjectArea() )
                     + getInterfaceSubPackageName()
                     + "."
                     + supertypes[0].getName().value();
@@ -165,7 +165,7 @@ public class InterfaceGenerator
         }
         for( int i=1 ; i<supertypes.length ; ++i ) {
             String supertypeName
-                    = thePackageNameTranslatorWithoutVersion.translateSubjectArea( supertypes[i].getSubjectArea() )
+                    = thePackageNameTranslator.translateSubjectArea( supertypes[i].getSubjectArea() )
                     + getInterfaceSubPackageName()
                     + "."
                     + supertypes[i].getName().value();
@@ -373,7 +373,7 @@ public class InterfaceGenerator
         outStream.println( "// DO NOT MODIFY -- re-generate!" );
         outStream.println( "" );
 
-        String packageName = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
         String saShortName = packageName.substring( packageName.lastIndexOf( '.' )+1 );
 
         saShortName = Character.toUpperCase( saShortName.charAt( 0 )) + saShortName.substring( 1 );
@@ -527,7 +527,7 @@ public class InterfaceGenerator
             return null;
         }
 
-        String rawSubjectArea = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         if( theAttributableMeshType != null ) {
@@ -554,7 +554,7 @@ public class InterfaceGenerator
         throws
             IOException
     {
-        String rawSubjectArea = thePackageNameTranslatorWithoutVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         return dirName + File.separatorChar + "package.html";

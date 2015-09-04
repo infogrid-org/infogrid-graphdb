@@ -50,8 +50,8 @@ public class MeshBaseTest3
     {
         log.info( "Looking up MeshTypes" );
 
-        EntityType   typeB = theModelBase.findEntityType(   "org.infogrid.model.Test", null, "B" );
-        PropertyType ptU   = theModelBase.findPropertyType( "org.infogrid.model.Test", null, "B",  "U" );
+        EntityType   typeB = theModelBase.findEntityType(   "org.infogrid.model.Test", "B" );
+        PropertyType ptU   = theModelBase.findPropertyType( "org.infogrid.model.Test", "B",  "U" );
 
         //
         

@@ -57,7 +57,6 @@ public class ModelBaseTest3
         SubjectArea sa = life.createSubjectArea(
                 theModelBase.getMeshTypeIdentifierFactory().fromExternalForm( "Test.Sa/sa"),
                 StringValue.create( "TestSa" ),
-                StringValue.create( "12354" ),
                 L10PropertyValueMapImpl.create( StringValue.create( "Test SA" ) ),
                 null,
                 new SubjectArea[0],

@@ -1314,7 +1314,6 @@ public class MMeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this SubjectArea
      * @param theName programmatic name of this SubjectArea
-     * @param theVersion the version of this SubjectArea
      * @param theUserNames internalionalized names of this SubjectArea
      * @param theUserDescriptions internationalized descriptions of this SubjectArea
      * @param theSubjectAreaDependencies the set of SubjectAreas on whose content members of this SubjectArea depend
@@ -1326,7 +1325,6 @@ public class MMeshTypeLifecycleManager
     public SubjectArea createSubjectArea(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            StringValue               theVersion,
             L10PropertyValueMap       theUserNames,
             L10PropertyValueMap       theUserDescriptions,
             SubjectArea []            theSubjectAreaDependencies,
@@ -1361,7 +1359,6 @@ public class MMeshTypeLifecycleManager
         MSubjectArea ret = new MSubjectArea( identifier );
 
         ret.setName( theName );
-        ret.setVersionNumber( theVersion );
         ret.setUserVisibleNameMap( theUserNames );
         ret.setUserVisibleDescriptionMap( theUserDescriptions );
         ret.setSubjectAreaDependencies( theSubjectAreaDependencies );

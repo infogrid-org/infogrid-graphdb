@@ -45,9 +45,9 @@ public class MeshBaseTest7
     {
         log.info( "Looking up MeshTypes" );
         
-        EntityType       typeAA = theModelBase.findEntityType(       "org.infogrid.model.Test", null, "AA" );
-        EntityType       typeB  = theModelBase.findEntityType(       "org.infogrid.model.Test", null, "B" );
-        RelationshipType typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "R" );
+        EntityType       typeAA = theModelBase.findEntityType(       "org.infogrid.model.Test", "AA" );
+        EntityType       typeB  = theModelBase.findEntityType(       "org.infogrid.model.Test", "B" );
+        RelationshipType typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", "R" );
 
         //
         

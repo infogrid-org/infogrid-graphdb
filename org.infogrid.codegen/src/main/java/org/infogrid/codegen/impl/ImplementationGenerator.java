@@ -87,7 +87,7 @@ public class ImplementationGenerator
             return null;
         }
 
-        String saName          = encodeSubjectAreaWithVersion( theSa );
+        String saName          = theSa.getName().value();
         String theMeshTypeName = theMeshType.getName().value();
 
         log.info( "Generating Implementation for " + saName + " " + theMeshTypeName );
@@ -104,7 +104,7 @@ public class ImplementationGenerator
         outStream.println( "" );
 
         // package
-        String packageName = thePackageNameTranslatorWithVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
 
         outStream.println( "package " + packageName + getImplementationSubPackageName() + ";" );
         outStream.println();
@@ -219,7 +219,7 @@ public class ImplementationGenerator
         outStream.println( "import org.infogrid.mesh.*;" );
         outStream.println(
                 "import "
-                + thePackageNameTranslatorWithoutVersion.translateSubjectArea( sa )
+                + thePackageNameTranslator.translateSubjectArea( sa )
                 + getInterfaceSubPackageName()
                 + ".*;");
         outStream.println();
@@ -283,7 +283,7 @@ public class ImplementationGenerator
         outStream.println( "            org.infogrid.mesh.TypedMeshObjectFacadeImpl" );
         outStream.println( "        implements" );
         outStream.println( "            "
-                + thePackageNameTranslatorWithoutVersion.translateSubjectArea( theMeshType.getSubjectArea())
+                + thePackageNameTranslator.translateSubjectArea( theMeshType.getSubjectArea())
                 + getInterfaceSubPackageName()
                 + "."
                 + theMeshTypeName );
@@ -547,7 +547,7 @@ public class ImplementationGenerator
             return null;
         }
 
-        String rawSubjectArea = thePackageNameTranslatorWithVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         if( theAttributableMeshType != null ) {
@@ -573,7 +573,7 @@ public class ImplementationGenerator
         throws
             IOException
     {
-        String rawSubjectArea = thePackageNameTranslatorWithVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         return dirName + File.separatorChar + "package.html";

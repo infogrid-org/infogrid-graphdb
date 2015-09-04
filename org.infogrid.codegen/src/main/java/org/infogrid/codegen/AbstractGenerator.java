@@ -296,24 +296,6 @@ public abstract class AbstractGenerator
     }
 
     /**
-      * Helper function that encodes the name of a SubjectArea with its version.
-      *
-      * @param theSubjectArea the SubjectArea whose name we want to encode
-      * @return the encoded SubjectArea name
-      */
-    protected static String encodeSubjectAreaWithVersion(
-            SubjectArea theSubjectArea )
-    {
-        StringBuilder ret = new StringBuilder( 64 );
-        ret.append( theSubjectArea.getName().value() );
-        ret.append( ".V" );
-        if( theSubjectArea.getVersionNumber() != null ) {
-            ret.append( theSubjectArea.getVersionNumber().value());
-        }
-        return ret.toString();
-    }
-
-    /**
      * A helper that can generate the content of an L10Map in HTML format.
      *
      * @param theMap the L10Map containing the internationalized content
@@ -371,15 +353,9 @@ public abstract class AbstractGenerator
     protected File theOutputDir;
 
     /**
-     * Our package name translator to translate with version information.
-     */
-    protected PackageNameTranslatorWithVersion thePackageNameTranslatorWithVersion
-            = new PackageNameTranslatorWithVersion();
-            
-    /**
       * Our package name translator to translate without version information.
       */
-    protected PackageNameTranslatorWithoutVersion thePackageNameTranslatorWithoutVersion
+    protected PackageNameTranslatorWithoutVersion thePackageNameTranslator
             = new PackageNameTranslatorWithoutVersion();
 
     /**

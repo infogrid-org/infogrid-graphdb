@@ -43,7 +43,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this EntityType
      * @param theName programmatic name of this EntityType
-     * @param theUserNames internalionalized names of this EntityType
+     * @param theUserNames internationalized names of this EntityType
      * @param theUserDescriptions internationalized descriptions of this EntityType
      * @param theIcon an icon that can be shown to the user that represents this EntityType
      * @param theSubjectArea the SubjectArea in which this EntityType is defined
@@ -86,12 +86,12 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this RelationshipType
      * @param theName programmatic name of this RelationshipType
-     * @param theUserNames internalionalized names of this RelationshipType
+     * @param theUserNames internationalized names of this RelationshipType
      * @param theUserDescriptions internationalized descriptions of this RelationshipType
      * @param theSubjectArea the SubjectArea in which this RelationshipType is defined
      * @param sourceMultiplicity the maximum number of Entities that can participate as the destination
      *        of an instance of this RelationshipType for a given source Entity
-     * @param destinationMultiplicity the maximum number of Entities that can particpate as the source
+     * @param destinationMultiplicity the maximum number of Entities that can participate as the source
      *        of an instance of this RelationshipType for a given destination Entity
      * @param source the source EntityType of this RelationshipType
      * @param destination the destination EntityType of this RelationshipType
@@ -131,12 +131,12 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this RelationshipType
      * @param theName programmatic name of this RelationshipType
-     * @param theUserNames internalionalized names of this RelationshipType
+     * @param theUserNames internationalized names of this RelationshipType
      * @param theUserDescriptions internationalized descriptions of this RelationshipType
      * @param theSubjectArea the SubjectArea in which this RelationshipType is defined
      * @param sourceMultiplicity the maximum number of Entities that can participate as the destination
      *        of an instance of this RelationshipType for a given source Entity
-     * @param destinationMultiplicity the maximum number of Entities that can particpate as the source
+     * @param destinationMultiplicity the maximum number of Entities that can participate as the source
      *        of an instance of this RelationshipType for a given destination Entity
      * @param source the source EntityType of this RelationshipType
      * @param destination the destination EntityType of this RelationshipType
@@ -174,7 +174,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this RelationshipType
      * @param theName programmatic name of this RelationshipType
-     * @param theUserNames internalionalized names of this RelationshipType
+     * @param theUserNames internationalized names of this RelationshipType
      * @param theUserDescriptions internationalized descriptions of this RelationshipType
      * @param theSubjectArea the SubjectArea in which this RelationshipType is defined
      * @param sourceDestMultiplicity the maximum number of Entities that can participate in one
@@ -208,7 +208,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this RelationshipType
      * @param theName programmatic name of this RelationshipType
-     * @param theUserNames internalionalized names of this RelationshipType
+     * @param theUserNames internationalized names of this RelationshipType
      * @param theUserDescriptions internationalized descriptions of this RelationshipType
      * @param theSubjectArea the SubjectArea in which this RelationshipType is defined
      * @param sourceDestMultiplicity the maximum number of Entities that can participate in one
@@ -241,7 +241,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this PropertyType
      * @param theName programmatic name of this PropertyType
-     * @param theUserNames internalionalized names of this PropertyType
+     * @param theUserNames internationalized names of this PropertyType
      * @param theUserDescriptions internationalized descriptions of this PropertyType
      * @param theParent the parent AttributableMeshType in which this PropertyType is defined
      * @param theSubjectArea the SubjectArea in which this PropertyType is defined
@@ -318,7 +318,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this ProjectedPropertyType
      * @param theName programmatic name of this ProjectedPropertyType
-     * @param theUserNames internalionalized names of this ProjectedPropertyType
+     * @param theUserNames internationalized names of this ProjectedPropertyType
      * @param theUserDescriptions internationalized descriptions of this ProjectedPropertyType
      * @param theParent the parent AttributableMeshType in which this ProjectedPropertyType is defined
      * @param theSubjectArea the SubjectArea in which this ProjectedPropertyType is defined
@@ -404,7 +404,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this PropertyTypeGroup
      * @param theName programmatic name of this PropertyTypeGroup
-     * @param theUserNames internalionalized names of this PropertyTypeGroup
+     * @param theUserNames internationalized names of this PropertyTypeGroup
      * @param theUserDescriptions internationalized descriptions of this PropertyTypeGroup
      * @param theParent the parent AttributableMeshType in which this PropertyTypeGroup is defined
      * @param theSubjectArea the SubjectArea in which this PropertyTypeGroup is defined
@@ -432,8 +432,7 @@ public interface MeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this SubjectArea
      * @param theName programmatic name of this SubjectArea
-     * @param theVersion the version of this SubjectArea
-     * @param theUserNames internalionalized names of this SubjectArea
+     * @param theUserNames internationalized names of this SubjectArea
      * @param theUserDescriptions internationalized descriptions of this SubjectArea
      * @param theSubjectAreaDependencies the set of SubjectAreas on whose content members of this SubjectArea depend
      * @param theClassLoader the ClassLoader to use to load resources needed in this SubjectArea
@@ -444,7 +443,6 @@ public interface MeshTypeLifecycleManager
     public SubjectArea createSubjectArea(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            StringValue               theVersion,
             L10PropertyValueMap       theUserNames,
             L10PropertyValueMap       theUserDescriptions,
             SubjectArea []            theSubjectAreaDependencies,

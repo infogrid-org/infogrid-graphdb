@@ -46,30 +46,6 @@ public final class MSubjectArea
     }
 
     /**
-      * Set the VersionNumber property.
-      *
-      * @param newValue the new value of the property
-      * @see #getVersionNumber
-      */
-    public final void setVersionNumber(
-            StringValue newValue )
-    {
-        this.theVersionNumber = newValue;
-    }
-
-    /**
-      * Obtain the VersionNumber property.
-      *
-      * @return the version number property
-      * @see #setVersionNumber
-      */
-    @Override
-    public final StringValue getVersionNumber()
-    {
-        return theVersionNumber;
-    }
-
-    /**
      * Obtain the set of SubjectAreas that this SubjectArea depends on.
      *
      * @return the set of SubjectAreas that this SubjectArea depends on
@@ -152,23 +128,6 @@ public final class MSubjectArea
     }
     
     /**
-      * Obtain the canonical name of this SubjectArea including version number.
-      *
-      * @return the canonical name of this SubjectArea
-      */
-    @Override
-    public final StringValue getCanonicalName()
-    {
-        StringBuilder buf = new StringBuilder( 48 );
-        buf.append( getName().value() );
-        buf.append( ".V" );
-        if( theVersionNumber != null ) {
-            buf.append( theVersionNumber.value() );
-        }
-        return StringValue.create( buf.toString() );
-    }
-
-    /**
      * Set the ClassLoader that can load the appropriate Java classes to instantiate
      * the AttributableMeshTypes in this SubjectArea.
      *
@@ -215,17 +174,6 @@ public final class MSubjectArea
     }
 
     /**
-     * Convert to String form, for debugging.
-     *
-     * @return String form of this object
-     */
-    @Override
-    public String toString()
-    {
-        return getCanonicalName().value();
-    }
-
-    /**
       * Add a CollectableMeshType to this SubjectArea.
       *
       * @param cmo the CollectableMeshType to add to this SubjectArea
@@ -244,11 +192,6 @@ public final class MSubjectArea
                 cmo,
                 CollectableMeshType.class );
     }
-
-    /**
-      * Value of the VersionNumber property.
-      */
-    private StringValue theVersionNumber;
 
     /**
       * Contained CollectableMeshTypes.

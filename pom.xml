@@ -91,7 +91,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <diet4j.version>0.9</diet4j.version>
+        <diet4j.version>0.10</diet4j.version>
         <maven.repository>${HOME}/.m2/repository</maven.repository>
     </properties>
 </project>

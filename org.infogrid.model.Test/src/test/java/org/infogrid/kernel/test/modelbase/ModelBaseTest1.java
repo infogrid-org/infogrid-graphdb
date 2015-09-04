@@ -73,9 +73,7 @@ public class ModelBaseTest1
                 MeshType other = theModelBase.findMeshTypeByIdentifier( id );
                 checkIdentity( current, other, "Look-up by Identifier failed for EntityType" );
 
-                SubjectArea otherSa = theModelBase.findSubjectArea(
-                        sa.getName().value(),
-                        sa.getVersionNumber() != null ? sa.getVersionNumber().value() : null );
+                SubjectArea otherSa = theModelBase.findSubjectArea( sa.getName().value());
                 checkIdentity( sa, otherSa, "Look-up by name failed for SubjectArea" );
 
                 other = theModelBase.findEntityType( otherSa, realCurrent.getName().value() );
@@ -83,7 +81,6 @@ public class ModelBaseTest1
 
                 other = theModelBase.findEntityType(
                         sa.getName().value(),
-                        sa.getVersionNumber() != null ? sa.getVersionNumber().value() : null,
                         realCurrent.getName().value() );
                 checkIdentity( current, other, "Look-up direct failed for EntityType" );
 
@@ -95,9 +92,7 @@ public class ModelBaseTest1
                 MeshType other = theModelBase.findMeshTypeByIdentifier( id );
                 checkIdentity( current, other, "Look-up by Identifier failed for RelationshipType" );
 
-                SubjectArea otherSa = theModelBase.findSubjectArea(
-                        sa.getName().value(),
-                        sa.getVersionNumber() != null ? sa.getVersionNumber().value() : null );
+                SubjectArea otherSa = theModelBase.findSubjectArea( sa.getName().value() );
                 checkIdentity( sa, otherSa, "Look-up by name failed for SubjectArea" );
 
                 other = theModelBase.findRelationshipType( otherSa, realCurrent.getName().value() );
@@ -105,7 +100,6 @@ public class ModelBaseTest1
 
                 other = theModelBase.findRelationshipType(
                         sa.getName().value(),
-                        sa.getVersionNumber() != null ? sa.getVersionNumber().value() : null,
                         realCurrent.getName().value() );
                 checkIdentity( current, other, "Look-up direct failed for RelationshipType" );
 
@@ -119,9 +113,7 @@ public class ModelBaseTest1
                 MeshType other = theModelBase.findMeshTypeByIdentifier( id );
                 checkIdentity( current, other, "Look-up by Identifier failed for PropertyType" );
 
-                SubjectArea otherSa = theModelBase.findSubjectArea(
-                        sa.getName().value(),
-                        sa.getVersionNumber() != null ? sa.getVersionNumber().value() : null );
+                SubjectArea otherSa = theModelBase.findSubjectArea( sa.getName().value() );
                 checkIdentity( sa, otherSa, "SubjectAreas not the same" );
                 checkIdentity( sa, amoSa,   "SubjectAreas not the same" );
 
@@ -140,9 +132,7 @@ public class ModelBaseTest1
                 
                 SubjectArea realCurrent = (SubjectArea) current;
 
-                SubjectArea otherSa = theModelBase.findSubjectArea(
-                        realCurrent.getName().value(),
-                        realCurrent.getVersionNumber() != null ? realCurrent.getVersionNumber().value() : null );
+                SubjectArea otherSa = theModelBase.findSubjectArea( realCurrent.getName().value() );
                 checkIdentity( realCurrent, otherSa, "Look-up direct failed for SubjectArea" );
 
             } else {

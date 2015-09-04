@@ -41,8 +41,8 @@ public class StoreMeshBaseTest3
         throws
             Exception
     {
-        EntityType typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-        EntityType typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", null, "B" );
+        EntityType typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", "AA" );
+        EntityType typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", "B" );
 
         //
         

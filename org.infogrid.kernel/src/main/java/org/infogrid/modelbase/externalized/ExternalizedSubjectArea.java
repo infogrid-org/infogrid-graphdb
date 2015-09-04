@@ -25,27 +25,6 @@ public class ExternalizedSubjectArea
         ExternalizedMeshType
 {
     /**
-     * Set property.
-     *
-     * @param newValue the new value
-     */
-    public void setVersion(
-            StringValue newValue ) 
-    {
-        version = newValue;
-    }
-    
-    /**
-     * Get property.
-     *
-     * @return the value
-     */
-    public StringValue getVersion()
-    {
-        return version;
-    }
-
-    /**
      * Add to the property.
      *
      * @param newValue the new value
@@ -128,11 +107,6 @@ public class ExternalizedSubjectArea
     {
         return moduleRequirements;
     }
-
-    /**
-     * Version.
-     */
-    protected StringValue version = null;
 
     /**
      * List of ExternalizedEntityTypes, as they are being read in.

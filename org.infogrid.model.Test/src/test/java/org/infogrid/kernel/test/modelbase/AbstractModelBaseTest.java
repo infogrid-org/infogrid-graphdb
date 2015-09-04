@@ -73,10 +73,9 @@ public abstract class AbstractModelBaseTest
             IOException
     {
         String [] theSubjectAreas = { "org.infogrid.model.Test" };
-        String [] theSubjectAreaVersions = { null };
 
         for( int i=0 ; i<theSubjectAreas.length ; ++i ) {
-            theModelBase.findSubjectArea( theSubjectAreas[i], theSubjectAreaVersions[i] );
+            theModelBase.findSubjectArea( theSubjectAreas[i] );
         }
 
         //

@@ -81,9 +81,9 @@ public abstract class AbstractActiveMeshObjectSetTest
 
         theModelBase = ModelBaseSingleton.getSingleton();
 
-        typeAA   = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-        typeAR1A = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "AR1A" );
-        typeAR2A = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "AR2A" );
+        typeAA   = theModelBase.findEntityType( "org.infogrid.model.Test", "AA" );
+        typeAR1A = theModelBase.findRelationshipType( "org.infogrid.model.Test", "AR1A" );
+        typeAR2A = theModelBase.findRelationshipType( "org.infogrid.model.Test", "AR2A" );
         typeX    = theModelBase.findPropertyType( typeAA, "X" );
     }
 

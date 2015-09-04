@@ -43,8 +43,8 @@ public class StoreMeshBaseTest1
         throws
             Exception
     {
-        EntityType   typeAA = theModelBase.findEntityType(   "org.infogrid.model.Test", null, "AA" );
-        PropertyType ptX    = theModelBase.findPropertyType( "org.infogrid.model.Test", null, "A",  "X" );
+        EntityType   typeAA = theModelBase.findEntityType(   "org.infogrid.model.Test", "AA" );
+        PropertyType ptX    = theModelBase.findPropertyType( "org.infogrid.model.Test", "A",  "X" );
 
         //
         

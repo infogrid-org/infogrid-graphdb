@@ -107,7 +107,7 @@ public class ModelLoaderGenerator
         outStream.println();
 
         // package
-        String packageName = thePackageNameTranslatorWithVersion.translateSubjectArea( theSa );
+        String packageName = thePackageNameTranslator.translateSubjectArea( theSa );
 
         outStream.println( "package " + packageName + ";" );
         outStream.println();
@@ -321,7 +321,6 @@ public class ModelLoaderGenerator
         outStream.println( "        SubjectArea theSa = theInstantiator.createSubjectArea(" );
         outStream.println( "                " + getIdentifierString( theSa.getIdentifier()                 ) + ",   // IdentifierValue           theIdentifier," );
         outStream.println( "                " + getValueString( theSa.getName()                            ) + ",   // StringValue               theName," );
-        outStream.println( "                " + getValueString( theSa.getVersionNumber()                   ) + ",   // StringValue               theVersion," );
         outStream.println( "                " + getValueString( theSa.getUserVisibleNameMap()              ) + ",   // L10Map                    theUserNames," );
         outStream.println( "                " + getValueString( theSa.getUserVisibleDescriptionMap()       ) + ",   // L10Map                    theUserDescriptions," );
         outStream.println( "                " + getTypeString( theSa.getSubjectAreaDependencies()          ) + ",   // SubjectArea []            theSubjectAreaDependencies," );
@@ -1065,7 +1064,7 @@ public class ModelLoaderGenerator
 
         SubjectArea theSubjectArea = (SubjectArea) theMeshType;
 
-        String rawSubjectArea = thePackageNameTranslatorWithVersion.translateSubjectArea( theSubjectArea );
+        String rawSubjectArea = thePackageNameTranslator.translateSubjectArea( theSubjectArea );
         String dirName        = rawSubjectArea.replace( '.', File.separatorChar );
 
         return dirName + File.separatorChar + "SubjectAreaLoader.java";

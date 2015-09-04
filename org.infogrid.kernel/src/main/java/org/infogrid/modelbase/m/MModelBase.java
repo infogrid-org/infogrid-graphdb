@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.StreamCorruptedException;
+import java.text.ParseException;
 import java.util.Iterator;
 import org.diet4j.core.Module;
 import org.diet4j.core.ModuleActivationException;
@@ -29,6 +30,7 @@ import org.diet4j.core.ModuleRegistry;
 import org.diet4j.core.ModuleRequirement;
 import org.diet4j.core.ModuleResolutionCandidateNotUniqueException;
 import org.diet4j.core.ModuleResolutionException;
+import org.diet4j.core.NoModuleResolutionCandidateException;
 import org.infogrid.model.primitives.AttributableMeshType;
 import org.infogrid.model.primitives.CollectableMeshType;
 import org.infogrid.model.primitives.EntityType;
@@ -223,34 +225,32 @@ public class MModelBase
     }
 
     /**
-      * Find a SubjectArea by name and version number.
+      * Find a SubjectArea by name.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @return the found SubjectArea
       * @throws SubjectAreaNotFoundException thrown if the SubjectArea cannot be found
       */
     @Override
     public SubjectArea findSubjectArea(
-            String subjectAreaName,
-            String subjectAreaVersionNumber )
+            String subjectAreaName )
         throws
             SubjectAreaNotFoundException
     {
         if( log.isTraceEnabled() ) {
-            log.traceMethodCallEntry( this, "findSubjectArea", subjectAreaName, subjectAreaVersionNumber );
+            log.traceMethodCallEntry( this, "findSubjectArea", subjectAreaName );
         }
 
-        SubjectArea ret = theCluster.findSubjectArea( subjectAreaName, subjectAreaVersionNumber );
+        SubjectArea ret = theCluster.findSubjectArea( subjectAreaName );
         if( ret == null ) {
             try {
-                ret = attemptToLoadSubjectArea( subjectAreaName, subjectAreaVersionNumber );
+                ret = attemptToLoadSubjectArea( subjectAreaName );
 
                 if( ret == null ) {
-                    throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber );
+                    throw new SubjectAreaNotFoundException( subjectAreaName );
                 }
             } catch( IOException ex ) {
-                throw new SubjectAreaNotFoundException( subjectAreaName, subjectAreaVersionNumber, ex );
+                throw new SubjectAreaNotFoundException( subjectAreaName, ex );
             }
         }
         return ret;
@@ -291,7 +291,6 @@ public class MModelBase
       * Shortcut for finding an EntityType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param theEntityTypeName the name of the EntityType
       * @return the found EntityType
       * @throws MeshTypeNotFoundException thrown if the EntityType cannot be found
@@ -299,15 +298,14 @@ public class MModelBase
     @Override
     public EntityType findEntityType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String theEntityTypeName )
         throws
             MeshTypeNotFoundException
     {
         if( log.isTraceEnabled() ) {
-            log.traceMethodCallEntry( this, "findEntityType", subjectAreaName, subjectAreaVersionNumber, theEntityTypeName );
+            log.traceMethodCallEntry( this, "findEntityType", subjectAreaName, theEntityTypeName );
         }
-        SubjectArea theSa = findSubjectArea( subjectAreaName, subjectAreaVersionNumber );
+        SubjectArea theSa = findSubjectArea( subjectAreaName );
         return findEntityType( theSa, theEntityTypeName );
     }
 
@@ -347,7 +345,6 @@ public class MModelBase
       * Shortcut for finding a RelationshipType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param theRelationshipTypeName the name of the RelationshipType
       * @return the found RelationshipType
       * @throws MeshTypeNotFoundException thrown if the RelationshipType cannot be found
@@ -355,15 +352,14 @@ public class MModelBase
     @Override
     public RelationshipType findRelationshipType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String theRelationshipTypeName )
         throws
             MeshTypeNotFoundException
     {
         if( log.isTraceEnabled() ) {
-            log.traceMethodCallEntry( this, "findRelationshipType", subjectAreaName, subjectAreaVersionNumber, theRelationshipTypeName );
+            log.traceMethodCallEntry( this, "findRelationshipType", subjectAreaName, theRelationshipTypeName );
         }
-        SubjectArea theSa = findSubjectArea( subjectAreaName, subjectAreaVersionNumber );
+        SubjectArea theSa = findSubjectArea( subjectAreaName );
         return findRelationshipType( theSa, theRelationshipTypeName );
     }
 
@@ -399,7 +395,6 @@ public class MModelBase
       * Shortcut for finding a PropertyType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param theAttributableMeshType the name of the owning EntityType or RelationshipType
       * @param thePropertyTypeName the name of the PropertyType
       * @return the found PropertyType
@@ -408,13 +403,12 @@ public class MModelBase
     @Override
     public PropertyType findPropertyType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String theAttributableMeshType,
             String thePropertyTypeName )
         throws
             MeshTypeNotFoundException
     {
-        SubjectArea sa = findSubjectArea( subjectAreaName, subjectAreaVersionNumber ); // may throw exception
+        SubjectArea sa = findSubjectArea( subjectAreaName ); // may throw exception
 
         AttributableMeshType amo = theCluster.findAttributableMeshType( sa, theAttributableMeshType );
         if( amo == null ) {
@@ -573,14 +567,12 @@ public class MModelBase
      * true if it was successful. This must only be called if this SubjectArea has not been loaded before.
      *
      * @param saName fully-qualified name of the SubjectArea to be loaded
-     * @param saVersion version number of the SubjectArea to be loaded
      * @return the found SubjectArea
      * @throws SubjectAreaNotFoundException thrown if the SubjectArea was not found
      * @throws IOException thrown if the file could not be read
      */
     public SubjectArea attemptToLoadSubjectArea(
-            String saName,
-            String saVersion )
+            String saName )
         throws
             SubjectAreaNotFoundException,
             IOException
@@ -589,20 +581,22 @@ public class MModelBase
         ClassLoader cl = getClass().getClassLoader();
         if( cl instanceof ModuleClassLoader && ((ModuleClassLoader)cl).getModuleRegistry() != null ) {
             try {
-               ret = attemptToLoadSubjectAreaWithModuleRegistry( ((ModuleClassLoader)cl).getModuleRegistry(), saName, saVersion );
+               ret = attemptToLoadSubjectAreaWithModuleRegistry( ((ModuleClassLoader)cl).getModuleRegistry(), saName );
 
             } catch( ModuleException ex ) {
-                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
+                throw new SubjectAreaNotFoundException( saName, ex );
+            } catch( ParseException ex ) {
+                throw new SubjectAreaNotFoundException( saName, ex );
             }
         } else {
             try {
-                ret = attemptToLoadSubjectAreaWithoutModuleRegistry( saName, saVersion );
+                ret = attemptToLoadSubjectAreaWithoutModuleRegistry( saName );
 
             } catch( SubjectAreaNotFoundException ex ) {
                 throw ex;
 
             } catch( MeshTypeNotFoundException ex ) {
-                throw new SubjectAreaNotFoundException( saName, saVersion, ex );
+                throw new SubjectAreaNotFoundException( saName, ex );
             }
         }
         return ret;
@@ -615,14 +609,12 @@ public class MModelBase
      * if this SubjectArea has not been loaded before.
      *
      * @param saName fully-qualified name of the SubjectArea to be loaded
-     * @param saVersion version number of the SubjectArea to be loaded
      * @return the found SubjectArea
      * @throws MeshTypeNotFoundException thrown if the MeshType was not found
      * @throws IOException thrown if the file could not be read
      */
     protected SubjectArea attemptToLoadSubjectAreaWithoutModuleRegistry(
-            String saName,
-            String saVersion )
+            String saName )
         throws
             MeshTypeNotFoundException,
             IOException
@@ -630,10 +622,6 @@ public class MModelBase
         StringBuilder path = new StringBuilder();
         path.append( "infogrid-models/" );
         path.append( saName );
-        path.append( ".V" );
-        if( saVersion != null ) {
-            path.append( saVersion );
-        }
         path.append( ".xml" );
 
         String realPath = path.toString();
@@ -663,42 +651,33 @@ public class MModelBase
      *
      * @param registry the ModuleRegistry to use
      * @param saName fully-qualified name of the SubjectArea to be loaded
-     * @param saVersion version number of the SubjectArea to be loaded
      * @return the found SubjectArea
      * @throws ModuleNotFoundException thrown if the ModelModule was not found
      * @throws ModuleResolutionException thrown if the found ModelModule's dependencies could not be resolved
      * @throws ModuleActivationException thrown if the found ModelModule could not be activated
      * @throws ModuleResolutionCandidateNotUniqueException thrown if a dependency could not be uniquely resolved
+     * @throws NoModuleResolutionCandidateException thrown if a dependency could not be resolved at all
+     * @throws ParseException thrown if the saName had invalid syntax
      */
     protected SubjectArea attemptToLoadSubjectAreaWithModuleRegistry(
             ModuleRegistry registry,
-            String         saName,
-            String         saVersion )
+            String         saName )
         throws
             ModuleNotFoundException,
             ModuleResolutionException,
             ModuleActivationException,
-            ModuleResolutionCandidateNotUniqueException
+            ModuleResolutionCandidateNotUniqueException,
+            NoModuleResolutionCandidateException,
+            ParseException
     {
-        // FIXME: not sure this InfoGrid-Maven mapping is the best there can be
-        String groupId;
-        String artifactId;
-        int    colon = saName.indexOf( ':' );
-        if( colon >= 0 ) {
-            groupId    = saName.substring( 0, colon );
-            artifactId = saName.substring( colon+1 );
-        } else {
-            groupId    = "org.infogrid";
-            artifactId = saName;
-        }
-        ModuleRequirement saRequirement = ModuleRequirement.create( groupId, artifactId, saVersion, true );
+        ModuleRequirement saRequirement = ModuleRequirement.parse( saName );
         ModuleMeta        saCandidate   = registry.determineSingleResolutionCandidate( saRequirement );
 
         Module saModule = registry.resolve( saCandidate, true );
 
         saModule.activateRecursively();
 
-        return theCluster.findSubjectArea( saName, saVersion );
+        return theCluster.findSubjectArea( saName );
     }
 
     /**

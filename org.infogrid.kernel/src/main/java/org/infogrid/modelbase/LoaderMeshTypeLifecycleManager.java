@@ -634,7 +634,6 @@ public class LoaderMeshTypeLifecycleManager
      * 
      * @param identifier globally unique identifier of this SubjectArea
      * @param theName programmatic name of this SubjectArea
-     * @param theVersion the version of this SubjectArea
      * @param theUserNames internalionalized names of this SubjectArea
      * @param theUserDescriptions internationalized descriptions of this SubjectArea
      * @param theSubjectAreaDependencies the set of SubjectAreas on whose content members of this SubjectArea depend
@@ -646,7 +645,6 @@ public class LoaderMeshTypeLifecycleManager
     public SubjectArea createSubjectArea(
             MeshTypeIdentifier        identifier,
             StringValue               theName,
-            StringValue               theVersion,
             L10PropertyValueMap       theUserNames,
             L10PropertyValueMap       theUserDescriptions,
             SubjectArea []            theSubjectAreaDependencies,
@@ -657,7 +655,6 @@ public class LoaderMeshTypeLifecycleManager
         SubjectArea ret = theDelegate.createSubjectArea(
                 identifier,
                 theName,
-                theVersion,
                 theUserNames,
                 theUserDescriptions,
                 theSubjectAreaDependencies,

@@ -301,12 +301,6 @@ public class MyHandler
                 case XmlModelTokens.NAME_TOKEN:
                     // noop
                     break;
-                case XmlModelTokens.MINVERSION_TOKEN:
-                    // noop
-                    break;
-                case XmlModelTokens.VERSION_TOKEN:
-                    // noop
-                    break;
                 case XmlModelTokens.USERNAME_TOKEN:
                     theStack.push( new ExternalizedAttributes( attrs ));
                     break;
@@ -657,27 +651,6 @@ public class MyHandler
                     } else if( temp instanceof ExternalizedModuleRequirement )  {
                         theModuleRequirement = (ExternalizedModuleRequirement) temp;
                         theModuleRequirement.setName( createStringValueFrom( theCharacters ));
-                    } else {
-                        userError( "Unexpected type: " + temp );
-                    }
-                    break;
-                case XmlModelTokens.MINVERSION_TOKEN:
-                    temp = theStack.peek();
-                    if( temp instanceof ExternalizedSubjectAreaDependency ) {
-                        theSubjectAreaDependency = (ExternalizedSubjectAreaDependency) temp;
-                        theSubjectAreaDependency.setMinVersion( createStringValueFrom( theCharacters ));
-                    } else if( temp instanceof ExternalizedModuleRequirement ) {
-                        theModuleRequirement = (ExternalizedModuleRequirement) temp;
-                        theModuleRequirement.setMinVersion( createStringValueFrom( theCharacters ));
-                    } else {
-                        userError( "Unexpected type: " + temp );
-                    }
-                    break;
-                case XmlModelTokens.VERSION_TOKEN:
-                    temp  = theStack.peek();
-                    if( temp instanceof ExternalizedSubjectArea ) {
-                        theSubjectArea = (ExternalizedSubjectArea) temp;
-                        theSubjectArea.setVersion( createStringValueFrom( theCharacters ));
                     } else {
                         userError( "Unexpected type: " + temp );
                     }
@@ -1479,17 +1452,14 @@ public class MyHandler
         for( ExternalizedSubjectAreaDependency theExternalizedSubjectAreaDependency
                 : theExternalizedSubjectArea.getSubjectAreaDependencies() )
         {
-            StringValue minVersion = theExternalizedSubjectAreaDependency.getMinVersion();
             theSubjectAreaDependencies[i++] = theModelBase.findSubjectArea(
-                    theExternalizedSubjectAreaDependency.getName().value(),
-                    minVersion != null ? minVersion.value() : null );
+                    theExternalizedSubjectAreaDependency.getName().value());
         }
 
         i = 0;
         SubjectArea theSubjectArea = theInstantiator.createSubjectArea(
                 constructIdentifier( theExternalizedSubjectArea ),
                 theExternalizedSubjectArea.getName(),
-                theExternalizedSubjectArea.getVersion(),
                 userTableToL10Map( theExternalizedSubjectArea.getUserNames(),        theExternalizedSubjectArea.getName(), StringDataType.theDefault ),
                 userTableToL10Map( theExternalizedSubjectArea.getUserDescriptions(), null,                                 BlobDataType.theTextAnyType ),
                 theSubjectAreaDependencies,
@@ -2270,15 +2240,7 @@ public class MyHandler
             return sa.getIdentifier();
         }
 
-        StringBuilder idString = new StringBuilder();
-
-        idString.append( sa.getName().value() );
-        if( sa.getVersion() != null ) {
-            idString.append( "_v" );
-            idString.append( sa.getVersion().value() );
-        }
-        
-        return createTypeIdentifierFrom( idString.toString() );
+        return createTypeIdentifierFrom( sa.getName().value() );
     }
     
     /**
@@ -2299,10 +2261,6 @@ public class MyHandler
         StringBuilder idString = new StringBuilder();
 
         idString.append( sa.getName().value() );
-        if( sa.getVersion() != null ) {
-            idString.append( "_v" );
-            idString.append( sa.getVersion().value() );
-        }
         idString.append( "#" );
         idString.append( amo.getName().value() );
         
@@ -2329,10 +2287,6 @@ public class MyHandler
         StringBuilder idString = new StringBuilder();
 
         idString.append( sa.getName().value() );
-        if( sa.getVersion() != null ) {
-            idString.append( "_v" );
-            idString.append( sa.getVersion().value() );
-        }
         idString.append( "#" );
         idString.append( amo.getName().value() );
         
@@ -2362,10 +2316,6 @@ public class MyHandler
         StringBuilder idString = new StringBuilder();
 
         idString.append( sa.getName().value() );
-        if( sa.getVersion() != null ) {
-            idString.append( "_v" );
-            idString.append( sa.getVersion().value() );
-        }
         idString.append( '/' );
         idString.append( amo.getName().value() );
         

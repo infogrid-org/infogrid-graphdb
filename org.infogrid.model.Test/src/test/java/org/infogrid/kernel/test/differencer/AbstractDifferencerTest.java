@@ -81,7 +81,7 @@ public abstract class AbstractDifferencerTest
 
         theModelBase = ModelBaseSingleton.getSingleton();
 
-        SubjectArea sa = theModelBase.findSubjectArea( "org.infogrid.model.Test", null );
+        SubjectArea sa = theModelBase.findSubjectArea( "org.infogrid.model.Test" );
         
         EntityType typeA = theModelBase.findEntityType( sa, "A" );
         typeAA   = theModelBase.findEntityType(       sa,     "AA" );

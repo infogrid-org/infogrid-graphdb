@@ -180,19 +180,6 @@ public class XmlModelExporter
             // sa.userdescription keyword
             exportToXMLUserVisibleDescriptionMap( 2, theWriter, currentSa );
 
-            // sa.version keyword
-            if( currentSa.getVersionNumber() != null ) {
-                doIndent( 2, theWriter );
-                theWriter.write( "<" );
-                theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.VERSION_TOKEN ));
-                theWriter.write( ">" );
-                writeValue( currentSa.getVersionNumber(), false, theWriter );
-                theWriter.write( "</" );
-                theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.VERSION_TOKEN ));
-                theWriter.write( ">\n" );
-            }
-
-            
             if( currentSa.getSubjectAreaDependencies().length > 0 ) {
 
                 // sa.dependson keyword
@@ -218,18 +205,6 @@ public class XmlModelExporter
                     theWriter.write( "</" );
                     theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.NAME_TOKEN ));
                     theWriter.write( ">\n" );
-
-                    // sa.dependson.sareference.minversion keyword
-                    if( saDependencies[i].getVersionNumber() != null ) {
-                        doIndent( 4, theWriter );
-                        theWriter.write( "<" );
-                        theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.MINVERSION_TOKEN ));
-                        theWriter.write( ">" );
-                        writeValue( saDependencies[i].getVersionNumber(), false, theWriter );
-                        theWriter.write( "</" );
-                        theWriter.write( XmlModelTokens.getKeywordFromToken( XmlModelTokens.MINVERSION_TOKEN ));
-                        theWriter.write( ">\n" );
-                    }
 
                     // /sa.dependson.sareference keyword
                     doIndent( 3, theWriter );

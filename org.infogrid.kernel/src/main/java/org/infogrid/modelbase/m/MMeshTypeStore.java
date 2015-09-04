@@ -107,13 +107,7 @@ public class MMeshTypeStore
     void addObject(
             SubjectArea theObject )
     {
-        StringValue version = theObject.getVersionNumber();
-        
-        KeyInTable<String,String> theKey = new KeyInTable<String,String>(
-                theObject.getName().value(),
-                version != null ? version.value() : null );
-
-        theSubjectAreas.put( theKey, theObject );
+        theSubjectAreas.put( theObject.getName().value(), theObject );
         allMeshTypes.put( theObject.getIdentifier(), theObject );
 
         notifyElementAdded( theObject );
@@ -174,18 +168,12 @@ public class MMeshTypeStore
       * Find a SubjectArea. No wildcards etc. are allowed.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @return the found SubjectArea, or null
       */
     SubjectArea findSubjectArea(
-            String subjectAreaName,
-            String subjectAreaVersionNumber )
+            String subjectAreaName )
     {
-        KeyInTable<String,String> theKey = new KeyInTable<String,String>(
-                subjectAreaName,
-                subjectAreaVersionNumber );
-
-        return theSubjectAreas.get( theKey );
+        return theSubjectAreas.get( subjectAreaName );
     }
 
     /**
@@ -279,31 +267,19 @@ public class MMeshTypeStore
         }
         int slashStarts = identifierString.indexOf( '/' );
         
-        String remainingIdentifierString;
-        if( slashStarts >= 0 ) {
-            remainingIdentifierString = identifierString.substring( 0, slashStarts );
-        } else {
-            remainingIdentifierString = identifierString;
-        }
-
-        int versionStarts = remainingIdentifierString.indexOf( "_v" );
-
         String saName;
-        String saVersion;
-        if( versionStarts >= 0 ) {
-            saName    = remainingIdentifierString.substring( 0, versionStarts );
-            saVersion = remainingIdentifierString.substring( versionStarts + "_v".length() );
+        if( slashStarts >= 0 ) {
+            saName = identifierString.substring( 0, slashStarts );
         } else {
-            saName    = remainingIdentifierString;
-            saVersion = null;
+            saName = identifierString;
         }
 
         // only load if we don't have that subject area already
-        if( findSubjectArea( saName, saVersion ) != null ) {
+        if( findSubjectArea( saName ) != null ) {
             return null;
         }
 
-        theModelBase.attemptToLoadSubjectArea( saName, saVersion );
+        theModelBase.attemptToLoadSubjectArea( saName );
         // may throw exception
 
         ret = allMeshTypes.get( identifier );
@@ -345,31 +321,31 @@ public class MMeshTypeStore
 
     /**
      * The SubjectAreas contained by this MMeshTypeStore.
-     * key is { name, version }
+     * key is name, version
      */
-    protected HashMap<KeyInTable<String,String>,SubjectArea> theSubjectAreas
-            = new HashMap<KeyInTable<String,String>,SubjectArea>( 20 ); // fudge
+    protected HashMap<String,SubjectArea> theSubjectAreas
+            = new HashMap<>( 20 ); // fudge
 
     /**
      * The AttributableMeshTypes contained by this MMeshTypeStore.
      * key is { subjectArea, name }
      */
     protected HashMap<KeyInTable<SubjectArea,String>,AttributableMeshType> theAttributableMeshTypes
-            = new HashMap<KeyInTable<SubjectArea,String>,AttributableMeshType>();
+            = new HashMap<>();
 
     /**
      * The PropertyTypes contained by this MMeshTypeStore.
      * key is { amo, name }
      */
     protected HashMap<KeyInTable<AttributableMeshType,String>,PropertyType> thePropertyTypes
-            = new HashMap<KeyInTable<AttributableMeshType,String>,PropertyType>();
+            = new HashMap<>();
 
     /**
      * An additional (and redundant) table that maps from the MeshType's
      * Identifier to the MeshType directly.
      */
     protected HashMap<MeshTypeIdentifier, MeshType> allMeshTypes
-            = new HashMap<MeshTypeIdentifier,MeshType>();
+            = new HashMap<>();
 
     /**
       * The set of MeshTypeLifecycleEventListener.

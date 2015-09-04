@@ -45,9 +45,9 @@ public class GarbageCollectionTest1
         throws
             Exception
     {
-        EntityType         typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-        EntityType         typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", null, "B" );
-        RelationshipType   typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "R" );
+        EntityType         typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", "AA" );
+        EntityType         typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", "B" );
+        RelationshipType   typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", "R" );
         PropertyType       typeY  = theModelBase.findPropertyType( typeAA, "Y" );
         PropertyType       typeZ  = theModelBase.findPropertyType( typeB,  "Z" );
         EnumeratedDataType zType  = (EnumeratedDataType) typeZ.getDataType();

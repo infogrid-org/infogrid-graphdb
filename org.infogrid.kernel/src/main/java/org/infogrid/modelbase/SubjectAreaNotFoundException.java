@@ -27,32 +27,26 @@ public class SubjectAreaNotFoundException
      * Constructor.
      *
      * @param saName the fully-qualified name of the SubjectArea
-     * @param saVersion the name of the SubjectArea
      */
     public SubjectAreaNotFoundException(
-            String saName,
-            String saVersion )
+            String saName )
     {
-        theSubjectAreaName    = saName;
-        theSubjectAreaVersion = saVersion;
+        theSubjectAreaName = saName;
     }
 
     /**
      * Constructor.
      *
      * @param saName the fully-qualified name of the SubjectArea
-     * @param saVersion the name of the SubjectArea
      * @param cause the Throwable that caused this Exception
      */
     public SubjectAreaNotFoundException(
             String    saName,
-            String    saVersion,
             Throwable cause )
     {
         super( cause );
 
-        theSubjectAreaName    = saName;
-        theSubjectAreaVersion = saVersion;
+        theSubjectAreaName = saName;
     }
 
     /**
@@ -62,7 +56,7 @@ public class SubjectAreaNotFoundException
      */
     public Object [] getLocalizationParameters()
     {
-        return new Object[]{ theSubjectAreaName, theSubjectAreaVersion };
+        return new Object[]{ theSubjectAreaName };
     }
 
     /**
@@ -77,8 +71,6 @@ public class SubjectAreaNotFoundException
         almostRet.append( super.toString() );
         almostRet.append( "SubjectArea: " );
         almostRet.append( theSubjectAreaName );
-        almostRet.append( ", Version: " );
-        almostRet.append( theSubjectAreaVersion );
         return almostRet.toString();
     }
 
@@ -86,9 +78,4 @@ public class SubjectAreaNotFoundException
      * The fully-qualified name of the SubjectArea that we weren't able to find.
      */
     protected String theSubjectAreaName;
-
-    /**
-     * The version of the SubjectArea that we weren't able to find.
-     */
-    protected String theSubjectAreaVersion;
 }

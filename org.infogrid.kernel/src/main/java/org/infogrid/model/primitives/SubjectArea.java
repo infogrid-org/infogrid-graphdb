@@ -25,13 +25,6 @@ public interface SubjectArea
             MeshType
 {
     /**
-      * Obtain the VersionNumber property.
-      *
-      * @return the version number property
-      */
-    public StringValue getVersionNumber();
-
-    /**
      * Obtain the set of SubjectAreas that this SubjectArea depends on.
      *
      * @return the set of SubjectAreas that this SubjectArea depends on
@@ -60,13 +53,6 @@ public interface SubjectArea
      */
     public RelationshipType [] getRelationshipTypes();
     
-    /**
-      * Obtain the canonical name of this SubjectArea including version number.
-      *
-      * @return the canonical name of this SubjectArea
-      */
-    public StringValue getCanonicalName();
-
     /**
      * Obtain a ClassLoader that can load the appropriate Java classes to instantiate
      * the AttributableMeshTypes in this SubjectArea.

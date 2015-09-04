@@ -40,9 +40,9 @@ public class MeshBaseTest9
         throws
             Exception
     {
-        EntityType       typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-        EntityType       typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", null, "B" );
-        RelationshipType typeRR = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "RR" );
+        EntityType       typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", "AA" );
+        EntityType       typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", "B" );
+        RelationshipType typeRR = theModelBase.findRelationshipType( "org.infogrid.model.Test", "RR" );
 
         MeshBaseLifecycleManager life = theMeshBase.getMeshBaseLifecycleManager();
 

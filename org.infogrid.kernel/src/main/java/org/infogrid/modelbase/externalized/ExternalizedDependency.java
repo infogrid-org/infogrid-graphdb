@@ -43,27 +43,6 @@ public abstract class ExternalizedDependency
     }
 
     /**
-     * Set property.
-     *
-     * @param newValue the new value
-     */
-    public void setMinVersion(
-            StringValue newValue ) 
-    {
-        theMinVersion = newValue;
-    }
-    
-    /**
-     * Get property.
-     *
-     * @return the value
-     */
-    public StringValue getMinVersion()
-    {
-        return theMinVersion;
-    }
-
-    /**
      * Convert to String, for user error messages.
      *
      * @return String form of this object
@@ -71,20 +50,11 @@ public abstract class ExternalizedDependency
     @Override
     public String toString()
     {
-        if( theMinVersion != null ) {
-            return "Dependency on module " + theName.value() + " with a minimum version of " + theMinVersion.value();
-        } else {
-            return "Dependency on module " + theName.value();
-        }
+        return "Dependency on module " + theName.value();
     }
 
     /**
      * Name of the referenced SubjectArea.
      */
     protected StringValue theName = null;
-
-    /**
-     * Minimum version of the referenced Module.
-     */
-    protected StringValue theMinVersion = null;
 }

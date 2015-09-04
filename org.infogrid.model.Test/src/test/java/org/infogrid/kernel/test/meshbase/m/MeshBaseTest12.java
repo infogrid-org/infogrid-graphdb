@@ -55,7 +55,7 @@ public class MeshBaseTest12
         
         log.info( "Looking up MeshTypes" );
 
-        SubjectArea      sa     = theModelBase.findSubjectArea( "org.infogrid.model.Test", null );
+        SubjectArea      sa     = theModelBase.findSubjectArea( "org.infogrid.model.Test" );
         EntityType       typeAA = theModelBase.findEntityType( sa, "AA" );
         EntityType       typeB  = theModelBase.findEntityType( sa, "B" );
         RelationshipType typeR  = theModelBase.findRelationshipType( sa, "R" );

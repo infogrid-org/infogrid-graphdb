@@ -43,11 +43,11 @@ public class MeshBaseTest13
         throws
             Exception
     {
-        EntityType       typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", null, "AA" );
-        EntityType       typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", null, "B" );
-        RelationshipType typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "R" );
-        RelationshipType typeRR = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "RR" );
-        RelationshipType typeS  = theModelBase.findRelationshipType( "org.infogrid.model.Test", null, "S" );
+        EntityType       typeAA = theModelBase.findEntityType( "org.infogrid.model.Test", "AA" );
+        EntityType       typeB  = theModelBase.findEntityType( "org.infogrid.model.Test", "B" );
+        RelationshipType typeR  = theModelBase.findRelationshipType( "org.infogrid.model.Test", "R" );
+        RelationshipType typeRR = theModelBase.findRelationshipType( "org.infogrid.model.Test", "RR" );
+        RelationshipType typeS  = theModelBase.findRelationshipType( "org.infogrid.model.Test", "S" );
 
         //
 

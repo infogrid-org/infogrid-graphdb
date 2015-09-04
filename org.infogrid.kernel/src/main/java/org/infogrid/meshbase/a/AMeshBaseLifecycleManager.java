@@ -368,10 +368,6 @@ public class AMeshBaseLifecycleManager
 
         StringBuilder className = new StringBuilder( 64 );
         className.append( theSa.getName().value() );
-        className.append( ".V" );
-        if( theSa.getVersionNumber() != null ) {
-            className.append( theSa.getVersionNumber().value() );
-        }
         className.append( ".Impl" );
         className.append( theObjectType.getName().value() );
 

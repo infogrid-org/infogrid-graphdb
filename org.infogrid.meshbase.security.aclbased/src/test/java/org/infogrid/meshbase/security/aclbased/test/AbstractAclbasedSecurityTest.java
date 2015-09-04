@@ -77,7 +77,7 @@ public abstract class AbstractAclbasedSecurityTest
 
         theModelBase = ModelBaseSingleton.getSingleton();
 
-        SubjectArea aclbasedSa = theModelBase.findSubjectArea( "org.infogrid.meshbase.security.aclbased", null );
+        SubjectArea aclbasedSa = theModelBase.findSubjectArea( "org.infogrid.meshbase.security.aclbased" );
 
         rightsTypes = new RelationshipType[] {
                 theModelBase.findRelationshipType( aclbasedSa, "MeshObject_HasReadAccessTo_ProtectionDomain" ),

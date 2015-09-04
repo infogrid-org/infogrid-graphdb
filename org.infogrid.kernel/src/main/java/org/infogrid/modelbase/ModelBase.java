@@ -53,13 +53,11 @@ public interface ModelBase
       * Find a SubjectArea by name and version number.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @return the found SubjectArea
       * @throws SubjectAreaNotFoundException thrown if the SubjectArea cannot be found
       */
     public abstract SubjectArea findSubjectArea(
-            String subjectAreaName,
-            String subjectAreaVersionNumber )
+            String subjectAreaName )
         throws
             SubjectAreaNotFoundException;
 
@@ -81,14 +79,12 @@ public interface ModelBase
       * Shortcut for finding a EntityType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param entityTypeName the name of the EntityType
       * @return the found EntityType
       * @throws MeshTypeNotFoundException thrown if the SubjectArea or the EntityType cannot be found
       */
     public abstract EntityType findEntityType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String entityTypeName )
         throws
             MeshTypeNotFoundException;
@@ -111,14 +107,12 @@ public interface ModelBase
       * Shortcut for finding a RelationshipType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param relationshipTypeName the name of the RelationshipType
       * @return the found RelationshipType
       * @throws MeshTypeNotFoundException thrown if the SubjecArea or the RelationshipType cannot be found
       */
     public abstract RelationshipType findRelationshipType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String relationshipTypeName )
         throws
             MeshTypeNotFoundException;
@@ -141,7 +135,6 @@ public interface ModelBase
       * Shortcut for finding a PropertyType directly.
       *
       * @param subjectAreaName the fully-qualified name of the SubjectArea
-      * @param subjectAreaVersionNumber the version number of the SubjectArea
       * @param theAttributableMeshOTypeName the name of the owning EntityType or RelationshipType
       * @param thePropertyTypeName the name of the PropertyType
       * @return the found PropertyType
@@ -149,7 +142,6 @@ public interface ModelBase
       */
     public abstract PropertyType findPropertyType(
             String subjectAreaName,
-            String subjectAreaVersionNumber,
             String theAttributableMeshOTypeName,
             String thePropertyTypeName )
         throws
