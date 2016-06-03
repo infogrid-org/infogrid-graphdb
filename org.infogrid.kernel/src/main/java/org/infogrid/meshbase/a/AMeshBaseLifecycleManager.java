@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -47,7 +47,7 @@ import org.infogrid.util.ArrayHelper;
 import org.infogrid.util.logging.Log;
 
 /**
- * A MeshBaseLifecycleManager appropriate for the AMeshBase implementation of MeshBase. 
+ * A MeshBaseLifecycleManager appropriate for the AMeshBase implementation of MeshBase.
  */
 public class AMeshBaseLifecycleManager
         extends
@@ -58,14 +58,14 @@ public class AMeshBaseLifecycleManager
     /**
      * Factory method. The application developer should not call this or a subclass constructor; use
      * MeshBase.getMeshObjectLifecycleManager() instead.
-     * 
+     *
      * @return the created AMeshBaseLifecycleManager
      */
     public static AMeshBaseLifecycleManager create()
     {
         return new AMeshBaseLifecycleManager();
     }
-    
+
     /**
      * Constructor, for subclasses only.
      */
@@ -96,7 +96,7 @@ public class AMeshBaseLifecycleManager
         MeshObjectIdentifier identifier   = theMeshBase.getMeshObjectIdentifierFactory().createMeshObjectIdentifier();
         long                 time         = determineCreationTime();
         long                 autoExpires;
-        
+
         if( DEFAULT_RELATIVE_TIME_EXPIRES > 0 ) {
             autoExpires = time + DEFAULT_RELATIVE_TIME_EXPIRES;
         } else {
@@ -116,10 +116,10 @@ public class AMeshBaseLifecycleManager
      * and a provided MeshObjectIdentifier.
      * This call is a "semantic create" which means that a new, semantically distinct object
      * is to be created.</p>
-     * 
+     *
      * <p>Before this operation can be successfully invoked, a Transaction must be active
      * on this Thread.>/p>
-     * 
+     *
      * @param identifier the identifier of the to-be-created MeshObject. This must not be null.
      * @param timeCreated the time when this MeshObject was semantically created, in System.currentTimeMillis() format
      * @param timeUpdated the time when this MeshObject was last updated, in System.currentTimeMillis() format
@@ -146,7 +146,7 @@ public class AMeshBaseLifecycleManager
 
         AccessManager access = theMeshBase.getAccessManager();
         if( access != null ) {
-            access.checkPermittedCreate( identifier );
+            access.checkPermittedCreate( theMeshBase, identifier );
         }
 
         long now = determineCreationTime();
@@ -181,7 +181,7 @@ public class AMeshBaseLifecycleManager
 
     /**
      * Check whether it is permitted to create a MeshObject with the specfied parameters.
-     * 
+     *
      * @param identifier the identifier of the to-be-created MeshObject. This must not be null.
      * @throws MeshObjectIdentifierNotUniqueException a MeshObject exists already in this MeshBase with the specified Identifier
      * @throws NotPermittedException thrown if the combination of arguments was not permitted
@@ -206,16 +206,16 @@ public class AMeshBaseLifecycleManager
 
     /**
      * <p>Semantically delete several MeshObjects at the same time.</p>
-     * 
+     *
      * <p>This call is a "semantic delete", which means that an existing
      * MeshObject will go away in all its replicas. Due to time lag, the MeshObject
      * may still exist in certain replicas in other places for a while, but
      * the request to deleteMeshObjects all objects is in the queue and will get there
      * eventually.</p>
-     * 
+     *
      * <p>This call either succeeds or fails in total: if one or more of the specified MeshObject cannot be
      *    deleted for some reason, none of the other MeshObjects will be deleted either.</p>
-     * 
+     *
      * @param theObjects the MeshObjects to be semantically deleted
      * @throws TransactionException thrown if this method was invoked outside of proper Transaction boundaries
      * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
@@ -229,7 +229,7 @@ public class AMeshBaseLifecycleManager
     {
         AMeshBase realBase = (AMeshBase) theMeshBase;
         long      now      = System.currentTimeMillis();
-        
+
         Transaction tx = realBase.checkTransaction();
 
         MeshObject home = realBase.getHomeObject();
@@ -311,7 +311,7 @@ public class AMeshBaseLifecycleManager
         if( type == null ) {
             throw new IllegalArgumentException( "null MeshType" );
         }
-        
+
         if( !object.isBlessedBy( type )) {
             throw new IllegalArgumentException( "this MeshObject is not currently blessed with this MeshType" );
         }
@@ -324,7 +324,7 @@ public class AMeshBaseLifecycleManager
             Constructor<?> theConstructor = theClass.getDeclaredConstructor( MeshObject.class );
 
             TypedMeshObjectFacadeImpl ret = (TypedMeshObjectFacadeImpl) theConstructor.newInstance( object );
-            
+
             return ret;
 
         } catch( ClassNotFoundException ex ) {
@@ -348,7 +348,7 @@ public class AMeshBaseLifecycleManager
         log.error( "cannot find an implementation class for the ObjectType with Identifier: " + type.getIdentifier() );
         return null;
     }
-    
+
     /**
       * Determine the implementation class for an TypedMeshObjectFacadeImpl for an EntityType.
       * As an application developer, you should not usually have any reason to invoke this.
@@ -379,7 +379,7 @@ public class AMeshBaseLifecycleManager
     /**
      * Helper method to instantiate the right subclass of MeshObject. This makes the creation
      * of subclasses of AMeshBase and this class much easier.
-     * 
+     *
      * @param identifier the identifier of the to-be-created MeshObject. This must not be null.
      * @param timeCreated the time when this MeshObject was semantically created, in System.currentTimeMillis() format
      * @param timeUpdated the time when this MeshObject was last updated, in System.currentTimeMillis() format
@@ -401,13 +401,13 @@ public class AMeshBaseLifecycleManager
                 timeUpdated,
                 timeRead,
                 timeExpires );
-        
+
         return ret;
     }
 
     /**
      * Recreate a MeshObject that had been garbage-collected earlier
-     * 
+     *
      * @param theObjectBeingParsed external form of the to-be-recreated MeshObject
      * @return the recreated AMeshObject
      */
@@ -419,7 +419,7 @@ public class AMeshBaseLifecycleManager
 
         MeshTypeIdentifier []   meshTypeNames = theObjectBeingParsed.getExternalTypeIdentifiers();
         EntityType         []   types         = new EntityType[ meshTypeNames.length ];
-        
+
         int typeCounter = 0;
         for( int i=0 ; i<meshTypeNames.length ; ++i ) {
             try {
@@ -439,9 +439,9 @@ public class AMeshBaseLifecycleManager
 
         MeshTypeIdentifier [] propertyTypeNames = theObjectBeingParsed.getPropertyTypes();
         PropertyValue      [] propertyValues    = theObjectBeingParsed.getPropertyValues();
-        
+
         HashMap<PropertyType,PropertyValue> properties = new HashMap<PropertyType,PropertyValue>();
-        
+
         // set defaults first
         for( EntityType type : types ) {
             for( PropertyType propertyType : type.getAllPropertyTypes() ) {
@@ -451,7 +451,7 @@ public class AMeshBaseLifecycleManager
                 properties.put( propertyType, propertyType.getDefaultValue() );
             }
         }
-        
+
         for( int i=0 ; i<propertyTypeNames.length ; ++i ) {
             try {
                 // it's possible that the schema changed since we read this object. Try to recover.
@@ -500,7 +500,7 @@ public class AMeshBaseLifecycleManager
                 }
             }
         }
-        
+
         // relationships
 
         MeshObjectIdentifier [] otherSides = theObjectBeingParsed.getNeighbors();
@@ -508,7 +508,7 @@ public class AMeshBaseLifecycleManager
 
         for( int i=0 ; i<otherSides.length ; ++i ) {
             MeshTypeIdentifier [] currentRoleTypes = theObjectBeingParsed.getRoleTypesFor( otherSides[i] );
-            
+
             roleTypes[i] = new RoleType[ currentRoleTypes.length ];
             typeCounter = 0;
 
@@ -533,7 +533,7 @@ public class AMeshBaseLifecycleManager
         // equivalents
 
         MeshObjectIdentifier [] equivalents = theObjectBeingParsed.getEquivalents();
-        
+
         MeshObjectIdentifier [] leftRight = AMeshObjectEquivalenceSetComparator.SINGLETON.findLeftAndRightEquivalents(
                 theObjectBeingParsed.getIdentifier(),
                 equivalents );
@@ -559,7 +559,7 @@ public class AMeshBaseLifecycleManager
     /**
      * Factored out method to instantiate a recreated MeshObject. This exists to make
      * it easy to override it in subclasses.
-     * 
+     *
      * @param identifier the identifier of the MeshObject
      * @param timeCreated the time it was created
      * @param timeUpdated the time it was last udpated
@@ -604,7 +604,7 @@ public class AMeshBaseLifecycleManager
 
     /**
      * Externally load a MeshObject.
-     * 
+     *
      * @param theExternalizedObject the externalized representation of the MeshObject
      * @return the created MeshObject
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
@@ -620,7 +620,7 @@ public class AMeshBaseLifecycleManager
         AbstractMeshObject ret = recreateMeshObject( theExternalizedObject );
 
         putIntoMeshBase( ret, createCreatedEvent( ret ));
-        
+
         return ret;
     }
 }

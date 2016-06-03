@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -17,6 +17,7 @@ package org.infogrid.mesh.security;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.MeshObjectAccessException;
 
 /**
@@ -41,11 +42,30 @@ public class CallerHasInsufficientPermissionsException
             MeshObject caller )
     {
         super( obj );
-        
+
         theCaller           = caller;
         theCallerIdentifier = caller != null ? caller.getIdentifier() : null;
     }
-    
+
+    /**
+     * Constructor.
+     *
+     * @param mb the MeshBase in which this Exception was created
+     * @param objId the MeshObjectIdentifier of the to-be-created MeshObject
+     * @param caller identifies the caller that did not have sufficient permissions and triggered this Exception.
+     *               This caller may be null, indicating an anonymous caller.
+     */
+    public CallerHasInsufficientPermissionsException(
+            MeshBase             mb,
+            MeshObjectIdentifier objId,
+            MeshObject           caller )
+    {
+        super( mb, mb.getIdentifier(), null, objId );
+
+        theCaller           = caller;
+        theCallerIdentifier = caller != null ? caller.getIdentifier() : null;
+    }
+
     /**
      * Obtain the caller who did not have sufficient permissions.
      *
@@ -84,7 +104,7 @@ public class CallerHasInsufficientPermissionsException
      * The caller that did not have sufficient permissions and triggered this Exception.
      */
     protected transient MeshObject theCaller;
-    
+
     /**
      * Identifier of the caller that did not have sufficent permissions.
      */

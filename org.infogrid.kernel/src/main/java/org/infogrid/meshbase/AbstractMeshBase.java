@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -172,7 +172,7 @@ public abstract class AbstractMeshBase
         MeshObject homeObject = this.findMeshObjectByIdentifier( homeObjectIdentifier );
         if( homeObject == null ) {
             Transaction tx = null;
-            
+
             try {
                 ThreadIdentityManager.sudo();
 
@@ -221,7 +221,7 @@ public abstract class AbstractMeshBase
 
     /**
      * Obtain the MeshBaseIdentifier that identifies this MeshBase.
-     * 
+     *
      * @return the MeshBaseIdentifier
      */
     @Override
@@ -261,13 +261,13 @@ public abstract class AbstractMeshBase
 
         return theHomeObject;
     }
-    
+
     /**
      * <p>Find a MeshObject in this MeshBase by its identifier. Unlike
      * the {@link #accessLocally accessLocally} methods, this method purely considers MeshObjects in the
      * MeshBase, and does not attempt to obtain them if they are not in the MeshBase yet.</p>
      * <p>If not found, returns <code>null</code>.</p>
-     * 
+     *
      * @param identifier the identifier of the MeshObject that shall be found
      * @return the found MeshObject, or null if not found
      * @see #findMeshObjectByIdentifierOrThrow
@@ -294,7 +294,7 @@ public abstract class AbstractMeshBase
      *    MeshBase, and does not attempt to obtain them if they are not in the MeshBase yet.</p>
      * <p>If one or more of the MeshObjects could not be found, returns <code>null</code> at
      *    the respective index in the returned array.</p>
-     * 
+     *
      * @param identifiers the identifiers of the MeshObjects that shall be found
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
      */
@@ -314,7 +314,7 @@ public abstract class AbstractMeshBase
      * the {@link #accessLocally accessLocally} methods, this method purely considers MeshObjects in the
      * MeshBase, and does not attempt to obtain them if they are not in the MeshBase yet.</p>
      * <p>If not found, throws {@link MeshObjectsNotFoundException MeshObjectsNotFoundException}.</p>
-     * 
+     *
      * @param identifier the identifier of the MeshObject that shall be found
      * @return the found MeshObject, or null if not found
      * @throws MeshObjectsNotFoundException if the MeshObject was not found
@@ -338,7 +338,7 @@ public abstract class AbstractMeshBase
      *    MeshBase, and does not attempt to obtain them if they are not in the MeshBase yet.</p>
      * <p>If one or more of the MeshObjects could not be found, throws
      *    {@link MeshObjectsNotFoundException MeshObjectsNotFoundException}.</p>
-     * 
+     *
      * @param identifiers the identifiers of the MeshObjects that shall be found
      * @return the found MeshObjects, which may contain null values for MeshObjects that were not found
      * @throws MeshObjectsNotFoundException if one or more of the MeshObjects were not found
@@ -352,7 +352,7 @@ public abstract class AbstractMeshBase
         MeshObject []           ret      = new MeshObject[ identifiers.length ];
         MeshObjectIdentifier [] notFound = null; // allocated when needed
         int                     count    = 0;
-        
+
         for( int i=0 ; i<identifiers.length ; ++i ) {
             ret[i] = findMeshObjectByIdentifier( identifiers[i] );
             if( ret[i] == null ) {
@@ -423,7 +423,7 @@ public abstract class AbstractMeshBase
     /**
      * Obtain N locally available MeshObjects whose unique identifiers are known.
      * This is the default implementation, it may be overridden by subclasses.
-     * 
+     *
      * @param identifiers the identifier properties of the MeshObjects
      * @return array of the same length as identifiers, with the locally found MeshObjects filled
      *         in at the same positions. If one or more of the MeshObjects were not found, the respective
@@ -505,7 +505,7 @@ public abstract class AbstractMeshBase
         // let's die even if the transaction is not done yet
 
         makeDead();
-         
+
         internalDie( isPermanent );
 
         theLifecycleEventListeners = null;
@@ -523,7 +523,7 @@ public abstract class AbstractMeshBase
     /**
       * This overridable method is invoked during die() and lets subclasses of AbstractMeshBase
       * clean up on their own. This implementation does nothing.
-      * 
+      *
       * @param isPermanent if true, this MeshBase will go away permanmently; if false, it may come alive again some time later
       */
      protected void internalDie(
@@ -534,7 +534,7 @@ public abstract class AbstractMeshBase
 
     /**
      * <p>Obtain a manager for MeshObject lifecycles.</p>
-     * 
+     *
      * @return a MeshBaseLifecycleManager that works on this MeshBase
      */
     @Override
@@ -579,7 +579,7 @@ public abstract class AbstractMeshBase
     {
         return theAccessManager;
     }
-    
+
     /**
      * Set a Sweeper for this MeshBase.
      *
@@ -591,7 +591,7 @@ public abstract class AbstractMeshBase
     {
         theSweeper = newSweeper;
     }
-    
+
     /**
      * Obtain the currently set Sweeper for this MeshBase, if any.
      *
@@ -616,7 +616,7 @@ public abstract class AbstractMeshBase
 
     /**
      * Obtain the factory for MeshObjectSets.
-     * 
+     *
      * @return the factory for MeshObjectSets
      * @see #setMeshObjectSetFactory
      */
@@ -628,7 +628,7 @@ public abstract class AbstractMeshBase
 
     /**
      * Set a new factory for MeshObjectSets.
-     * 
+     *
      * @param newValue the new factory
      * @see #getMeshObjectSetFactory
      */
@@ -786,7 +786,7 @@ public abstract class AbstractMeshBase
         if( log.isTraceEnabled()) {
             log.traceMethodCallEntry( this, "createTransactionNowIfNeeded" );
         }
-        
+
         Transaction ret;
         synchronized( this ) {
             if( theCurrentTransaction == null ) {
@@ -811,7 +811,7 @@ public abstract class AbstractMeshBase
     /**
      * Factory method to create a new Transaction. This overridable implementation
      * creates an DefaultTransaction.
-     * 
+     *
      * @return the newly created Transaction
      */
     protected Transaction createNewTransaction()
@@ -946,17 +946,20 @@ public abstract class AbstractMeshBase
             Transaction tx     = null;
             Throwable   thrown = null;
             try {
-                tx = txFactory.obtainFor( null, null );
+                tx = txFactory.obtainFor( null, null ); // return null if a Transaction is active already
 
                 act.setTransaction( tx );
                 ret = act.execute();
                 act.setTransaction( null );
 
-                act.preCommitTransaction( tx );
-                tx.commitTransaction();
-                act.postCommitTransaction( tx );
-                
-                tx = null;
+                if( tx != null ) {
+                    // only if this is not a sub-transaction
+                    act.preCommitTransaction( tx );
+                    tx.commitTransaction();
+                    act.postCommitTransaction( tx );
+
+                    tx = null;
+                }
 
                 return ret;
 
@@ -1171,7 +1174,7 @@ public abstract class AbstractMeshBase
             TransactionListener newListener )
     {
         instantiateTransactionListenersIfNeeded();
-        
+
         theTransactionListeners.addDirect( newListener );
     }
 
@@ -1188,7 +1191,7 @@ public abstract class AbstractMeshBase
             TransactionListener newListener )
     {
         instantiateTransactionListenersIfNeeded();
-        
+
         theTransactionListeners.addWeak( newListener );
     }
 
@@ -1205,7 +1208,7 @@ public abstract class AbstractMeshBase
             TransactionListener newListener )
     {
         instantiateTransactionListenersIfNeeded();
-        
+
         theTransactionListeners.addSoft( newListener );
     }
 
@@ -1230,7 +1233,7 @@ public abstract class AbstractMeshBase
     /**
      * Subscribe to events indicating the addition/removal/etc
      * of MeshObjects to/from this MeshBase, without using a Reference.
-     * 
+     *
      * @param newListener the to-be-added MMeshObjectLifecycleListener@see #removeMeshObjectLifecycleEventListener
      * @see #addWeakMeshObjectLifecycleEventListener
      * @see #addSoftMeshObjectLifecycleEventListener
@@ -1248,7 +1251,7 @@ public abstract class AbstractMeshBase
     /**
      * Subscribe to events indicating the addition/removal/etc
      * of MeshObjects to/from this MeshBase, using a WeakReference.
-     * 
+     *
      * @param newListener the to-be-added MMeshObjectLifecycleListener@see #removeMeshObjectLifecycleEventListener
      * @see #addDirectMeshObjectLifecycleEventListener
      * @see #addSoftMeshObjectLifecycleEventListener
@@ -1266,7 +1269,7 @@ public abstract class AbstractMeshBase
     /**
      * Subscribe to events indicating the addition/removal/etc
      * of MeshObjects to/from this MeshBase, using a SoftReference.
-     * 
+     *
      * @param newListener the to-be-added MMeshObjectLifecycleListener@see #removeMeshObjectLifecycleEventListener
      * @see #addWeakMeshObjectLifecycleEventListener
      * @see #addDirectMeshObjectLifecycleEventListener
@@ -1284,7 +1287,7 @@ public abstract class AbstractMeshBase
     /**
      * Unsubscribe from events indicating the addition/removal/etc
      * of MeshObjects to/from this MeshBase.
-     * 
+     *
      * @param oldListener the to-be-removed MMeshObjectLifecycleListener@see #addMeshObjectLifecycleEventListener
      * @see #addWeakMeshObjectLifecycleEventListener
      * @see #addSoftMeshObjectLifecycleEventListener
@@ -1465,7 +1468,7 @@ public abstract class AbstractMeshBase
                 pars,
         /* 0 */ this );
 
-        return ret;        
+        return ret;
     }
 
     /**
@@ -1516,7 +1519,7 @@ public abstract class AbstractMeshBase
     /**
      * Obtain the end part of a String representation of this object that acts
      * as a link/hyperlink and can be shown to the user.
-     * 
+     *
      * @param rep the StringRepresentation
      * @param pars the parameters to use
      * @return String representation
@@ -1546,7 +1549,7 @@ public abstract class AbstractMeshBase
         /* 0 */ this,
         /* 1 */ contextPath );
 
-        return ret;        
+        return ret;
     }
 
     /**
@@ -1619,14 +1622,14 @@ public abstract class AbstractMeshBase
     /**
      * Notify MeshObjectLifecycleListeners that a MeshObjectLifecycleEvent occurred.
      * This shall not be invoked by the application programmer.
-     * 
+     *
      * @param theEvent the MAbstractMeshObjectLifecycleEvent
      */
     public final void notifyLifecycleEvent(
             MeshObjectLifecycleEvent theEvent )
     {
         FlexibleListenerSet<MeshObjectLifecycleListener,MeshObjectLifecycleEvent,Integer> listeners = theLifecycleEventListeners;
-        
+
         if( listeners != null ) {
             listeners.fireEvent( theEvent );
         }
@@ -1674,12 +1677,12 @@ public abstract class AbstractMeshBase
      * The Sweeper that sweeps the content of the MeshBase, if any.
      */
     protected Sweeper theSweeper;
-    
+
     /**
      * The factory for MeshObjectIdentifiers.
      */
     protected MeshObjectIdentifierFactory theMeshObjectIdentifierFactory;
-    
+
     /**
      * The factory for MeshObjectSets.
      */

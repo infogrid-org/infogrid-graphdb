@@ -39,7 +39,7 @@ public class GuardCheckingAccessManager
 
     /**
      * Factory method.
-     * 
+     *
      * @return the created GuardCheckingAccessManager
      */
     public static GuardCheckingAccessManager create()
@@ -76,11 +76,45 @@ public class GuardCheckingAccessManager
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
      *
+     * @param mb the MeshBase in which the MeshObject is supposed to be created
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedCreate(
+            MeshBase             mb,
             MeshObjectIdentifier identifier )
+        throws
+            NotPermittedException
+    {
+        // no op
+    }
+
+    /**
+     * Check whether it is permitted to relate one MeshObject to another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedRelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        // no op
+    }
+
+    /**
+     * Check whether it is permitted to unrelate one MeshObject from another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedUnrelate(
+            MeshObject one,
+            MeshObject two )
         throws
             NotPermittedException
     {

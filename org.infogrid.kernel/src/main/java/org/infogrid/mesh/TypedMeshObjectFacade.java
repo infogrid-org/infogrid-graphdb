@@ -158,6 +158,7 @@ public interface TypedMeshObjectFacade
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
      *         to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #unrelate
      * @see #relateAndBless
      */
@@ -165,7 +166,8 @@ public interface TypedMeshObjectFacade
             TypedMeshObjectFacade otherObject )
         throws
             RelatedAlreadyException,
-            TransactionException;
+            TransactionException,
+            NotPermittedException;
 
     /**
      * Unrelate this MeshObject from another MeshObject. This will also remove all blessings from the relationship.

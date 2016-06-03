@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -40,7 +40,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
 
     /**
      * Constructor.
-     * 
+     *
      * @param mapper the <code>StoreEntryMapper</code> to use
      * @param store the underlying <code>Store</code>
      */
@@ -50,7 +50,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
     {
         super( DEFAULT_INITIAL_CAPACITY, mapper, store );
     }
-    
+
     /**
      * Create the right kind of Reference.
      *
@@ -65,7 +65,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
     {
         return new WeakEntryReference<K,V>( key, value, theQueue );
     }
-    
+
     /**
      * Do not load anything that has been removed.
      *
@@ -97,7 +97,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
             log.traceMethodCallEntry( this, "saveValueToStorage", key, newValue );
         }
     }
-    
+
     /**
      * Save value to storage. Invoked by Transaction commit.
      *
@@ -112,11 +112,11 @@ public class StoreMeshBaseSwappingHashMap<K,V>
             log.traceMethodCallEntry( this, "saveValueToStorageUponCommit", key, newValue );
         }
         super.saveValueToStorage( key, newValue );
-        
+
         theRemoved.remove( key ); // happens if the object was created during the transaction.
                                   // And if not contained, nothing bad happens either.
     }
-    
+
     /**
      * Don't do anything. Removing occurs only when a Transaction is committed.
      *
@@ -133,7 +133,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
         theDelegate.remove( key );
         theRemoved.add( key );
     }
-    
+
     /**
      * Remove value from storage. Invoked by Transaction commit.
      *
@@ -146,12 +146,12 @@ public class StoreMeshBaseSwappingHashMap<K,V>
         if( log.isTraceEnabled() ) {
             log.traceMethodCallEntry( this, "removeValueFromStorageUponCommit", key );
         }
-    
+
         super.removeValueFromStorage( key );
-        
+
         theRemoved.remove( key );
     }
-    
+
     /**
      * Returns a set view of the keys contained in this map.
      *
@@ -181,11 +181,11 @@ public class StoreMeshBaseSwappingHashMap<K,V>
             Class<V> valueArrayComponentType )
     {
         IterableStoreCursor delegate = ((IterableStore)theStore).iterator();
-        
+
         CursorIterator<K> ret = new StoreBackedSwappingHashMapKeysIterator<K,V>( delegate, this, theMapper, keyArrayComponentType );
         return ret;
     }
-    
+
     /**
      * Obtain a CursorIterator on the values of this Map.
      *
@@ -199,7 +199,7 @@ public class StoreMeshBaseSwappingHashMap<K,V>
             Class<V> valueArrayComponentType )
     {
         IterableStoreCursor delegate = ((IterableStore)theStore).iterator();
-        
+
         CursorIterator<V> ret = new StoreBackedSwappingHashMapValuesIterator<K,V>( delegate, this, theMapper, keyArrayComponentType, valueArrayComponentType );
         return ret;
     }
@@ -216,10 +216,18 @@ public class StoreMeshBaseSwappingHashMap<K,V>
     }
 
     /**
+     * The transaction has been undone. Discard theRemoved.
+     */
+    public void transactionUndone()
+    {
+        theRemoved.clear();
+    }
+
+    /**
      * Set of keys in this IterableStoreBackedSwappingHashMap.
      */
     protected IterableStoreBackedSwappingHashMap.MyKeySet<K,V> theKeySet;
-    
+
     /**
      * Keep track of MeshObjects that were removed during a Transaction, to avoid recreating them from the storage
      * although they were deleted during a transaction.

@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -17,6 +17,7 @@ package org.infogrid.meshbase.security;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
@@ -44,19 +45,47 @@ public interface AccessManager
         throws
             NotPermittedException,
             TransactionException;
-    
+
     /**
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
-     * 
+     *
+     * @param mb the MeshBase in which the MeshObject is supposed to be created
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedCreate(
+            MeshBase             mb,
             MeshObjectIdentifier identifier )
         throws
             NotPermittedException;
-    
+
+    /**
+     * Check whether it is permitted to relate one MeshObject to another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedRelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException;
+
+    /**
+     * Check whether it is permitted to unrelate one MeshObject from another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedUnrelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException;
+
     /**
      * Check whether it is permitted to set a MeshObject's timeExpires to the given value.
      *
@@ -69,7 +98,7 @@ public interface AccessManager
             long       newValue )
         throws
             NotPermittedException;
-    
+
     /**
      * Check whether it is permitted to set a MeshObject's given property to the given
      * value.
@@ -85,7 +114,7 @@ public interface AccessManager
             PropertyValue newValue )
         throws
             NotPermittedException;
-    
+
     /**
      * Check whether it is permitted to obtain a MeshObject's given property.
      *
@@ -102,7 +131,7 @@ public interface AccessManager
     /**
      * Check whether it is permitted to determine whether or not a MeshObject is blessed with
      * the given type.
-     * 
+     *
      * @param obj the MeshObject
      * @param type the EntityType whose blessing we wish to check
      * @throws NotPermittedException thrown if it is not permitted
@@ -115,7 +144,7 @@ public interface AccessManager
 
     /**
      * Check whether it is permitted to bless a MeshObject with the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes with which to bless
      * @throws NotPermittedException thrown if it is not permitted
@@ -128,7 +157,7 @@ public interface AccessManager
 
     /**
      * Check whether it is permitted to unbless a MeshObject from the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes from which to unbless
      * @throws NotPermittedException thrown if it is not permitted
@@ -142,7 +171,7 @@ public interface AccessManager
     /**
      * Check whether it is permitted to bless the relationship to the neighbor with the
      * provided RoleTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param thisEnds the RoleTypes to bless the relationship with
      * @param neighborIdentifier identifier of the neighbor to which this MeshObject is related
@@ -160,7 +189,7 @@ public interface AccessManager
     /**
      * Check whether it is permitted to unbless the relationship to the neighbor from the
      * provided RoleTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param thisEnds the RoleTypes to unbless the relationship from
      * @param neighborIdentifier identifier of the neighbor to which this MeshObject is related
@@ -178,7 +207,7 @@ public interface AccessManager
     /**
      * Check whether it is permitted to traverse the given RoleType from this MeshObject to the
      * given MeshObject.
-     * 
+     *
      * @param obj the MeshObject
      * @param toTraverse the RoleType to traverse
      * @param neighborIdentifier identifier of the neighbor to which the traversal leads
@@ -236,7 +265,7 @@ public interface AccessManager
 
     /**
      * Check whether it is permitted to make one MeshObject equivalent to another.
-     * 
+     *
      * @param one the first MeshObject
      * @param twoIdentifier identifier of the second MeshObject
      * @param two the second MeshObject, if it could be resolved
@@ -252,7 +281,7 @@ public interface AccessManager
     /**
      * Check whether it is permitted to remove a MeshObject from the equivalence set
      * it is currently a member of.
-     * 
+     *
      * @param obj the MeshObject to remove
      * @param roleTypesToAsk the RoleTypes to ask
      * @throws NotPermittedException thrown if it is not permitted

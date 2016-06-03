@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -67,7 +67,7 @@ public class AMeshObject
 
     /**
      * Constructor for regular instantiation.
-     * 
+     *
      * @param identifier the MeshObjectIdentifier of the MeshObject
      * @param meshBase the MeshBase that this MeshObject belongs to
      * @param created the time this MeshObject was created
@@ -88,7 +88,7 @@ public class AMeshObject
 
     /**
      * Constructor for re-instantiation from external storage.
-     * 
+     *
      * @param identifier the MeshObjectIdentifier of the MeshObject
      * @param meshBase the MeshBase that this MeshObject belongs to
      * @param created the time this MeshObject was created
@@ -115,16 +115,16 @@ public class AMeshObject
             RoleType [][]                       neighborRoleTypes )
     {
         super( identifier, meshBase, created, updated, read, expires );
-        
+
         theProperties          = properties;
         theNeighborIdentifiers = neighborIdentifiers;
         theNeighborRoleTypes   = neighborRoleTypes;
-       
+
         if( equivalents != null && equivalents.length != 2 ) {
             throw new IllegalArgumentException( "Equivalents must be of length 2" );
         }
         theEquivalenceSetPointers = equivalents;
-        
+
         if( meshTypes != null && meshTypes.length > 0 ) {
             theMeshTypes = createMeshTypes();
             for( int i=0 ; i<meshTypes.length ; ++i ) {
@@ -164,7 +164,7 @@ public class AMeshObject
         AMeshBase realBase = (AMeshBase) theMeshBase;
         theTimeRead = realBase.calculateLastRead( timeRead, lastTimeRead );
     }
-    
+
     /**
      * Traverse from this MeshObject to all directly related MeshObjects. Directly
      * related MeshObjects are those MeshObjects that are participating in a
@@ -204,10 +204,10 @@ public class AMeshObject
 
         if( n == 0 ) {
             ret = realBase.getMeshObjectSetFactory().obtainEmptyImmutableMeshObjectSet();
-            
+
         } else {
             AMeshObject [] almost = new AMeshObject[ n ];
-            
+
             int max = 0;
             for( int s=0 ; s<neighborIdentifiers.length ; ++s ) {
                 if( neighborIdentifiers[s] == null ) {
@@ -306,6 +306,7 @@ public class AMeshObject
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
      *         to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #unrelate
      * @see #relateAndBless
      */
@@ -314,11 +315,12 @@ public class AMeshObject
             MeshObject newNeighbor )
         throws
             RelatedAlreadyException,
-            TransactionException
+            TransactionException,
+            NotPermittedException
     {
         internalRelate( newNeighbor.getIdentifier(), true, false );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that factoring out
      * this method makes any sense, subclasses may appreciate it.
@@ -329,6 +331,7 @@ public class AMeshObject
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
      *         to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      */
     protected void internalRelate(
             MeshObjectIdentifier neighborIdentifier,
@@ -336,7 +339,8 @@ public class AMeshObject
             boolean              forgiving )
         throws
             RelatedAlreadyException,
-            TransactionException
+            TransactionException,
+            NotPermittedException
     {
         if( neighborIdentifier == null ) {
             throw new NullPointerException( "neighborIdentifier is null" );
@@ -359,6 +363,11 @@ public class AMeshObject
         MeshObjectIdentifier here         = getIdentifier();
         AMeshObject          realNeighbor = (AMeshObject) neighbor;
 
+        checkPermittedRelate( realNeighbor );
+        if( realNeighbor != null ) {
+            realNeighbor.checkPermittedRelate( this );
+        }
+
         MeshObjectIdentifier [] oldNeighborIdentifiers         = createMeshObjectIdentifierArray( 0 );
         MeshObjectIdentifier [] oldNeighborNeighborIdentifiers = createMeshObjectIdentifierArray( 0 );
 
@@ -369,9 +378,9 @@ public class AMeshObject
 
         synchronized( this ) {
             synchronized( neighborSyncObject ) {
-                
+
                 checkTransaction();
-                
+
                 boolean hereAlready  = false;
                 boolean thereAlready = false;
 
@@ -438,7 +447,7 @@ public class AMeshObject
     {
         internalUnrelate( neighbor.getIdentifier(), theMeshBase, true, true, 0L );
     }
-    
+
     /**
      * Internal helper to unrelate that also works for already-dead MeshObjects.
      *
@@ -482,6 +491,11 @@ public class AMeshObject
 
         MeshObjectIdentifier here         = getIdentifier();
         AMeshObject          realNeighbor = (AMeshObject) neighbor;
+
+        checkPermittedUnrelate( realNeighbor );
+        if( realNeighbor != null ) {
+            realNeighbor.checkPermittedUnrelate( this );
+        }
 
         MeshObjectIdentifier [] oldNeighborIdentifiers         = {};
         MeshObjectIdentifier [] oldNeighborNeighborIdentifiers = {};
@@ -599,7 +613,7 @@ public class AMeshObject
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleTypes.
      * As a result, this relationship will support either all RoleTypes or none.
-     * 
+     *
      * @param thisEnds the RoleTypes of the RelationshipTypes that are instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -626,11 +640,11 @@ public class AMeshObject
     {
         internalBless( thisEnds, neighbor.getIdentifier(), true, false, 0L );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param roleTypesToAdd the RoleTypes of the RelationshipTypes that are instantiated at the end that this MeshObject is attached to
      * @param neighborIdentifier the MeshObject whose relationship to this MeshObject shall be blessed
      * @param isMaster if true, this is the master replica
@@ -718,7 +732,7 @@ public class AMeshObject
                     RoleType   otherEnd             = roleTypesToAdd[i].getInverseRoleType();
                     EntityType requiredType         = roleTypesToAdd[i].getEntityType();
                     EntityType requiredNeighborType = otherEnd.getEntityType();
-                    
+
                     if( requiredType != null ) {
                         boolean found = false;
                         if( theMeshTypes != null ) {
@@ -764,7 +778,7 @@ public class AMeshObject
 
                 boolean hereAlready  = false;
                 boolean thereAlready = false;
-                
+
                 for( RoleType toAdd : roleTypesToAdd ) {
                     RoleType neighborToAdd = toAdd.getInverseRoleType();
 
@@ -784,7 +798,7 @@ public class AMeshObject
                             }
                         }
                     }
-                                
+
                     if( realNeighbor != null && neighborRoleTypes != null ) {
                         for( int i=0 ; i<neighborRoleTypes.length ; ++i ) {
                             if( neighborRoleTypes[i].isSpecializationOfOrEquals( neighborToAdd )) {
@@ -793,7 +807,7 @@ public class AMeshObject
                                 } else {
                                     throw new RoleTypeBlessedAlreadyException( realNeighbor, neighborToAdd, this );
                                 }
-                    
+
                             } else if( neighborToAdd.isSpecializationOfOrEquals( neighborRoleTypes[i] )) {
                                 neighborRoleTypes[i] = neighborToAdd;
                                 return;
@@ -839,7 +853,7 @@ public class AMeshObject
 
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleType.
-     * 
+     *
      * @param thisEnds the RoleType of the RelationshipType at the end that this MeshObject is attached to, and that shall be removed
      * @param otherObject the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support the RoleType
@@ -863,7 +877,7 @@ public class AMeshObject
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param roleTypesToRemoveHere the RoleType of the RelationshipType at the end that this MeshObject is attached to, and that shall be removed
      * @param neighborIdentifier identifier of the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @param strict if true, be strict; if false, tolerate errors
@@ -1057,7 +1071,7 @@ public class AMeshObject
         } else {
             starts = new MeshObject[] { this };
         }
-        
+
         AMeshObjectNeighborManager nMgr = getNeighborManager();
 
         AMeshBase                 realBase            = (AMeshBase) theMeshBase;
@@ -1131,7 +1145,7 @@ public class AMeshObject
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects. Specify whether equivalent MeshObjects
      * should be considered as well.
-     * 
+     *
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
@@ -1148,7 +1162,7 @@ public class AMeshObject
         } else {
             starts = new MeshObject[] { this };
         }
-        
+
         AMeshObjectNeighborManager nMgr = getNeighborManager();
 
         MeshObjectIdentifier [][] neighborIdentifiers = createMeshObjectIdentifierArrayArray( starts.length );
@@ -1257,7 +1271,7 @@ public class AMeshObject
             throw new NotRelatedException( theMeshBase, theMeshBase.getIdentifier(), this, theIdentifier, null, neighborIdentifier );
         }
     }
-    
+
     /**
      * Obtain the Roles that this MeshObject currently participates in.
      * Specify whether relationships of equivalent MeshObjects
@@ -1386,14 +1400,14 @@ public class AMeshObject
         if( neighbor != null && theMeshBase != neighbor.getMeshBase() ) {
             throw new WrongMeshBaseException( getMeshBase(), neighbor.getMeshBase() );
         }
-        
+
         MeshObject [] starts;
         if( considerEquivalents ) {
             starts = getEquivalents().getMeshObjects();
         } else {
             starts = new MeshObject[] { this };
         }
-        
+
         AMeshObjectNeighborManager nMgr = getNeighborManager();
 
         MeshObjectIdentifier [][] neighborIdentifiers = createMeshObjectIdentifierArrayArray( starts.length );
@@ -1481,7 +1495,7 @@ public class AMeshObject
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param equivIdentifier identifier of the new equivalent
      * @param isMaster is true, this is the master replica
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
@@ -1514,7 +1528,7 @@ public class AMeshObject
         if( this == equiv ) {
             throw new EquivalentAlreadyException( this, equiv );
         }
-        
+
         if( equiv != null && theMeshBase != equiv.getMeshBase() ) {
             throw new WrongMeshBaseException( getMeshBase(), equiv.getMeshBase() );
         }
@@ -1535,7 +1549,7 @@ public class AMeshObject
         checkPermittedAddAsEquivalent( equivIdentifier, equiv );
 
         // now insert, being mindful that we might be joining to chains here
-        
+
         AMeshObject leftMostHere = this;
         while( ( temp = leftMostHere.getLeftEquivalentObject( theMeshBase )) != null ) {
             leftMostHere = temp;
@@ -1555,10 +1569,10 @@ public class AMeshObject
             leftMostHere.theEquivalenceSetPointers = createMeshObjectIdentifierArray( 2 );
         }
         leftMostHere.theEquivalenceSetPointers[0] = rightMostThere.getIdentifier();
-        
+
         updateLastUpdated( timeUpdated, theTimeUpdated );
     }
-    
+
     /**
      * Obtain the set of MeshObjects, including this one, that are equivalent.
      * This always returns at least this MeshObject.
@@ -1571,7 +1585,7 @@ public class AMeshObject
         checkAlive();
 
         AMeshBase realBase = (AMeshBase) theMeshBase;
-        
+
         if( theEquivalenceSetPointers == null ) {
             return realBase.getMeshObjectSetFactory().createSingleMemberImmutableMeshObjectSet( this );
         }
@@ -1588,7 +1602,7 @@ public class AMeshObject
         while( ( current = current.getRightEquivalentObject( theMeshBase ) ) != null ) {
             toTheRight.add( current );
         }
-        
+
         // we revert the direction of the toTheLeft, in order to make debugging easier
         ArrayList<MeshObject> allEquivalents = new ArrayList<MeshObject>( toTheLeft.size() );
         for( int i=toTheLeft.size()-1 ; i>=0 ; --i ) {
@@ -1597,15 +1611,15 @@ public class AMeshObject
         for( MeshObject loop : toTheRight ) {
             allEquivalents.add( loop );
         }
-        
+
         MeshObjectSet ret = realBase.getMeshObjectSetFactory().createImmutableMeshObjectSet(
                 ArrayHelper.copyIntoNewArray( allEquivalents, MeshObject.class ));
-        
+
         updateLastRead();
-        
+
         return ret;
     }
-    
+
     /**
      * Remove this MeshObject as an equivalent from the set of equivalents. If this MeshObject
      * is not currently equivalent to any other MeshObject, this does nothing.
@@ -1621,11 +1635,11 @@ public class AMeshObject
     {
         internalRemoveAsEquivalent( true, 0L );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param isMaster if true, this is the master replica
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
@@ -1640,9 +1654,9 @@ public class AMeshObject
     {
         checkAlive();
         checkTransaction();
-        
+
         checkPermittedRemoveAsEquivalent();
-        
+
         AMeshObject theLeft  = getLeftEquivalentObject( theMeshBase );
         AMeshObject theRight = getRightEquivalentObject( theMeshBase );
 
@@ -1652,7 +1666,7 @@ public class AMeshObject
         if( theRight != null ) {
             theRight.theEquivalenceSetPointers[0] = ( theLeft != null ) ? theLeft.getIdentifier() : null;
         }
-        
+
         theEquivalenceSetPointers = null;
 
         updateLastUpdated( timeUpdated, theTimeUpdated );
@@ -1673,7 +1687,7 @@ public class AMeshObject
     /**
      * Delete this MeshObject. This must only be invoked by our MeshObjectLifecycleManager
      * and thus is defined down here, not higher up in the inheritance hierarchy.
-     * 
+     *
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
      */
     @Override
@@ -1696,7 +1710,7 @@ public class AMeshObject
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param isMaster true if this is the master replica
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 indicates "don't change"
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
@@ -1758,7 +1772,7 @@ public class AMeshObject
         }
 
         MeshObjectIdentifier canonicalMeshObjectName = getIdentifier();
-        
+
         theMeshBase = null; // this needs to happen rather late so the other code still works
 
         fireDeleted( oldMeshBase, canonicalMeshObjectName, System.currentTimeMillis() );
@@ -1808,7 +1822,7 @@ public class AMeshObject
 
     /**
      * Obtain the same MeshObject as ExternalizedMeshObject so it can be easily serialized.
-     * 
+     *
      * @return this MeshObject as ExternalizedMeshObject
      */
     @Override
@@ -1827,7 +1841,7 @@ public class AMeshObject
         } else {
             types = null;
         }
-        
+
         MeshTypeIdentifier [] propertyTypes;
         PropertyValue      [] propertyValues;
         if( theProperties != null && theProperties.size() > 0 ) {
@@ -1844,7 +1858,7 @@ public class AMeshObject
             propertyTypes  = null;
             propertyValues = null;
         }
-        
+
         MeshTypeIdentifier [][] roleTypeIdentifiers;
         if( nMgr.hasNeighbors( this )) {
             RoleType [][] roleTypes = nMgr.getRoleTypes( this );
@@ -1860,7 +1874,7 @@ public class AMeshObject
         } else {
             roleTypeIdentifiers = null;
         }
-        
+
         MeshObjectIdentifier [] equivalents;
         if( theEquivalenceSetPointers == null ) {
             equivalents = null;
@@ -1882,7 +1896,7 @@ public class AMeshObject
                 equivalents[0] = theEquivalenceSetPointers[1];
             }
         }
-        
+
         SimpleExternalizedMeshObject ret = SimpleExternalizedMeshObject.create(
                 getIdentifier(),
                 types,
@@ -2024,11 +2038,11 @@ public class AMeshObject
         String target              = (String) pars.get( StringRepresentationParameters.LINK_TARGET_KEY );
         String title               = (String) pars.get( StringRepresentationParameters.LINK_TITLE_KEY );
         String additionalArguments = (String) pars.get( StringRepresentationParameters.HTML_URL_ADDITIONAL_ARGUMENTS );
-        
+
         MeshBase mb = getMeshBase();
         boolean  isDefaultMeshBase;
         boolean  isHomeObject;
-        
+
         if( mb != null ) {
             isDefaultMeshBase = mb.equals( pars.get( MeshStringRepresentationParameters.DEFAULT_MESHBASE_KEY ));
             isHomeObject      = this == getMeshBase().getHomeObject();
@@ -2165,7 +2179,7 @@ public class AMeshObject
      * The set of sets of RoleTypes that goes with theOtherSides.
      */
     protected RoleType [][] theNeighborRoleTypes;
-    
+
     /**
      * The left and right MeshObject in the equivalence set. This member is either null,
      * or MeshObjectIdentifier[2], which may have one or two entries, the first representing

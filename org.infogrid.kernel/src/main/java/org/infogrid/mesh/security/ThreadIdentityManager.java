@@ -5,20 +5,19 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
-// Copyright 1998-2015 by Johannes Ernst
+// Copyright 1998-2016 by Johannes Ernst
 // All rights reserved.
 //
 
 package org.infogrid.mesh.security;
 
-import org.infogrid.mesh.MeshObject;
-import org.infogrid.util.ArrayHelper;
-import org.infogrid.util.logging.Log;
-
 import java.util.HashMap;
+import org.infogrid.mesh.MeshObject;
+import org.infogrid.util.logging.Log;
+import org.infogrid.util.Pair;
 
 /**
  * A ThreadIdentityManager manages caller identities associated with Threads.
@@ -26,7 +25,7 @@ import java.util.HashMap;
 public abstract class ThreadIdentityManager
 {
     private static final Log log = Log.getLogInstance( ThreadIdentityManager.class ); // our own, private logger
-    
+
     /**
      * Determine the identity of the caller. This may return null, indicating that
      * the caller is anonymous.
@@ -35,13 +34,70 @@ public abstract class ThreadIdentityManager
      */
     public static MeshObject getCaller()
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".getCaller()" );
-        }
         synchronized( theCallersOnThreads ) {
-            MeshObject ret = theCallersOnThreads.get( Thread.currentThread() );
+            Pair<MeshObject,String[]> ret = theCallersOnThreads.get( Thread.currentThread() );
+            if( ret == null ) {
+                return null;
+            }
+            return ret.getName();
+        }
+    }
+
+    /**
+     * Determine the groups of the caller. This may return null, indicating that
+     * the caller is anonymous. If the caller is known, a (possibly empty) array will
+     * be returned.
+     *
+     * @return the groups of the caller, or null.
+     */
+    public static String [] getCallerGroups()
+    {
+        synchronized( theCallersOnThreads ) {
+            Pair<MeshObject,String[]> ret = theCallersOnThreads.get( Thread.currentThread() );
+            if( ret == null ) {
+                return null;
+            }
+            return ret.getValue();
+        }
+    }
+
+    /**
+     * Determine both caller and its groups at the same time. This may return null,
+     * indicating that the caller is anonymous.
+     *
+     * @return Pair of caller and groups
+     */
+    public static Pair<MeshObject,String[]> getCallerAndGroups()
+    {
+        synchronized( theCallersOnThreads ) {
+            Pair<MeshObject,String[]> ret = theCallersOnThreads.get( Thread.currentThread() );
             return ret;
         }
+    }
+
+    /**
+     * Determine whether the caller is a member of the specified group.
+     *
+     * @param group the group
+     * @return true if the caller is a member of the specified group
+     */
+    public static boolean isCallerGroupMemberOf(
+            String group )
+    {
+        Pair<MeshObject,String[]> ret = getCallerAndGroups();
+        if( ret == null ) {
+            return false;
+        }
+        String [] groups = ret.getValue();
+        if( groups == null ) {
+            return false;
+        }
+        for( String g : groups ) {
+            if( group.equals( group )) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -51,14 +107,11 @@ public abstract class ThreadIdentityManager
      */
     public static boolean isSu()
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".isSu()" );
-        }
         Integer level;
         synchronized( theSuThreads ) {
             level = theSuThreads.get( Thread.currentThread() );
         }
-        
+
         if( level == null ) {
             return false;
         } else {
@@ -70,11 +123,12 @@ public abstract class ThreadIdentityManager
      * Set the identity of the caller on this Thread. This will unset any previous
      * identity set on this Thread. Generally, the sequence of invocation should be:
      * <pre>
+     * oldCaller = ThreadIdentityManager.getCaller();
      * try {
-     *     identifyCallerOnThread( theCaller );
-     *     performWork();
+     *     ThreadIdentityManager.setCaller( newCaller );
+     *     performWorkAsNewCaller();
      * } finally {
-     *     callerDoneOnThread();
+     *     ThreadIdentityManager.setCaller( oldCaller );
      * }
      * </pre>
      *
@@ -85,12 +139,94 @@ public abstract class ThreadIdentityManager
     public static MeshObject setCaller(
             MeshObject caller )
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".setCaller( " + caller + " )" );
+        return setCaller( caller, EMPTY_GROUPS );
+    }
+
+    /**
+     * Set the identity of the caller on this Thread. This will unset any previous
+     * identity set on this Thread. Generally, the sequence of invocation should be:
+     * <pre>
+     * oldCaller = ThreadIdentityManager.getCaller();
+     * try {
+     *     ThreadIdentityManager.setCaller( newCaller );
+     *     performWorkAsNewCaller();
+     * } finally {
+     *     ThreadIdentityManager.setCaller( oldCaller );
+     * }
+     * </pre>
+     *
+     * @param caller the caller, or null if anonymous
+     * @param callerGroups an array of groups the caller is part of
+     * @return the previously set caller, if any
+     * @see #unsetCaller
+     */
+    public static MeshObject setCaller(
+            MeshObject caller,
+            String []  callerGroups )
+    {
+        Pair<MeshObject,String[]> ret;
+        if( caller != null ) {
+            if( callerGroups == null ) {
+                callerGroups = EMPTY_GROUPS;
+            }
+            synchronized( theCallersOnThreads ) {
+                ret = theCallersOnThreads.put(
+                        Thread.currentThread(),
+                        new Pair<>( caller, callerGroups ) );
+            }
+        } else {
+            synchronized( theCallersOnThreads ) {
+                ret = theCallersOnThreads.remove(
+                        Thread.currentThread());
+            }
         }
-        synchronized( theCallersOnThreads ) {
-            MeshObject ret = theCallersOnThreads.put( Thread.currentThread(), caller );
-            return ret;
+        if( ret != null ) {
+            return ret.getName();
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Set the identity of the caller on this Thread. This will unset any previous
+     * identity set on this Thread. Generally, the sequence of invocation should be:
+     * <pre>
+     * oldCaller = ThreadIdentityManager.getCaller();
+     * try {
+     *     ThreadIdentityManager.setCaller( newCaller );
+     *     performWorkAsNewCaller();
+     * } finally {
+     *     ThreadIdentityManager.setCaller( oldCaller );
+     * }
+     * </pre>
+     *
+     * @param callerPair the caller, and the caller's groups, in one swoop
+     * @return the previously set caller, if any
+     * @see #unsetCaller
+     */
+    public static MeshObject setCaller(
+            Pair<MeshObject,String []> callerPair )
+    {
+        Pair<MeshObject,String[]> ret;
+        if( callerPair != null ) {
+            if( callerPair.getName() == null ) {
+                throw new NullPointerException();
+            }
+            synchronized( theCallersOnThreads ) {
+                ret = theCallersOnThreads.put(
+                        Thread.currentThread(),
+                        callerPair );
+            }
+        } else {
+            synchronized( theCallersOnThreads ) {
+                ret = theCallersOnThreads.remove(
+                        Thread.currentThread());
+            }
+        }
+        if( ret != null ) {
+            return ret.getName();
+        } else {
+            return null;
         }
     }
 
@@ -103,12 +239,14 @@ public abstract class ThreadIdentityManager
      */
     public static MeshObject unsetCaller()
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".callerDoneOnThread()" );
-        }
+        Pair<MeshObject,String[]> ret;
         synchronized( theCallersOnThreads ) {
-            MeshObject ret = theCallersOnThreads.remove( Thread.currentThread() );
-            return ret;
+            ret = theCallersOnThreads.remove( Thread.currentThread() );
+        }
+        if( ret != null ) {
+            return ret.getName();
+        } else {
+            return null;
         }
     }
 
@@ -117,17 +255,14 @@ public abstract class ThreadIdentityManager
      */
     public static void sudo()
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".sudo()" );
-        }
         Thread t = Thread.currentThread();
 
         synchronized( theSuThreads ) {
             Integer level = theSuThreads.get( t );
             if( level == null ) {
-                level = new Integer( 1 );
+                level = 1;
             } else {
-                level = new Integer( level.intValue() + 1 );
+                ++level;
             }
             theSuThreads.put( t, level );
         }
@@ -138,17 +273,14 @@ public abstract class ThreadIdentityManager
      */
     public static void sudone()
     {
-        if( log.isDebugEnabled() ) {
-            log.debug( local() + ".sudone()" );
-        }
         Thread t = Thread.currentThread();
 
         synchronized( theSuThreads ) {
             Integer level = theSuThreads.get( t );
-            int     l     = level.intValue() - 1;
-            
+            int     l     = level - 1;
+
             if( l > 0 ) {
-                theSuThreads.put( t, new Integer( l ));
+                theSuThreads.put( t, l );
             } else {
                 theSuThreads.remove( t );
             }
@@ -174,32 +306,18 @@ public abstract class ThreadIdentityManager
     }
 
     /**
-     * The equivalent of toString() for this set of static vars.
-     * 
-     * @return the String form
-     */
-    protected static String local()
-    {
-        StringBuilder buf = new StringBuilder();
-        buf.append( ThreadIdentityManager.class.getName() );
-        buf.append( "{ theCallersOnThreads: " );
-        buf.append( ArrayHelper.mapToString( theCallersOnThreads ) );
-        buf.append( ", theSuThreads: " );
-        buf.append( ArrayHelper.mapToString( theSuThreads ) );
-        buf.append( " }" );
-        return buf.toString();
-    }
-
-    /**
      * The identities of the callers in the various threads.
-     *
-     * FIXME? It's not clear that this is the right place where to maintain this.
      */
-    protected static final HashMap<Thread,MeshObject> theCallersOnThreads = new HashMap<Thread,MeshObject>();
-    
+    protected static final HashMap<Thread,Pair<MeshObject,String[]>> theCallersOnThreads = new HashMap<>();
+
     /**
      * The threads that currently are su'd. The value of the HashMap counts the number of
      * su invocations on that Thread.
      */
-    protected static final HashMap<Thread,Integer> theSuThreads = new HashMap<Thread,Integer>();
+    protected static final HashMap<Thread,Integer> theSuThreads = new HashMap<>();
+
+    /**
+     * For efficiency, use the same empty array every time.
+     */
+    public static final String [] EMPTY_GROUPS = new String[0];
 }

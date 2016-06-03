@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -24,6 +24,7 @@ import org.infogrid.mesh.RelatedAlreadyException;
 import org.infogrid.mesh.security.CallerHasInsufficientPermissionsException;
 import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.mesh.set.MeshObjectSet;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.security.AccessManager;
 import org.infogrid.meshbase.security.aclbased.AclbasedSubjectArea;
 import org.infogrid.meshbase.transaction.TransactionException;
@@ -44,11 +45,11 @@ public class AclbasedAccessManager
             AccessManager
 {
     private static final Log log = Log.getLogInstance( AclbasedAccessManager.class ); // our own, private logger
-    
+
     /**
      * Factory method.
      *
-     * @return the created SimpleAccessManager
+     * @return the created AclbasedAccessManager
      */
     public static AclbasedAccessManager create()
     {
@@ -96,16 +97,50 @@ public class AclbasedAccessManager
             ThreadIdentityManager.sudone();
         }
     }
-    
+
     /**
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
-     * 
+     *
+     * @param mb the MeshBase in which the MeshObject is supposed to be created
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedCreate(
+            MeshBase             mb,
             MeshObjectIdentifier identifier )
+        throws
+            NotPermittedException
+    {
+        // always allowed -- FIXME?
+    }
+
+    /**
+     * Check whether it is permitted to relate one MeshObject to another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedRelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        // always allowed -- FIXME?
+    }
+
+    /**
+     * Check whether it is permitted to unrelate one MeshObject from another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedUnrelate(
+            MeshObject one,
+            MeshObject two )
         throws
             NotPermittedException
     {
@@ -311,7 +346,7 @@ public class AclbasedAccessManager
     /**
      * Check whether it is permitted to determine whether or not a MeshObject is blessed with
      * the given type.
-     * 
+     *
      * @param obj the MeshObject
      * @param type the EntityType whose blessing we wish to check
      * @throws NotPermittedException thrown if it is not permitted
@@ -327,7 +362,7 @@ public class AclbasedAccessManager
 
     /**
      * Check whether it is permitted to bless a MeshObject with the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes with which to bless
      * @throws NotPermittedException thrown if it is not permitted
@@ -343,7 +378,7 @@ public class AclbasedAccessManager
 
     /**
      * Check whether it is permitted to unbless a MeshObject from the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes from which to unbless
      * @throws NotPermittedException thrown if it is not permitted
@@ -398,7 +433,7 @@ public class AclbasedAccessManager
     {
         checkPermittedBlessUnblessRelationship( obj, thisEnds, neighborIdentifier, neighbor );
     }
-    
+
     /**
      * Check whether it is permitted to traverse the given RoleType from this MeshObject to the
      * given MeshObject.
@@ -422,7 +457,7 @@ public class AclbasedAccessManager
 
     /**
      * Check whether it is permitted to make one MeshObject equivalent to another.
-     * 
+     *
      * @param one the first MeshObject
      * @param twoIdentifier identifier of the second MeshObject
      * @param two the second MeshObject, if it could be resolved
@@ -443,7 +478,7 @@ public class AclbasedAccessManager
      * Check whether it is permitted to remove a MeshObject from the equivalence set
      * it is currently a member of.
      * Subclasses may override this.
-     * 
+     *
      * @param obj the MeshObject to remove
      * @param roleTypesToAsk the RoleTypes to ask
      * @throws NotPermittedException thrown if it is not permitted

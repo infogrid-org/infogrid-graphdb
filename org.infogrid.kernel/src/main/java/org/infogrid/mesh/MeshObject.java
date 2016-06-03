@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -35,28 +35,28 @@ import org.infogrid.util.text.HasStringRepresentation;
 
 /**
  * <p>The core abstraction in InfoGrid.</p>
- * 
+ *
  * <p>Each MeshObject is identified by a {@link MeshObjectIdentifier}, which
  * is globally unique. Each MeshObject is managed by exactly one
  * {@link org.infogrid.meshbase.MeshBase}.</p>
- * 
+ *
  * <p>Each MeshObject may be blessed by one or more {@link org.infogrid.model.primitives.EntityType}s,
  * which may define properties for the MeshObject (by means of
  * {@link org.infogrid.model.primitives.PropertyType}).</p>
- * 
+ *
  * <p>Each MeshObject can stand on its own; pairs of MeshObjects may enter into relationships,
  * each of which may be blessed by one or more {@link org.infogrid.model.primitives.RelationshipType}s.</p>
- * 
+ *
  * <p>Properties of MeshObjects may be read, and relationships may be traversed outside
  * of {@link org.infogrid.meshbase.transaction.Transaction} boundaries; for updates, Transactions
  * are needed. (See {@link org.infogrid.meshbase.MeshBase#createTransactionNow} and similar
  * methods)</p>
- * 
+ *
  * <p>A MeshObject may be part of an equivalence set. In InfoGrid, an equivalence set of
  * MeshObjects collects one or more MeshObjects and considers them semantically equivalent.
  * When traversing relationships, all relationships of the MeshObjects in the equivalence
  * set are considered as if they were relationships of the same MeshObject.</p>
- * 
+ *
  * <p>A caller may or may not have the appropriate authorization to perform any of the
  * operations that may throw NotPermittedException, in which this exception is thrown.
  * Other operations may silently return only a subset of the information they could return
@@ -74,6 +74,7 @@ public interface MeshObject
      *
      * @return the globally unique identifier of this MeshObject
      */
+    @Override
     public abstract MeshObjectIdentifier getIdentifier();
 
     /**
@@ -83,7 +84,7 @@ public interface MeshObject
      * @return the MeshBase that contains this MeshObject.
      */
     public abstract MeshBase getMeshBase();
- 
+
     /**
      * Obtain the time of creation of this MeshObject. This is immutable for the
      * lifetime of the MeshObject.
@@ -148,7 +149,7 @@ public interface MeshObject
 
     /**
      * Determine whether this MeshObject is the home object of its MeshBase.
-     * 
+     *
      * @return true if it is the home object
      */
     public abstract boolean isHomeObject();
@@ -190,7 +191,7 @@ public interface MeshObject
 
     /**
      * Set the value of a Property.
-     * 
+     *
      * @param thePropertyType the PropertyType that identifies the correct Property of this MeshObject
      * @param newValue the new value of the Property
      * @return old value of the Property
@@ -214,7 +215,7 @@ public interface MeshObject
      * Set the value of a Property, and specify a time when that change happened. The caller must
      * have the appropriate rights to invoke this; typical callers do not have the rights because this
      * call is mostly intended for system-internal purposes.
-     * 
+     *
      * @param thePropertyType the PropertyType that identifies the correct Property of this MeshObject
      * @param newValue the new value of the Property
      * @param timeUpdated the time at which this change occurred
@@ -377,7 +378,7 @@ public interface MeshObject
      * @return the MeshObjectIdentifiers of the neighbors, if any
      */
     public abstract MeshObjectIdentifier [] getNeighborMeshObjectIdentifiers();
-    
+
     /**
      * Relate this MeshObject to another MeshObject. This does not bless the relationship.
      *
@@ -385,6 +386,7 @@ public interface MeshObject
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
      *         to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #unrelate
      * @see #relateAndBless
      */
@@ -392,7 +394,8 @@ public interface MeshObject
             MeshObject newNeighbor )
         throws
             RelatedAlreadyException,
-            TransactionException;
+            TransactionException,
+            NotPermittedException;
 
     /**
      * Unrelate this MeshObject from another MeshObject. This will also remove all blessings from the relationship.
@@ -434,7 +437,7 @@ public interface MeshObject
      * Make this MeshObject support the provided EntityType. (The name of this method comes from Perl's bless method.)
      *
      *
-     * 
+     *
      * @param type the new EntityType to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with this EntityType
      * @throws IsAbstractException thrown if the EntityType is abstract and cannot be instantiated
@@ -453,7 +456,7 @@ public interface MeshObject
      * Make this MeshObject support the provided one or more EntityTypes. As a result, the
      * MeshObject will either be blessed with all of the EntityTypes, or none.
      *  (The name of this method comes from Perl's bless method.)
-     * 
+     *
      * @param types the new EntityTypes to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with at least one of these EntityTypes
      * @throws IsAbstractException thrown if at least one of the EntityTypes is abstract and cannot be instantiated
@@ -474,7 +477,7 @@ public interface MeshObject
      * this MeshObject participates requires this MeshObject to have the EntityType
      * that is supposed to be unblessed. To avoid this, unbless the relevant relationship(s)
      * first.
-     * 
+     *
      * @param type the EntityType that the MeshObject will stop supporting
      * @throws RoleTypeRequiresEntityTypeException thrown if this MeshObject plays a role that requires the MeshObject to remain being blessed with this EntityType
      * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
@@ -491,12 +494,12 @@ public interface MeshObject
 
     /**
      * Makes this MeshObject stop supporting all of the provided EntityTypes. As a result,
-     * the MeshObject will either be unblessed from all of the EntityTypes, or none. 
+     * the MeshObject will either be unblessed from all of the EntityTypes, or none.
      * This may fail with an
      * RoleTypeRequiresEntityTypeException because the RoleType of a relationship in which
      * this MeshObject participates requires this MeshObject to have the EntityType
      * that is supposed to be unblessed. To avoid this, unbless the relevant relationship(s) first.
-     * 
+     *
      * @param types the EntityTypes that the MeshObject will stop supporting
      * @throws RoleTypeRequiresEntityTypeException thrown if this MeshObject plays one or more roles that requires the MeshObject to remain being blessed with at least one of the EntityTypes
      * @throws EntityNotBlessedException thrown if this MeshObject does not support at least one of the given EntityTypes
@@ -522,7 +525,7 @@ public interface MeshObject
      * Determine whether this MeshObject currently supports this EntityType.
      * By default, this returns true even if the MeshObject is blessed by a
      * subtype of the provided EntityType instead of the EntityType directly.
-     * 
+     *
      * @param type the EntityType to look for
      * @return true if this MeshObject supports this MeshType or a subtype
      */
@@ -532,7 +535,7 @@ public interface MeshObject
     /**
      * Determine whether this MeshObject currently supports this EntityType.
      * Specify whether or not subtypes of the provided EntityType should be considered.
-     * 
+     *
      * @param type the EntityType to look for
      * @param considerSubtypes if true, return true even if only a subtype matches
      * @return true if this MeshObject supports this MeshType
@@ -581,7 +584,7 @@ public interface MeshObject
     /**
      * If the provided TypedMeshObjectFacade is a facade of this instance, get the EntityType
      * that corresponds to this TypedMeshObjectFacade.
-     * 
+     *
      * @param obj the TypedMeshObjectFacade
      * @return the EntityType that corresponds to this TypedMeshObjectFacade
      * @throws IllegalArgumentException thrown if the TypedMeshObjectFacade is not a facade of this MeshObject
@@ -595,10 +598,10 @@ public interface MeshObject
      * Obtain an instance of (a subclass of) TypedMeshObjectFacade that provides the type-safe interface
      * to this MeshObject for a particular EntityType. Throw NotBlessedException
      * if this MeshObject does not current support this EntityType.
-     * 
+     *
      * @param type the EntityType
      * @return the TypedMeshObjectFacade for this MeshObject
-     * @throws NotBlessedException thrown if this MeshObject does not currently support this EntityType
+     * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
      */
     public abstract TypedMeshObjectFacade getTypedFacadeFor(
             EntityType type )
@@ -608,7 +611,7 @@ public interface MeshObject
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleType.
      * (The name of this method comes from Perl's bless method.)
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -632,12 +635,12 @@ public interface MeshObject
             IsAbstractException,
             TransactionException,
             NotPermittedException;
-    
+
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleTypes.
      * As a result, this relationship will support either all RoleTypes or none.
      * (The name of this method comes from Perl's bless method.)
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes that are instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -661,11 +664,11 @@ public interface MeshObject
             IsAbstractException,
             TransactionException,
             NotPermittedException;
-    
+
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -691,7 +694,7 @@ public interface MeshObject
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with all of the provided RoleTypes. As a result, this relationship will support either all RoleTypes or none.
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes that are to be instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -716,7 +719,7 @@ public interface MeshObject
 
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType at the end that this MeshObject is attached to, and that shall be removed
      * @param neighbor the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support the RoleType
@@ -736,7 +739,7 @@ public interface MeshObject
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleTypes.
      * As a result, either all RoleTypes will be unblessed or none.
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to, and that shall be removed
      * @param neighbor the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support at least one of the RoleTypes
@@ -780,7 +783,7 @@ public interface MeshObject
      * Obtain the RoleTypes that this MeshObject currently participates in. This will return only one
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects.
-     * 
+     *
      * @return the RoleTypes that this MeshObject currently participates in.
      */
     public abstract RoleType [] getRoleTypes();
@@ -790,18 +793,18 @@ public interface MeshObject
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects. Specify whether equivalent MeshObjects
      * should be considered as well.
-     * 
+     *
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
      */
     public abstract RoleType [] getRoleTypes(
             boolean considerEquivalents );
-    
+
     /**
      * Obtain the MeshTypeIdentifiers of the RoleTypes that this MeshObject plays with a
      * given neighbor MeshObject identified by its MeshObjectIdentifier.
-     * 
+     *
      * @param neighborIdentifier the MeshObjectIdentifier of the neighbor MeshObject
      * @return the identifiers of the RoleTypes
      * @throws NotRelatedException thrown if the specified MeshObject is not actually a neighbor
@@ -810,7 +813,7 @@ public interface MeshObject
             MeshObjectIdentifier neighborIdentifier )
         throws
             NotRelatedException;
-    
+
     /**
      * Obtain the MeshTypeIdentifiers of the RoleTypes that this MeshObject plays with a
      * given neighbor MeshObject identified by its MeshObjectIdentifier.
@@ -833,7 +836,7 @@ public interface MeshObject
      * @return the Roles that this MeshObject currently participates in.
      */
     public abstract Role [] getRoles();
-    
+
     /**
      * Obtain the Roles that this MeshObject currently participates in.
      * Specify whether relationships of equivalent MeshObjects
@@ -845,7 +848,7 @@ public interface MeshObject
      */
     public abstract Role [] getRoles(
             boolean considerEquivalents );
-    
+
     /**
      * Obtain the RoleTypes that this MeshObject currently participates in with the
      * specified other MeshObject.
@@ -948,7 +951,7 @@ public interface MeshObject
             EquivalentAlreadyException,
             TransactionException,
             NotPermittedException;
-    
+
     /**
      * Obtain the set of MeshObjects, including this one, that are equivalent.
      * This always returns at least this MeshObject.
@@ -956,7 +959,7 @@ public interface MeshObject
      * @return the set of MeshObjects that are equivalent
      */
     public MeshObjectSet getEquivalents();
-    
+
     /**
      * Obtain the Identifiers of the equivalent MeshObjects. This is sometimes more efficient than
      * traversing to the equivalents, and determining the MeshObjectIdentifiers.
@@ -1045,7 +1048,7 @@ public interface MeshObject
 
     /**
      * Obtain the same MeshObject as ExternalizedMeshObject so it can be easily serialized.
-     * 
+     *
      * @return this MeshObject as ExternalizedMeshObject
      */
     public abstract ExternalizedMeshObject asExternalized();
@@ -1086,19 +1089,19 @@ public interface MeshObject
      * This pseudo-property changes when the MeshObject is blessed or unblessed.
      */
     public static final String _MESH_OBJECT_TYPES_PROPERTY = "_MeshObjectTypes";
-    
+
     /**
      * The name of a pseudo-property that indicates the RoleTypes in which this MeshObject
      * participates. This pseudo-property changes when the MeshObject's roles in
      * a relationship change.
      */
     public static final String _MESH_OBJECT_ROLES_PROPERTY = "_MeshObjectRoles";
-    
+
     /**
      * The name of a pseudo-property that indicates that current set of neighbor MeshTypes.
      */
     public static final String _MESH_OBJECT_NEIGHBOR_PROPERTY = "_MeshObjectNeighbors";
-    
+
     /**
      * The name of a pseudo-property that indicates the current set of equivalents.
      */

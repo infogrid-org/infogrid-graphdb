@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -17,6 +17,7 @@ package org.infogrid.meshbase.security;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
@@ -34,7 +35,7 @@ public class PermitAllAccessManager
 {
     /**
      * Factory method.
-     * 
+     *
      * @return the created PermitAllAccessManager
      */
     public static PermitAllAccessManager create()
@@ -58,6 +59,7 @@ public class PermitAllAccessManager
      * @param newOwner the MeshObject that is the new owner.
      * @throws TransactionException thrown if this is invoked outside of proper transaction boundaries
      */
+    @Override
     public void assignOwner(
             MeshObject toBeOwned,
             MeshObject newOwner )
@@ -66,22 +68,59 @@ public class PermitAllAccessManager
     {
         // no op
     }
-    
+
     /**
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
-     * 
+     *
+     * @param mb the MeshBase in which the MeshObject is supposed to be created
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedCreate(
+            MeshBase             mb,
             MeshObjectIdentifier identifier )
         throws
             NotPermittedException
     {
         // no op
     }
-    
+
+    /**
+     * Check whether it is permitted to relate one MeshObject to another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    @Override
+    public void checkPermittedRelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        // no op
+    }
+
+    /**
+     * Check whether it is permitted to unrelate one MeshObject from another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    @Override
+    public void checkPermittedUnrelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        // no op
+    }
+
     /**
      * Check whether it is permitted to set a MeshObject's timeExpires to the given value.
      *
@@ -89,6 +128,7 @@ public class PermitAllAccessManager
      * @param newValue the proposed new value for timeExpires
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedSetTimeExpires(
             MeshObject obj,
             long       newValue )
@@ -97,7 +137,7 @@ public class PermitAllAccessManager
     {
         // no op
     }
-    
+
     /**
      * Check whether it is permitted to set a MeshObject's given property to the given
      * value.
@@ -107,6 +147,7 @@ public class PermitAllAccessManager
      * @param newValue the proposed new value for the property
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedSetProperty(
             MeshObject    obj,
             PropertyType  thePropertyType,
@@ -116,7 +157,7 @@ public class PermitAllAccessManager
     {
         // no op
     }
-    
+
     /**
      * Check whether it is permitted to obtain a MeshObject's given property.
      *
@@ -124,6 +165,7 @@ public class PermitAllAccessManager
      * @param thePropertyType the PropertyType identifing the property to be read
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedGetProperty(
             MeshObject   obj,
             PropertyType thePropertyType )
@@ -136,11 +178,12 @@ public class PermitAllAccessManager
     /**
      * Check whether it is permitted to determine whether or not a MeshObject is blessed with
      * the given type.
-     * 
+     *
      * @param obj the MeshObject
      * @param type the EntityType whose blessing we wish to check
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedBlessedBy(
             MeshObject obj,
             EntityType type )
@@ -152,11 +195,12 @@ public class PermitAllAccessManager
 
     /**
      * Check whether it is permitted to bless a MeshObject with the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes with which to bless
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedBless(
             MeshObject    obj,
             EntityType [] types )
@@ -168,11 +212,12 @@ public class PermitAllAccessManager
 
     /**
      * Check whether it is permitted to unbless a MeshObject from the given EntityTypes.
-     * 
+     *
      * @param obj the MeshObject
      * @param types the EntityTypes from which to unbless
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedUnbless(
             MeshObject    obj,
             EntityType [] types )
@@ -192,6 +237,7 @@ public class PermitAllAccessManager
      * @param neighbor neighbor to which this MeshObject is related, if it could be resolved
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedBless(
             MeshObject           obj,
             RoleType []          thisEnds,
@@ -214,6 +260,7 @@ public class PermitAllAccessManager
      * @param neighbor neighbor to which this MeshObject is related, if it could be resolved
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedUnbless(
             MeshObject           obj,
             RoleType []          thisEnds,
@@ -235,6 +282,7 @@ public class PermitAllAccessManager
      * @param neighbor neighbor to which this traversal leads
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedTraversal(
             MeshObject           obj,
             RoleType             toTraverse,
@@ -254,6 +302,7 @@ public class PermitAllAccessManager
      * @param two the second MeshObject, if it could be resolved
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedAddAsEquivalent(
             MeshObject           one,
             MeshObjectIdentifier twoIdentifier,
@@ -267,11 +316,12 @@ public class PermitAllAccessManager
     /**
      * Check whether it is permitted to remove a MeshObject from the equivalence set
      * it is currently a member of.
-     * 
+     *
      * @param obj the MeshObject to remove
      * @param roleTypesToAsk the RoleTypes to ask
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedRemoveAsEquivalent(
             MeshObject  obj,
             RoleType [] roleTypesToAsk )
@@ -289,6 +339,7 @@ public class PermitAllAccessManager
      * @param obj the MeshObject
      * @throws NotPermittedException thrown if it is not permitted
      */
+    @Override
     public void checkPermittedDelete(
             MeshObject obj )
         throws

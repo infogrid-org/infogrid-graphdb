@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -71,7 +71,7 @@ public abstract class AbstractMeshObject
 
     /**
      * Constructor, for subclasses only.
-     * 
+     *
      * @param identifier the value for the Identifier
      * @param meshBase the MeshBase that this MeshObject belongs to
      * @param created the time this MeshObject was created
@@ -89,7 +89,7 @@ public abstract class AbstractMeshObject
     {
         theIdentifier   = identifier;
         theMeshBase     = meshBase;
-        
+
         theTimeCreated  = created;
         theTimeUpdated  = updated;
         theTimeRead     = read;
@@ -186,7 +186,7 @@ public abstract class AbstractMeshObject
             log.traceMethodCallEntry( this, "setTimeExpires", newValue );
         }
         checkPermittedSetTimeExpires( newValue );
-        
+
         theTimeExpires = newValue;
     }
 
@@ -213,7 +213,7 @@ public abstract class AbstractMeshObject
     public final boolean getIsDead()
     {
         MeshBase mb = theMeshBase; // this allows us not to synchronize this method
-        
+
         if( mb == null ) {
             return true; // the object itself has been deleted or purged
         }
@@ -241,7 +241,7 @@ public abstract class AbstractMeshObject
 
     /**
      * Determine whether this MeshObject is the home object of its MeshBase.
-     * 
+     *
      * @return true if it is the home object
      */
     @Override
@@ -279,7 +279,7 @@ public abstract class AbstractMeshObject
         boolean    found        = false;
 
         synchronized( this ) {
-            
+
             if( theMeshTypes != null ) {
                 for( AttributableMeshType type : theMeshTypes.keySet() ) {
                     if( type.equalsOrIsSupertype( requiredType )) {
@@ -291,7 +291,7 @@ public abstract class AbstractMeshObject
             if( !found ) {
                 throw new IllegalPropertyTypeException( this, thePropertyType );
             }
-            
+
             checkPermittedGetProperty( thePropertyType );
 
             updateLastRead();
@@ -334,7 +334,7 @@ public abstract class AbstractMeshObject
             for( int i=0 ; i<thePropertyTypes.length ; ++i ) {
                 EntityType requiredType = (EntityType) thePropertyTypes[i].getAttributableMeshType();
                 boolean    found        = false;
-            
+
                 if( theMeshTypes != null ) {
                     for( AttributableMeshType type : theMeshTypes.keySet() ) {
                         if( type.equalsOrIsSupertype( requiredType )) {
@@ -353,7 +353,7 @@ public abstract class AbstractMeshObject
             }
 
             updateLastRead();
-            
+
             PropertyValue [] ret = new PropertyValue[ thePropertyTypes.length ];
             if( theProperties != null ) {
                 for( int i=0 ; i<thePropertyTypes.length ; ++i ) {
@@ -363,10 +363,10 @@ public abstract class AbstractMeshObject
             return ret;
         }
     }
-    
+
     /**
      * Set the value of a Property.
-     * 
+     *
      * @param thePropertyType the PropertyType that identifies the correct Property of this MeshObject
      * @param newValue the new value of the Property
      * @return old value of the Property
@@ -394,7 +394,7 @@ public abstract class AbstractMeshObject
      * Set the value of a Property, and specify a time when that change happened. The caller must
      * have the appropriate rights to invoke this; typical callers do not have the rights because this
      * call is mostly intended for system-internal purposes.
-     * 
+     *
      * @param thePropertyType the PropertyType that identifies the correct Property of this MeshObject
      * @param newValue the new value of the Property
      * @param timeUpdated the time at which this change occurred. -1 means "don't update" and 0 means "current time".
@@ -565,7 +565,7 @@ public abstract class AbstractMeshObject
     {
         return setPropertyValues( thePropertyTypes, thePropertyValues, 0 );
     }
-            
+
     /**
      * Set the value of several Properties at the same time. The PropertyTypes identifying the Properties
      * and their new PropertyValues are given as paids in the Map. This method sets either all values, or none.
@@ -597,7 +597,7 @@ public abstract class AbstractMeshObject
             ++i;
         }
         setPropertyValues( types, values );
-    } 
+    }
 
     /**
      * Set the value of several Properties, given their PropertyTypes and PropertyValues, in the same sequence,
@@ -718,7 +718,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         // getTypes() will checkAlive()
-        
+
         for( EntityType current : getTypes() ) {
             PropertyType propertyType = current.findPropertyTypeByName( propertyName );
             if( propertyType != null ) {
@@ -758,14 +758,14 @@ public abstract class AbstractMeshObject
     public MeshObjectIdentifier[] getNeighborMeshObjectIdentifiers()
     {
         checkAlive();
-        
+
         MeshObjectIdentifier [] ret = traverseToNeighborMeshObjects().asIdentifiers();
         return ret;
     }
-    
+
     /**
      * Make this MeshObject support the provided EntityType.
-     * 
+     *
      * @param type the new EntityType to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with this EntityType
      * @throws IsAbstractException thrown if the EntityType is abstract and cannot be instantiated
@@ -787,7 +787,7 @@ public abstract class AbstractMeshObject
     /**
      * Make this MeshObject support the provided one or more EntityTypes. As a result, the
      * MeshObject will either be blessed with all of the EntityTypes, or none.
-     * 
+     *
      * @param types the new EntityTypes to be supported by this MeshObject
      * @throws EntityBlessedAlreadyException thrown if this MeshObject is blessed already with at least one of these EntityTypes
      * @throws IsAbstractException thrown if at least one of the EntityTypes is abstract and cannot be instantiated
@@ -805,11 +805,11 @@ public abstract class AbstractMeshObject
     {
         internalBless( types, true, true, false, 0L );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param types the EntityTypes to bless the MeshObject with
      * @param isMaster if true, this is the master replica
      * @param checkIsAbstract if false, do not check whether or not the EntityTypes are abstract
@@ -898,7 +898,7 @@ public abstract class AbstractMeshObject
         if( theMeshTypes == null ) {
             theMeshTypes = createMeshTypes();
         }
-        
+
         // determine existing property types
         ArrayList<PropertyType> existingPropertyTypes = new ArrayList<PropertyType>();
         for( EntityType type : theMeshTypes.keySet() ) {
@@ -909,7 +909,7 @@ public abstract class AbstractMeshObject
                 }
             }
         }
-        
+
         boolean doTimeUpdate = false;
         for( int i=0 ; i<types.length ; ++i ) {
             WeakReference<TypedMeshObjectFacade> already = theMeshTypes.get( types[i] );
@@ -952,7 +952,7 @@ public abstract class AbstractMeshObject
      * this MeshObject participates requires this MeshObject to have the EntityType
      * that is supposed to be unblessed. To avoid this, unbless the relevant relationship(s)
      * first.
-     * 
+     *
      * @param type the EntityType that the MeshObject will stop supporting
      * @throws RoleTypeRequiresEntityTypeException thrown if this MeshObject plays a role that requires the MeshObject to remain being blessed with this EntityType
      * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
@@ -973,12 +973,12 @@ public abstract class AbstractMeshObject
 
     /**
      * Makes this MeshObject stop supporting all of the provided EntityTypes. As a result,
-     * the MeshObject will either be unblessed from all of the EntityTypes, or none. 
+     * the MeshObject will either be unblessed from all of the EntityTypes, or none.
      * This may fail with an
      * RoleTypeRequiresEntityTypeException because the RoleType of a relationship in which
      * this MeshObject participates requires this MeshObject to have the EntityType
      * that is supposed to be unblessed. To avoid this, unbless the relevant relationship(s) first.
-     * 
+     *
      * @param types the EntityTypes that the MeshObject will stop supporting
      * @throws RoleTypeRequiresEntityTypeException thrown if this MeshObject plays one or more roles that requires the MeshObject to remain being blessed with at least one of the EntityTypes
      * @throws EntityNotBlessedException thrown if this MeshObject does not support at least one of the given EntityTypes
@@ -996,11 +996,11 @@ public abstract class AbstractMeshObject
     {
         internalUnbless( types, true, 0 );
     }
-    
+
     /**
      * Internal helper to implement a method. While on this level, it does not appear that
      * factoring out this method makes any sense, subclasses may appreciate it.
-     * 
+     *
      * @param types the EntityTypes that the MeshObject will stop supporting
      * @param isMaster if true, this is the master replica
      * @param timeUpdated the value for the timeUpdated property after this operation. -1 means "don't update" and 0 means "current time".
@@ -1049,10 +1049,10 @@ public abstract class AbstractMeshObject
                  throw new EntityNotBlessedException( this, types[i] );
             }
         }
-        
+
         EntityType [] oldTypes       = getTypes();
         EntityType [] remainingTypes = ArrayHelper.removeIfPresent( oldTypes, types, false, EntityType.class );
-        
+
         for( Role role : getRoles() ) {
 
             EntityType requiredType = role.getRoleType().getEntityType();
@@ -1091,7 +1091,7 @@ public abstract class AbstractMeshObject
                 theProperties = null;
             }
         }
-        
+
         updateLastUpdated( timeUpdated, theTimeUpdated );
 
         fireTypesRemoved(
@@ -1130,7 +1130,7 @@ public abstract class AbstractMeshObject
             if( index < ret.length ) {
                 ret = ArrayHelper.copyIntoNewArray( ret, 0, index, EntityType.class );
             }
-            
+
             return ret;
         } else {
             return new EntityType[0];
@@ -1141,7 +1141,7 @@ public abstract class AbstractMeshObject
      * Determine whether this MeshObject currently supports this EntityType.
      * By default, this returns true even if the MeshObject is blessed by a
      * subtype of the provided EntityType instead of the EntityType directly.
-     * 
+     *
      * @param type the EntityType to look for
      * @return true if this MeshObject supports this MeshType or a subtype
      */
@@ -1151,11 +1151,11 @@ public abstract class AbstractMeshObject
     {
         return isBlessedBy( type, true );
     }
-    
+
     /**
      * Determine whether this MeshObject currently supports this EntityType.
      * Specify whether or not subtypes of the provided EntityType should be considered.
-     * 
+     *
      * @param type the EntityType to look for
      * @param considerSubtypes if true, return true even if only a subtype matches
      * @return true if this MeshObject supports this MeshType
@@ -1171,7 +1171,7 @@ public abstract class AbstractMeshObject
             checkPermittedBlessedBy( type );
 
             updateLastRead();
-            
+
             if( theMeshTypes != null ) {
                 Set<EntityType> keySet = theMeshTypes.keySet();
 
@@ -1190,7 +1190,7 @@ public abstract class AbstractMeshObject
                 }
             }
         } catch( NotPermittedException ex ) {
-            log.info( ex ); 
+            log.info( ex );
             // caller is not allowed to know
         }
         return false;
@@ -1219,13 +1219,13 @@ public abstract class AbstractMeshObject
         try {
             checkPermittedBlessedBy( type );
         } catch( NotPermittedException ex ) {
-            log.info( ex ); 
+            log.info( ex );
             // caller is not allowed to know
             return null;
         } finally {
             updateLastRead();
         }
-        
+
         if( !isBlessedBy( type )) {
             throw new EntityNotBlessedException( this, type );
         }
@@ -1282,7 +1282,7 @@ public abstract class AbstractMeshObject
     /**
      * If the provided TypedMeshObjectFacade is a facade of this instance, get the EntityType
      * that corresponds to this TypedMeshObjectFacade.
-     * 
+     *
      * @param obj the TypedMeshObjectFacade
      * @return the EntityType that corresponds to this TypedMeshObjectFacade
      * @throws IllegalArgumentException thrown if the TypedMeshObjectFacade is not a facade of this MeshObject
@@ -1304,7 +1304,7 @@ public abstract class AbstractMeshObject
         }
 
         updateLastRead();
-        
+
         Iterator<EntityType> iter = theMeshTypes.keySet().iterator();
         while( iter.hasNext() ) {
             EntityType                       key   = iter.next();
@@ -1323,7 +1323,7 @@ public abstract class AbstractMeshObject
      * Obtain an instance of (a subclass of) TypedMeshObjectFacade that provides the type-safe interface
      * to this MeshObject for a particular EntityType. Throw NotBlessedException
      * if this MeshObject does not current support this EntityType.
-     * 
+     *
      * @param type the EntityType
      * @return the TypedMeshObjectFacade for this MeshObject
      * @throws EntityNotBlessedException thrown if this MeshObject does not currently support this EntityType
@@ -1375,7 +1375,7 @@ public abstract class AbstractMeshObject
 
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -1407,7 +1407,7 @@ public abstract class AbstractMeshObject
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -1448,7 +1448,7 @@ public abstract class AbstractMeshObject
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with all of the provided RoleTypes. As a result, this relationship will support either all RoleTypes or none.
-     * 
+     *
      * @param thisEnds the RoleTypes of the RelationshipTypes that are to be instantiated at the end that this MeshObject is attached to
      * @param neighbor the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -1488,7 +1488,7 @@ public abstract class AbstractMeshObject
 
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType at the end that this MeshObject is attached to, and that shall be removed
      * @param neighbor the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support the RoleType
@@ -1527,7 +1527,7 @@ public abstract class AbstractMeshObject
      * Obtain the RoleTypes that this MeshObject currently participates in. This will return only one
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects.
-     * 
+     *
      * @return the RoleTypes that this MeshObject currently participates in.
      */
     @Override
@@ -1700,7 +1700,7 @@ public abstract class AbstractMeshObject
     /**
      * Delete this MeshObject. This must only be invoked by our MeshObjectLifecycleManager
      * and thus is defined down here, not higher up in the inheritance hierarchy.
-     * 
+     *
      * @throws TransactionException thrown if invoked outside of proper Transaction boundaries
      */
     public abstract void delete()
@@ -1854,7 +1854,7 @@ public abstract class AbstractMeshObject
 
     /**
      * Fire an event indicating a change in the set of neighbors of this MeshObject.
-     * 
+     *
      * @param addedRoleTypes the newly added RoleTypes, if any
      * @param oldValue the MeshObjectIdentifiers of the neighbors prior to the change
      * @param added the added MeshObjectIdentifier
@@ -2041,7 +2041,7 @@ public abstract class AbstractMeshObject
     /**
      * Fire an event indicating that this MeshObject was deleted.
      * We pass in the MeshBase, because the member variable has already been zero'd.
-     * 
+     *
      * @param oldMeshBase the MeshBase this MeshObject used to belong to
      * @param canonicalMeshObjectName the canonical Identifier that this MeshObject used to have
      * @param time the time at which this change occurred
@@ -2056,12 +2056,12 @@ public abstract class AbstractMeshObject
                         this,
                         canonicalMeshObjectName,
                         time );
-        
+
         // Let's not insert it into the transaction any more, there is no point of having
         // both MeshObjectBecameDeadStateEvent and MeshObjectDeletedEvent
         //
         // oldMeshBase.getCurrentTransaction().addChange( theEvent );
-        
+
         firePropertyChange( theEvent );
     }
 
@@ -2153,7 +2153,47 @@ public abstract class AbstractMeshObject
     protected abstract void updateLastRead(
             long timeRead,
             long lastTimeRead );
-    
+
+    /**
+     * Check whether it is permitted to create a relationship to another MeshObject.
+     *
+     * @param neighbor neighbor the other MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedRelate(
+            MeshObject neighbor )
+        throws
+            NotPermittedException
+    {
+        if( theMeshBase == null ) {
+            return; // this is invoked on a dead object -- no checking needed
+        }
+        AccessManager accessMgr = theMeshBase.getAccessManager();
+        if( accessMgr != null ) {
+            accessMgr.checkPermittedRelate( this, neighbor );
+        }
+    }
+
+    /**
+     * Check whether it is permitted to delete a relationship to another MeshObject.
+     *
+     * @param neighbor neighbor the other MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedUnrelate(
+            MeshObject neighbor )
+        throws
+            NotPermittedException
+    {
+        if( theMeshBase == null ) {
+            return; // this is invoked on a dead object -- no checking needed
+        }
+        AccessManager accessMgr = theMeshBase.getAccessManager();
+        if( accessMgr != null ) {
+            accessMgr.checkPermittedUnrelate( this, neighbor );
+        }
+    }
+
     /**
      * Check whether it is permitted to set this MeshObject's timeExpires to the given value.
      * Subclasses may override this.
@@ -2167,7 +2207,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedSetTimeExpires( this, newValue );
@@ -2189,7 +2229,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedSetProperty( this, thePropertyType, newValue );
@@ -2209,7 +2249,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedGetProperty( this, thePropertyType );
@@ -2219,7 +2259,7 @@ public abstract class AbstractMeshObject
     /**
      * Check whether it is permitted to determine whether or not this MeshObject is blessed with
      * the given type. Subclasses may override this.
-     * 
+     *
      * @param type the EntityType whose blessing we wish to check
      * @throws NotPermittedException thrown if it is not permitted
      */
@@ -2229,7 +2269,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedBlessedBy( this, type );
@@ -2239,7 +2279,7 @@ public abstract class AbstractMeshObject
     /**
      * Check whether it is permitted to bless this MeshObject with the given EntityTypes. Subclasses
      * may override this.
-     * 
+     *
      * @param types the EntityTypes with which to bless
      * @throws NotPermittedException thrown if it is not permitted
      */
@@ -2249,7 +2289,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedBless( this, types );
@@ -2259,7 +2299,7 @@ public abstract class AbstractMeshObject
     /**
      * Check whether it is permitted to unbless this MeshObject from the given EntityTypes. Subclasses
      * may override this.
-     * 
+     *
      * @param types the EntityTypes from which to unbless
      * @throws NotPermittedException thrown if it is not permitted
      */
@@ -2269,18 +2309,18 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedUnbless( this, types );
         }
-    }    
-    
+    }
+
     /**
      * Check whether it is permitted to bless the relationship to the otherObject with the
      * provided RoleTypes. Subclasses
      * may override this.
-     * 
+     *
      * @param thisEnds the RoleTypes to bless the relationship with
      * @param neighborIdentifier identifier of the neighbor to which this MeshObject is related
      * @param neighbor neighbor to which this MeshObject is related, if it could be resolved
@@ -2304,7 +2344,7 @@ public abstract class AbstractMeshObject
     /**
      * Check whether it is permitted to unbless the relationship to the otherObject from the
      * provided RoleTypes. Subclasses may override this.
-     * 
+     *
      * @param thisEnds the RoleTypes to unbless the relationship from
      * @param neighborIdentifier identifier of the neighbor to which this MeshObject is related
      * @param neighbor neighbor to which this MeshObject is related, if it could be resolved
@@ -2324,12 +2364,12 @@ public abstract class AbstractMeshObject
         if( accessMgr != null ) {
             accessMgr.checkPermittedUnbless( this, thisEnds, neighborIdentifier, neighbor );
         }
-    }    
-    
+    }
+
     /**
      * Check whether it is permitted to traverse the given RoleType from this MeshObject to the
      * given MeshObject. Subclasses may override this.
-     * 
+     *
      * @param toTraverse the RoleType to traverse
      * @param neighborIdentifier identifier of the neighbor to which this MeshObject is related
      * @param neighbor neighbor to which this MeshObject is related, if it could be resolved
@@ -2353,7 +2393,7 @@ public abstract class AbstractMeshObject
     /**
      * Check whether it is permitted to make this MeshObject equivalent to another.
      * Subclasses may override this.
-     * 
+     *
      * @param newEquivalentIdentifier identifier of the potential new equivalent
      * @param newEquivalent the potential new equivalent
      * @throws NotPermittedException thrown if it is not permitted
@@ -2365,7 +2405,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedAddAsEquivalent( this, newEquivalentIdentifier, newEquivalent );
@@ -2376,7 +2416,7 @@ public abstract class AbstractMeshObject
      * Check whether it is permitted to remove this MeshObject from the equivalence set
      * it is currently a member of.
      * Subclasses may override this.
-     * 
+     *
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedRemoveAsEquivalent()
@@ -2384,7 +2424,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {
             accessMgr.checkPermittedRemoveAsEquivalent( this, getRoleTypes() );
@@ -2404,7 +2444,7 @@ public abstract class AbstractMeshObject
             NotPermittedException
     {
         checkAlive();
-        
+
         // we need to check for unblessing all current relationships, unrelating, and unblessing ourselves
         AccessManager accessMgr = theMeshBase.getAccessManager();
         if( accessMgr != null ) {

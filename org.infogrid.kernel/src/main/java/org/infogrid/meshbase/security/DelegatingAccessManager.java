@@ -17,6 +17,7 @@ package org.infogrid.meshbase.security;
 import org.infogrid.mesh.MeshObject;
 import org.infogrid.mesh.MeshObjectIdentifier;
 import org.infogrid.mesh.NotPermittedException;
+import org.infogrid.meshbase.MeshBase;
 import org.infogrid.meshbase.transaction.TransactionException;
 import org.infogrid.model.primitives.EntityType;
 import org.infogrid.model.primitives.PropertyType;
@@ -92,16 +93,54 @@ public class DelegatingAccessManager
      * Check whether it is permitted to semantically create a MeshObject with the provided
      * MeshObjectIdentifier.
      *
+     * @param mb the MeshBase in which the MeshObject is supposed to be created
      * @param identifier the MeshObjectIdentifier
      * @throws NotPermittedException thrown if it is not permitted
      */
     public void checkPermittedCreate(
+            MeshBase             mb,
             MeshObjectIdentifier identifier )
         throws
             NotPermittedException
     {
         for( AccessManager current : theDelegates ) {
-            current.checkPermittedCreate( identifier );
+            current.checkPermittedCreate( mb, identifier );
+        }
+    }
+
+    /**
+     * Check whether it is permitted to relate one MeshObject to another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedRelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedRelate( one, two );
+        }
+    }
+
+    /**
+     * Check whether it is permitted to unrelate one MeshObject from another.
+     *
+     * @param one the first MeshObject
+     * @param two the second MeshObject
+     * @throws NotPermittedException thrown if it is not permitted
+     */
+    public void checkPermittedUnrelate(
+            MeshObject one,
+            MeshObject two )
+        throws
+            NotPermittedException
+    {
+        for( AccessManager current : theDelegates ) {
+            current.checkPermittedUnrelate( one, two );
         }
     }
 

@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -127,7 +127,7 @@ public class StoreMeshBase
             Context              context )
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
-        
+
         StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
                 = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
@@ -147,7 +147,7 @@ public class StoreMeshBase
         setFactory.setMeshBase( ret );
         objectMapper.setMeshBase( ret );
         ret.initializeHomeObject();
-        
+
         if( log.isDebugEnabled() ) {
             log.debug( "created " + ret );
         }
@@ -176,7 +176,7 @@ public class StoreMeshBase
             Context                     context )
     {
         StoreMeshBaseEntryMapper objectMapper = new StoreMeshBaseEntryMapper();
-        
+
         StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> objectStorage
                 = new StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>( objectMapper, meshObjectStore );
 
@@ -194,7 +194,7 @@ public class StoreMeshBase
 
         objectMapper.setMeshBase( ret );
         ret.initializeHomeObject();
-        
+
         if( log.isDebugEnabled() ) {
             log.debug( "created " + ret );
         }
@@ -228,14 +228,14 @@ public class StoreMeshBase
 
     /**
      * Helper method to cast the cache to the right subtype of CachingMap.
-     * 
+     *
      * @return the cache
      */
     protected StoreBackedSwappingHashMap<MeshObjectIdentifier, MeshObject> getCachingMap()
     {
         return (StoreBackedSwappingHashMap<MeshObjectIdentifier,MeshObject>) theCache;
     }
-    
+
     /**
      * Update the cache when Transactions are committed.
      *
@@ -246,10 +246,10 @@ public class StoreMeshBase
             Transaction tx )
     {
         super.transactionCommittedHook( tx );
-        
+
         Map<MeshObjectIdentifier,MeshObject>                          toWrite = determineObjectsToWriteFromTransaction( tx );
         StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> map     = (StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>) theCache;
-        
+
         for( Map.Entry<MeshObjectIdentifier,MeshObject> current : toWrite.entrySet() ) {
             if( current.getValue() != null ) {
                 map.saveValueToStorageUponCommit( current.getKey(), current.getValue() );
@@ -259,11 +259,28 @@ public class StoreMeshBase
         }
         map.transactionDone();
     }
-    
+
+    /**
+     * This method may be overridden by subclasses to perform suitable actions when a
+     * Transaction was rolled back.
+     *
+     * @param tx Transaction the Transaction that was rolled back
+     */
+    @Override
+    protected void transactionRolledbackHook(
+            Transaction tx )
+    {
+        super.transactionRolledbackHook( tx );
+
+        StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject> map     = (StoreMeshBaseSwappingHashMap<MeshObjectIdentifier,MeshObject>) theCache;
+
+        map.transactionUndone();
+    }
+
     /**
      * Write changes made during a Transaction to the Store. This is factored out as a static, so NetStoreMeshBase can also
      * use it without replicating code.
-     * 
+     *
      * @param tx Transaction the Transaction that was committed
      * @param map the storage for the MeshObjects
      */
@@ -277,7 +294,7 @@ public class StoreMeshBase
         // we go backwards, that way we don't forget to store MeshObjects that were deleted and recreated within the
         // same Transaction
         for( int i=theChanges.length-1 ; i>=0 ; --i ) {
-            
+
             Change               currentChange = theChanges[i];
             MeshObjectIdentifier affectedName  = currentChange.getAffectedMeshObjectIdentifier();
 
@@ -312,7 +329,7 @@ public class StoreMeshBase
 
             } else if( currentChange instanceof MeshObjectBecameDeadStateEvent ) {
                 // noop, we catch this through MeshObjectLifecycleEvent.Deleted
- 
+
             } else {
                 log.error( "Unknown change: " + currentChange );
             }

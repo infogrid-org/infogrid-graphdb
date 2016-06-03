@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -25,6 +25,7 @@ import org.infogrid.mesh.security.ThreadIdentityManager;
 import org.infogrid.meshbase.MeshBase;
 import org.infogrid.util.CursorIterator;
 import org.infogrid.util.FlexibleListenerSet;
+import org.infogrid.util.Pair;
 import org.infogrid.util.logging.CanBeDumped;
 import org.infogrid.util.logging.Dumper;
 import org.infogrid.util.logging.Log;
@@ -83,7 +84,7 @@ public abstract class Transaction
     public void sudo()
     {
         if( !ThreadIdentityManager.isSu() ) {
-            theResetToCaller = ThreadIdentityManager.getCaller();
+            theResetToCaller = ThreadIdentityManager.getCallerAndGroups();
             ThreadIdentityManager.sudo();
         }
     }
@@ -109,7 +110,7 @@ public abstract class Transaction
         }
 
         preCommitHook();
-        
+
         status = Status.TRANSACTION_COMMITTED;
 
         theChangeSet.freeze();
@@ -144,7 +145,7 @@ public abstract class Transaction
         if( log.isInfoEnabled() ) {
             log.info( ToStringDumperFactory.create( ToStringDumper.DEFAULT_MAXLEVEL, Integer.MAX_VALUE ), this, "rollbackTransaction", thrown );
         }
-        
+
         sudo();
 
         // go backwards in the change set
@@ -160,7 +161,7 @@ public abstract class Transaction
                 } else {
                     log.error( "Could not invert change", current );
                 }
-                
+
             } catch( CannotApplyChangeException ex ) {
                 Throwable cause = ex.getCause();
 
@@ -211,7 +212,7 @@ public abstract class Transaction
 
     /**
      * Determine whether the passed-in Thread owns this Transaction.
-     * 
+     *
      * @param t the Thread to test
      * @return true if t owns this Transaction
      */
@@ -267,7 +268,7 @@ public abstract class Transaction
     {
         theListeners.addWeak( newListener );
     }
-    
+
     /**
      * Add a new listener object to this set using a SoftReference.
      *
@@ -278,7 +279,7 @@ public abstract class Transaction
     {
         theListeners.addSoft( newListener );
     }
-    
+
     /**
      * Add a new listener object to this set directly, i.e. without using References.
      *
@@ -292,7 +293,7 @@ public abstract class Transaction
 
     /**
      * Internal helper to createCopy a listener set.
-     * 
+     *
      * @return the created listener set
      */
     protected FlexibleListenerSet<TransactionListener,Transaction,Status> createListenerSet()
@@ -417,7 +418,7 @@ public abstract class Transaction
     /**
      * If set, reset this Thread back to this caller when the Transaction is done.
      */
-    protected MeshObject theResetToCaller;
+    protected Pair<MeshObject,String[]> theResetToCaller;
 
     /**
       * The set of TransactionListeners. Allocated as needed.

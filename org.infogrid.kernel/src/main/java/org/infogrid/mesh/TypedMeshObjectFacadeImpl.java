@@ -5,7 +5,7 @@
 // have received with InfoGrid. If you have not received LICENSE.InfoGrid.txt
 // or you do not consent to all aspects of the license and the disclaimers,
 // no license is granted; do not use this file.
-// 
+//
 // For more information about InfoGrid go to http://infogrid.org/
 //
 // Copyright 1998-2015 by Johannes Ernst
@@ -49,7 +49,7 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         the_Delegate = delegate;
     }
-    
+
     /**
      * Obtain the underlying MeshObject. It is named with an underscore, so code-generated
      * code is less likely to interfere with it.
@@ -106,7 +106,7 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         return the_Delegate.getMeshBase();
     }
- 
+
     /**
      * Obtain the time of creation of this MeshObject. This is immutable for the
      * lifetime of the MeshObject.
@@ -223,6 +223,7 @@ public abstract class TypedMeshObjectFacadeImpl
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
      *         to the otherObject
      * @throws TransactionException thrown if this method is invoked outside of proper Transaction boundaries
+     * @throws NotPermittedException thrown if the caller is not authorized to perform this operation
      * @see #unrelate
      * @see #relateAndBless
      */
@@ -230,7 +231,8 @@ public abstract class TypedMeshObjectFacadeImpl
             TypedMeshObjectFacade otherObject )
         throws
             RelatedAlreadyException,
-            TransactionException
+            TransactionException,
+            NotPermittedException
     {
         the_Delegate.relate( otherObject.get_Delegate() );
     }
@@ -268,7 +270,7 @@ public abstract class TypedMeshObjectFacadeImpl
 
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param otherObject the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -295,11 +297,11 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         the_Delegate.blessRelationship( thisEnd, otherObject.get_Delegate() );
     }
-    
+
     /**
      * Make a relationship of this MeshObject to another MeshObject support the provided RoleTypes.
      * As a result, this relationship will support either all RoleTypes or none.
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes that are instantiated at the end that this MeshObject is attached to
      * @param otherObject the MeshObject whose relationship to this MeshObject shall be blessed
      * @throws RoleTypeBlessedAlreadyException thrown if the relationship to the other MeshObject is blessed
@@ -326,11 +328,11 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         the_Delegate.blessRelationship( thisEnd, otherObject.get_Delegate() );
     }
-    
+
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType that is instantiated at the end that this MeshObject is attached to
      * @param otherObject the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -359,7 +361,7 @@ public abstract class TypedMeshObjectFacadeImpl
     /**
      * Convenience method to relate this MeshObject to another MeshObject, and bless the new relationship
      * with all of the provided RoleTypes. As a result, this relationship will support either all RoleTypes or none.
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes that are to be instantiated at the end that this MeshObject is attached to
      * @param otherObject the MeshObject to which a relationship is to be created and blessed
      * @throws RelatedAlreadyException thrown to indicate that this MeshObject is already related
@@ -387,7 +389,7 @@ public abstract class TypedMeshObjectFacadeImpl
 
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleType.
-     * 
+     *
      * @param thisEnd the RoleType of the RelationshipType at the end that this MeshObject is attached to, and that shall be removed
      * @param otherObject the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support the RoleType
@@ -410,7 +412,7 @@ public abstract class TypedMeshObjectFacadeImpl
     /**
      * Make a relationship of this MeshObject to another MeshObject stop supporting the provided RoleTypes.
      * As a result, either all RoleTypes will be unblessed or none.
-     * 
+     *
      * @param thisEnd the RoleTypes of the RelationshipTypes at the end that this MeshObject is attached to, and that shall be removed
      * @param otherObject the other MeshObject whose relationship to this MeshObject shall be unblessed
      * @throws RoleTypeNotBlessedException thrown if the relationship to the other MeshObject does not support at least one of the RoleTypes
@@ -463,20 +465,20 @@ public abstract class TypedMeshObjectFacadeImpl
      * Obtain the RoleTypes that this MeshObject currently participates in. This will return only one
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects.
-     * 
+     *
      * @return the RoleTypes that this MeshObject currently participates in.
      */
     public final RoleType [] get_RoleTypes()
     {
         return the_Delegate.getRoleTypes();
     }
-    
+
     /**
      * Obtain the RoleTypes that this MeshObject currently participates in. This will return only one
      * instance of the same RoleType object, even if the MeshObject participates in this RoleType
      * multiple times with different other MeshObjects. Specify whether equivalent MeshObjects
      * should be considered as well.
-     * 
+     *
      * @param considerEquivalents if true, all equivalent MeshObjects are considered as well;
      *        if false, only this MeshObject will be used as the start
      * @return the RoleTypes that this MeshObject currently participates in.
@@ -568,7 +570,7 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         the_Delegate.addAsEquivalent( equiv.get_Delegate() );
     }
-    
+
     /**
      * Obtain the set of MeshObjects, including this one, that are equivalent.
      * This always returns at least this MeshObject.
@@ -579,7 +581,7 @@ public abstract class TypedMeshObjectFacadeImpl
     {
         return the_Delegate.getEquivalents();
     }
-    
+
     /**
      * Remove this MeshObject as an equivalent from the set of equivalents. If this MeshObject
      * is not currently equivalent to any other MeshObject, this does nothing.
